@@ -1,17 +1,13 @@
 package com.example.spencer.swirlytap;
 
-import android.graphics.Color;
+import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.v7.app.ActionBarActivity;
-import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 
 public class singlePlayer extends ActionBarActivity  implements View.OnClickListener
@@ -24,12 +20,31 @@ public class singlePlayer extends ActionBarActivity  implements View.OnClickList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_single_player);
 
-        TextView totalScore= (TextView) findViewById(R.id.totalScore);
-        totalScore.setText("Score: " + count);
+        // This Timer updates every 30 milliseconds, used for updating changing texts and
+        // Images that constantly change
+        new CountDownTimer(60000, 30) {
 
-        levelOne();
-        //countdown from 60 seconds ...
-        CountDownTimer start = new CountDownTimer(60000, 1000)
+            //Get access to totalScore Textbox
+            TextView totalScore= (TextView) findViewById(R.id.totalScore);
+
+            public void onTick(long millisUntilFinished) {
+
+                //Update totalScore Textbox with current score, end at 60 seconds
+                if (millisUntilFinished / 30 == 0) {
+                    onFinish();
+                } else {
+                    // Update Textfield
+                    totalScore.setText("Score: " + count);
+                }
+            }
+
+            // Show text at end of timer
+            public void onFinish() {
+                totalScore.setText(count + " Congratulations!");
+            }
+        }.start();
+
+        /*CountDownTimer start = (<-Doesn't needs this)*/new CountDownTimer(60000, 1000)
         {
             //create new type textview and relate it to countdown textbox in activity_single_player.xml
             TextView mTextField = (TextView) findViewById(R.id.countdown);
@@ -42,20 +57,20 @@ public class singlePlayer extends ActionBarActivity  implements View.OnClickList
                 }
                 else
                     //display seconds left in text field
-                    mTextField.setText("seconds remaining: " + millisUntilFinished / 1000);
-
+                    mTextField.setText("Time: " + millisUntilFinished / 1000);
             }
 
             //stop time/game when time is up
             public void onFinish()
             {
-                mTextField.setText("done!");
+                mTextField.setText("Finished!");
             }
 
             //player clicks on swirl add point
 
         }.start();
 
+        levelOne();
 
     }
 
@@ -111,4 +126,4 @@ public class singlePlayer extends ActionBarActivity  implements View.OnClickList
 
 
 }
-/* updating file*/
+/* updating file - me too*/
