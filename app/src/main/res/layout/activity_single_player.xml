@@ -21,20 +21,23 @@
     <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:scaleType="fitXY"
         android:id="@+id/levelOne"
         android:clickable="true"
-        android:background="@drawable/swirl"
+        android:background="@drawable/goodswirl"
         android:contentDescription="levelOne"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true" />
+
+       />
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:text="Score:"
         android:id="@+id/totalScore"
         android:layout_alignParentTop="true"
         android:layout_alignRight="@+id/levelOne"
-        android:layout_alignEnd="@+id/levelOne" />
+        android:layout_alignEnd="@+id/levelOne"
+        android:layout_width="50dip"
+        android:layout_height="fill_parent"
+        android:layout_marginLeft="3dip"
+        android:scaleType="center"/>/>
 
 </RelativeLayout>

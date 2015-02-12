@@ -70,17 +70,21 @@ public class singlePlayer extends ActionBarActivity  implements View.OnClickList
 
         }.start();
 
-        levelOne();
+        appear();
+
 
     }
-
+    
     ImageButton goodSwirl; //create image button
-    public void levelOne()//display level one on screen
+    ImageButton badSwirl; //create bad button
+    public void appear()//display level one on screen
     {
 
         //after all buttons are clicked by user call levelTwo function
         goodSwirl = (ImageButton) findViewById(R.id.levelOne);
         goodSwirl.setOnClickListener(this); //sets an onClickListener on button1
+        goodSwirl.setX(10);
+        goodSwirl.setY(20);
 
     }
     @Override
@@ -94,10 +98,11 @@ public class singlePlayer extends ActionBarActivity  implements View.OnClickList
         }
     }
 
-    public void swirlClick()
+    public void swirlClick(boolean buttonType)
     {
         count++;//add point to total points
         //display new score
+        goodSwirl.setVisibility(View.INVISIBLE); //make image dissapear when clicked
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu)
