@@ -18,26 +18,27 @@
         android:layout_marginLeft="30dp"
         android:layout_marginStart="30dp" />
 
-    <ImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:scaleType="fitXY"
-        android:id="@+id/levelOne"
-        android:clickable="true"
-        android:background="@drawable/goodswirl"
-        android:contentDescription="levelOne"
-
-       />
-
     <TextView
         android:text="Score:"
         android:id="@+id/totalScore"
-        android:layout_alignParentTop="true"
-        android:layout_alignRight="@+id/levelOne"
-        android:layout_alignEnd="@+id/levelOne"
         android:layout_width="50dip"
         android:layout_height="fill_parent"
-        android:layout_marginLeft="3dip"
-        android:scaleType="center"/>/>
+        android:scaleType="center"
+        android:layout_alignParentTop="true"
+        android:layout_alignRight="@+id/tableForButtons"
+        android:layout_alignEnd="@+id/tableForButtons"
+        android:layout_marginRight="62dp"
+        android:layout_marginEnd="62dp" />
+
+    <TableLayout
+        android:id="@+id/tableForButtons"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:stretchColumns="."
+        android:layout_below="@+id/countdown"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="49dp">
+        </TableLayout>/>
 
 </RelativeLayout>

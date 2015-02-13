@@ -1,18 +1,35 @@
 package com.example.spencer.swirlytap;
 
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.TableLayout;
+import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import java.util.Random;
 
 
-public class singlePlayer extends ActionBarActivity  implements View.OnClickListener
+public class singlePlayer extends ActionBarActivity
 {
-    int count = 0;
+    int count = 0; //this is total score
+
+    private static final int NUM_ROWS = 12; //instantiated size of grid
+    private static final int NUM_COLS = 13;
+    Button buttons[][] = new Button[NUM_ROWS][NUM_COLS]; //created total number of grid buttons
+    String[][] luckArray = new String[NUM_ROWS][NUM_COLS]; //array containing good and bad buttons
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -20,10 +37,25 @@ public class singlePlayer extends ActionBarActivity  implements View.OnClickList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_single_player);
 
+        //Fill luck array with certain good and bad buttons
+        for(int row = 0; row<NUM_ROWS; row++)
+        {
+            for(int col = 0; col<NUM_COLS; col++)
+            {
+                if((col + row)%10 ==0) //much less chance to receive bad button
+                {
+                    luckArray[row][col] = "bad";
+                }
+                else
+                    luckArray[row][col] = "good"; //much higher chance to receive good button
+            }
+        }
+
         // This Timer updates every 30 milliseconds, used for updating changing texts and
         // Images that constantly change
-        new CountDownTimer(60000, 30) {
-
+        new CountDownTimer(60000, 30)
+        {
+            //
             //Get access to totalScore Textbox
             TextView totalScore= (TextView) findViewById(R.id.totalScore);
 
@@ -44,7 +76,10 @@ public class singlePlayer extends ActionBarActivity  implements View.OnClickList
             }
         }.start();
 
-        /*CountDownTimer start = (<-Doesn't needs this)*/new CountDownTimer(60000, 1000)
+        populateButtons(); //add buttons to grid
+
+
+        new CountDownTimer(60000, 1000)
         {
             //create new type textview and relate it to countdown textbox in activity_single_player.xml
             TextView mTextField = (TextView) findViewById(R.id.countdown);
@@ -58,6 +93,27 @@ public class singlePlayer extends ActionBarActivity  implements View.OnClickList
                 else
                     //display seconds left in text field
                     mTextField.setText("Time: " + millisUntilFinished / 1000);
+                    //get a random number and modulo it to ROW and COL sizes
+                    //this gets random element in array
+                    Random r = new Random();
+                    int randRow = r.nextInt(NUM_ROWS);
+                    int randCol = r.nextInt(NUM_COLS);
+
+                    if(luckArray[randRow][randCol]=="good")
+                    {
+                        Button goodButton = buttons[randRow][randCol];
+                        goodButton.setBackgroundResource(R.drawable.goodswirl); //make this grid block location
+                        //have the image of goodswirl
+                        //Scale image to button: this makes all swirls small to fit grid block size
+                        int newWidth = goodButton.getWidth();
+                        int newHeight = goodButton.getHeight();
+                        Bitmap originalBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.goodswirl);
+                        Bitmap scaledBitmap = Bitmap.createScaledBitmap(originalBitmap, newWidth, newHeight, true);
+                        Resources resource = getResources();
+                        goodButton.setBackground(new BitmapDrawable(resource, scaledBitmap));
+
+                    }
+
             }
 
             //stop time/game when time is up
@@ -70,39 +126,47 @@ public class singlePlayer extends ActionBarActivity  implements View.OnClickList
 
         }.start();
 
-        appear();
 
 
-    }
-    
-    ImageButton goodSwirl; //create image button
-    ImageButton badSwirl; //create bad button
-    public void appear()//display level one on screen
-    {
-
-        //after all buttons are clicked by user call levelTwo function
-        goodSwirl = (ImageButton) findViewById(R.id.levelOne);
-        goodSwirl.setOnClickListener(this); //sets an onClickListener on button1
-        goodSwirl.setX(10);
-        goodSwirl.setY(20);
 
     }
-    @Override
-    public void onClick(View v) //if clicked item id matches button then call swirlClick function
+    private void populateButtons() //creating grid of buttons
     {
-        switch(v.getId())
+        TableLayout table = (TableLayout)findViewById(R.id.tableForButtons); //make new table
+        for(int row = 0; row < NUM_ROWS; row++) //rows instantiated at top
         {
-            case R.id.levelOne:
-                swirlClick();
-                break;
+            TableRow tableRow = new TableRow(this);
+            tableRow.setLayoutParams(new TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT,
+            TableLayout.LayoutParams.MATCH_PARENT,1.0f)); //make layout look nice
+            table.addView(tableRow);
+            for(int col = 0; col < NUM_COLS; col++) //cols instantiated at top
+            {
+                final int FINAL_COL = col; //set col and row location to pass to gridButton
+                final int FINAL_ROW = row; //this sends location of button
+                Button Swirl = new Button(this); //create button to display correctly
+                Swirl.setBackgroundColor(Color.TRANSPARENT);
+                Swirl.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT,
+                TableRow.LayoutParams.MATCH_PARENT,1.0f));
+
+
+                Swirl.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        gridButtonClicked(FINAL_COL, FINAL_ROW);
+                    }
+                });
+                tableRow.addView(Swirl);
+                buttons[row][col] = Swirl;
+            }
         }
     }
 
-    public void swirlClick(boolean buttonType)
+    private void gridButtonClicked(int row, int col) //any time a button clicked do something
     {
-        count++;//add point to total points
-        //display new score
-        goodSwirl.setVisibility(View.INVISIBLE); //make image dissapear when clicked
+        //display message when a button on grid is clicked...saying where button location
+       // buttons[row][col].setBackgroundColor(Color.TRANSPARENT);
+       // Toast.makeText(this, "Button Clicked: " + row + "," + col, Toast.LENGTH_LONG).show();
+        count++;
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu)
@@ -113,7 +177,8 @@ public class singlePlayer extends ActionBarActivity  implements View.OnClickList
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
