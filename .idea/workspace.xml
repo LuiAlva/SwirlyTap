@@ -17,7 +17,14 @@
     <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="app: com.example.spencer.swirlytap" />
   </component>
   <component name="ChangeListManager">
+<<<<<<< HEAD
     <list default="true" id="80263127-97b6-4f05-ac60-aecb0398b9b2" name="Default" comment="" />
+=======
+    <list default="true" id="80263127-97b6-4f05-ac60-aecb0398b9b2" name="Default" comment="">
+      <change type="MOVED" beforePath="C:\Users\D\Desktop\SwirlyTap\app\src\main\res\drawable-mdpi\GoodSwirl.png" afterPath="$PROJECT_DIR$/app/src/main/res/drawable-mdpi/goodswirl2.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+    </list>
+>>>>>>> f6774f58aba7a801ef3ff5e138a0f47ecc504918
     <ignored path="SwirlyTap.iws" />
     <ignored path=".idea/workspace.xml" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -1625,7 +1632,11 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
+<<<<<<< HEAD
     <frame x="-8" y="-8" width="1234" height="736" extended-state="1" />
+=======
+    <frame x="-8" y="-8" width="1234" height="736" extended-state="6" />
+>>>>>>> f6774f58aba7a801ef3ff5e138a0f47ecc504918
     <editor active="true" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
