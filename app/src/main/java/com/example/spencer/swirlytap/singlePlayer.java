@@ -95,27 +95,45 @@ public class singlePlayer extends ActionBarActivity
                     mTextField.setText("Time: " + millisUntilFinished / 1000);
                     //get a random number and modulo it to ROW and COL sizes
                     //this gets random element in array
-                    Random r = new Random();
-                    int randRow = r.nextInt(NUM_ROWS);
-                    int randCol = r.nextInt(NUM_COLS);
+                    displayButton(); //for now this is just every second
+            }
+            public void displayButton() //will call when button needs to be displayed
+            {
+                Random r = new Random(); //randomly select location in luck array
+                int randRow = r.nextInt(NUM_ROWS);
+                int randCol = r.nextInt(NUM_COLS);
 
-                    if(luckArray[randRow][randCol]=="good")
-                    {
-                        Button goodButton = buttons[randRow][randCol];
-                        goodButton.setBackgroundResource(R.drawable.goodswirl); //make this grid block location
-                        //have the image of goodswirl
-                        //Scale image to button: this makes all swirls small to fit grid block size
-                        int newWidth = goodButton.getWidth();
-                        int newHeight = goodButton.getHeight();
-                        Bitmap originalBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.goodswirl);
-                        Bitmap scaledBitmap = Bitmap.createScaledBitmap(originalBitmap, newWidth, newHeight, true);
-                        Resources resource = getResources();
-                        goodButton.setBackground(new BitmapDrawable(resource, scaledBitmap));
+                if(luckArray[randRow][randCol]=="good")
+                {
+                    Button goodButton = buttons[randRow][randCol];
+                    goodButton.setBackgroundResource(R.drawable.goodswirl); //make this grid block location
+                    //have the image of goodswirl
+                    //Scale image to button: this makes all swirls small to fit grid block size
+                    int newWidth = goodButton.getWidth();
+                    int newHeight = goodButton.getHeight();
+                    Bitmap originalBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.goodswirl);
+                    Bitmap scaledBitmap = Bitmap.createScaledBitmap(originalBitmap, newWidth, newHeight, true);
+                    Resources resource = getResources();
+                    goodButton.setBackground(new BitmapDrawable(resource, scaledBitmap));
 
-                    }
+                }
+                else if(luckArray[randRow][randCol] == "bad")
+                {//placed image of bill cosby as bad image until we can make a proper bad swirl. For the lols.
+                    Button badButton = buttons[randRow][randCol];
+                    badButton.setBackgroundResource(R.drawable.goodswirl); //make this grid block location
+                    //have the image of goodswirl
+                    //Scale image to button: this makes all swirls small to fit grid block size
+                    int newWidth = badButton.getWidth();
+                    int newHeight = badButton.getHeight();
+                    Bitmap originalBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.cosby);
+                    Bitmap scaledBitmap = Bitmap.createScaledBitmap(originalBitmap, newWidth, newHeight, true);
+                    Resources resource = getResources();
+                    badButton.setBackground(new BitmapDrawable(resource, scaledBitmap));
+
+                }
+                //could find other items such as 2x button
 
             }
-
             //stop time/game when time is up
             public void onFinish()
             {
@@ -152,7 +170,7 @@ public class singlePlayer extends ActionBarActivity
                 Swirl.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        gridButtonClicked(FINAL_COL, FINAL_ROW);
+                        gridButtonClicked(FINAL_COL, FINAL_ROW); //send col and row clicked
                     }
                 });
                 tableRow.addView(Swirl);
@@ -163,9 +181,7 @@ public class singlePlayer extends ActionBarActivity
 
     private void gridButtonClicked(int row, int col) //any time a button clicked do something
     {
-        //display message when a button on grid is clicked...saying where button location
-       // buttons[row][col].setBackgroundColor(Color.TRANSPARENT);
-       // Toast.makeText(this, "Button Clicked: " + row + "," + col, Toast.LENGTH_LONG).show();
+        //determine what button is. if good then add point, if bad take away point, if 2x then 2 times points
         count++;
     }
     @Override
