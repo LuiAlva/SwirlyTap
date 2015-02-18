@@ -38,11 +38,15 @@ public class singlePlayer extends ActionBarActivity
         setContentView(R.layout.activity_single_player);
 
         //Fill luck array with certain good and bad buttons
+        Random rand = new Random(); //randomly select location in luck array
+
         for(int row = 0; row<NUM_ROWS; row++)
         {
             for(int col = 0; col<NUM_COLS; col++)
             {
-                if((col + row)%10 ==0) //much less chance to receive bad button
+                //bad button should display in a more random fashion...please test
+                int randRow = rand.nextInt(col+row); //random selection of numbers
+                if(randRow%10 ==0) //much less chance to receive bad button
                 {
                     luckArray[row][col] = "bad";
                 }
