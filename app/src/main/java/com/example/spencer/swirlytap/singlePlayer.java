@@ -5,18 +5,15 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.v7.app.ActionBarActivity;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.Random;
 
@@ -25,17 +22,20 @@ public class singlePlayer extends ActionBarActivity
 {
     int count = 0; //this is total score
 
-    private static final int NUM_ROWS = 12; //instantiated size of grid
-    private static final int NUM_COLS = 13;
+    private static final int NUM_ROWS = 8; //instantiated size of grid
+    private static final int NUM_COLS = 7;
     Button buttons[][] = new Button[NUM_ROWS][NUM_COLS]; //created total number of grid buttons
     String[][] luckArray = new String[NUM_ROWS][NUM_COLS]; //array containing good and bad buttons
 
+    MediaPlayer gameBG; //for music
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_single_player);
+        gameBG = MediaPlayer.create(this, R.raw.game_song); //get song
+        gameBG.start(); //start song
 
         //Fill luck array with certain good and bad buttons
         Random rand = new Random(); //randomly select location in luck array
@@ -55,8 +55,7 @@ public class singlePlayer extends ActionBarActivity
             }
         }
 
-        // This Timer updates every 30 milliseconds, used for updating changing texts and
-        // Images that constantly change
+        // This Timer updates every 30 milliseconds, used for updating changing texts
         new CountDownTimer(60000, 30)
         {
             //
@@ -70,7 +69,7 @@ public class singlePlayer extends ActionBarActivity
                     onFinish();
                 } else {
                     // Update Textfield
-                    totalScore.setText("Score: " + count);
+                    totalScore.setText("" + count);
                 }
             }
 
@@ -141,7 +140,7 @@ public class singlePlayer extends ActionBarActivity
             //stop time/game when time is up
             public void onFinish()
             {
-                mTextField.setText("Finished!");
+                mTextField.setText("Done!");
             }
 
             //player clicks on swirl add point
@@ -171,7 +170,7 @@ public class singlePlayer extends ActionBarActivity
                 TableRow.LayoutParams.MATCH_PARENT,1.0f));
 
 
-                Swirl.setOnClickListener(new View.OnClickListener() {
+                Swirl.setOnClickListener( new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         gridButtonClicked(FINAL_COL, FINAL_ROW); //send col and row clicked
@@ -188,32 +187,5 @@ public class singlePlayer extends ActionBarActivity
         //determine what button is. if good then add point, if bad take away point, if 2x then 2 times points
         count++;
     }
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu)
-    {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_single_player, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item)
-    {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-
-
 
 }
-/* updating file - me too*/
