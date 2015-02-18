@@ -16,7 +16,7 @@
         android:text="Time Left: "
         android:autoText="false"
         android:textColor="#ff000000"
-        android:textSize="16dp"
+        android:textSize="16sp"
         android:textIsSelectable="true"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
@@ -44,7 +44,7 @@
         android:layout_below="@+id/countdown"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="49dp">
+        android:layout_marginTop="49sp">
         </TableLayout>/>
 
 </RelativeLayout>

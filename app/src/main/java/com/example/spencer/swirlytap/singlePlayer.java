@@ -23,7 +23,7 @@ public class singlePlayer extends ActionBarActivity
     int count = 0; //this is total score
 
     private static final int NUM_ROWS = 8; //instantiated size of grid
-    private static final int NUM_COLS = 8;
+    private static final int NUM_COLS = 7;
     Button buttons[][] = new Button[NUM_ROWS][NUM_COLS]; //created total number of grid buttons
     String[][] luckArray = new String[NUM_ROWS][NUM_COLS]; //array containing good and bad buttons
 

@@ -9,8 +9,7 @@ import android.widget.Button;
 
 //test test
 public class MainActivity extends ActionBarActivity implements View.OnClickListener {
-Button button1; //create type button
-    //ActionBar actionBar = getActionBar(); //get title bar
+    Button button1; //create type button
     MediaPlayer mediaPlayer; //for music
 
     @Override
@@ -18,7 +17,6 @@ Button button1; //create type button
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        //actionBar.hide(); //hide title bar
         mediaPlayer = MediaPlayer.create(this, R.raw.title_song); //get song
         mediaPlayer.start(); //start song
         button1 = (Button)findViewById(R.id.singlePlayer);
