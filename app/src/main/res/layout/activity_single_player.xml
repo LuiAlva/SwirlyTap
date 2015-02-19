@@ -13,7 +13,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/countdown"
-        android:text="Time Left: "
+        android:text="Time: 60"
         android:autoText="false"
         android:textColor="#ff000000"
         android:textSize="16sp"
@@ -41,7 +41,24 @@
         android:layout_below="@+id/countdown"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="49sp">
-        </TableLayout>/>
+        android:layout_marginTop="49sp" >
+        </TableLayout>
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/pause_button"
+        android:src="@drawable/pause"
+        android:scaleType="fitXY"
+        android:background="#00ffffff"
+        android:clickable="true"
+        android:cropToPadding="false"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/countdown"
+        android:layout_toStartOf="@+id/totalScore"
+        android:layout_alignBottom="@+id/totalScore"
+        android:layout_alignRight="@+id/countdown"
+        android:layout_alignEnd="@+id/countdown" />
 
 </RelativeLayout>

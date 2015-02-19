@@ -75,7 +75,7 @@ public class singlePlayer extends ActionBarActivity
 
             // Show text at end of timer
             public void onFinish() {
-                totalScore.setText(count + " Congratulations!");
+
             }
         }.start();
 
@@ -188,6 +188,16 @@ public class singlePlayer extends ActionBarActivity
 
         count++;
 
+    }
+
+    public void onClick(View v)
+    {
+        switch(v.getId())
+        {
+            case R.id.pause_button:
+
+                break;
+        }
     }
 
 }
