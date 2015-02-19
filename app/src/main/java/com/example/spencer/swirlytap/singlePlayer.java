@@ -103,8 +103,8 @@ public class singlePlayer extends ActionBarActivity
             public void displayButton() //will call when button needs to be displayed
             {
                 Random r = new Random(); //randomly select location in luck array
-               final int randRow = r.nextInt(NUM_ROWS);
-               final int randCol = r.nextInt(NUM_COLS);
+                int randRow = r.nextInt(NUM_ROWS);
+                int randCol = r.nextInt(NUM_COLS);
 
                 if(luckArray[randRow][randCol]=="good")
                 {
@@ -119,12 +119,6 @@ public class singlePlayer extends ActionBarActivity
                     Resources resource = getResources();
                     goodButton.setBackground(new BitmapDrawable(resource, scaledBitmap));
 
-                    goodButton.setOnClickListener( new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            goodButtonClicked(randRow, randCol); //send col and row clicked
-                        }
-                    });
                 }
                 else if(luckArray[randRow][randCol] == "bad")
                 {//placed image of bill cosby as bad image until we can make a proper bad swirl. For the lols.
@@ -138,13 +132,6 @@ public class singlePlayer extends ActionBarActivity
                     Bitmap scaledBitmap = Bitmap.createScaledBitmap(originalBitmap, newWidth, newHeight, true);
                     Resources resource = getResources();
                     badButton.setBackground(new BitmapDrawable(resource, scaledBitmap));
-
-                    badButton.setOnClickListener( new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            badButtonClicked(randRow, randCol); //send col and row clicked
-                        }
-                    });
 
                 }
                 //could find other items such as 2x button
@@ -183,21 +170,29 @@ public class singlePlayer extends ActionBarActivity
                 TableRow.LayoutParams.MATCH_PARENT,1.0f));
 
 
-
+                Swirl.setOnClickListener( new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        switch(v.getId()) {
+                            case R.drawable.goodswirl:
+                                gridButtonClicked(FINAL_COL, FINAL_ROW); //send col and row clicked
+                                break;
+                            case R.drawable.cosby:
+                                // handle button B click;
+                                break;
+                        }
+                    }
+                });
                 tableRow.addView(Swirl);
                 buttons[row][col] = Swirl;
             }
         }
     }
 
-    private void goodButtonClicked(int row, int col) //any time a button clicked do something
+    private void gridButtonClicked(int row, int col) //any time a button clicked do something
     {
         //determine what button is. if good then add point, if bad take away point, if 2x then 2 times points
         count++;
-    }
-    private void badButtonClicked(int row, int col)
-    {
-        count--;
     }
 
 }
