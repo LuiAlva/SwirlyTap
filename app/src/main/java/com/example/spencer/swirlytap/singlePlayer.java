@@ -37,8 +37,10 @@ public class singlePlayer extends ActionBarActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_single_player_ni);
+        setContentView(R.layout.activity_single_player); //show res/layout/activity_single_player.xml
+        setContentView(R.layout.activity_single_player); //show res/layout/activity_single_player.xml
         gameBG = MediaPlayer.create(this, R.raw.game_song); //get song
-        gameBG.start(); //start song
+//        gameBG.start(); //start song
 
         //Fill luck array with certain good and bad buttons
         Random rand = new Random(); //randomly select location in luck array
@@ -145,6 +147,8 @@ public class singlePlayer extends ActionBarActivity
             {
                 gameBG.stop(); //stop song
                 mTextField.setText("00");
+                mTextField.setText("Done!");
+                mTextField.setText("Done!");
                 //when game ends, the 'PlayAgain' menu is called
                 Intent intentAgain = new Intent(singlePlayer.this, PlayAgain.class);  //create intent (to go to PlayAgain menu)
                 startActivity(intentAgain); //go to PlayAgain activity/menu
