@@ -173,14 +173,7 @@ public class singlePlayer extends ActionBarActivity
                 Swirl.setOnClickListener( new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        switch(v.getId()) {
-                            case R.drawable.goodswirl:
-                                gridButtonClicked(FINAL_COL, FINAL_ROW); //send col and row clicked
-                                break;
-                            case R.drawable.cosby:
-                                // handle button B click;
-                                break;
-                        }
+                        gridButtonClicked(FINAL_COL, FINAL_ROW); //send col and row clicked
                     }
                 });
                 tableRow.addView(Swirl);
