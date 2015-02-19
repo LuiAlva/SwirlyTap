@@ -3,29 +3,27 @@
     android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin" tools:context=".MainActivity"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context="com.example.spencer.swirlytap.PlayAgain">
     android:orientation="vertical"
-    android:background="@drawable/menu_bg"
-    android:clickable="false">
+
+    <TextView
+        android:text="@string/temp_you_scored"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Single Player"
-        android:id="@+id/singlePlayer"
+        android:text="@string/play_again"
+        android:id="@+id/PlayAgain"
+        android:layout_marginTop="141dp"
+        android:layout_below="@+id/textView"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
         android:textSize="30sp"
-        android:textColor="#ff010100" />
+        android:textColor="#ff010100"
+        android:onClick="singlePlayer"/>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="SwirlyTap"
-        android:id="@+id/Title"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="70sp"
-        android:textSize="60sp"
-        android:textColor="#ffff9645" />
 </RelativeLayout>

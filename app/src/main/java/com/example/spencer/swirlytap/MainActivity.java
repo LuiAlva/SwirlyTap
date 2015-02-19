@@ -7,14 +7,12 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 import android.widget.Button;
 
-//test test
 public class MainActivity extends ActionBarActivity implements View.OnClickListener {
     Button button1; //create type button
     MediaPlayer mediaPlayer; //for music
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mediaPlayer = MediaPlayer.create(this, R.raw.title_song); //get song
@@ -38,4 +36,4 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         }
     }
 
-}
+}//end public class Main Activity

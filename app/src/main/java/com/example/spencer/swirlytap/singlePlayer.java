@@ -1,5 +1,6 @@
 package com.example.spencer.swirlytap;
 
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -8,13 +9,13 @@ import android.graphics.drawable.BitmapDrawable;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Handler;
 import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
-
 import java.util.Random;
 
 
@@ -26,14 +27,20 @@ public class singlePlayer extends ActionBarActivity
     private static final int NUM_COLS = 6;
     Button buttons[][] = new Button[NUM_ROWS][NUM_COLS]; //created total number of grid buttons
     String[][] luckArray = new String[NUM_ROWS][NUM_COLS]; //array containing good and bad buttons
-
+    protected boolean _active = true;
+    protected int _gameEnd = 30000;  //after game ends, switch to 'PlayAgain' menu
+                                     //temp change from 80000 to 30000 for testing purposes
     MediaPlayer gameBG; //for music
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+<<<<<<< HEAD
         setContentView(R.layout.activity_single_player_ni);
+=======
+        setContentView(R.layout.activity_single_player); //show res/layout/activity_single_player.xml
+>>>>>>> fccc9b00b58417035c13395646a1a7cfd8944a1e
         gameBG = MediaPlayer.create(this, R.raw.game_song); //get song
         gameBG.start(); //start song
 
@@ -56,7 +63,7 @@ public class singlePlayer extends ActionBarActivity
         }
 
         // This Timer updates every 30 milliseconds, used for updating changing texts
-        new CountDownTimer(60000, 30)
+        new CountDownTimer(20000, 30)//temp change from 60000 to 20000 for testing purposes
         {
             //
             //Get access to totalScore Textbox
@@ -82,7 +89,7 @@ public class singlePlayer extends ActionBarActivity
         populateButtons(); //add buttons to grid
 
 
-        new CountDownTimer(60000, 1000)
+        new CountDownTimer(20000, 1000)//temporarily reduce 60000 to 20000 for testing purposes
         {
             //create new type textview and relate it to countdown textbox in activity_single_player.xml
             TextView mTextField = (TextView) findViewById(R.id.countdown);
@@ -140,18 +147,22 @@ public class singlePlayer extends ActionBarActivity
             //stop time/game when time is up
             public void onFinish()
             {
+<<<<<<< HEAD
                 gameBG.stop(); //stop song
                 mTextField.setText("00");
+=======
+                mTextField.setText("Done!");
+                //when game ends, the 'PlayAgain' menu is called
+                Intent intentAgain = new Intent(singlePlayer.this, PlayAgain.class);  //create intent (to go to PlayAgain menu)
+                startActivity(intentAgain); //go to PlayAgain activity/menu
+>>>>>>> fccc9b00b58417035c13395646a1a7cfd8944a1e
             }
-
             //player clicks on swirl add point
 
         }.start();
-
-
-
-
     }
+
+
     private void populateButtons() //creating grid of buttons
     {
         TableLayout table = (TableLayout)findViewById(R.id.tableForButtons); //make new table
@@ -180,8 +191,8 @@ public class singlePlayer extends ActionBarActivity
                 tableRow.addView(Swirl);
                 buttons[row][col] = Swirl;
             }
-        }
-    }
+        }//end 'for'
+    }//end private void populateButtons
 
     private void gridButtonClicked(int row, int col) //any time a button clicked do something
     {
@@ -201,4 +212,4 @@ public class singlePlayer extends ActionBarActivity
         }
     }
 
-}
+}//end public class singlePlayer
