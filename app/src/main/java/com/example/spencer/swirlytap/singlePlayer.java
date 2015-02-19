@@ -45,7 +45,7 @@ public class singlePlayer extends ActionBarActivity
             for(int col = 0; col<NUM_COLS; col++)
             {
                 //bad button should display in a more random fashion...please test
-                int randCell = rand.nextInt(NUM_COLS+NUM_ROWS); //random selection of numbers
+                int randCell = rand.nextInt(NUM_COLS*NUM_ROWS); //random selection of numbers
                 if(randCell%10 ==0) //much less chance to receive bad button
                 {
                     luckArray[row][col] = "bad";
@@ -185,7 +185,7 @@ public class singlePlayer extends ActionBarActivity
     private void gridButtonClicked(int row, int col) //any time a button clicked do something
     {
         //determine what button is. if good then add point, if bad take away point, if 2x then 2 times points
-
+        buttons[row][col].setBackgroundColor(Color.TRANSPARENT);
         count++;
 
     }
