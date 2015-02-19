@@ -25,14 +25,14 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     private void singlePlayerClick()
     {
         //start single player activity once singlePlayer button clicked
-        startActivity(new Intent("android.intent.action.SINGLE"));
+        startActivity(new Intent(MainActivity.this, singlePlayer.class)); //startActivity(new Intent("android.intent.action.SINGLE"));
     }
     public void onClick(View v)
     {
         switch(v.getId())
         {
             case R.id.singlePlayer:
-                mediaPlayer.stop(); //start song
+                mediaPlayer.stop(); //stop song
                 singlePlayerClick();
                 break;
         }

@@ -1,5 +1,6 @@
 package com.example.spencer.swirlytap;
 
+import android.app.Activity;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -8,8 +9,9 @@ import android.graphics.drawable.BitmapDrawable;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.support.v7.app.ActionBarActivity;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TableLayout;
 import android.widget.TableRow;
@@ -18,8 +20,8 @@ import android.widget.TextView;
 import java.util.Random;
 
 
-public class singlePlayer extends ActionBarActivity
-{
+public class SinglePlayerNi extends Activity {
+
     int count = 0; //this is total score
 
     private static final int NUM_ROWS = 8; //instantiated size of grid
@@ -33,6 +35,9 @@ public class singlePlayer extends ActionBarActivity
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+        this.requestWindowFeature(Window.FEATURE_NO_TITLE); //Remove title bar
+        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN); //Remove notification bar
+        this.setContentView(R.layout.activity_single_player_ni); //set content view AFTER ABOVE sequence (to avoid crash)
         setContentView(R.layout.activity_single_player_ni);
         gameBG = MediaPlayer.create(this, R.raw.game_song); //get song
         gameBG.start(); //start song
@@ -56,11 +61,10 @@ public class singlePlayer extends ActionBarActivity
         }
 
         // This Timer updates every 30 milliseconds, used for updating changing texts
-        new CountDownTimer(60000, 30)
-        {
+        new CountDownTimer(60000, 30) {
             //
             //Get access to totalScore Textbox
-            TextView totalScore= (TextView) findViewById(R.id.totalScore);
+            TextView totalScore = (TextView) findViewById(R.id.totalScore);
 
             public void onTick(long millisUntilFinished) {
 
@@ -69,13 +73,13 @@ public class singlePlayer extends ActionBarActivity
                     onFinish();
                 } else {
                     // Update Textfield
-                    totalScore.setText("" + count);
+                    totalScore.setText( "" + count);
                 }
             }
 
             // Show text at end of timer
             public void onFinish() {
-
+                totalScore.setText("" + count);
             }
         }.start();
 
@@ -95,10 +99,10 @@ public class singlePlayer extends ActionBarActivity
                 }
                 else
                     //display seconds left in text field
-                    mTextField.setText("" + millisUntilFinished / 1000);
-                    //get a random number and modulo it to ROW and COL sizes
-                    //this gets random element in array
-                    displayButton(); //for now this is just every second
+                    mTextField.setText( "" + (millisUntilFinished / 1000));
+                //get a random number and modulo it to ROW and COL sizes
+                //this gets random element in array
+                displayButton(); //for now this is just every second
             }
             public void displayButton() //will call when button needs to be displayed
             {
@@ -159,7 +163,7 @@ public class singlePlayer extends ActionBarActivity
         {
             TableRow tableRow = new TableRow(this);
             tableRow.setLayoutParams(new TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT,
-            TableLayout.LayoutParams.MATCH_PARENT,1.0f)); //make layout look nice
+                    TableLayout.LayoutParams.MATCH_PARENT,1.0f)); //make layout look nice
             table.addView(tableRow);
             for(int col = 0; col < NUM_COLS; col++) //cols instantiated at top
             {
@@ -168,7 +172,7 @@ public class singlePlayer extends ActionBarActivity
                 Button Swirl = new Button(this); //create button to display correctly
                 Swirl.setBackgroundColor(Color.TRANSPARENT);
                 Swirl.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT,
-                TableRow.LayoutParams.MATCH_PARENT,1.0f));
+                        TableRow.LayoutParams.MATCH_PARENT,1.0f));
 
 
                 Swirl.setOnClickListener( new View.OnClickListener() {
@@ -199,6 +203,12 @@ public class singlePlayer extends ActionBarActivity
 
                 break;
         }
+    }
+
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+
     }
 
 }
