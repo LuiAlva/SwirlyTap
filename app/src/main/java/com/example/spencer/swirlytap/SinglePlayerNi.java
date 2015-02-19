@@ -1,6 +1,7 @@
 package com.example.spencer.swirlytap;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -146,6 +147,9 @@ public class SinglePlayerNi extends Activity {
             {
                 gameBG.stop(); //stop song
                 mTextField.setText("00");
+                //when game ends, the 'PlayAgain' menu is called
+                Intent intentAgain = new Intent(SinglePlayerNi.this, PlayAgain.class);  //create intent (to go to PlayAgain menu)
+                startActivity(intentAgain); //go to PlayAgain activity/menu
             }
 
             //player clicks on swirl add point

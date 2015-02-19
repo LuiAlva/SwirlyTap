@@ -28,16 +28,16 @@
             </intent-filter>
         </activity>
         <activity
-<<<<<<< HEAD
             android:name=".SinglePlayerNi"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_single_player_ni"
             android:theme="@style/FullscreenTheme"
             android:screenOrientation="portrait" >
-=======
+        </activity>
+        <activity
             android:name=".PlayAgain"
-            android:label="@string/title_activity_play_again" >
->>>>>>> fccc9b00b58417035c13395646a1a7cfd8944a1e
+            android:label="title_activity_play_again"
+            android:screenOrientation="portrait" >
         </activity>
     </application>
 

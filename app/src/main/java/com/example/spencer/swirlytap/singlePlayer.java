@@ -9,13 +9,13 @@ import android.graphics.drawable.BitmapDrawable;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.os.Handler;
 import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+
 import java.util.Random;
 
 
@@ -36,11 +36,7 @@ public class singlePlayer extends ActionBarActivity
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-<<<<<<< HEAD
         setContentView(R.layout.activity_single_player_ni);
-=======
-        setContentView(R.layout.activity_single_player); //show res/layout/activity_single_player.xml
->>>>>>> fccc9b00b58417035c13395646a1a7cfd8944a1e
         gameBG = MediaPlayer.create(this, R.raw.game_song); //get song
         gameBG.start(); //start song
 
@@ -147,15 +143,11 @@ public class singlePlayer extends ActionBarActivity
             //stop time/game when time is up
             public void onFinish()
             {
-<<<<<<< HEAD
                 gameBG.stop(); //stop song
                 mTextField.setText("00");
-=======
-                mTextField.setText("Done!");
                 //when game ends, the 'PlayAgain' menu is called
                 Intent intentAgain = new Intent(singlePlayer.this, PlayAgain.class);  //create intent (to go to PlayAgain menu)
                 startActivity(intentAgain); //go to PlayAgain activity/menu
->>>>>>> fccc9b00b58417035c13395646a1a7cfd8944a1e
             }
             //player clicks on swirl add point
 
