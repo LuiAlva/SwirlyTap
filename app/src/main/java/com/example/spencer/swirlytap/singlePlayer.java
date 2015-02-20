@@ -10,12 +10,13 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.v7.app.ActionBarActivity;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
-
 import java.util.Random;
 
 
@@ -28,8 +29,8 @@ public class singlePlayer extends ActionBarActivity
     Button buttons[][] = new Button[NUM_ROWS][NUM_COLS]; //created total number of grid buttons
     String[][] luckArray = new String[NUM_ROWS][NUM_COLS]; //array containing good and bad buttons
     protected boolean _active = true;
-    protected int _gameEnd = 30000;  //after game ends, switch to 'PlayAgain' menu
-                                     //temp change from 80000 to 30000 for testing purposes
+    protected int _gameEnd = 45000;  //after game ends, switch to 'PlayAgain' menu
+                                     //temp change from 80000 to 45000 for testing purposes
     MediaPlayer gameBG; //for music
 
     @Override
@@ -61,7 +62,7 @@ public class singlePlayer extends ActionBarActivity
         }
 
         // This Timer updates every 30 milliseconds, used for updating changing texts
-        new CountDownTimer(20000, 30)//temp change from 60000 to 20000 for testing purposes
+        new CountDownTimer(40000, 30)//temp change from 60000 to 40000 for testing purposes
         {
             //
             //Get access to totalScore Textbox
@@ -87,7 +88,7 @@ public class singlePlayer extends ActionBarActivity
         populateButtons(); //add buttons to grid
 
 
-        new CountDownTimer(20000, 1000)//temporarily reduce 60000 to 20000 for testing purposes
+        new CountDownTimer(40000, 1000)//temporarily reduce 60000 to 40000 for testing purposes
         {
             //create new type textview and relate it to countdown textbox in activity_single_player.xml
             TextView mTextField = (TextView) findViewById(R.id.countdown);
@@ -207,4 +208,11 @@ public class singlePlayer extends ActionBarActivity
         }
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu items for use in the action bar
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_single_player_actions, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
 }//end public class singlePlayer

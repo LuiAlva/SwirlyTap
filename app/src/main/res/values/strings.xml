@@ -11,5 +11,7 @@
     <string name="title_activity_play_again">PlayAgain</string>
     <string name="play_again">Play Again</string>
     <string name="temp_you_scored">You scored X points!</string>
+    <string name="action_home">Home</string>
+    <string name="restart">Restart</string>
 
 </resources>
