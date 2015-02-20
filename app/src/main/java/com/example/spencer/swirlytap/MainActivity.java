@@ -1,5 +1,6 @@
 package com.example.spencer.swirlytap;
 
+import android.app.ActionBar;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
@@ -8,8 +9,9 @@ import android.view.View;
 import android.widget.Button;
 
 public class MainActivity extends ActionBarActivity implements View.OnClickListener {
-    Button button1; //create type button
+    Button buttonSinglePlayer; //create type button
     MediaPlayer mediaPlayer; //for music
+    //getSupportActionBar().hide();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -17,8 +19,9 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
         mediaPlayer = MediaPlayer.create(this, R.raw.title_song); //get song
         //mediaPlayer.start(); //start song
-        button1 = (Button)findViewById(R.id.singlePlayer);
-        button1.setOnClickListener(this); //sets an onClickListener on button1
+        buttonSinglePlayer = (Button)findViewById(R.id.singlePlayer);
+        buttonSinglePlayer.setOnClickListener(this); //sets an onClickListener on buttonSinglePlayer
+        getSupportActionBar().hide();
     }
     private void singlePlayerClick()
     {

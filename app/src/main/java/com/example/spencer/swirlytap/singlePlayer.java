@@ -12,6 +12,7 @@ import android.os.CountDownTimer;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TableLayout;
@@ -29,7 +30,7 @@ public class singlePlayer extends ActionBarActivity
     Button buttons[][] = new Button[NUM_ROWS][NUM_COLS]; //created total number of grid buttons
     String[][] luckArray = new String[NUM_ROWS][NUM_COLS]; //array containing good and bad buttons
     protected boolean _active = true;
-    protected int _gameEnd = 45000;  //after game ends, switch to 'PlayAgain' menu
+    protected int _gameEnd = 65000;  //after game ends, switch to 'PlayAgain' menu
                                      //temp change from 80000 to 45000 for testing purposes
     MediaPlayer gameBG; //for music
 
@@ -62,7 +63,7 @@ public class singlePlayer extends ActionBarActivity
         }
 
         // This Timer updates every 30 milliseconds, used for updating changing texts
-        new CountDownTimer(40000, 30)//temp change from 60000 to 40000 for testing purposes
+        new CountDownTimer(60000, 30)//temp change from 60000 to 40000 for testing purposes
         {
             //
             //Get access to totalScore Textbox
@@ -88,7 +89,7 @@ public class singlePlayer extends ActionBarActivity
         populateButtons(); //add buttons to grid
 
 
-        new CountDownTimer(40000, 1000)//temporarily reduce 60000 to 40000 for testing purposes
+        new CountDownTimer(60000, 1000)//temporarily reduce 60000 to 40000 for testing purposes
         {
             //create new type textview and relate it to countdown textbox in activity_single_player.xml
             TextView mTextField = (TextView) findViewById(R.id.countdown);
@@ -211,8 +212,26 @@ public class singlePlayer extends ActionBarActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu items for use in the action bar
+        // currently, action overflow is (1) Restart, (2) Home
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_single_player_actions, menu);
         return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle presses on the action bar items (when user chooses an option from action bar)
+        switch (item.getItemId()) {
+            case R.id.action_restart:  //when "Restart" is tapped in Single Player action bar overflow
+                Intent intentRestart = new Intent(singlePlayer.this, singlePlayer.class);
+                startActivity(intentRestart); //re-opens "singlePlayer" activity
+                return true;
+            case R.id.action_home:  //when "Home" is tapped in Single Player action bar overflow
+                Intent intentHome = new Intent(singlePlayer.this, MainActivity.class);
+                startActivity(intentHome);  //opens "MainActivity"
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }//end public class singlePlayer

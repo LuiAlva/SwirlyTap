@@ -21,14 +21,22 @@ public class PlayAgain extends ActionBarActivity implements View.OnClickListener
     private void PlayAgainClick()
     {   //start single player activity once "Play Again" button clicked
         Intent intentAgain2 = new Intent(PlayAgain.this, singlePlayer.class);
-        startActivity(intentAgain2);
+        startActivity(intentAgain2);//goes to singlePlayer activity
+    }
+    private void HomeClick()
+    {   //sgo back to MainActivity (Home) once "Home" button clicked
+        Intent intentReturnHome = new Intent(PlayAgain.this, MainActivity.class);
+        startActivity(intentReturnHome);//returns to Home screen
     }
     public void onClick(View v)
     {//when "Play Again" button is clicked on the Play Again activity menu
         switch(v.getId())
         {
-            case R.id.PlayAgain:
-                PlayAgainClick();
+            case R.id.PlayAgain: //if "Play Again" is clicked
+                PlayAgainClick();  //re-start Single Player
+                break;
+            case R.id.returnHome: //if "Home" is clicked
+                HomeClick();      //return to Home screen (MainActivity)
                 break;
         }
     }

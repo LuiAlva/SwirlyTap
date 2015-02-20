@@ -13,7 +13,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/countdown"
-        android:text="Time: 60"
+        android:text="@string/time_sixty"
         android:autoText="false"
         android:textColor="#ff000000"
         android:textSize="16sp"
@@ -23,7 +23,7 @@
         android:layout_alignParentStart="true" />
 
     <TextView
-        android:text="Score"
+        android:text="@string/score"
         android:id="@+id/totalScore"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

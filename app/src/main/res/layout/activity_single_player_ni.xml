@@ -27,7 +27,7 @@
                 <TextView
                     android:layout_width="80sp"
                     android:layout_height="wrap_content"
-                    android:text="TIME"
+                    android:text="@string/time"
                     android:id="@+id/textView"
                     android:textColor="#ff3ad7ff"
                     android:textSize="24sp"
@@ -40,7 +40,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/countdown"
-                    android:text="60"
+                    android:text="@string/num_sixty"
                     android:autoText="false"
                     android:textColor="#ff3ad7ff"
                     android:textSize="30sp"
@@ -53,7 +53,7 @@
                     android:layout_alignEnd="@+id/textView" />
 
                 <TextView
-                    android:text="@string/Score"
+                    android:text="@string/initial_Score"
                     android:id="@+id/totalScore"
                     android:layout_width="130sp"
                     android:layout_height="78dp"
