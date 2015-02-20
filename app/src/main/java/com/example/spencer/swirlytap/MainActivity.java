@@ -16,7 +16,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mediaPlayer = MediaPlayer.create(this, R.raw.title_song); //get song
-        mediaPlayer.start(); //start song
+        //mediaPlayer.start(); //start song
         button1 = (Button)findViewById(R.id.singlePlayer);
         button1.setOnClickListener(this); //sets an onClickListener on button1
     }
@@ -30,7 +30,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         switch(v.getId())
         {
             case R.id.singlePlayer:
-                mediaPlayer.stop(); //stop song
+                //mediaPlayer.stop(); //stop song
                 singlePlayerClick();
                 break;
         }

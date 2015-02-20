@@ -133,7 +133,7 @@ public class singlePlayer extends ActionBarActivity
                     //Scale image to button: this makes all swirls small to fit grid block size
                     int newWidth = badButton.getWidth();
                     int newHeight = badButton.getHeight();
-                    Bitmap originalBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.cosby);
+                    Bitmap originalBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.cosby100); //change cosby to low res image (less memory usage)
                     Bitmap scaledBitmap = Bitmap.createScaledBitmap(originalBitmap, newWidth, newHeight, true);
                     Resources resource = getResources();
                     badButton.setBackground(new BitmapDrawable(resource, scaledBitmap));
@@ -203,7 +203,6 @@ public class singlePlayer extends ActionBarActivity
         switch(v.getId())
         {
             case R.id.pause_button:
-
                 break;
         }
     }
