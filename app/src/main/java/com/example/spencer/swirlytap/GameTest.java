@@ -10,9 +10,6 @@ import android.graphics.drawable.BitmapDrawable;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -23,8 +20,7 @@ import android.widget.TextView;
 import java.util.Random;
 
 
-public class SinglePlayer extends Activity {
-
+public class GameTest extends Activity {
     int count = 0; //this is total score
 
     private static final int NUM_ROWS = 8; //instantiated size of grid
@@ -151,7 +147,7 @@ public class SinglePlayer extends Activity {
                 gameBG.stop(); //stop song
                 mTextField.setText("0");
                 //when game ends, the 'PlayAgain' menu is called
-                Intent intentAgain = new Intent(SinglePlayer.this, PlayAgain.class);  //create intent (to go to PlayAgain menu)
+                Intent intentAgain = new Intent(GameTest.this, PlayAgain.class);  //create intent (to go to PlayAgain menu)
                 intentAgain.putExtra("score", count);
                 startActivity(intentAgain); //go to PlayAgain activity/menu
                 finish();
@@ -207,32 +203,6 @@ public class SinglePlayer extends Activity {
         {
             case R.id.pause_button:
                 break;
-        }
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu items for use in the action bar
-        // currently, action overflow is (1) Restart, (2) Home
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_single_player_actions, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle presses on the action bar items (when user chooses an option from action bar)
-        switch (item.getItemId()) {
-            case R.id.action_restart:  //when "Restart" is tapped in Single Player action bar overflow
-                Intent intentRestart = new Intent(SinglePlayer.this, SinglePlayer.class);
-                startActivity(intentRestart); //re-opens "singlePlayer" activity
-                return true;
-            case R.id.action_home:  //when "Home" is tapped in Single Player action bar overflow
-                Intent intentHome = new Intent(SinglePlayer.this, MainActivity.class);
-                startActivity(intentHome);  //opens "MainActivity"
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
         }
     }
 

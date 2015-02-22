@@ -19,18 +19,16 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".singlePlayer"
-            android:label="@string/title_activity_single_player"
-            android:screenOrientation="portrait" >
-            <intent-filter>
-                <action android:name="android.intent.action.SINGLE" />
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-        <activity
             android:name=".SinglePlayer"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:label="@string/title_activity_single_player_ni"
+            android:label="@string/title_activity_single_player"
+            android:theme="@style/FullscreenTheme"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".GameTest"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/title_activity_single_player"
             android:theme="@style/FullscreenTheme"
             android:screenOrientation="portrait" >
         </activity>

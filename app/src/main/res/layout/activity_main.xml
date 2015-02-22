@@ -9,23 +9,21 @@
     android:clickable="false">
 
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="250sp"
+        android:layout_height="100sp"
         android:text="@string/single_player"
         android:id="@+id/singlePlayer"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
-        android:textSize="30sp"
-        android:textColor="#ff010100" />
+        android:textSize="26sp"
+        android:background="@drawable/button_bg" />
 
-    <TextView
-        android:layout_width="wrap_content"
+    <ImageView
+        android:layout_width="320sp"
         android:layout_height="wrap_content"
-        android:text="@string/app_name"
-        android:id="@+id/Title"
-        android:layout_alignParentTop="true"
+        android:id="@+id/imageView2"
+        android:src="@drawable/swirlytap_title"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="70sp"
-        android:textSize="60sp"
-        android:textColor="#ffff9645" />
+        android:layout_alignParentTop="true" />
+
 </RelativeLayout>

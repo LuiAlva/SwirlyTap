@@ -21,8 +21,9 @@
             android:weightSum="1">
 
             <RelativeLayout
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content">
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#6f000000">
 
                 <TextView
                     android:layout_width="80sp"
@@ -80,11 +81,16 @@
                     android:layout_alignParentEnd="true" />
             </RelativeLayout>
 
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="5sp"
+                android:id="@+id/imageView3"
+                android:background="#ff000000" />
+
             <TableLayout
                 android:id="@+id/tableForButtons"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="center_horizontal">
+                android:layout_height="match_parent">
             </TableLayout>
 
         </LinearLayout>

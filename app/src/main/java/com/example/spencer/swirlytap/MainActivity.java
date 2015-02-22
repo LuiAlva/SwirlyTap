@@ -24,7 +24,8 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     private void singlePlayerClick()
     {
         //start single player activity once singlePlayer button clicked
-        startActivity(new Intent(MainActivity.this, SinglePlayer.class)); //startActivity(new Intent("android.intent.action.SINGLE"));
+        startActivity(new Intent(MainActivity.this, SinglePlayer.class));
+        finish();
     }
     public void onClick(View v)
     {
