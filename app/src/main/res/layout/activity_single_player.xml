@@ -1,4 +1,4 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
@@ -9,56 +9,86 @@
     android:orientation="vertical"
     android:background="@drawable/oneplayer_bg">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/countdown"
-        android:text="@string/time_sixty"
-        android:autoText="false"
-        android:textColor="#ff000000"
-        android:textSize="16sp"
-        android:textIsSelectable="true"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
 
-    <TextView
-        android:text="@string/score"
-        android:id="@+id/totalScore"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:scaleType="center"
-        android:textSize="50sp"
-        android:textColor="#ff000000"
-        android:layout_centerHorizontal="true"
-        android:layout_alignTop="@+id/countdown" />
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+            android:weightSum="1">
 
-    <TableLayout
-        android:id="@+id/tableForButtons"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:stretchColumns="."
-        android:layout_below="@+id/countdown"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="49sp" >
-        </TableLayout>
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content">
 
-    <ImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/pause_button"
-        android:src="@drawable/pause"
-        android:scaleType="fitXY"
-        android:background="#00ffffff"
-        android:clickable="true"
-        android:cropToPadding="false"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/countdown"
-        android:layout_toStartOf="@+id/totalScore"
-        android:layout_alignBottom="@+id/totalScore"
-        android:layout_alignRight="@+id/countdown"
-        android:layout_alignEnd="@+id/countdown" />
+                <TextView
+                    android:layout_width="80sp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/time"
+                    android:id="@+id/textView"
+                    android:textColor="#ff3ad7ff"
+                    android:textSize="24sp"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:gravity="center|top" />
 
-</RelativeLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/countdown"
+                    android:text="@string/num_sixty"
+                    android:autoText="false"
+                    android:textColor="#ff3ad7ff"
+                    android:textSize="30sp"
+                    android:textIsSelectable="true"
+                    android:gravity="center|top"
+                    android:layout_below="@+id/textView"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignRight="@+id/textView"
+                    android:layout_alignEnd="@+id/textView" />
+
+                <TextView
+                    android:text="@string/initial_Score"
+                    android:id="@+id/totalScore"
+                    android:layout_width="130sp"
+                    android:layout_height="78dp"
+                    android:scaleType="center"
+                    android:textSize="50sp"
+                    android:textColor="#ff4ed7e5"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true"
+                    android:gravity="center"
+                    android:layout_alignBottom="@+id/countdown"
+                    android:background="@drawable/score_frame" />
+
+                <ImageButton
+                    android:layout_width="88sp"
+                    android:layout_height="63sp"
+                    android:id="@+id/pause_button"
+                    android:src="@drawable/pause"
+                    android:scaleType="fitXY"
+                    android:background="#00ffffff"
+                    android:clickable="true"
+                    android:cropToPadding="false"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true" />
+            </RelativeLayout>
+
+            <TableLayout
+                android:id="@+id/tableForButtons"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_horizontal">
+            </TableLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

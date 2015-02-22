@@ -1,6 +1,5 @@
 package com.example.spencer.swirlytap;
 
-import android.app.ActionBar;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
@@ -11,7 +10,6 @@ import android.widget.Button;
 public class MainActivity extends ActionBarActivity implements View.OnClickListener {
     Button buttonSinglePlayer; //create type button
     MediaPlayer mediaPlayer; //for music
-    //getSupportActionBar().hide();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,7 +24,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     private void singlePlayerClick()
     {
         //start single player activity once singlePlayer button clicked
-        startActivity(new Intent(MainActivity.this, singlePlayer.class)); //startActivity(new Intent("android.intent.action.SINGLE"));
+        startActivity(new Intent(MainActivity.this, SinglePlayer.class)); //startActivity(new Intent("android.intent.action.SINGLE"));
     }
     public void onClick(View v)
     {

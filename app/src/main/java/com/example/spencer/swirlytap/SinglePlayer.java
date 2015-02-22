@@ -1,5 +1,6 @@
 package com.example.spencer.swirlytap;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -9,20 +10,21 @@ import android.graphics.drawable.BitmapDrawable;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+
 import java.util.Random;
 
 
-public class singlePlayer extends ActionBarActivity
-{
+public class SinglePlayer extends Activity {
+
     int count = 0; //this is total score
 
     private static final int NUM_ROWS = 8; //instantiated size of grid
@@ -31,15 +33,14 @@ public class singlePlayer extends ActionBarActivity
     String[][] luckArray = new String[NUM_ROWS][NUM_COLS]; //array containing good and bad buttons
     protected boolean _active = true;
     protected int _gameEnd = 65000;  //after game ends, switch to 'PlayAgain' menu
-                                     //temp change from 80000 to 45000 for testing purposes
+    //temp change from 80000 to 45000 for testing purposes
     MediaPlayer gameBG; //for music
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_single_player_ni);
-        setContentView(R.layout.activity_single_player); //show res/layout/activity_single_player.xml
+        requestWindowFeature(Window.FEATURE_NO_TITLE); // Removes Title Bar
         setContentView(R.layout.activity_single_player); //show res/layout/activity_single_player.xml
         gameBG = MediaPlayer.create(this, R.raw.game_song); //get song
 //        gameBG.start(); //start song
@@ -103,9 +104,9 @@ public class singlePlayer extends ActionBarActivity
                 else
                     //display seconds left in text field
                     mTextField.setText("" + millisUntilFinished / 1000);
-                    //get a random number and modulo it to ROW and COL sizes
-                    //this gets random element in array
-                    displayButton(); //for now this is just every second
+                //get a random number and modulo it to ROW and COL sizes
+                //this gets random element in array
+                displayButton(); //for now this is just every second
             }
             public void displayButton() //will call when button needs to be displayed
             {
@@ -135,7 +136,7 @@ public class singlePlayer extends ActionBarActivity
                     //Scale image to button: this makes all swirls small to fit grid block size
                     int newWidth = badButton.getWidth();
                     int newHeight = badButton.getHeight();
-                    Bitmap originalBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.cosby100); //change cosby to low res image (less memory usage)
+                    Bitmap originalBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.cosby); //change cosby to low res image (less memory usage)
                     Bitmap scaledBitmap = Bitmap.createScaledBitmap(originalBitmap, newWidth, newHeight, true);
                     Resources resource = getResources();
                     badButton.setBackground(new BitmapDrawable(resource, scaledBitmap));
@@ -152,7 +153,7 @@ public class singlePlayer extends ActionBarActivity
                 mTextField.setText("Done!");
                 mTextField.setText("Done!");
                 //when game ends, the 'PlayAgain' menu is called
-                Intent intentAgain = new Intent(singlePlayer.this, PlayAgain.class);  //create intent (to go to PlayAgain menu)
+                Intent intentAgain = new Intent(SinglePlayer.this, PlayAgain.class);  //create intent (to go to PlayAgain menu)
                 startActivity(intentAgain); //go to PlayAgain activity/menu
             }
             //player clicks on swirl add point
@@ -168,7 +169,7 @@ public class singlePlayer extends ActionBarActivity
         {
             TableRow tableRow = new TableRow(this);
             tableRow.setLayoutParams(new TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT,
-            TableLayout.LayoutParams.MATCH_PARENT,1.0f)); //make layout look nice
+                    TableLayout.LayoutParams.MATCH_PARENT,1.0f)); //make layout look nice
             table.addView(tableRow);
             for(int col = 0; col < NUM_COLS; col++) //cols instantiated at top
             {
@@ -177,7 +178,7 @@ public class singlePlayer extends ActionBarActivity
                 Button Swirl = new Button(this); //create button to display correctly
                 Swirl.setBackgroundColor(Color.TRANSPARENT);
                 Swirl.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT,
-                TableRow.LayoutParams.MATCH_PARENT,1.0f));
+                        TableRow.LayoutParams.MATCH_PARENT,1.0f));
 
 
                 Swirl.setOnClickListener( new View.OnClickListener() {
@@ -223,15 +224,16 @@ public class singlePlayer extends ActionBarActivity
         // Handle presses on the action bar items (when user chooses an option from action bar)
         switch (item.getItemId()) {
             case R.id.action_restart:  //when "Restart" is tapped in Single Player action bar overflow
-                Intent intentRestart = new Intent(singlePlayer.this, singlePlayer.class);
+                Intent intentRestart = new Intent(SinglePlayer.this, SinglePlayer.class);
                 startActivity(intentRestart); //re-opens "singlePlayer" activity
                 return true;
             case R.id.action_home:  //when "Home" is tapped in Single Player action bar overflow
-                Intent intentHome = new Intent(singlePlayer.this, MainActivity.class);
+                Intent intentHome = new Intent(SinglePlayer.this, MainActivity.class);
                 startActivity(intentHome);  //opens "MainActivity"
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
-}//end public class singlePlayer
+
+}

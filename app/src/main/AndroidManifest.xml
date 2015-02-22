@@ -28,7 +28,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".SinglePlayerNi"
+            android:name=".SinglePlayer"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_single_player_ni"
             android:theme="@style/FullscreenTheme"
