@@ -23,9 +23,6 @@ public class GameTest extends Activity implements View.OnClickListener {
     private static final int NUM_COLS = 4;
     Button buttons[][] = new Button[NUM_ROWS][NUM_COLS]; //created total number of grid buttons
     String[][] luckArray = new String[NUM_ROWS][NUM_COLS]; //array containing good and bad buttons
-    //protected boolean _active = true;
-    //protected int _gameEnd = 65000;  //after game ends, switch to 'PlayAgain' menu
-    //temp change from 80000 to 45000 for testing purposes
     MediaPlayer gameBG; //for music
 
     @Override
@@ -279,13 +276,6 @@ public class GameTest extends Activity implements View.OnClickListener {
 
     public void onClick(View v)
     {
-        //determine what button is. if good then add point, if bad take away point, if 2x then 2 times points
-        count++;
-
-<<<<<<< HEAD
-
-=======
->>>>>>> ef6779d7fd7348bb09cbc861f45d233159199eb9
         switch(v.getId())
         {
             case R.id.pause_button:
