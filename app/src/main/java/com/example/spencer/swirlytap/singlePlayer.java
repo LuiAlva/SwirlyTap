@@ -185,7 +185,7 @@ public class singlePlayer extends ActionBarActivity
     private void gridButtonClicked(int row, int col) //any time a button clicked do something
     {
         //determine what button is. if good then add point, if bad take away point, if 2x then 2 times points
-        buttons[row][col].setBackgroundColor(Color.TRANSPARENT);
+
         count++;
 
     }
