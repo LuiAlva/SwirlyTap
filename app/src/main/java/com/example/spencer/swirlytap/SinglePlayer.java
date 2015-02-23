@@ -33,7 +33,7 @@ public class SinglePlayer extends Activity {
     String[][] luckArray = new String[NUM_ROWS][NUM_COLS]; //array containing good and bad buttons
     protected boolean _active = true;
     protected int _gameEnd = 65000;  //after game ends, switch to 'PlayAgain' menu
-    //temp change from 80000 to 45000 for testing purposes
+                                     //temp change from 80000 to 45000 for testing purposes
     MediaPlayer gameBG; //for music
 
     @Override

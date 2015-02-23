@@ -17,5 +17,7 @@
     <string name="temp_you_scored">0 points!</string>
     <string name="action_home">Home</string>
     <string name="restart">Restart Game</string>
+    <string name="share">Share</string>
+    <string name="share_score">Share Score</string>
 
 </resources>
