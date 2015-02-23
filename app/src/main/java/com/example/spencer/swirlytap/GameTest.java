@@ -282,7 +282,10 @@ public class GameTest extends Activity implements View.OnClickListener {
         //determine what button is. if good then add point, if bad take away point, if 2x then 2 times points
         count++;
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> ef6779d7fd7348bb09cbc861f45d233159199eb9
         switch(v.getId())
         {
             case R.id.pause_button:
