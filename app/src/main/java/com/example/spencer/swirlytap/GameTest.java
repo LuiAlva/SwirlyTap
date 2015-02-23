@@ -17,6 +17,7 @@ import java.util.Random;
 
 public class GameTest extends Activity implements View.OnClickListener {
     int count = 0; //this is total score
+    int speedControl = 0;
 
     private static final int NUM_ROWS = 6; //instantiated size of grid
     private static final int NUM_COLS = 4;
@@ -45,10 +46,11 @@ public class GameTest extends Activity implements View.OnClickListener {
             {
                 //bad button should display in a more random fashion...please test
                 int randCell = rand.nextInt(NUM_COLS*NUM_ROWS); //random selection of numbers
-                if(randCell%10 ==0) //much less chance to receive bad button
+                if(randCell%5 ==0) //much less chance to receive bad button
                 {
                     luckArray[row][col] = "bad";
                 }
+
                 else
                     luckArray[row][col] = "good"; //much higher chance to receive good button
             }
@@ -64,14 +66,136 @@ public class GameTest extends Activity implements View.OnClickListener {
             public void onTick(long millisUntilFinished) {
 
                 //Update totalScore Textbox with current score, end at 60 seconds
-                if (millisUntilFinished / 30 == 0) {
+                if (millisUntilFinished / 30 == 0)
+                {
                     onFinish();
-                } else {
+                }
+                else
+                {
                     // Update Textfield
                     totalScore.setText("" + count);
+                    makeButton(count);
+                }
+
+            }
+            public void makeButton(int score)
+            {
+                if(score < 5)
+                {
+                    if(speedControl < 20)
+                        speedControl++;
+                    else
+                    {
+                        displayButton();
+                        speedControl = 0;
+                    }
+                }
+                else if(score >= 5 && score < 15)
+                {
+                    if(speedControl < 15)
+                        speedControl++;
+                    else
+                    {
+                        displayButton();
+                        speedControl = 0;
+                    }
+                }
+                else if(score >= 15 && score < 30)
+                {
+                    if(speedControl < 12)
+                        speedControl++;
+                    else
+                    {
+                        displayButton();
+                        speedControl = 0;
+                    }
+                }
+                else if(score >= 30 && score < 50)
+                {
+                    if(speedControl < 8)
+                        speedControl++;
+                    else
+                    {
+                        displayButton();
+                        speedControl = 0;
+                    }
+                }
+                else if(score >= 50 && score < 80)
+                {
+                    if(speedControl < 6)
+                        speedControl++;
+                    else
+                    {
+                        displayButton();
+                        speedControl = 0;
+                    }
+                }
+                else if(score >= 80 && score < 120)
+                {
+                    if(speedControl < 4)
+                        speedControl++;
+                    else
+                    {
+                        displayButton();
+                        speedControl = 0;
+                    }
+                }
+                else if(score >= 120)
+                {
+                    if(speedControl < 3)
+                        speedControl++;
+                    else
+                    {
+                        displayButton();
+                        speedControl = 0;
+                    }
                 }
             }
 
+            public void displayButton() //will call when button needs to be displayed
+            {
+
+
+                Random r = new Random(); //randomly select location in luck array
+                int randRow = r.nextInt(NUM_ROWS);
+                int randCol = r.nextInt(NUM_COLS);
+
+                if(luckArray[randRow][randCol]=="good")
+                {
+                    Button goodButton = buttons[randRow][randCol];          //Button in this location
+                    goodButton.setBackgroundResource(R.drawable.goodswirl); //Change image to Cosby
+                    goodButton.setEnabled(true);                            //Enable Swirl
+                    goodButton.setVisibility(View.VISIBLE);                 //Make Swirl Visible
+                    goodButton.setOnClickListener( new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            v.setVisibility(View.INVISIBLE);         // Make Swirl disappear
+                            v.setEnabled(false);                     // Disable button
+                            count++;                                 // Add one to score
+                        }
+                    });
+
+                }
+
+                else if(luckArray[randRow][randCol] == "bad")
+                {
+                    Button badButton = buttons[randRow][randCol];         //Button in this location
+                    badButton.setBackgroundResource(R.drawable.badswirl); //Change image to badswirl
+                    badButton.setEnabled(true);                           //Enable bad Swirl
+                    badButton.setVisibility(View.VISIBLE);                //make badSwirl visible
+                    badButton.setOnClickListener( new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            v.setVisibility(View.INVISIBLE);         // Make Swirl disappear
+                            v.setEnabled(false);                     // Disable button
+                            count-=5;                                 // subtract 5 from score
+                        }
+                    });
+
+                }
+                //could find other items such as 2x button
+                speedControl = 0;
+            }
             // Show text at end of timer
             public void onFinish() {
 
@@ -97,49 +221,10 @@ public class GameTest extends Activity implements View.OnClickListener {
                     mTextField.setText("" + millisUntilFinished / 1000);
                 //get a random number and modulo it to ROW and COL sizes
                 //this gets random element in array
-                displayButton(); //for now this is just every second
-            }
-            public void displayButton() //will call when button needs to be displayed
-            {
-                Random r = new Random(); //randomly select location in luck array
-                int randRow = r.nextInt(NUM_ROWS);
-                int randCol = r.nextInt(NUM_COLS);
 
-                if(luckArray[randRow][randCol]=="good")
-                {
-                    Button goodButton = buttons[randRow][randCol];          //Button in this location
-                    goodButton.setBackgroundResource(R.drawable.goodswirl); //Change image to Cosby
-                    goodButton.setEnabled(true);                            //Enable Swirl
-                    goodButton.setVisibility(View.VISIBLE);                 //Make Swirl Visible
-                    goodButton.setOnClickListener( new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            v.setVisibility(View.INVISIBLE);         // Make Swirl disappear
-                            v.setEnabled(false);                     // Disable button
-                            count++;                                 // Add one to score
-                        }
-                    });
-
-                }
-                else if(luckArray[randRow][randCol] == "bad")
-                {
-                    Button badButton = buttons[randRow][randCol];         //Button in this location
-                    badButton.setBackgroundResource(R.drawable.badswirl); //Change image to badswirl
-                    badButton.setEnabled(true);                           //Enable bad Swirl
-                    badButton.setVisibility(View.VISIBLE);                //make badSwirl visible
-                    badButton.setOnClickListener( new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            v.setVisibility(View.INVISIBLE);         // Make Swirl disappear
-                            v.setEnabled(false);                     // Disable button
-                            count--;                                 // Add one to score
-                        }
-                    });
-
-                }
-                //could find other items such as 2x button
 
             }
+
             //stop time/game when time is up
             public void onFinish()
             {
@@ -194,18 +279,15 @@ public class GameTest extends Activity implements View.OnClickListener {
 
     public void onClick(View v)
     {
-<<<<<<< HEAD:app/src/main/java/com/example/spencer/swirlytap/singlePlayer.java
         //determine what button is. if good then add point, if bad take away point, if 2x then 2 times points
-
         count++;
 
-=======
+
         switch(v.getId())
         {
             case R.id.pause_button:
                 break;
         }
->>>>>>> e00c14168ed6bec36ffd4a769bacf6f0294817f0:app/src/main/java/com/example/spencer/swirlytap/GameTest.java
     }
 
 }

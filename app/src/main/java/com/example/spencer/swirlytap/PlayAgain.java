@@ -48,7 +48,7 @@ public class PlayAgain extends ActionBarActivity implements View.OnClickListener
 
     private void PlayAgainClick()
     {   //start single player activity once "Play Again" button clicked
-        Intent intentAgain2 = new Intent(PlayAgain.this, SinglePlayer.class);
+        Intent intentAgain2 = new Intent(PlayAgain.this, GameTest.class);
         startActivity(intentAgain2);//goes to singlePlayer activity
         finish();
     }
