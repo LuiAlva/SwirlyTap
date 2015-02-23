@@ -33,7 +33,7 @@
                     android:textSize="54sp"
                     android:layout_below="@+id/imageView"
                     android:layout_centerHorizontal="true"
-                    android:textColor="#ff030303" />
+                    android:textColor="#ff4bb1cc" />
 
                 <ImageView
                     android:layout_width="300dp"
@@ -42,7 +42,8 @@
                     android:src="@drawable/congratulations"
                     android:layout_alignParentTop="true"
                     android:layout_centerHorizontal="true"
-                    android:layout_marginTop="39dp" />
+                    android:layout_marginTop="39dp"
+                    android:contentDescription="Congratulations!" />
 
             </RelativeLayout>
 

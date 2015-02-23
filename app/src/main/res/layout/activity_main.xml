@@ -23,7 +23,8 @@
         android:layout_height="wrap_content"
         android:id="@+id/imageView2"
         android:src="@drawable/swirlytap_title"
+        android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_alignParentTop="true" />
+        android:layout_marginTop="37dp" />
 
 </RelativeLayout>

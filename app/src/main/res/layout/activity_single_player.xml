@@ -84,8 +84,7 @@
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="5sp"
-                android:id="@+id/imageView3"
-                android:background="#ff000000" />
+                android:id="@+id/indent_space" />
 
             <TableLayout
                 android:id="@+id/tableForButtons"
