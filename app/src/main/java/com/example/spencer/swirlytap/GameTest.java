@@ -194,18 +194,14 @@ public class GameTest extends Activity implements View.OnClickListener {
 
     public void onClick(View v)
     {
-<<<<<<< HEAD:app/src/main/java/com/example/spencer/swirlytap/singlePlayer.java
         //determine what button is. if good then add point, if bad take away point, if 2x then 2 times points
-
         count++;
 
-=======
         switch(v.getId())
         {
             case R.id.pause_button:
                 break;
         }
->>>>>>> e00c14168ed6bec36ffd4a769bacf6f0294817f0:app/src/main/java/com/example/spencer/swirlytap/GameTest.java
     }
 
 }
