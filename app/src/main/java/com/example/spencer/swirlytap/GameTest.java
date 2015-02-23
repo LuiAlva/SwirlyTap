@@ -1,15 +1,12 @@
 package com.example.spencer.swirlytap;
 
-import android.content.res.Resources;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Color;
-import android.graphics.drawable.BitmapDrawable;
+import android.app.Activity;
+import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.support.v7.app.ActionBarActivity;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.TableLayout;
 import android.widget.TableRow;
@@ -18,24 +15,26 @@ import android.widget.TextView;
 import java.util.Random;
 
 
-public class singlePlayer extends ActionBarActivity
-{
+public class GameTest extends Activity implements View.OnClickListener {
     int count = 0; //this is total score
 
-    private static final int NUM_ROWS = 8; //instantiated size of grid
-    private static final int NUM_COLS = 7;
+    private static final int NUM_ROWS = 6; //instantiated size of grid
+    private static final int NUM_COLS = 4;
     Button buttons[][] = new Button[NUM_ROWS][NUM_COLS]; //created total number of grid buttons
     String[][] luckArray = new String[NUM_ROWS][NUM_COLS]; //array containing good and bad buttons
-
+    //protected boolean _active = true;
+    //protected int _gameEnd = 65000;  //after game ends, switch to 'PlayAgain' menu
+    //temp change from 80000 to 45000 for testing purposes
     MediaPlayer gameBG; //for music
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_single_player);
+        requestWindowFeature(Window.FEATURE_NO_TITLE); // Removes Title Bar
+        setContentView(R.layout.activity_single_player); //show res/layout/activity_single_player.xml
         gameBG = MediaPlayer.create(this, R.raw.game_song); //get song
-        gameBG.start(); //start song
+//        gameBG.start(); //start song
 
         //Fill luck array with certain good and bad buttons
         Random rand = new Random(); //randomly select location in luck array
@@ -75,14 +74,14 @@ public class singlePlayer extends ActionBarActivity
 
             // Show text at end of timer
             public void onFinish() {
-                totalScore.setText(count + " Congratulations!");
+
             }
         }.start();
 
         populateButtons(); //add buttons to grid
 
 
-        new CountDownTimer(60000, 1000)
+        new CountDownTimer(60000, 600) //Upped the game speed! (60000, 1000)
         {
             //create new type textview and relate it to countdown textbox in activity_single_player.xml
             TextView mTextField = (TextView) findViewById(R.id.countdown);
@@ -95,10 +94,10 @@ public class singlePlayer extends ActionBarActivity
                 }
                 else
                     //display seconds left in text field
-                    mTextField.setText("Time: " + millisUntilFinished / 1000);
-                    //get a random number and modulo it to ROW and COL sizes
-                    //this gets random element in array
-                    displayButton(); //for now this is just every second
+                    mTextField.setText("" + millisUntilFinished / 1000);
+                //get a random number and modulo it to ROW and COL sizes
+                //this gets random element in array
+                displayButton(); //for now this is just every second
             }
             public void displayButton() //will call when button needs to be displayed
             {
@@ -108,30 +107,34 @@ public class singlePlayer extends ActionBarActivity
 
                 if(luckArray[randRow][randCol]=="good")
                 {
-                    Button goodButton = buttons[randRow][randCol];
-                    goodButton.setBackgroundResource(R.drawable.goodswirl); //make this grid block location
-                    //have the image of goodswirl
-                    //Scale image to button: this makes all swirls small to fit grid block size
-                    int newWidth = goodButton.getWidth();
-                    int newHeight = goodButton.getHeight();
-                    Bitmap originalBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.goodswirl);
-                    Bitmap scaledBitmap = Bitmap.createScaledBitmap(originalBitmap, newWidth, newHeight, true);
-                    Resources resource = getResources();
-                    goodButton.setBackground(new BitmapDrawable(resource, scaledBitmap));
+                    Button goodButton = buttons[randRow][randCol];          //Button in this location
+                    goodButton.setBackgroundResource(R.drawable.goodswirl); //Change image to Cosby
+                    goodButton.setEnabled(true);                            //Enable Swirl
+                    goodButton.setVisibility(View.VISIBLE);                 //Make Swirl Visible
+                    goodButton.setOnClickListener( new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            v.setVisibility(View.INVISIBLE);         // Make Swirl disappear
+                            v.setEnabled(false);                     // Disable button
+                            count++;                                 // Add one to score
+                        }
+                    });
 
                 }
                 else if(luckArray[randRow][randCol] == "bad")
-                {//placed image of bill cosby as bad image until we can make a proper bad swirl. For the lols.
-                    Button badButton = buttons[randRow][randCol];
-                    badButton.setBackgroundResource(R.drawable.goodswirl); //make this grid block location
-                    //have the image of goodswirl
-                    //Scale image to button: this makes all swirls small to fit grid block size
-                    int newWidth = badButton.getWidth();
-                    int newHeight = badButton.getHeight();
-                    Bitmap originalBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.cosby);
-                    Bitmap scaledBitmap = Bitmap.createScaledBitmap(originalBitmap, newWidth, newHeight, true);
-                    Resources resource = getResources();
-                    badButton.setBackground(new BitmapDrawable(resource, scaledBitmap));
+                {
+                    Button badButton = buttons[randRow][randCol];         //Button in this location
+                    badButton.setBackgroundResource(R.drawable.badswirl); //Change image to badswirl
+                    badButton.setEnabled(true);                           //Enable bad Swirl
+                    badButton.setVisibility(View.VISIBLE);                //make badSwirl visible
+                    badButton.setOnClickListener( new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            v.setVisibility(View.INVISIBLE);         // Make Swirl disappear
+                            v.setEnabled(false);                     // Disable button
+                            count--;                                 // Add one to score
+                        }
+                    });
 
                 }
                 //could find other items such as 2x button
@@ -140,17 +143,20 @@ public class singlePlayer extends ActionBarActivity
             //stop time/game when time is up
             public void onFinish()
             {
-                mTextField.setText("Done!");
+                gameBG.stop(); //stop song
+                mTextField.setText("0"); //Set end of timer
+                //when game ends, the 'PlayAgain' menu is called
+                Intent intentAgain = new Intent(GameTest.this, PlayAgain.class);  //create intent (to go to PlayAgain menu)
+                intentAgain.putExtra("score", count);                             //Send variable count (score) to new intent (PlayAgain)
+                startActivity(intentAgain);                                       //go to PlayAgain activity/menu
+                finish();
             }
-
             //player clicks on swirl add point
 
         }.start();
-
-
-
-
     }
+
+
     private void populateButtons() //creating grid of buttons
     {
         TableLayout table = (TableLayout)findViewById(R.id.tableForButtons); //make new table
@@ -158,36 +164,48 @@ public class singlePlayer extends ActionBarActivity
         {
             TableRow tableRow = new TableRow(this);
             tableRow.setLayoutParams(new TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT,
-            TableLayout.LayoutParams.MATCH_PARENT,1.0f)); //make layout look nice
+                    TableLayout.LayoutParams.MATCH_PARENT,1.0f)); //make layout look nice
             table.addView(tableRow);
             for(int col = 0; col < NUM_COLS; col++) //cols instantiated at top
             {
                 final int FINAL_COL = col; //set col and row location to pass to gridButton
                 final int FINAL_ROW = row; //this sends location of button
                 Button Swirl = new Button(this); //create button to display correctly
-                Swirl.setBackgroundColor(Color.TRANSPARENT);
+                Swirl.setBackgroundResource(R.drawable.goodswirl); //make this grid block location have the image of goodswirl
+                Swirl.setVisibility(View.INVISIBLE);               //Start Swirl Invisible
+                Swirl.setEnabled(false);                           //Start Swirl button Disabled
                 Swirl.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT,
                 TableRow.LayoutParams.MATCH_PARENT,1.0f));
 
-
+                //This sets what the swirl will do when clicked
                 Swirl.setOnClickListener( new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        gridButtonClicked(FINAL_COL, FINAL_ROW); //send col and row clicked
+                        v.setVisibility(View.INVISIBLE);         // Make Swirl disappear
+                        v.setEnabled(false);                     // Disable button
+                        count++;                                 // Add one to score
                     }
                 });
                 tableRow.addView(Swirl);
                 buttons[row][col] = Swirl;
             }
-        }
-    }
+        }//end 'for'
+    }//end private void populateButtons
 
-    private void gridButtonClicked(int row, int col) //any time a button clicked do something
+    public void onClick(View v)
     {
+<<<<<<< HEAD:app/src/main/java/com/example/spencer/swirlytap/singlePlayer.java
         //determine what button is. if good then add point, if bad take away point, if 2x then 2 times points
 
         count++;
 
+=======
+        switch(v.getId())
+        {
+            case R.id.pause_button:
+                break;
+        }
+>>>>>>> e00c14168ed6bec36ffd4a769bacf6f0294817f0:app/src/main/java/com/example/spencer/swirlytap/GameTest.java
     }
 
 }

@@ -6,25 +6,42 @@
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme"
+        android:largeHeap="true"
+        android:screenOrientation="portrait" >
         <activity
             android:name=".MainActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
-            android:name=".singlePlayer"
-            android:label="@string/title_activity_single_player" >
-            <intent-filter>
-                <action android:name="android.intent.action.SINGLE" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
+            android:name=".SinglePlayer"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/title_activity_single_player"
+            android:theme="@style/FullscreenTheme"
+            android:screenOrientation="portrait" >
         </activity>
+        <activity
+            android:name=".GameTest"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/title_activity_single_player"
+            android:theme="@style/FullscreenTheme"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".PlayAgain"
+            android:label="@string/title_activity_single_player"
+            android:screenOrientation="portrait" >
+        </activity>
+        <meta-data
+            android:name="com.crashlytics.ApiKey"
+            android:value="3c3dfc16c40dbf849a9915c2ece897ac19b071d6" />
     </application>
 
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 </manifest>

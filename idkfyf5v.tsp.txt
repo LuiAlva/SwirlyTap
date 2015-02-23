@@ -1,0 +1,33 @@
+﻿Merge branch 'master' of https://github.com/LuiAlva/SwirlyTap
+
+Conflicts:
+	app/src/main/AndroidManifest.xml
+	app/src/main/java/com/example/spencer/swirlytap/singlePlayer.java
+	app/src/main/res/values/strings.xml
+#
+# It looks like you may be committing a merge.
+# If this is not correct, please remove the file
+#	.git/MERGE_HEAD
+# and try again.
+
+
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+# On branch master
+# Your branch and 'origin/master' have diverged,
+# and have 1 and 1 different commit each, respectively.
+#   (use "git pull" to merge the remote branch into yours)
+#
+# All conflicts fixed but you are still merging.
+#
+# Changes to be committed:
+#	modified:   app/src/main/AndroidManifest.xml
+#	modified:   app/src/main/java/com/example/spencer/swirlytap/MainActivity.java
+#	new file:   app/src/main/java/com/example/spencer/swirlytap/PlayAgain.java
+#	modified:   app/src/main/java/com/example/spencer/swirlytap/singlePlayer.java
+#	modified:   app/src/main/res/layout/activity_main.xml
+#	new file:   app/src/main/res/layout/activity_play_again.xml
+#	new file:   app/src/main/res/menu/menu_play_again.xml
+#	modified:   app/src/main/res/values/strings.xml
+#
+
