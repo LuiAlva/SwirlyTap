@@ -20,5 +20,6 @@
     <string name="share">Share</string>
     <string name="share_score">Share Score</string>
     <string name="High_Score">High Score</string>
+    <string name="congratulations">Congratulations!</string>
 
 </resources>
