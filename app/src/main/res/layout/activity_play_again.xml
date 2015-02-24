@@ -25,7 +25,6 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="0.59">
 
-
                 <TextView
                     android:text="@string/temp_you_scored"
                     android:layout_width="wrap_content"
@@ -41,7 +40,7 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/imageView"
                     android:src="@drawable/congratulations"
-                    android:contentDescription="Congratulations!"
+                    android:contentDescription="@string/congratulations"
                     android:layout_alignParentTop="true"
                     android:layout_centerHorizontal="true" />
 
@@ -50,8 +49,6 @@
             <RelativeLayout
                 android:layout_width="fill_parent"
                 android:layout_height="307dp"
-                android:layout_alignParentBottom="true"
-                android:layout_centerHorizontal="true"
                 android:layout_weight="0.55">
 
                 <Button
@@ -102,8 +99,7 @@
                     android:focusableInTouchMode="true"
                     android:clickable="true"
                     android:layout_below="@+id/Share"
-                    android:layout_centerHorizontal="true"
-                    android:background="@drawable/button_bg" />
+                    android:layout_centerHorizontal="true" />
 
                 <!--    <com.twitter.sdk.android.tweetui.TweetView
                     xmlns:twittersdk="http://schemas.android.com/apk/res-auto"
@@ -114,7 +110,5 @@
 
             </RelativeLayout>
         </LinearLayout>
-
     </LinearLayout>
-
 </LinearLayout>

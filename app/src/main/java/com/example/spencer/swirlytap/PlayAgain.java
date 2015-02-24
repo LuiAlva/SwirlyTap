@@ -16,10 +16,10 @@ import io.fabric.sdk.android.Fabric;
 
 
 public class PlayAgain extends ActionBarActivity implements View.OnClickListener  {
-    Button buttonAgain;  //create type button for 'Play Again'
-    Button buttonHome;  //create type button for 'Home'
-    Button buttonShare;  //create type button for 'Share'
-    Button buttonHighScore; // crete type button for ' High Score'
+    Button buttonAgain;     //create type button for 'Play Again'
+    Button buttonHome;      //create type button for 'Home'
+    Button buttonShare;     //create type button for 'Share'
+    Button buttonHighScore; //crete type button for 'High Score'
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -28,18 +28,16 @@ public class PlayAgain extends ActionBarActivity implements View.OnClickListener
         getSupportActionBar().hide();
         Intent game = getIntent(); // Grab the the intent of game that ended
         int score = game.getIntExtra("score", 0); //Grab score from game
-        buttonAgain = (Button)findViewById(R.id.PlayAgain);
-        buttonHome = (Button) findViewById(R.id.returnHome);
-        buttonAgain.setOnClickListener(this);  //sets an onClickListener on buttonAgain
-        buttonHome.setOnClickListener(this); //sets an onClickListener on buttonAgain
         TextView Score= (TextView) findViewById(R.id.textView);
-        Score.setText("" + score + " points!"); // Set text to show score
+        Score.setText("" + score + " points!");   //Set text to show score
+        buttonAgain = (Button)findViewById(R.id.PlayAgain);
+        buttonAgain.setOnClickListener(this);     //sets an onClickListener on buttonAgain
         buttonHome = (Button)findViewById(R.id.returnHome);
-        buttonHome.setOnClickListener(this);  //sets an onClickListener on buttonHome
+        buttonHome.setOnClickListener(this);      //sets an onClickListener on buttonHome
         buttonShare = (Button)findViewById(R.id.Share);
-        buttonShare.setOnClickListener(this);  //sets an onClickListener on buttonShare
+        buttonShare.setOnClickListener(this);     //sets an onClickListener on buttonShare
         buttonHighScore = (Button)findViewById(R.id.HighScore);
-        buttonHighScore.setOnClickListener(this);
+        buttonHighScore.setOnClickListener(this); //sets an onClickListener on buttonHighScore
         Fabric.with(this, new TweetComposer());
 
         //TwitterAuthConfig authConfig = new TwitterAuthConfig("consumerKey","consumerSecret");
@@ -73,15 +71,14 @@ public class PlayAgain extends ActionBarActivity implements View.OnClickListener
         //High Score method
         Intent HStext = new Intent(PlayAgain.this,PrettyScreen.class);
         startActivity(HStext);
-
     }
 
     public void onClick(View v)
     {//when "Play Again" button is clicked on the Play Again activity menu
         switch(v.getId())
         {
-            case R.id.PlayAgain: //if "Play Again" is clicked
-                PlayAgainClick();  //re-start Single Player
+            case R.id.PlayAgain:  //if "Play Again" is clicked
+                PlayAgainClick(); //re-start Single Player
                 break;
             case R.id.returnHome: //if "Home" is clicked
                 HomeClick();      //return to Home screen (MainActivity)
@@ -95,7 +92,6 @@ public class PlayAgain extends ActionBarActivity implements View.OnClickListener
                  break;
             /*if High Score is clicked ..it will take you to a different screen
             to display the "Leader Board */
-
         }
     }
 
@@ -104,7 +100,6 @@ public class PlayAgain extends ActionBarActivity implements View.OnClickListener
         rootView.setDrawingCacheEnabled(true);
         return rootView.getDrawingCache();
     }
-
     public Bitmap Share(View v) {
         // Image
         v.setDrawingCacheEnabled(true);
@@ -130,7 +125,6 @@ public class PlayAgain extends ActionBarActivity implements View.OnClickListener
         startActivity(Intent.createChooser(share, "Share Image"));
         return bitmap;
     }
-
     TweetComposer.Builder builder = new TweetComposer.Builder(this)
             .text("just setting up my Fabric.")
 //            .image(R.drawable.goodswirl);

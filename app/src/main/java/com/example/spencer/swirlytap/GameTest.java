@@ -15,16 +15,16 @@ import android.widget.TextView;
 import java.util.Random;
 import java.util.Timer;
 
-
 public class GameTest extends Activity implements View.OnClickListener {
     int count = 0; //this is total score
-    int speedControl = 0;
-
+    int speedControl = 0; //speedControl is an int that increments every time onTick loops
     private static final int NUM_ROWS = 6; //instantiated size of grid
     private static final int NUM_COLS = 4;
-    Button buttons[][] = new Button[NUM_ROWS][NUM_COLS]; //created total number of grid buttons
+    Button buttons[][] = new Button[NUM_ROWS][NUM_COLS];   //created total number of grid buttons
     String[][] luckArray = new String[NUM_ROWS][NUM_COLS]; //array containing good and bad buttons
     MediaPlayer gameBG; //for music
+    MediaPlayer tapGood; //sound when good swirl is tapped
+    MediaPlayer tapBad;  //sound when bad swirl is tapped
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -34,6 +34,8 @@ public class GameTest extends Activity implements View.OnClickListener {
         setContentView(R.layout.activity_single_player); //show res/layout/activity_single_player.xml
         gameBG = MediaPlayer.create(this, R.raw.game_song); //get song
 //        gameBG.start(); //start song
+        tapGood = MediaPlayer.create(this, R.raw.tap_good); //get sound for a tap on a good swirl
+        tapBad = MediaPlayer.create(this, R.raw.tap_bad); //get sound for a tap on a bad swirl
 
         //Fill luck array with certain good and bad buttons
         Random rand = new Random(); //randomly select location in luck array
@@ -48,7 +50,6 @@ public class GameTest extends Activity implements View.OnClickListener {
                 {
                     luckArray[row][col] = "bad";
                 }
-
                 else
                     luckArray[row][col] = "good"; //much higher chance to receive good button
             }
@@ -57,12 +58,11 @@ public class GameTest extends Activity implements View.OnClickListener {
         // This Timer updates every 30 milliseconds, used for updating changing texts
         new CountDownTimer(60000, 30)
         {
-            //
             //Get access to totalScore Textbox
             TextView totalScore= (TextView) findViewById(R.id.totalScore);
 
-            public void onTick(long millisUntilFinished) {
-
+            public void onTick(long millisUntilFinished)
+            {
                 //Update totalScore Textbox with current score, end at 60 seconds
                 if (millisUntilFinished / 30 == 0)
                 {
@@ -74,14 +74,13 @@ public class GameTest extends Activity implements View.OnClickListener {
                     totalScore.setText("" + count);
                     makeButton(count);
                 }
-
             }
             public void makeButton(int score)
             {
                 if(score < 5) //when score is less than 5
                 {
-                    if(speedControl < 20) //speedControl is an int that increments everytime onTick loops
-                        speedControl++; //after looping 20 times dispay a button
+                    if(speedControl < 20) //speedControl is an int that increments every time onTick loops
+                        speedControl++; //after looping 20 times display a button
                     else
                     {
                         displayButton();
@@ -90,7 +89,7 @@ public class GameTest extends Activity implements View.OnClickListener {
                 }
                 else if(score >= 5 && score < 15) //when score is greater than 5 but less than 15
                 {
-                    if(speedControl < 15) //loop through onlcick 15 times
+                    if(speedControl < 15) //loop through onclick 15 times
                         speedControl++;
                     else
                     {
@@ -152,70 +151,66 @@ public class GameTest extends Activity implements View.OnClickListener {
 
             public void displayButton() //will call when button needs to be displayed
             {
-
-
                 Random r = new Random(); //randomly select location in luck array
                 int randRow = r.nextInt(NUM_ROWS);
                 int randCol = r.nextInt(NUM_COLS);
 
                 if(luckArray[randRow][randCol]=="good")
                 {
-                   final Button goodButton = buttons[randRow][randCol];          //Button in this location
+                   final Button goodButton = buttons[randRow][randCol];     //Button in this location
                     goodButton.setBackgroundResource(R.drawable.goodswirl); //Change image to Cosby
                     goodButton.setEnabled(true);                            //Enable Swirl
                     goodButton.setVisibility(View.VISIBLE);                 //Make Swirl Visible
                     goodButton.postDelayed(new Runnable() { //after 3 seconds make button disappear
                         public void run() {
-                            goodButton.setVisibility(View.INVISIBLE);
+                            goodButton.setVisibility(View.INVISIBLE);       //Make Swirl disappear after no click
+                            goodButton.setEnabled(false);                   //Disable button
                         }
-                    }, 3000);
+                    }, 3000); //button disappears after 3 seconds (3000 ms) with no click
                     goodButton.setOnClickListener( new View.OnClickListener()
                     {
                         @Override
                         public void onClick(View v)
                         {
-                            v.setVisibility(View.INVISIBLE);         // Make Swirl disappear
+                            tapGood.start();                         // Play short confirmation sound
+                            v.setVisibility(View.INVISIBLE);         // Make Swirl disappear when clicked
                             v.setEnabled(false);                     // Disable button
                             count++;                                 // Add one to score
                         }
                     });
-
-                    //set 1 second timer..if timer reached then make button disappear
-
+                    //set 1 second timer... if timer reached then make button disappear
                 }
-
                 else if(luckArray[randRow][randCol] == "bad")
                 {
-                    final Button badButton = buttons[randRow][randCol];         //Button in this location
+                    final Button badButton = buttons[randRow][randCol];   //Button in this location
                     badButton.setBackgroundResource(R.drawable.badswirl); //Change image to badswirl
                     badButton.setEnabled(true);                           //Enable bad Swirl
-                    badButton.setVisibility(View.VISIBLE);                //make badSwirl visible
+                    badButton.setVisibility(View.VISIBLE);                //Make badSwirl visible
                     badButton.postDelayed(new Runnable() { //after 2 seconds make button disappear
                         public void run() {
-                            badButton.setVisibility(View.INVISIBLE);
+                            badButton.setVisibility(View.INVISIBLE);      //Make Swirl disappear after no click
+                            badButton.setEnabled(false);                  //Disable button
                         }
-                    }, 2000);
+                    }, 2000); //button disappears after 2 seconds (2000 ms) with no click
                     badButton.setOnClickListener( new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            v.setVisibility(View.INVISIBLE);         // Make Swirl disappear
-                            v.setEnabled(false);                     // Disable button
-                            count-=5;                                 // subtract 5 from score
+                            tapBad.start();                         // Play short confirmation sound
+                            v.setVisibility(View.INVISIBLE);        // Make Swirl disappear when clicked
+                            v.setEnabled(false);                    // Disable button
+                            count-=5;                               // subtract 5 from score
                         }
                     });
-
                 }
                 //could find other items such as 2x button
                 speedControl = 0;
             }
             // Show text at end of timer
             public void onFinish() {
-
             }
         }.start();
 
         populateButtons(); //add buttons to grid
-
 
         new CountDownTimer(60000, 600) //Upped the game speed! (60000, 1000)
         {
@@ -233,10 +228,7 @@ public class GameTest extends Activity implements View.OnClickListener {
                     mTextField.setText("" + millisUntilFinished / 1000);
                 //get a random number and modulo it to ROW and COL sizes
                 //this gets random element in array
-
-
             }
-
             //stop time/game when time is up
             public void onFinish()
             {
@@ -249,10 +241,8 @@ public class GameTest extends Activity implements View.OnClickListener {
                 finish();
             }
             //player clicks on swirl add point
-
         }.start();
     }
-
 
     private void populateButtons() //creating grid of buttons
     {
@@ -291,12 +281,8 @@ public class GameTest extends Activity implements View.OnClickListener {
 
     public void onClick(View v)
     {
-
-        //determine what button is. if good then add point, if bad take away point, if 2x then 2 times points
+        //determine what button is on click. if good then add point, if bad take away point, if 2x then 2 times points
         count++;
-
-
-
 
         switch(v.getId())
         {
@@ -304,5 +290,4 @@ public class GameTest extends Activity implements View.OnClickListener {
                 break;
         }
     }
-
 }
