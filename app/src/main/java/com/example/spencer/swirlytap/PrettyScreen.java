@@ -9,6 +9,7 @@ import android.os.Bundle;
 
 
 public class PrettyScreen extends Activity
+    //This class represents the screen that will be displayed
 {
     @Override
     protected void onCreate(Bundle savedInstanceState)
