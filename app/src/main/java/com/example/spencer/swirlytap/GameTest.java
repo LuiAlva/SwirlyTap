@@ -13,6 +13,7 @@ import android.widget.TableRow;
 import android.widget.TextView;
 
 import java.util.Random;
+import java.util.Timer;
 
 
 public class GameTest extends Activity implements View.OnClickListener {
@@ -159,28 +160,41 @@ public class GameTest extends Activity implements View.OnClickListener {
 
                 if(luckArray[randRow][randCol]=="good")
                 {
-                    Button goodButton = buttons[randRow][randCol];          //Button in this location
+                   final Button goodButton = buttons[randRow][randCol];          //Button in this location
                     goodButton.setBackgroundResource(R.drawable.goodswirl); //Change image to Cosby
                     goodButton.setEnabled(true);                            //Enable Swirl
                     goodButton.setVisibility(View.VISIBLE);                 //Make Swirl Visible
-                    goodButton.setOnClickListener( new View.OnClickListener() {
+                    goodButton.postDelayed(new Runnable() {
+                        public void run() {
+                            goodButton.setVisibility(View.INVISIBLE);
+                        }
+                    }, 3000);
+                    goodButton.setOnClickListener( new View.OnClickListener()
+                    {
                         @Override
-                        public void onClick(View v) {
+                        public void onClick(View v)
+                        {
                             v.setVisibility(View.INVISIBLE);         // Make Swirl disappear
                             v.setEnabled(false);                     // Disable button
                             count++;                                 // Add one to score
                         }
                     });
+
                     //set 1 second timer..if timer reached then make button disappear
 
                 }
 
                 else if(luckArray[randRow][randCol] == "bad")
                 {
-                    Button badButton = buttons[randRow][randCol];         //Button in this location
+                    final Button badButton = buttons[randRow][randCol];         //Button in this location
                     badButton.setBackgroundResource(R.drawable.badswirl); //Change image to badswirl
                     badButton.setEnabled(true);                           //Enable bad Swirl
                     badButton.setVisibility(View.VISIBLE);                //make badSwirl visible
+                    badButton.postDelayed(new Runnable() {
+                        public void run() {
+                            badButton.setVisibility(View.INVISIBLE);
+                        }
+                    }, 2000);
                     badButton.setOnClickListener( new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -277,14 +291,13 @@ public class GameTest extends Activity implements View.OnClickListener {
 
     public void onClick(View v)
     {
-<<<<<<< HEAD
+
         //determine what button is. if good then add point, if bad take away point, if 2x then 2 times points
         count++;
 
 
 
-=======
->>>>>>> b9c788af0701b8c388bc7f61954f52fc12a75266
+
         switch(v.getId())
         {
             case R.id.pause_button:
