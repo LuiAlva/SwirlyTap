@@ -37,6 +37,12 @@
             android:label="@string/title_activity_single_player"
             android:screenOrientation="portrait" >
         </activity>
+        <activity
+            android:name=".PrettyScreen"
+            android:label="PrettyScreen"
+            android:screenOrientation="portrait" >
+        </activity>
+
         <meta-data
             android:name="com.crashlytics.ApiKey"
             android:value="3c3dfc16c40dbf849a9915c2ece897ac19b071d6" />

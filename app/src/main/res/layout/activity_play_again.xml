@@ -25,33 +25,25 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1.12">
 
+
                 <TextView
                     android:text="@string/temp_you_scored"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/textView"
-                    android:textSize="54sp"
+                    android:textSize="35sp"
+                    android:textColor="#ff4bb1cc"
                     android:layout_below="@+id/imageView"
-                    android:layout_centerHorizontal="true"
-                    android:textColor="#ff4bb1cc" />
+                    android:layout_centerHorizontal="true" />
 
                 <ImageView
                     android:layout_width="300dp"
                     android:layout_height="wrap_content"
                     android:id="@+id/imageView"
                     android:src="@drawable/congratulations"
+                    android:contentDescription="Congratulations!"
                     android:layout_alignParentTop="true"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="39dp"
-                    android:contentDescription="Congratulations!" />
-
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_width="fill_parent"
-                android:layout_height="315dp"
-                android:layout_alignParentBottom="true"
-                android:layout_centerHorizontal="true">
+                    android:layout_centerHorizontal="true" />
 
                 <Button
                     android:text="@string/play_again"
@@ -62,8 +54,16 @@
                     android:textColor="#ff000000"
                     android:background="@drawable/button_bg"
                     android:gravity="center"
-                    android:layout_alignParentTop="true"
+                    android:layout_below="@+id/textView"
                     android:layout_centerHorizontal="true" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="315dp"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true">
 
                 <Button
                     android:text="@string/action_home"
@@ -73,9 +73,8 @@
                     android:textSize="30sp"
                     android:textColor="#ff010100"
                     android:background="@drawable/button_bg"
-                    android:layout_below="@+id/PlayAgain"
-                    android:layout_alignLeft="@+id/PlayAgain"
-                    android:layout_alignStart="@+id/PlayAgain" />
+                    android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true" />
 
                 <Button
                     android:text="@string/share"
@@ -86,8 +85,26 @@
                     android:textColor="#ff010100"
                     android:background="@drawable/button_bg"
                     android:layout_centerVertical="true"
-                    android:layout_below="@+id/returnHome"
-                    android:layout_alignStart="@+id/returnHome" />
+                    android:layout_alignLeft="@+id/returnHome"
+                    android:layout_alignStart="@+id/returnHome"
+                    android:enabled="false" />
+
+                <Button
+                    android:layout_width="250sp"
+                    android:layout_height="100sp"
+                    android:id="@+id/HighScore"
+                    android:layout_below="@+id/HighScore"
+                    android:layout_alignLeft="@+id/HighScore"
+                    android:layout_alignStart="@+id/HighScore"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignRight="@+id/Share"
+                    android:layout_alignEnd="@+id/Share"
+                    android:textSize="30sp"
+                    android:textColor="#ff010100"
+                    android:text="@string/High_Score"
+                    android:enabled="true"
+                    android:focusableInTouchMode="true"
+                    android:clickable="true" />
 
                 <!--    <com.twitter.sdk.android.tweetui.TweetView
                     xmlns:twittersdk="http://schemas.android.com/apk/res-auto"

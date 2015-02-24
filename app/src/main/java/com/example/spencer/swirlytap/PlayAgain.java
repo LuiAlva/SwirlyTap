@@ -19,6 +19,7 @@ public class PlayAgain extends ActionBarActivity implements View.OnClickListener
     Button buttonAgain;  //create type button for 'Play Again'
     Button buttonHome;  //create type button for 'Home'
     Button buttonShare;  //create type button for 'Share'
+    Button buttonHighScore; // crete type button for ' High Score'
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -37,6 +38,8 @@ public class PlayAgain extends ActionBarActivity implements View.OnClickListener
         buttonHome.setOnClickListener(this);  //sets an onClickListener on buttonHome
         buttonShare = (Button)findViewById(R.id.Share);
         buttonShare.setOnClickListener(this);  //sets an onClickListener on buttonShare
+        buttonHighScore = (Button)findViewById(R.id.HighScore);
+        buttonHighScore.setOnClickListener(this);
         Fabric.with(this, new TweetComposer());
 
         //TwitterAuthConfig authConfig = new TwitterAuthConfig("consumerKey","consumerSecret");
@@ -65,6 +68,12 @@ public class PlayAgain extends ActionBarActivity implements View.OnClickListener
         shareText.putExtra("android.intent.extra.TEXT", "@SwirlyTap :)");
         startActivity(Intent.createChooser(shareText, getResources().getString(R.string.share)));
     }
+    private void HighScoreClick()
+    {
+        Intent HStext = new Intent(PlayAgain.this,PrettyScreen.class);
+        startActivity(HStext);
+
+    }
 
     public void onClick(View v)
     {//when "Play Again" button is clicked on the Play Again activity menu
@@ -80,6 +89,10 @@ public class PlayAgain extends ActionBarActivity implements View.OnClickListener
                 ShareClick();     //share screenshot
                 Bitmap bitmap = takeScreenshot();
                 break;
+            case R.id.HighScore:
+                 HighScoreClick();
+                 break;
+
         }
     }
 
