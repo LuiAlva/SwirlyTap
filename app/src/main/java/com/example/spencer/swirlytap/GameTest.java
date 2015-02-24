@@ -164,7 +164,7 @@ public class GameTest extends Activity implements View.OnClickListener {
                     goodButton.setBackgroundResource(R.drawable.goodswirl); //Change image to Cosby
                     goodButton.setEnabled(true);                            //Enable Swirl
                     goodButton.setVisibility(View.VISIBLE);                 //Make Swirl Visible
-                    goodButton.postDelayed(new Runnable() {
+                    goodButton.postDelayed(new Runnable() { //after 3 seconds make button disappear
                         public void run() {
                             goodButton.setVisibility(View.INVISIBLE);
                         }
@@ -190,7 +190,7 @@ public class GameTest extends Activity implements View.OnClickListener {
                     badButton.setBackgroundResource(R.drawable.badswirl); //Change image to badswirl
                     badButton.setEnabled(true);                           //Enable bad Swirl
                     badButton.setVisibility(View.VISIBLE);                //make badSwirl visible
-                    badButton.postDelayed(new Runnable() {
+                    badButton.postDelayed(new Runnable() { //after 2 seconds make button disappear
                         public void run() {
                             badButton.setVisibility(View.INVISIBLE);
                         }
