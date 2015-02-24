@@ -80,33 +80,33 @@ public class GameTest extends Activity implements View.OnClickListener {
             }
             public void makeButton(int score)
             {
-                if(score < 5)
+                if(score < 5) //when score is less than 5
                 {
-                    if(speedControl < 20)
-                        speedControl++;
+                    if(speedControl < 20) //speedControl is an int that increments everytime onTick loops
+                        speedControl++; //after looping 20 times dispay a button
                     else
                     {
                         displayButton();
-                        speedControl = 0;
+                        speedControl = 0; //after displaying the button 20 times then set speedControl back to 0
                     }
                 }
-                else if(score >= 5 && score < 15)
+                else if(score >= 5 && score < 15) //when score is greater than 5 but less than 15
                 {
-                    if(speedControl < 15)
+                    if(speedControl < 15) //loop through onlcick 15 times
                         speedControl++;
                     else
                     {
-                        displayButton();
+                        displayButton(); //after looping 15 times then display button
                         speedControl = 0;
                     }
                 }
-                else if(score >= 15 && score < 30)
+                else if(score >= 15 && score < 30) //same comments as above
                 {
                     if(speedControl < 12)
                         speedControl++;
                     else
                     {
-                        displayButton();
+                        displayButton(); //buttons continue to display faster and faster
                         speedControl = 0;
                     }
                 }
@@ -174,6 +174,7 @@ public class GameTest extends Activity implements View.OnClickListener {
                             count++;                                 // Add one to score
                         }
                     });
+                    //set 1 second timer..if timer reached then make button disappear
 
                 }
 
@@ -282,10 +283,8 @@ public class GameTest extends Activity implements View.OnClickListener {
         //determine what button is. if good then add point, if bad take away point, if 2x then 2 times points
         count++;
 
-<<<<<<< HEAD
 
-=======
->>>>>>> ef6779d7fd7348bb09cbc861f45d233159199eb9
+
         switch(v.getId())
         {
             case R.id.pause_button:
