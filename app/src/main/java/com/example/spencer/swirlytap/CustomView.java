@@ -8,6 +8,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 
 public class CustomView extends View
+    //class to display the color of the page
 {
     public CustomView(Context context)
     {

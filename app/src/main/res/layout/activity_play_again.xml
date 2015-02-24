@@ -95,6 +95,8 @@
                     android:id="@+id/HighScore"
                     android:textSize="30sp"
                     android:textColor="#ff010100"
+                    android:background="@drawable/button_bg"
+                    android:layout_centerVertical="true"
                     android:text="@string/High_Score"
                     android:enabled="true"
                     android:focusableInTouchMode="true"
