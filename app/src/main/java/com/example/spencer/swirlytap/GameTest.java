@@ -22,7 +22,7 @@ public class GameTest extends Activity implements View.OnClickListener {
     private static final int NUM_COLS = 4;
     Button buttons[][] = new Button[NUM_ROWS][NUM_COLS];   //created total number of grid buttons
     String[][] luckArray = new String[NUM_ROWS][NUM_COLS]; //array containing good and bad buttons
-    MediaPlayer gameBG; //for music
+    MediaPlayer gameBG;  //for music
     MediaPlayer tapGood; //sound when good swirl is tapped
     MediaPlayer tapBad;  //sound when bad swirl is tapped
 
@@ -35,7 +35,7 @@ public class GameTest extends Activity implements View.OnClickListener {
         gameBG = MediaPlayer.create(this, R.raw.game_song); //get song
 //        gameBG.start(); //start song
         tapGood = MediaPlayer.create(this, R.raw.tap_good); //get sound for a tap on a good swirl
-        tapBad = MediaPlayer.create(this, R.raw.tap_bad); //get sound for a tap on a bad swirl
+        tapBad = MediaPlayer.create(this, R.raw.tap_bad);   //get sound for a tap on a bad swirl
 
         //Fill luck array with certain good and bad buttons
         Random rand = new Random(); //randomly select location in luck array
@@ -56,7 +56,7 @@ public class GameTest extends Activity implements View.OnClickListener {
         }
 
         // This Timer updates every 30 milliseconds, used for updating changing texts
-        new CountDownTimer(60000, 30)
+        new CountDownTimer(20000, 30) //change from 60000 to 20000
         {
             //Get access to totalScore Textbox
             TextView totalScore= (TextView) findViewById(R.id.totalScore);
@@ -158,7 +158,7 @@ public class GameTest extends Activity implements View.OnClickListener {
                 if(luckArray[randRow][randCol]=="good")
                 {
                    final Button goodButton = buttons[randRow][randCol];     //Button in this location
-                    goodButton.setBackgroundResource(R.drawable.goodswirl); //Change image to Cosby
+                    goodButton.setBackgroundResource(R.drawable.goodswirl); //Set image to goodswirl
                     goodButton.setEnabled(true);                            //Enable Swirl
                     goodButton.setVisibility(View.VISIBLE);                 //Make Swirl Visible
                     goodButton.postDelayed(new Runnable() { //after 3 seconds make button disappear
@@ -183,8 +183,8 @@ public class GameTest extends Activity implements View.OnClickListener {
                 else if(luckArray[randRow][randCol] == "bad")
                 {
                     final Button badButton = buttons[randRow][randCol];   //Button in this location
-                    badButton.setBackgroundResource(R.drawable.badswirl); //Change image to badswirl
-                    badButton.setEnabled(true);                           //Enable bad Swirl
+                    badButton.setBackgroundResource(R.drawable.badswirl); //Set image to badswirl
+                    badButton.setEnabled(true);                           //Enable badSwirl
                     badButton.setVisibility(View.VISIBLE);                //Make badSwirl visible
                     badButton.postDelayed(new Runnable() { //after 2 seconds make button disappear
                         public void run() {
@@ -240,7 +240,7 @@ public class GameTest extends Activity implements View.OnClickListener {
                 startActivity(intentAgain);                                       //go to PlayAgain activity/menu
                 finish();
             }
-            //player clicks on swirl add point
+            //player clicks on swirl, add point
         }.start();
     }
 

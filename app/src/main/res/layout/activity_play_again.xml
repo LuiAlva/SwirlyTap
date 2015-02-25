@@ -22,24 +22,24 @@
 
             <RelativeLayout
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
                 android:layout_weight="0.59">
 
                 <TextView
                     android:text="@string/temp_you_scored"
+                    android:id="@+id/textView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/textView"
                     android:textSize="35sp"
                     android:textColor="#ff4bb1cc"
                     android:layout_below="@+id/imageView"
                     android:layout_centerHorizontal="true" />
 
                 <ImageView
+                    android:src="@drawable/congratulations"
+                    android:id="@+id/imageView"
                     android:layout_width="300dp"
                     android:layout_height="wrap_content"
-                    android:id="@+id/imageView"
-                    android:src="@drawable/congratulations"
                     android:contentDescription="@string/congratulations"
                     android:layout_alignParentTop="true"
                     android:layout_centerHorizontal="true" />
@@ -47,59 +47,60 @@
             </RelativeLayout>
 
             <RelativeLayout
-                android:layout_width="fill_parent"
-                android:layout_height="307dp"
-                android:layout_weight="0.55">
-
-                <Button
-                    android:text="@string/play_again"
-                    android:layout_width="225dp"
-                    android:layout_height="80dp"
-                    android:id="@+id/PlayAgain"
-                    android:textSize="30sp"
-                    android:textColor="#ff000000"
-                    android:background="@drawable/button_bg"
-                    android:gravity="center"
-                    android:layout_below="@+id/returnHome"
-                    android:layout_alignLeft="@+id/Share"
-                    android:layout_alignStart="@+id/Share" />
+                android:layout_width="match_parent"
+                android:layout_height="406dp">
 
                 <Button
                     android:text="@string/action_home"
+                    android:id="@+id/returnHome"
                     android:layout_width="225sp"
                     android:layout_height="80sp"
-                    android:id="@+id/returnHome"
                     android:textSize="30sp"
                     android:textColor="#ff010100"
                     android:background="@drawable/button_bg"
+                    android:layout_above="@+id/Share"
                     android:layout_centerHorizontal="true" />
 
                 <Button
                     android:text="@string/share"
+                    android:id="@+id/Share"
                     android:layout_width="225sp"
                     android:layout_height="80sp"
-                    android:id="@+id/Share"
                     android:textSize="30sp"
                     android:textColor="#ff010100"
                     android:background="@drawable/button_bg"
-                    android:enabled="false"
-                    android:layout_below="@+id/PlayAgain"
-                    android:layout_centerHorizontal="true" />
+                    android:layout_above="@+id/HighScore"
+                    android:layout_alignLeft="@+id/returnHome"
+                    android:layout_alignStart="@+id/returnHome" />
 
                 <Button
+                    android:text="@string/High_Score"
+                    android:id="@+id/HighScore"
                     android:layout_width="225sp"
                     android:layout_height="80sp"
-                    android:id="@+id/HighScore"
                     android:textSize="30sp"
                     android:textColor="#ff010100"
                     android:background="@drawable/button_bg"
-                    android:layout_centerVertical="true"
-                    android:text="@string/High_Score"
                     android:enabled="true"
                     android:focusableInTouchMode="true"
                     android:clickable="true"
-                    android:layout_below="@+id/Share"
-                    android:layout_centerHorizontal="true" />
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignLeft="@+id/Share"
+                    android:layout_alignStart="@+id/Share"
+                    android:layout_marginBottom="42dp" />
+
+                <Button
+                    android:text="@string/play_again"
+                    android:id="@+id/PlayAgain"
+                    android:layout_width="225dp"
+                    android:layout_height="80dp"
+                    android:textSize="30sp"
+                    android:textColor="#ff000000"
+                    android:background="@drawable/button_bg"
+                    android:gravity="center"
+                    android:layout_above="@+id/returnHome"
+                    android:layout_alignLeft="@+id/returnHome"
+                    android:layout_alignStart="@+id/returnHome" />
 
                 <!--    <com.twitter.sdk.android.tweetui.TweetView
                     xmlns:twittersdk="http://schemas.android.com/apk/res-auto"
