@@ -8,23 +8,27 @@ import android.os.CountDownTimer;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
 import java.util.Random;
-import java.util.Timer;
 
-public class GameTest extends Activity implements View.OnClickListener {
+public class SinglePlayer extends Activity implements View.OnClickListener {
     int count = 0; //this is total score
     int speedControl = 0; //speedControl is an int that increments every time onTick loops
     private static final int NUM_ROWS = 6; //instantiated size of grid
     private static final int NUM_COLS = 4;
     Button buttons[][] = new Button[NUM_ROWS][NUM_COLS];   //created total number of grid buttons
     String[][] luckArray = new String[NUM_ROWS][NUM_COLS]; //array containing good and bad buttons
-    MediaPlayer gameBG; //for music
+    private static final int Time = 20000;    //Time limit, 60000 = 60 seconds temporary set to 20 seconds
+    ImageButton PauseButton; //create type image button
+    MediaPlayer gameBG;  //for music
     MediaPlayer tapGood; //sound when good swirl is tapped
     MediaPlayer tapBad;  //sound when bad swirl is tapped
+    CountDownTimer text;
+    CountDownTimer SwirlEngine;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -33,9 +37,11 @@ public class GameTest extends Activity implements View.OnClickListener {
         requestWindowFeature(Window.FEATURE_NO_TITLE); // Removes Title Bar
         setContentView(R.layout.activity_single_player); //show res/layout/activity_single_player.xml
         gameBG = MediaPlayer.create(this, R.raw.game_song); //get song
+        PauseButton= (ImageButton)findViewById(R.id.pause_button);
+        PauseButton.setOnClickListener(this); //sets an onClickListener on PauseButton
 //        gameBG.start(); //start song
         tapGood = MediaPlayer.create(this, R.raw.tap_good); //get sound for a tap on a good swirl
-        tapBad = MediaPlayer.create(this, R.raw.tap_bad); //get sound for a tap on a bad swirl
+        tapBad = MediaPlayer.create(this, R.raw.tap_bad);   //get sound for a tap on a bad swirl
 
         //Fill luck array with certain good and bad buttons
         Random rand = new Random(); //randomly select location in luck array
@@ -56,7 +62,7 @@ public class GameTest extends Activity implements View.OnClickListener {
         }
 
         // This Timer updates every 30 milliseconds, used for updating changing texts
-        new CountDownTimer(60000, 30)
+        text = new CountDownTimer(Time, 30) //change from 60000 to 20000
         {
             //Get access to totalScore Textbox
             TextView totalScore= (TextView) findViewById(R.id.totalScore);
@@ -158,7 +164,7 @@ public class GameTest extends Activity implements View.OnClickListener {
                 if(luckArray[randRow][randCol]=="good")
                 {
                    final Button goodButton = buttons[randRow][randCol];     //Button in this location
-                    goodButton.setBackgroundResource(R.drawable.goodswirl); //Change image to Cosby
+                    goodButton.setBackgroundResource(R.drawable.goodswirl); //Set image to goodswirl
                     goodButton.setEnabled(true);                            //Enable Swirl
                     goodButton.setVisibility(View.VISIBLE);                 //Make Swirl Visible
                     goodButton.postDelayed(new Runnable() { //after 3 seconds make button disappear
@@ -183,8 +189,8 @@ public class GameTest extends Activity implements View.OnClickListener {
                 else if(luckArray[randRow][randCol] == "bad")
                 {
                     final Button badButton = buttons[randRow][randCol];   //Button in this location
-                    badButton.setBackgroundResource(R.drawable.badswirl); //Change image to badswirl
-                    badButton.setEnabled(true);                           //Enable bad Swirl
+                    badButton.setBackgroundResource(R.drawable.badswirl); //Set image to badswirl
+                    badButton.setEnabled(true);                           //Enable badSwirl
                     badButton.setVisibility(View.VISIBLE);                //Make badSwirl visible
                     badButton.postDelayed(new Runnable() { //after 2 seconds make button disappear
                         public void run() {
@@ -212,7 +218,7 @@ public class GameTest extends Activity implements View.OnClickListener {
 
         populateButtons(); //add buttons to grid
 
-        new CountDownTimer(60000, 600) //Upped the game speed! (60000, 1000)
+        SwirlEngine = new CountDownTimer(Time, 1000)
         {
             //create new type textview and relate it to countdown textbox in activity_single_player.xml
             TextView mTextField = (TextView) findViewById(R.id.countdown);
@@ -235,12 +241,12 @@ public class GameTest extends Activity implements View.OnClickListener {
                 gameBG.stop(); //stop song
                 mTextField.setText("0"); //Set end of timer
                 //when game ends, the 'PlayAgain' menu is called
-                Intent intentAgain = new Intent(GameTest.this, PlayAgain.class);  //create intent (to go to PlayAgain menu)
+                Intent intentAgain = new Intent(SinglePlayer.this, PlayAgain.class);  //create intent (to go to PlayAgain menu)
                 intentAgain.putExtra("score", count);                             //Send variable count (score) to new intent (PlayAgain)
                 startActivity(intentAgain);                                       //go to PlayAgain activity/menu
                 finish();
             }
-            //player clicks on swirl add point
+            //player clicks on swirl, add point
         }.start();
     }
 
@@ -281,13 +287,20 @@ public class GameTest extends Activity implements View.OnClickListener {
 
     public void onClick(View v)
     {
-        //determine what button is on click. if good then add point, if bad take away point, if 2x then 2 times points
-        count++;
-
         switch(v.getId())
         {
             case R.id.pause_button:
+                gameBG.pause();
+                //SwirlEngine.cancel();
+                //text.cancel();
+                PauseClicked();
                 break;
         }
     }
+
+    private void PauseClicked()
+    {
+        startActivity(new Intent(SinglePlayer.this, PauseMenu.class));
+    }
+
 }

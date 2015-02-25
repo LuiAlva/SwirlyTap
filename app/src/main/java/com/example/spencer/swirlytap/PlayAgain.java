@@ -14,22 +14,23 @@ import java.io.File;
 import java.io.FileOutputStream;
 import io.fabric.sdk.android.Fabric;
 
-
 public class PlayAgain extends ActionBarActivity implements View.OnClickListener  {
     Button buttonAgain;     //create type button for 'Play Again'
     Button buttonHome;      //create type button for 'Home'
     Button buttonShare;     //create type button for 'Share'
-    Button buttonHighScore; //crete type button for 'High Score'
+    Button buttonHighScore; //create type button for 'High Score'
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_play_again);
         getSupportActionBar().hide();
+
         Intent game = getIntent(); // Grab the the intent of game that ended
         int score = game.getIntExtra("score", 0); //Grab score from game
         TextView Score= (TextView) findViewById(R.id.textView);
         Score.setText("" + score + " points!");   //Set text to show score
+
         buttonAgain = (Button)findViewById(R.id.PlayAgain);
         buttonAgain.setOnClickListener(this);     //sets an onClickListener on buttonAgain
         buttonHome = (Button)findViewById(R.id.returnHome);
@@ -38,18 +39,13 @@ public class PlayAgain extends ActionBarActivity implements View.OnClickListener
         buttonShare.setOnClickListener(this);     //sets an onClickListener on buttonShare
         buttonHighScore = (Button)findViewById(R.id.HighScore);
         buttonHighScore.setOnClickListener(this); //sets an onClickListener on buttonHighScore
-        Fabric.with(this, new TweetComposer());
 
-        //TwitterAuthConfig authConfig = new TwitterAuthConfig("consumerKey","consumerSecret");
-        //Fabric.with(this, new Twitter(authConfig));
-        // Example: multiple kits
-        // Fabric.with(this, new Twitter(authConfig),
-        //                  new Crashlytics());
+        Fabric.with(this, new TweetComposer());
     }//end 'onCreate'
 
     private void PlayAgainClick()
     {   //start single player activity once "Play Again" button clicked
-        Intent intentAgain2 = new Intent(PlayAgain.this, GameTest.class);
+        Intent intentAgain2 = new Intent(PlayAgain.this, SinglePlayer.class);
         startActivity(intentAgain2);//goes to singlePlayer activity
         finish();
     }
@@ -63,7 +59,7 @@ public class PlayAgain extends ActionBarActivity implements View.OnClickListener
     {   //use Implicit Intent to share promotional text of application
         Intent shareText = new Intent("android.intent.action.SEND");
         shareText.setType("text/plain");
-        shareText.putExtra("android.intent.extra.TEXT", "@SwirlyTap :)");
+        shareText.putExtra("android.intent.extra.TEXT", "@SwirlyTap :)");   //text shared: "@SwirlyTap :)"
         startActivity(Intent.createChooser(shareText, getResources().getString(R.string.share)));
     }
     private void HighScoreClick()
@@ -85,13 +81,13 @@ public class PlayAgain extends ActionBarActivity implements View.OnClickListener
                 break;
             case R.id.Share:      //if "Share" is clicked
                 ShareClick();     //share screenshot
-                Bitmap bitmap = takeScreenshot();
+//                Bitmap bitmap = takeScreenshot();
                 break;
             case R.id.HighScore:
-                 HighScoreClick();
-                 break;
-            /*if High Score is clicked ..it will take you to a different screen
-            to display the "Leader Board */
+                HighScoreClick();
+                break;
+            /*if High Score is clicked... it will take you to a different screen
+            to display the "Leader Board" */
         }
     }
 
@@ -118,9 +114,9 @@ public class PlayAgain extends ActionBarActivity implements View.OnClickListener
         // Share
         Intent share = new Intent(Intent.ACTION_SEND);
         share.setType("image/jpeg");
-        String filel = "file://" + Environment.getExternalStorageDirectory()
+        String fileTemp = "file://" + Environment.getExternalStorageDirectory()
                 + File.separator + "temporary_file.png";
-        share.putExtra(Intent.EXTRA_STREAM, Uri.parse(filel));
+        share.putExtra(Intent.EXTRA_STREAM, Uri.parse(fileTemp));
 
         startActivity(Intent.createChooser(share, "Share Image"));
         return bitmap;

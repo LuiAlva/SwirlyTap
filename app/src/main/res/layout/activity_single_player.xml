@@ -26,10 +26,10 @@
                 android:background="#6f000000">
 
                 <TextView
-                    android:layout_width="80sp"
-                    android:layout_height="wrap_content"
                     android:text="@string/time"
                     android:id="@+id/textView"
+                    android:layout_width="80sp"
+                    android:layout_height="wrap_content"
                     android:textColor="#ff3ad7ff"
                     android:textSize="24sp"
                     android:layout_alignParentTop="true"
@@ -38,10 +38,10 @@
                     android:gravity="center|top" />
 
                 <TextView
+                    android:text="@string/num_sixty"
+                    android:id="@+id/countdown"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/countdown"
-                    android:text="@string/num_sixty"
                     android:autoText="false"
                     android:textColor="#ff3ad7ff"
                     android:textSize="30sp"
@@ -68,10 +68,10 @@
                     android:background="@drawable/score_frame" />
 
                 <ImageButton
+                    android:src="@drawable/pause"
+                    android:id="@+id/pause_button"
                     android:layout_width="88sp"
                     android:layout_height="63sp"
-                    android:id="@+id/pause_button"
-                    android:src="@drawable/pause"
                     android:scaleType="fitXY"
                     android:background="#00ffffff"
                     android:clickable="true"
@@ -82,9 +82,9 @@
             </RelativeLayout>
 
             <ImageView
+                android:id="@+id/indent_space"
                 android:layout_width="match_parent"
-                android:layout_height="5sp"
-                android:id="@+id/indent_space" />
+                android:layout_height="5sp"  />
 
             <TableLayout
                 android:id="@+id/tableForButtons"
