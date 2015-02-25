@@ -2,19 +2,23 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.spencer.swirlytap" >
 
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme"
         android:largeHeap="true"
-        android:screenOrientation="portrait" >
+        android:screenOrientation="portrait"
+        android:theme="@style/AppTheme" >
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -22,15 +26,15 @@
             android:name=".SinglePlayer"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_single_player"
-            android:theme="@style/FullscreenTheme"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait"
+            android:theme="@style/FullscreenTheme" >
         </activity>
         <activity
-            android:name=".GameTest"
+            android:name=".SinglePlayer"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_single_player"
-            android:theme="@style/FullscreenTheme"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait"
+            android:theme="@style/FullscreenTheme" >
         </activity>
         <activity
             android:name=".PlayAgain"
@@ -46,8 +50,13 @@
         <meta-data
             android:name="com.crashlytics.ApiKey"
             android:value="3c3dfc16c40dbf849a9915c2ece897ac19b071d6" />
+
+        <activity
+            android:name=".PauseMenu"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/title_activity_pause_menu"
+            android:theme="@style/FullscreenTheme" >
+        </activity>
     </application>
 
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 </manifest>

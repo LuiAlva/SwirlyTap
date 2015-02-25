@@ -23,7 +23,7 @@
             <RelativeLayout
                 android:layout_width="fill_parent"
                 android:layout_height="0dp"
-                android:layout_weight="0.59">
+                android:layout_weight="1.11">
 
                 <TextView
                     android:text="@string/temp_you_scored"
@@ -48,7 +48,7 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="406dp">
+                android:layout_height="384dp">
 
                 <Button
                     android:text="@string/action_home"
