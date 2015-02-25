@@ -56,6 +56,10 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
                 {
                     luckArray[row][col] = "bad";
                 }
+                else if(randCell%6 == 0)
+                {
+                    luckArray[row][col] = "twicePoints";
+                }
                 else
                     luckArray[row][col] = "good"; //much higher chance to receive good button
             }
@@ -208,6 +212,29 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
                         }
                     });
                 }
+                else if(luckArray[randRow][randCol] == "twicePoints")
+                {
+                    final Button twiceButton = buttons[randRow][randCol];   //Button in this location
+                    twiceButton.setBackgroundResource(R.drawable.badswirl); //Set image to badswirl
+                    twiceButton.setEnabled(true);                           //Enable badSwirl
+                    twiceButton.setVisibility(View.VISIBLE);                //Make badSwirl visible
+                    twiceButton.postDelayed(new Runnable() { //after 2 seconds make button disappear
+                        public void run() {
+                            twiceButton.setVisibility(View.INVISIBLE);      //Make Swirl disappear after no click
+                            twiceButton.setEnabled(false);                  //Disable button
+                        }
+                    }, 2000); //button disappears after 2 seconds (2000 ms) with no click
+                    twiceButton.setOnClickListener( new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            tapGood.start();                         // Play short confirmation sound
+                            v.setVisibility(View.INVISIBLE);        // Make Swirl disappear when clicked
+                            v.setEnabled(false);                    // Disable button
+                            count+=2;                               // subtract 5 from score
+                        }
+                    });
+                }
+
                 //could find other items such as 2x button
                 speedControl = 0;
             }
