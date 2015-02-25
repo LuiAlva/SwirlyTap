@@ -215,7 +215,7 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
                 else if(luckArray[randRow][randCol] == "twicePoints")
                 {
                     final Button twiceButton = buttons[randRow][randCol];   //Button in this location
-                    twiceButton.setBackgroundResource(R.drawable.badswirl); //Set image to badswirl
+                    twiceButton.setBackgroundResource(R.drawable.twiceswirl); //Set image to badswirl
                     twiceButton.setEnabled(true);                           //Enable badSwirl
                     twiceButton.setVisibility(View.VISIBLE);                //Make badSwirl visible
                     twiceButton.postDelayed(new Runnable() { //after 2 seconds make button disappear

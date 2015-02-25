@@ -80,13 +80,13 @@
                     android:layout_height="80sp"
                     android:textSize="30sp"
                     android:textColor="#ff010100"
-<<<<<<< HEAD
+
                     
                     android:layout_centerVertical="true"
-                    android:text="@string/High_Score"
-=======
+               
+
                     android:background="@drawable/button_bg"
->>>>>>> 95672cdf0e3fb66c2f9c91c0d7ce962ebf0fdd13
+
                     android:enabled="true"
                     android:focusableInTouchMode="true"
                     android:clickable="true"
