@@ -18,11 +18,12 @@ import java.util.Random;
 public class SinglePlayer extends Activity implements View.OnClickListener {
     int count = 0; //this is total score
     int speedControl = 0; //speedControl is an int that increments every time onTick loops
+    boolean addTime = false;
     private static final int NUM_ROWS = 6; //instantiated size of grid
     private static final int NUM_COLS = 4;
     Button buttons[][] = new Button[NUM_ROWS][NUM_COLS];   //created total number of grid buttons
     String[][] luckArray = new String[NUM_ROWS][NUM_COLS]; //array containing good and bad buttons
-    private static final int Time = 20000;    //Time limit, 60000 = 60 seconds temporary set to 20 seconds
+    int Time = 20000;    //Time limit, 60000 = 60 seconds temporary set to 20 seconds
     ImageButton PauseButton; //create type image button
     MediaPlayer gameBG;  //for music
     MediaPlayer tapGood; //sound when good swirl is tapped
@@ -60,6 +61,10 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
                 {
                     luckArray[row][col] = "twicePoints";
                 }
+                else if(randCell%21 == 0)
+                {
+                    luckArray[row][col] = "addTime";
+                }
                 else
                     luckArray[row][col] = "good"; //much higher chance to receive good button
             }
@@ -95,6 +100,7 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
                     {
                         displayButton();
                         speedControl = 0; //after displaying the button 20 times then set speedControl back to 0
+                        addTime = false;
                     }
                 }
                 else if(score >= 5 && score < 15) //when score is greater than 5 but less than 15
@@ -105,6 +111,7 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
                     {
                         displayButton(); //after looping 15 times then display button
                         speedControl = 0;
+                        addTime = false;
                     }
                 }
                 else if(score >= 15 && score < 30) //same comments as above
@@ -115,6 +122,7 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
                     {
                         displayButton(); //buttons continue to display faster and faster
                         speedControl = 0;
+                        addTime = false;
                     }
                 }
                 else if(score >= 30 && score < 50)
@@ -125,6 +133,7 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
                     {
                         displayButton();
                         speedControl = 0;
+                        addTime = false;
                     }
                 }
                 else if(score >= 50 && score < 80)
@@ -135,6 +144,7 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
                     {
                         displayButton();
                         speedControl = 0;
+                        addTime = true;
                     }
                 }
                 else if(score >= 80 && score < 120)
@@ -145,6 +155,8 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
                     {
                         displayButton();
                         speedControl = 0;
+                        addTime = true;
+                        //add addTime bool...set to true
                     }
                 }
                 else if(score >= 120)
@@ -155,6 +167,7 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
                     {
                         displayButton();
                         speedControl = 0;
+                        addTime = true;
                     }
                 }
             }
@@ -233,6 +246,56 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
                             count+=2;                               // subtract 5 from score
                         }
                     });
+                }
+                else if(luckArray[randRow][randCol] == "addTime")
+                {
+                    if(addTime == true)
+                    {
+                        final Button timeButton = buttons[randRow][randCol];   //Button in this location
+                        timeButton.setBackgroundResource(R.drawable.fivetime); //Set image to badswirl
+                        timeButton.setEnabled(true);                           //Enable badSwirl
+                        timeButton.setVisibility(View.VISIBLE);                //Make badSwirl visible
+                        timeButton.postDelayed(new Runnable() { //after 2 seconds make button disappear
+                            public void run() {
+                                timeButton.setVisibility(View.INVISIBLE);      //Make Swirl disappear after no click
+                                timeButton.setEnabled(false);                  //Disable button
+                            }
+                        }, 2000); //button disappears after 2 seconds (2000 ms) with no click
+                        timeButton.setOnClickListener( new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                tapGood.start();                         // Play short confirmation sound
+                                v.setVisibility(View.INVISIBLE);        // Make Swirl disappear when clicked
+                                v.setEnabled(false);                    // Disable button
+                                Time+=5000;                              // subtract 5 from score
+                            }
+                        });
+                    }
+                    else if(addTime == false)
+                    {
+                        final Button goodButton = buttons[randRow][randCol];     //Button in this location
+                        goodButton.setBackgroundResource(R.drawable.goodswirl); //Set image to goodswirl
+                        goodButton.setEnabled(true);                            //Enable Swirl
+                        goodButton.setVisibility(View.VISIBLE);                 //Make Swirl Visible
+                        goodButton.postDelayed(new Runnable() { //after 3 seconds make button disappear
+                            public void run() {
+                                goodButton.setVisibility(View.INVISIBLE);       //Make Swirl disappear after no click
+                                goodButton.setEnabled(false);                   //Disable button
+                            }
+                        }, 3000); //button disappears after 3 seconds (3000 ms) with no click
+                        goodButton.setOnClickListener( new View.OnClickListener()
+                        {
+                            @Override
+                            public void onClick(View v)
+                            {
+                                tapGood.start();                         // Play short confirmation sound
+                                v.setVisibility(View.INVISIBLE);         // Make Swirl disappear when clicked
+                                v.setEnabled(false);                     // Disable button
+                                count++;                                 // Add one to score
+                            }
+                        });
+                    }
+
                 }
 
                 //could find other items such as 2x button
