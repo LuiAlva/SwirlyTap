@@ -80,7 +80,13 @@
                     android:layout_height="80sp"
                     android:textSize="30sp"
                     android:textColor="#ff010100"
+
+                    
+                    android:layout_centerVertical="true"
+
+
                     android:background="@drawable/button_bg"
+
                     android:enabled="true"
                     android:focusableInTouchMode="true"
                     android:clickable="true"
