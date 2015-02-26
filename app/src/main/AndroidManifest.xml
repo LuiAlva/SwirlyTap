@@ -51,6 +51,14 @@
             android:label="@string/title_activity_pause_menu"
             android:theme="@style/FullscreenTheme" >
         </activity>
+        <activity
+            android:name=".DataBaseActivity"
+            android:label="@string/title_activity_data_base" >
+        </activity>
+        <activity
+            android:name=".mySQLActivity"
+            android:label="@string/title_activity_my_sql" >
+        </activity>
     </application>
 
 </manifest>

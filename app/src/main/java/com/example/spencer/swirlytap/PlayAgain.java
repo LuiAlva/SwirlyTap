@@ -20,6 +20,7 @@ public class PlayAgain extends ActionBarActivity implements View.OnClickListener
     Button buttonShare;     //create type button for 'Share'
     Button buttonHighScore; //create type button for 'High Score'
 
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,6 +66,7 @@ public class PlayAgain extends ActionBarActivity implements View.OnClickListener
     private void HighScoreClick()
     {
         //High Score method
+        //Intent HStext = new Intent(PlayAgain.this,PrettyScreen.class);
         Intent HStext = new Intent(PlayAgain.this,PrettyScreen.class);
         startActivity(HStext);
     }
@@ -86,6 +88,7 @@ public class PlayAgain extends ActionBarActivity implements View.OnClickListener
             case R.id.HighScore:
                 HighScoreClick();
                 break;
+
             /*if High Score is clicked... it will take you to a different screen
             to display the "Leader Board" */
         }
