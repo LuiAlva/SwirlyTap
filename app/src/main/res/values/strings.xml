@@ -24,5 +24,10 @@
     <string name="title_activity_pause_menu">PauseMenu</string>
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="title_activity_data_base">DataBaseActivity</string>
+    <string name="title_activity_my_sql">mySQLActivity</string>
+    <string name="Username">Name</string>
+    <string name="Submit">Submit</string>
+    <string name="Uname">Username</string>
 
 </resources>

@@ -11,6 +11,11 @@ import com.twitter.sdk.android.Twitter;
 import com.twitter.sdk.android.core.TwitterAuthConfig;
 import com.twitter.sdk.android.tweetcomposer.TweetComposer;
 import io.fabric.sdk.android.Fabric;
+import android.app.Activity;
+import android.view.Menu;
+import android.widget.EditText;
+import android.widget.TextView;
+
 
 public class MainActivity extends ActionBarActivity implements View.OnClickListener {
 
@@ -20,9 +25,11 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     Button buttonSinglePlayer; //create type button
     MediaPlayer mediaPlayer; //for music
 
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         TwitterAuthConfig authConfig = new TwitterAuthConfig(TWITTER_KEY, TWITTER_SECRET);
         if (!Fabric.isInitialized()) {
             final Fabric fabric = new Fabric.Builder(this)
@@ -56,4 +63,6 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
                 break;
         }
     }
+    //@Override
+    //protect void on
 }//end public class Main Activity
