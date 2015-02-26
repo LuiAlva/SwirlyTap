@@ -23,7 +23,7 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
     private static final int NUM_COLS = 4;
     Button buttons[][] = new Button[NUM_ROWS][NUM_COLS];   //created total number of grid buttons
     String[][] luckArray = new String[NUM_ROWS][NUM_COLS]; //array containing good and bad buttons
-    int Time = 20000;    //Time limit, 60000 = 60 seconds temporary set to 20 seconds
+    int Time = 60000;    //Time limit, 60000 = 60 seconds temporary set to 20 seconds
     ImageButton PauseButton; //create type image button
     MediaPlayer gameBG;  //for music
     MediaPlayer tapGood; //sound when good swirl is tapped
@@ -267,7 +267,7 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
                                 tapGood.start();                         // Play short confirmation sound
                                 v.setVisibility(View.INVISIBLE);        // Make Swirl disappear when clicked
                                 v.setEnabled(false);                    // Disable button
-                                Time+=5000;                              // subtract 5 from score
+                                Time = Time + 5000;                              // subtract 5 from score
                             }
                         });
                     }
