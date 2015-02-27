@@ -21,8 +21,10 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
     boolean addTime = false;
     private static final int NUM_ROWS = 6; //instantiated size of grid
     private static final int NUM_COLS = 4;
+    private static final int ARRAY_ROWS = NUM_ROWS * 5;
+    private static final int ARRAY_COLS = NUM_COLS * 5;
     Button buttons[][] = new Button[NUM_ROWS][NUM_COLS];   //created total number of grid buttons
-    String[][] luckArray = new String[NUM_ROWS][NUM_COLS]; //array containing good and bad buttons
+    String[][] luckArray = new String[ARRAY_ROWS][ARRAY_COLS]; //array containing good and bad buttons
     int Time = 60000;    //Time limit, 60000 = 60 seconds temporary set to 20 seconds
     ImageButton PauseButton; //create type image button
     MediaPlayer gameBG;  //for music
@@ -43,32 +45,35 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
 //        gameBG.start(); //start song
         tapGood = MediaPlayer.create(this, R.raw.tap_good); //get sound for a tap on a good swirl
         tapBad = MediaPlayer.create(this, R.raw.tap_bad);   //get sound for a tap on a bad swirl
+        populateButtons(); //creates grid of buttons
+   ///////////////////////////////////////POPULATE LUCK ARRAY///////////////////////////////////
 
-        //Fill luck array with certain good and bad buttons
+        //POPULATE luck array with different types of buttons
         Random rand = new Random(); //randomly select location in luck array
 
-        for(int row = 0; row<NUM_ROWS; row++)
+        for(int row = 0; row<ARRAY_ROWS; row++)
         {
-            for(int col = 0; col<NUM_COLS; col++)
+            for(int col = 0; col<ARRAY_COLS; col++)
             {
                 //bad button should display in a more random fashion...please test
-                int randCell = rand.nextInt(NUM_COLS*NUM_ROWS); //random selection of numbers
+                int randCell = rand.nextInt(ARRAY_COLS*ARRAY_ROWS); //random selection of numbers
                 if(randCell%5 ==0) //much less chance to receive bad button
                 {
-                    luckArray[row][col] = "bad";
+                    luckArray[row][col] = "bad"; //place bad button in array
                 }
                 else if(randCell%6 == 0)
                 {
-                    luckArray[row][col] = "twicePoints";
+                    luckArray[row][col] = "twicePoints"; //place 2x button in array
                 }
                 else if(randCell%21 == 0)
                 {
-                    luckArray[row][col] = "addTime";
+                    luckArray[row][col] = "addTime"; //place add time button in array
                 }
                 else
                     luckArray[row][col] = "good"; //much higher chance to receive good button
             }
         }
+        /////////////////////////////////////////////////////////////////////////////////////////
 
         // This Timer updates every 30 milliseconds, used for updating changing texts
         text = new CountDownTimer(Time, 30) //change from 60000 to 20000
@@ -178,7 +183,7 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
                 int randRow = r.nextInt(NUM_ROWS);
                 int randCol = r.nextInt(NUM_COLS);
 
-                if(luckArray[randRow][randCol]=="good")
+                if(luckArray[randRow][randCol]=="good") //GOOD BUTTON +1 POINT IF CLICKED
                 {
                    final Button goodButton = buttons[randRow][randCol];     //Button in this location
                     goodButton.setBackgroundResource(R.drawable.goodswirl); //Set image to goodswirl
@@ -306,7 +311,7 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
             }
         }.start();
 
-        populateButtons(); //add buttons to grid
+
 
         SwirlEngine = new CountDownTimer(Time, 1000)
         {
@@ -340,7 +345,7 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
         }.start();
     }
 
-    private void populateButtons() //creating grid of buttons
+    private void populateButtons() //creating grid of buttons. These buttons are initialized as disabled and invisible
     {
         TableLayout table = (TableLayout)findViewById(R.id.tableForButtons); //make new table
         for(int row = 0; row < NUM_ROWS; row++) //rows instantiated at top
