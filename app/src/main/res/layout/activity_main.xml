@@ -17,7 +17,16 @@
         android:layout_centerHorizontal="true"
         android:textSize="26sp"
         android:background="@drawable/button_bg" />
-
+    <Button
+        android:text="@string/play_again_test"
+        android:id="@+id/PlayAgainMain"
+        android:layout_width="250sp"
+        android:layout_height="100sp"
+        android:textSize="26sp"
+        android:background="@drawable/button_bg"
+        android:layout_below="@+id/singlePlayer"
+        android:layout_alignLeft="@+id/singlePlayer"
+        android:layout_alignStart="@+id/singlePlayer" />
     <ImageView
         android:src="@drawable/swirlytap_title"
         android:id="@+id/imageView2"

@@ -8,6 +8,7 @@
     <string name="single_player">Single Player</string>
     <string name="title_activity_play_again">Play Again</string>
     <string name="play_again">Play Again</string>
+    <string name="play_again_test">Play Again Test</string>
     <string name="score">Score</string>
     <string name="initial_Score">00</string>
     <string name="Pause_Button">Pause</string>

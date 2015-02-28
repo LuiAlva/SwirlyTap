@@ -177,12 +177,9 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
                     Speed_Engine(Score);           //Update the Speed
                 }
             }
-
             // Show text at end of timer
             public void onFinish() {
-
             }
-
         }.start();
 
         SwirlEngine = new CountDownTimer(Time, Game_Speed) {
@@ -197,9 +194,7 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
                     displayButton();
                     if (Score > 1)
                         displayButton();
-
                 }
-
             }
             public void onFinish()
             {
@@ -338,9 +333,7 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
                 }
             });
         }
-
     }
-
         //could find other items such as 2x button
         //speedControl = 0;
     } //End of displaybutton
@@ -363,7 +356,6 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
                         displayButton();
                     }
                 }
-
                 @Override
                 public void onFinish() {
 
@@ -399,7 +391,6 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
         GameTimers(Current_Time);
         gameBG.start();
     }
-
 
     private void OnPaused(boolean Continue ) {
         Paused = Continue;
