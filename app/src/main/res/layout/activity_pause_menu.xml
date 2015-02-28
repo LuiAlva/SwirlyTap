@@ -15,11 +15,12 @@
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent">
+            android:layout_height="fill_parent"
+            android:weightSum="1">
 
             <RelativeLayout
                 android:layout_width="fill_parent"
-                android:layout_height="fill_parent">
+                android:layout_height="wrap_content">
 
                 <ImageButton
                     android:layout_width="wrap_content"
@@ -27,14 +28,75 @@
                     android:id="@+id/Paused"
                     android:src="@drawable/paused"
                     android:contentDescription="Paused"
-                    android:layout_centerVertical="true"
+                    android:scaleType="centerInside"
+                    android:onClick="Continue"
+                    android:background="#00ffffff"
+                    android:layout_alignParentTop="true"
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true"
-                    android:background="#00ffffff"
-                    android:scaleType="fitCenter"
-                    android:onClick="Continue"/>
-
+                    android:layout_marginTop="60sp"
+                    android:layout_alignParentRight="true" />
             </RelativeLayout>
+
+            <FrameLayout
+                android:layout_width="fill_parent"
+                android:layout_height="207dp">
+
+                <Button
+                    style="?android:attr/buttonStyleSmall"
+                    android:layout_width="200sp"
+                    android:layout_height="60sp"
+                    android:text="QUIT"
+                    android:id="@+id/Quit"
+                    android:background="@drawable/button_bg"
+                    android:enabled="true"
+                    android:onClick="Quit"
+                    android:textSize="20sp"
+                    android:typeface="normal"
+                    android:nestedScrollingEnabled="false"
+                    android:textStyle="bold"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_gravity="center_horizontal|bottom"
+                    android:longClickable="true" />
+
+                <Button
+                    style="?android:attr/buttonStyleSmall"
+                    android:layout_width="200sp"
+                    android:layout_height="60sp"
+                    android:text="RESTART"
+                    android:id="@+id/Restart"
+                    android:background="@drawable/button_bg"
+                    android:enabled="true"
+                    android:onClick="Restart"
+                    android:textSize="20sp"
+                    android:typeface="normal"
+                    android:nestedScrollingEnabled="false"
+                    android:textStyle="bold"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_gravity="center" />
+
+                <Button
+                    style="?android:attr/buttonStyleSmall"
+                    android:layout_width="200sp"
+                    android:layout_height="60sp"
+                    android:text="CONTINUE"
+                    android:id="@+id/Continue"
+                    android:background="@drawable/button_bg"
+                    android:enabled="true"
+                    android:onClick="Continue"
+                    android:textSize="20sp"
+                    android:typeface="normal"
+                    android:textStyle="bold"
+                    android:layout_gravity="center_horizontal|top"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true" />
+
+            </FrameLayout>
 
         </LinearLayout>
 

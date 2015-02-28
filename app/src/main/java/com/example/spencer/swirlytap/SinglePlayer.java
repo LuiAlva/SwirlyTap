@@ -36,8 +36,8 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
     String[][] luckArray = new String[ARRAY_ROWS][ARRAY_COLS]; //array containing good and bad buttons
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++//
     //Time & Speed ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++//
-    int StartTime = 60000;       //Set start time, 60000 = 60 seconds temporary set to 20 seconds
-    int Current_Time = 60000;    //Current in-game time
+    int StartTime = 61000;       //Set start time, 60000 = 60 seconds temporary set to 20 seconds
+    int Current_Time = 61000;    //Current in-game time
     int Game_Speed = 800;        //Speed of the game
     int Speed_Limit = 400;       //Highest Speed
     int Game_Speed_Add = 15;     //Add speed every increment
@@ -392,6 +392,22 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
         gameBG.start();
     }
 
+    //Restarts game from Pause Menu
+    public void Restart(View v) {
+        Pause_Active = false;
+        PauseWindow.dismiss();
+        startActivity(new Intent(SinglePlayer.this, SinglePlayer.class));
+        finish();
+    }
+
+    //Quits game from Pause Menu. Sends back to Title menu.
+    public void Quit(View v) {
+        Pause_Active = false;
+        PauseWindow.dismiss();
+        startActivity(new Intent(SinglePlayer.this, MainActivity.class));
+        finish();
+    }
+
     //Inflates Popup menu for Pause Button
     public void PopupPauseMenu() {
         try {
@@ -401,6 +417,24 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
             PauseWindow.showAtLocation(layout, Gravity.CENTER, 0, 0);
             ImageButton Continue = (ImageButton)findViewById(R.id.Paused);
             Continue.setOnClickListener( new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    PauseWindow.dismiss();
+                }});
+            Button Continue2 = (Button)findViewById(R.id.Continue);
+            Continue2.setOnClickListener( new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    PauseWindow.dismiss();
+                }});
+            Button Restart = (Button) findViewById(R.id.Restart);
+            Restart.setOnClickListener( new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    PauseWindow.dismiss();
+                }});
+            Button Quit = (Button)findViewById(R.id.Quit);
+            Quit.setOnClickListener( new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     PauseWindow.dismiss();
