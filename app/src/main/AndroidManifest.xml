@@ -6,9 +6,9 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
+        android:label="@string/app_name"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
-        android:label="@string/app_name"
         android:largeHeap="true"
         android:screenOrientation="portrait"
         android:theme="@style/AppTheme" >
@@ -18,7 +18,6 @@
             android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -29,7 +28,6 @@
             android:screenOrientation="portrait"
             android:theme="@style/FullscreenTheme" >
         </activity>
-        
         <activity
             android:name=".PlayAgain"
             android:label="@string/title_activity_single_player"
@@ -40,11 +38,6 @@
             android:label="PrettyScreen"
             android:screenOrientation="portrait" >
         </activity>
-
-        <meta-data
-            android:name="com.crashlytics.ApiKey"
-            android:value="3c3dfc16c40dbf849a9915c2ece897ac19b071d6" />
-
         <activity
             android:name=".PauseMenu"
             android:configChanges="orientation|keyboardHidden|screenSize"
@@ -52,13 +45,12 @@
             android:theme="@style/FullscreenTheme" >
         </activity>
         <activity
-            android:name=".DataBaseActivity"
-            android:label="@string/title_activity_data_base" >
-        </activity>
-        <activity
             android:name=".mySQLActivity"
             android:label="@string/title_activity_my_sql" >
         </activity>
+        <meta-data
+            android:name="com.crashlytics.ApiKey"
+            android:value="3c3dfc16c40dbf849a9915c2ece897ac19b071d6" />
     </application>
 
 </manifest>

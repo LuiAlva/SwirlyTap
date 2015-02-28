@@ -6,16 +6,13 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 import android.widget.Button;
+
 import com.crashlytics.android.Crashlytics;
 import com.twitter.sdk.android.Twitter;
 import com.twitter.sdk.android.core.TwitterAuthConfig;
 import com.twitter.sdk.android.tweetcomposer.TweetComposer;
-import io.fabric.sdk.android.Fabric;
-import android.app.Activity;
-import android.view.Menu;
-import android.widget.EditText;
-import android.widget.TextView;
 
+import io.fabric.sdk.android.Fabric;
 
 public class MainActivity extends ActionBarActivity implements View.OnClickListener {
 
@@ -23,8 +20,8 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     private static final String TWITTER_KEY = "TtVaQegijoQY8zOHSgAX0kvEv";
     private static final String TWITTER_SECRET = "RcSbTspCQY3atAkXFYmqRoOOZrJK7ZBiBEhpMsroVbJXrwM70G";
     Button buttonSinglePlayer; //create type button
+    Button buttonPlayAgainTest; //create type button for PlayAgainTest
     MediaPlayer mediaPlayer; //for music
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -45,12 +42,20 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         //mediaPlayer.start(); //start song
         buttonSinglePlayer = (Button)findViewById(R.id.singlePlayer);
         buttonSinglePlayer.setOnClickListener(this); //sets an onClickListener on buttonSinglePlayer
+        buttonPlayAgainTest = (Button)findViewById(R.id.PlayAgainMain);
+        buttonPlayAgainTest.setOnClickListener(this); //sets an onClickListener on buttonPlayAgainTest
         getSupportActionBar().hide();//hide the ActionBar (full screen)
     }
     private void singlePlayerClick()
     {
         //start single player activity once singlePlayer button clicked
         startActivity(new Intent(MainActivity.this, SinglePlayer.class));
+        finish();
+    }
+    private void PlayAgainTestClick()
+    {
+        //test button for PlayAgain activity (for quicker access)
+        startActivity(new Intent(MainActivity.this, PlayAgain.class));
         finish();
     }
     public void onClick(View v)
@@ -60,6 +65,9 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
             case R.id.singlePlayer:
                 //mediaPlayer.stop(); //stop song
                 singlePlayerClick();
+                break;
+            case R.id.PlayAgainMain:
+                PlayAgainTestClick();
                 break;
         }
     }

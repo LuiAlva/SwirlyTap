@@ -1,17 +1,18 @@
 package com.example.spencer.swirlytap;
 
 import android.content.Intent;
-import android.support.v7.app.ActionBarActivity;
-import android.graphics.Bitmap;
 import android.net.Uri;
-import android.os.Environment;
 import android.os.Bundle;
+import android.os.Environment;
+import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+
 import com.twitter.sdk.android.tweetcomposer.TweetComposer;
+
 import java.io.File;
-import java.io.FileOutputStream;
+
 import io.fabric.sdk.android.Fabric;
 
 public class PlayAgain extends ActionBarActivity implements View.OnClickListener  {
@@ -19,7 +20,6 @@ public class PlayAgain extends ActionBarActivity implements View.OnClickListener
     Button buttonHome;      //create type button for 'Home'
     Button buttonShare;     //create type button for 'Share'
     Button buttonHighScore; //create type button for 'High Score'
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -57,16 +57,21 @@ public class PlayAgain extends ActionBarActivity implements View.OnClickListener
         finish();
     }
     private void ShareClick()
-    {   //use Implicit Intent to share promotional text of application
-        Intent shareText = new Intent("android.intent.action.SEND");
-        shareText.setType("text/plain");
-        shareText.putExtra("android.intent.extra.TEXT", "@SwirlyTap :)");   //text shared: "@SwirlyTap :)"
-        startActivity(Intent.createChooser(shareText, getResources().getString(R.string.share)));
+    {   //use Implicit Intent to share promotional text/image of application
+        Uri imageUri = Uri.parse("android.resource://" + getPackageName()
+                + "/drawable/" + "goodswirl.png");                  //temp. use goodswirl
+        Intent shareIntent = new Intent(Intent.ACTION_SEND); //allows delivery of image and text
+        shareIntent.setType("*/*");                                 //send any generic data
+        shareIntent.putExtra(Intent.EXTRA_TEXT, "SwirlyTap :)");    //text shared: "@SwirlyTap :)"
+        String fileTemp = "file://" + Environment.getExternalStorageDirectory()
+                + File.separator + "goodswirl.png";
+        shareIntent.putExtra(Intent.EXTRA_STREAM, Uri.parse(fileTemp));
+        //shareIntent.putExtra(Intent.EXTRA_STREAM, imageUri);        //includes image
+        //shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);//read URI
+        startActivity(Intent.createChooser(shareIntent, getResources().getString(R.string.share)));  //choose sharing app
     }
     private void HighScoreClick()
-    {
-        //High Score method
-        //Intent HStext = new Intent(PlayAgain.this,PrettyScreen.class);
+    {   //High Score method
         Intent HStext = new Intent(PlayAgain.this,PrettyScreen.class);
         startActivity(HStext);
     }
@@ -82,57 +87,20 @@ public class PlayAgain extends ActionBarActivity implements View.OnClickListener
                 HomeClick();      //return to Home screen (MainActivity)
                 break;
             case R.id.Share:      //if "Share" is clicked
-                ShareClick();     //share screenshot
-//                Bitmap bitmap = takeScreenshot();
+                ShareClick();     //share text and image
                 break;
             case R.id.HighScore:
                 HighScoreClick();
                 break;
-
             /*if High Score is clicked... it will take you to a different screen
             to display the "Leader Board" */
         }
     }
 
-    public Bitmap takeScreenshot() {
-        View rootView = findViewById(android.R.id.content).getRootView();
-        rootView.setDrawingCacheEnabled(true);
-        return rootView.getDrawingCache();
-    }
-    public Bitmap Share(View v) {
-        // Image
-        v.setDrawingCacheEnabled(true);
-        v.setLayerType(View.LAYER_TYPE_NONE, null);
-        Bitmap bitmap = Bitmap.createBitmap(v.getDrawingCache());
-        File file = new File(Environment.getExternalStorageDirectory()
-                + File.separator + "temporary_file.jpg");
-        try {
-            file.createNewFile();
-            FileOutputStream ostream = new FileOutputStream(file);
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 90, ostream);
-            ostream.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        // Share
-        Intent share = new Intent(Intent.ACTION_SEND);
-        share.setType("image/jpeg");
-        String fileTemp = "file://" + Environment.getExternalStorageDirectory()
-                + File.separator + "temporary_file.png";
-        share.putExtra(Intent.EXTRA_STREAM, Uri.parse(fileTemp));
-
-        startActivity(Intent.createChooser(share, "Share Image"));
-        return bitmap;
-    }
-    TweetComposer.Builder builder = new TweetComposer.Builder(this)
-            .text("just setting up my Fabric.")
+////    TweetComposer.Builder builder = new TweetComposer.Builder(this)
+////            .text("just setting up my Fabric.")
 //            .image(R.drawable.goodswirl);
-            .image(Uri.parse(new File("/drawable/cosby.png").toString()));
+////            .image(Uri.parse(new File("/drawable/cosby.png").toString()));
 //    builder.show();
-
-//    Intent sharingIntent = new Intent(Intent.ACTION_SEND);
-//    sharingIntent.getType("text/plain"); //sharingIntent.setType("text/html");
-//    sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, "This is the text that will be shared.");
-//    startActivity(Intent.createChooser(sharingIntent,"Share using"));
 
 }//end public class PlayAgain
