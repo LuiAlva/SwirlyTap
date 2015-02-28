@@ -4,7 +4,8 @@
     tools:context="com.example.spencer.swirlytap.PauseMenu"
     android:orientation="vertical"
     android:background="@drawable/tw__transparent"
-    android:clickable="true">
+    android:clickable="true"
+    android:id="@+id/pause_layout">
 
     <LinearLayout
         android:orientation="horizontal"

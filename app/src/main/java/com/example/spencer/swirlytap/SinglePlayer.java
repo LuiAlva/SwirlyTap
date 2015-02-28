@@ -1,14 +1,19 @@
 package com.example.spencer.swirlytap;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.PopupWindow;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -18,7 +23,8 @@ import java.util.Random;
 public class SinglePlayer extends Activity implements View.OnClickListener {
     int Score = 0; //this is total score
     boolean addTime = false;    //Allows Time button to appear
-    boolean Paused = false;     //True if game is paused
+    boolean Pause_Active = false;     //True if game is paused
+    PopupWindow PauseWindow;    //Popup Window for Pause Menu
     //Grid & Storage ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++//
     private static final int NUM_ROWS = 6; //instantiated size of grid
     private static final int NUM_COLS = 4;
@@ -57,7 +63,8 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
         gameBG = MediaPlayer.create(this, R.raw.game_song); //get song
         PauseButton= (ImageButton)findViewById(R.id.pause_button);
         PauseButton.setOnClickListener(this); //sets an onClickListener on PauseButton
-//        gameBG.start(); //start song
+        gameBG.setLooping(true);    //make song loop
+        gameBG.start();             //start song
         tapGood = MediaPlayer.create(this, R.raw.tap_good); //get sound for a tap on a good swirl
         tapBad = MediaPlayer.create(this, R.raw.tap_bad);   //get sound for a tap on a bad swirl
         populateButtons(); //add buttons to grid
@@ -341,8 +348,6 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
 
     }
 
-        //could find other items such as 2x button
-        //speedControl = 0;
     } //End of displaybutton
 
     void Speed_Engine(int Score) {
@@ -359,7 +364,7 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
                     if (millisUntilFinished / 30 == 0) {
                         onFinish();
                     } else {
-                        displayButton();
+                        displayButton();   //Displays 2 buttons at the same time
                         displayButton();
                     }
                 }
@@ -375,36 +380,42 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
 
     public void onClick(View v)
     {
-        switch(v.getId())
-        {
+        switch(v.getId()) {
             case R.id.pause_button:
-                Paused = true;
-                //gameBG.pause();
-                //SwirlEngine.cancel();
-                //Updater.cancel();
-                //TimeCountdown.cancel();
-
-                //Intent i = new Intent(this,PauseMenu.class);
-                //startActivityForResult(i, 0);
-                startActivity(new Intent(SinglePlayer.this, PauseMenu.class));
-                break;
+                Pause_Active = true;
+                gameBG.pause();
+                SwirlEngine.cancel();
+                Updater.cancel();
+                TimeCountdown.cancel();
+                PopupPauseMenu();
+            break;
         }
     }
 
-    /*@Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        Bundle bundle = data.getExtras();
-        OnPaused(bundle.getBoolean("continue"));
-        Paused = false;
+    //Continues game from Pause Menu
+    public void Continue(View v) {
+        Pause_Active = false;
+        PauseWindow.dismiss();
         GameTimers(Current_Time);
         gameBG.start();
     }
 
-
-    private void OnPaused(boolean Continue ) {
-        Paused = Continue;
-        GameTimers(Current_Time);
-        gameBG.start();
-    }*/
+    //Inflates Popup menu for Pause Button
+    public void PopupPauseMenu() {
+        try {
+            LayoutInflater inflater = (LayoutInflater) SinglePlayer.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            View layout = inflater.inflate(R.layout.activity_pause_menu, (ViewGroup)findViewById(R.id.pause_layout));
+            PauseWindow = new PopupWindow(layout, 380, 800, true);
+            PauseWindow.showAtLocation(layout, Gravity.CENTER, 0, 0);
+            ImageButton Continue = (ImageButton)findViewById(R.id.Paused);
+            Continue.setOnClickListener( new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    PauseWindow.dismiss();
+                }});
+        }catch(Exception e) {
+            e.printStackTrace();
+        }
+    }
 
 }
