@@ -6,11 +6,14 @@ import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Handler;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.PopupWindow;
@@ -137,6 +140,15 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
         }//end 'for'
     }//end private void populateButtons
 
+    private Animation disabledAnimation() {
+        Animation disabledAnim = new AlphaAnimation(1.0f, 0.0f);
+        disabledAnim.setDuration(200);
+        disabledAnim.setFillEnabled(true);
+        disabledAnim.setFillAfter(true);
+        disabledAnim.cancel();
+        return disabledAnim;
+    }
+
     void GameTimers(int Time) { // contains the timers of the game
 
         TimeCountdown = new CountDownTimer(Time, 1000)
@@ -214,6 +226,8 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
 
     public void displayButton() //will call when button needs to be displayed
     {
+        final Runnable buttonRunnable;
+        final Handler buttonHandler = new Handler();
         Random r = new Random(); //randomly select location in luck array
         int randRow = r.nextInt(NUM_ROWS);
         int randCol = r.nextInt(NUM_COLS);
@@ -224,123 +238,166 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
             goodButton.setBackgroundResource(R.drawable.goodswirl); //Set image to goodswirl
             goodButton.setEnabled(true);                            //Enable Swirl
             goodButton.setVisibility(View.VISIBLE);                 //Make Swirl Visible
-            goodButton.postDelayed(new Runnable() { //after 3 seconds make button disappear
-                public void run() {
-                    goodButton.setVisibility(View.INVISIBLE);       //Make Swirl disappear after no click
-                    goodButton.setEnabled(false);                   //Disable button
+            buttonRunnable = new Runnable() { //what will be called if button has not been clicked
+                public void run()
+                {
+
+                    goodButton.setVisibility(View.INVISIBLE);
+                    goodButton.setEnabled(false);
+
                 }
-            }, 3000); //button disappears after 3 seconds (3000 ms) with no click
-            goodButton.setOnClickListener( new View.OnClickListener()
-            {
-                @Override
+            };
+            if(goodButton.isEnabled() == true) {
+                buttonHandler.postDelayed(buttonRunnable, 1500); //will disappear after 2 seconds
+            }
+            goodButton.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v)
                 {
-                    tapGood.start();                         // Play short confirmation sound
-                    v.setVisibility(View.INVISIBLE);         // Make Swirl disappear when clicked
-                    v.setEnabled(false);                     // Disable button
-                    Score++;                                 // Add one to score
+
+                    {
+                        tapGood.start();                         // Play short confirmation sound
+                        //v.startAnimation(disabledAnimation());
+                        v.setVisibility(View.INVISIBLE);         // Make Swirl disappear when clicked
+                        v.setEnabled(false);                     // Disable button
+                        Score++;                                 // Add one to score
+                    }
                 }
             });
+
+
             //set 1 second timer... if timer reached then make button disappear
         }
         else if(luckArray[randRow][randCol] == "bad")
     {
-        final Button badButton = buttons[randRow][randCol];   //Button in this location
-        badButton.setBackgroundResource(R.drawable.badswirl); //Set image to badswirl
-        badButton.setEnabled(true);                           //Enable badSwirl
-        badButton.setVisibility(View.VISIBLE);                //Make badSwirl visible
-        badButton.postDelayed(new Runnable() { //after 2 seconds make button disappear
-            public void run() {
-                badButton.setVisibility(View.INVISIBLE);      //Make Swirl disappear after no click
-                badButton.setEnabled(false);                  //Disable button
+        final Button badButton = buttons[randRow][randCol];     //Button in this location
+        badButton.setBackgroundResource(R.drawable.badswirl); //Set image to goodswirl
+        badButton.setEnabled(true);                            //Enable Swirl
+        badButton.setVisibility(View.VISIBLE);                 //Make Swirl Visible
+        buttonRunnable = new Runnable() { //what will be called if button has not been clicked
+            public void run()
+            {
+
+                badButton.setVisibility(View.INVISIBLE);
+                badButton.setEnabled(false);
+
             }
-        }, 2000); //button disappears after 2 seconds (2000 ms) with no click
-        badButton.setOnClickListener( new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                tapBad.start();                         // Play short confirmation sound
-                v.setVisibility(View.INVISIBLE);        // Make Swirl disappear when clicked
-                v.setEnabled(false);                    // Disable button
-                Score -=5;                               // subtract 5 from score
+        };
+        if(badButton.isEnabled() == true) {
+            buttonHandler.postDelayed(buttonRunnable, 2000); //will disappear after 2 seconds
+        }
+        badButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v)
+            {
+
+                {
+                    tapBad.start();                         // Play short confirmation sound
+                    //v.startAnimation(disabledAnimation());
+                    v.setVisibility(View.INVISIBLE);         // Make Swirl disappear when clicked
+                    v.setEnabled(false);                     // Disable button
+                    Score -= 5;                                 // Add one to score
+            }
             }
         });
+
     }
     else if(luckArray[randRow][randCol] == "twicePoints")
     {
-        final Button twiceButton = buttons[randRow][randCol];   //Button in this location
-        twiceButton.setBackgroundResource(R.drawable.twiceswirl); //Set image to badswirl
-        twiceButton.setEnabled(true);                           //Enable badSwirl
-        twiceButton.setVisibility(View.VISIBLE);                //Make badSwirl visible
-        twiceButton.postDelayed(new Runnable() { //after 2 seconds make button disappear
-            public void run() {
-                twiceButton.setVisibility(View.INVISIBLE);      //Make Swirl disappear after no click
-                twiceButton.setEnabled(false);                  //Disable button
-            }
-        }, 2000); //button disappears after 2 seconds (2000 ms) with no click
-        twiceButton.setOnClickListener( new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                tapGood.start();                         // Play short confirmation sound
-                v.setVisibility(View.INVISIBLE);        // Make Swirl disappear when clicked
-                v.setEnabled(false);                    // Disable button
-                Score +=2;                               // subtract 5 from score
-            }
-        });
-    }
-    else if(luckArray[randRow][randCol] == "addTime")
-    {
-        if(addTime == true)
-        {
-            final Button timeButton = buttons[randRow][randCol];   //Button in this location
-            timeButton.setBackgroundResource(R.drawable.fivetime); //Set image to badswirl
-            timeButton.setEnabled(true);                           //Enable badSwirl
-            timeButton.setVisibility(View.VISIBLE);                //Make badSwirl visible
-            timeButton.postDelayed(new Runnable() { //after 2 seconds make button disappear
-                public void run() {
-                    timeButton.setVisibility(View.INVISIBLE);      //Make Swirl disappear after no click
-                    timeButton.setEnabled(false);                  //Disable button
-                }
-            }, 2000); //button disappears after 2 seconds (2000 ms) with no click
-            timeButton.setOnClickListener( new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    addTime = false;                        // Stop more time buttons from popping up
-                    tapGood.start();                        // Play short confirmation sound
-                    v.setVisibility(View.INVISIBLE);        // Make Swirl disappear when clicked
-                    v.setEnabled(false);                    // Disable button
-                    SwirlEngine.cancel();                   // Cancel old Timers
-                    Updater.cancel();
-                    TimeCountdown.cancel();
-                    Current_Time+=5000;                             // Add 5 seconds to time
-                    GameTimers(Current_Time);                           // Restart all timers
-                }
-            });
-        }
-        else if(addTime == false)
-        {
-            final Button goodButton = buttons[randRow][randCol];     //Button in this location
-            goodButton.setBackgroundResource(R.drawable.goodswirl); //Set image to goodswirl
-            goodButton.setEnabled(true);                            //Enable Swirl
-            goodButton.setVisibility(View.VISIBLE);                 //Make Swirl Visible
-            goodButton.postDelayed(new Runnable() { //after 3 seconds make button disappear
-                public void run() {
-                    goodButton.setVisibility(View.INVISIBLE);       //Make Swirl disappear after no click
-                    goodButton.setEnabled(false);                   //Disable button
-                }
-            }, 3000); //button disappears after 3 seconds (3000 ms) with no click
-            goodButton.setOnClickListener( new View.OnClickListener()
+        final Button twiceButton = buttons[randRow][randCol];     //Button in this location
+        twiceButton.setBackgroundResource(R.drawable.twiceswirl); //Set image to goodswirl
+        twiceButton.setEnabled(true);                            //Enable Swirl
+        twiceButton.setVisibility(View.VISIBLE);                 //Make Swirl Visible
+        buttonRunnable = new Runnable() { //what will be called if button has not been clicked
+            public void run()
             {
-                @Override
-                public void onClick(View v)
+
+                twiceButton.setVisibility(View.INVISIBLE);
+                twiceButton.setEnabled(false);
+
+            }
+        };
+        if(twiceButton.isEnabled() == true) {
+            buttonHandler.postDelayed(buttonRunnable, 1500); //will disappear after 2 seconds
+        }
+        twiceButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v)
+            {
+
                 {
                     tapGood.start();                         // Play short confirmation sound
+                    //v.startAnimation(disabledAnimation());
                     v.setVisibility(View.INVISIBLE);         // Make Swirl disappear when clicked
                     v.setEnabled(false);                     // Disable button
-                    Score++;                                 // Add one to score
+                    Score+=2;                                 // Add one to score
                 }
-            });
-        }
+            }
+        });
+
     }
+    else if(luckArray[randRow][randCol] == "addTime") {
+            if (addTime == true) {
+                final Button timeButton = buttons[randRow][randCol];     //Button in this location
+                timeButton.setBackgroundResource(R.drawable.fivetime); //Set image to goodswirl
+                timeButton.setEnabled(true);                            //Enable Swirl
+                timeButton.setVisibility(View.VISIBLE);                 //Make Swirl Visible
+                buttonRunnable = new Runnable() { //what will be called if button has not been clicked
+                    public void run() {
+
+                        timeButton.setVisibility(View.INVISIBLE);
+                        timeButton.setEnabled(false);
+
+                    }
+                };
+                if (timeButton.isEnabled() == true) {
+                    buttonHandler.postDelayed(buttonRunnable, 1500); //will disappear after 2 seconds
+                }
+                timeButton.setOnClickListener(new View.OnClickListener() {
+                    public void onClick(View v) {
+
+                        {
+                            addTime = false;                        // Stop more time buttons from popping up
+                            tapGood.start();                        // Play short confirmation sound
+                            v.setVisibility(View.INVISIBLE);        // Make Swirl disappear when clicked
+                            v.setEnabled(false);                    // Disable button
+                            SwirlEngine.cancel();                   // Cancel old Timers
+                            Updater.cancel();
+                            TimeCountdown.cancel();
+                            Current_Time += 5000;                             // Add 5 seconds to time
+                            GameTimers(Current_Time);                          // Add one to score
+                        }
+                    }
+                });
+
+            } else if (addTime == false) {
+                final Button goodButton = buttons[randRow][randCol];     //Button in this location
+                goodButton.setBackgroundResource(R.drawable.goodswirl); //Set image to goodswirl
+                goodButton.setEnabled(true);                            //Enable Swirl
+                goodButton.setVisibility(View.VISIBLE);                 //Make Swirl Visible
+                buttonRunnable = new Runnable() { //what will be called if button has not been clicked
+                    public void run() {
+
+                        goodButton.setVisibility(View.INVISIBLE);
+                        goodButton.setEnabled(false);
+
+                    }
+                };
+                if (goodButton.isEnabled() == true) {
+                    buttonHandler.postDelayed(buttonRunnable, 1500); //will disappear after 2 seconds
+                }
+                goodButton.setOnClickListener(new View.OnClickListener() {
+                    public void onClick(View v) {
+
+                        {
+                            tapGood.start();                         // Play short confirmation sound
+                            //v.startAnimation(disabledAnimation());
+                            v.setVisibility(View.INVISIBLE);         // Make Swirl disappear when clicked
+                            v.setEnabled(false);                     // Disable button
+                            Score++;                                 // Add one to score
+                        }
+                    }
+                });
+
+            }
+        }
     } //End of displaybutton
 
     void Speed_Engine(int Score) {
