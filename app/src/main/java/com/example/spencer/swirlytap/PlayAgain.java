@@ -72,7 +72,7 @@ public class PlayAgain extends ActionBarActivity implements View.OnClickListener
     }
     private void HighScoreClick()
     {   //High Score method
-        Intent HStext = new Intent(PlayAgain.this,PrettyScreen.class);
+        Intent HStext = new Intent(PlayAgain.this,mySQLActivity.class);
         startActivity(HStext);
     }
 

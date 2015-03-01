@@ -11,7 +11,7 @@ import android.view.View;
 
 
 
-public class mySQLActivity extends Activity implements View.OnClickListener
+public class mySQLActivity extends Activity
   {
    // EditText etUsername,etScore;
     Button bSubmit;
@@ -22,27 +22,11 @@ public class mySQLActivity extends Activity implements View.OnClickListener
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_sql);
         bSubmit = (Button)findViewById(R.id. Submit);
-         bSubmit.setOnClickListener(this);
+        // bSubmit.setOnClickListener(this);
 
 
     }
-            private void SubmitClick()
-            {
 
-                startActivity(new Intent(mySQLActivity.this, mySQLActivity.class));
-                finish();
-            }
-
-            public void onClick(View v)
-            {
-                switch(v.getId())
-                {
-                    case R.id.Submit:
-
-                        SubmitClick();
-                        break;
-                }
-            }
-  }
+}
 
 
