@@ -52,6 +52,7 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
     MediaPlayer gameBG;  //for music
     MediaPlayer tapGood; //sound when good swirl is tapped
     MediaPlayer tapBad;  //sound when bad swirl is tapped
+    MediaPlayer tapTime; //Sound when time swirl is tapped
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++//
     CountDownTimer Updater;        //Timer that updates test and values at 30 frames/ms(millisecond)
     CountDownTimer TimeCountdown;  //Timer that updates the timer every second
@@ -70,6 +71,7 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
         gameBG.start();             //start song
         tapGood = MediaPlayer.create(this, R.raw.tap_good); //get sound for a tap on a good swirl
         tapBad = MediaPlayer.create(this, R.raw.tap_bad);   //get sound for a tap on a bad swirl
+        tapTime = MediaPlayer.create(this, R.raw.tap_time);   //get sound for a tap on a time swirl
         populateButtons(); //add buttons to grid
 
         ///////////////////////////////////////POPULATE LUCK ARRAY///////////////////////////////////
@@ -112,7 +114,7 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
         {
             TableRow tableRow = new TableRow(this);
             tableRow.setLayoutParams(new TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT,
-                    TableLayout.LayoutParams.MATCH_PARENT,1.0f)); //make layout look nice
+            TableLayout.LayoutParams.MATCH_PARENT,1.0f)); //make layout look nice
             table.addView(tableRow);
             for(int col = 0; col < NUM_COLS; col++) //cols instantiated at top
             {
@@ -355,7 +357,7 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
 
                         {
                             addTime = false;                        // Stop more time buttons from popping up
-                            tapGood.start();                        // Play short confirmation sound
+                            tapTime.start();                        // Play short confirmation sound
                             v.setVisibility(View.INVISIBLE);        // Make Swirl disappear when clicked
                             v.setEnabled(false);                    // Disable button
                             SwirlEngine.cancel();                   // Cancel old Timers
