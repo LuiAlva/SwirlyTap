@@ -21,11 +21,13 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     private static final String TWITTER_SECRET = "RcSbTspCQY3atAkXFYmqRoOOZrJK7ZBiBEhpMsroVbJXrwM70G";
     Button buttonSinglePlayer; //create type button
     Button buttonPlayAgainTest; //create type button for PlayAgainTest
+    Button buttonLogIn;
     MediaPlayer mediaPlayer; //for music
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
 
         TwitterAuthConfig authConfig = new TwitterAuthConfig(TWITTER_KEY, TWITTER_SECRET);
         if (!Fabric.isInitialized()) {
@@ -45,6 +47,8 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         buttonPlayAgainTest = (Button)findViewById(R.id.PlayAgainMain);
         buttonPlayAgainTest.setOnClickListener(this); //sets an onClickListener on buttonPlayAgainTest
         getSupportActionBar().hide();//hide the ActionBar (full screen)
+        buttonLogIn = (Button)findViewById(R.id.LogIn);
+        buttonLogIn.setOnClickListener(this); //sets an onClickListener on buttonHighScore
     }
     private void singlePlayerClick()
     {
@@ -58,6 +62,11 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         startActivity(new Intent(MainActivity.this, PlayAgain.class));
         finish();
     }
+    private void LogInClick()
+    {   //LogIn method
+        Intent login= new Intent(MainActivity.this,mySQLActivity.class);
+        startActivity(login);
+    }
     public void onClick(View v)
     {
         switch(v.getId())
@@ -68,6 +77,9 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
                 break;
             case R.id.PlayAgainMain:
                 PlayAgainTestClick();
+                break;
+            case R.id.LogIn:
+                LogInClick();
                 break;
         }
     }

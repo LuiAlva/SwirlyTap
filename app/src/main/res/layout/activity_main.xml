@@ -36,4 +36,17 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="37dp" />
 
+    <Button
+        android:layout_width="250sp"
+        android:layout_height="100sp"
+        android:text="LogIn"
+        android:textSize="26sp"
+        android:id="@+id/LogIn"
+        android:layout_alignLeft="@+id/PlayAgainMain"
+        android:layout_alignStart="@+id/PlayAgainMain"
+        android:layout_below="@+id/PlayAgainMain"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/button_bg"/>
+
+
 </RelativeLayout>
