@@ -38,8 +38,7 @@ public class PlayAgain extends ActionBarActivity implements View.OnClickListener
         buttonHome.setOnClickListener(this);      //sets an onClickListener on buttonHome
         buttonShare = (Button)findViewById(R.id.Share);
         buttonShare.setOnClickListener(this);     //sets an onClickListener on buttonShare
-        buttonHighScore = (Button)findViewById(R.id.HighScore);
-        buttonHighScore.setOnClickListener(this); //sets an onClickListener on buttonHighScore
+
 
         Fabric.with(this, new TweetComposer());
     }//end 'onCreate'
@@ -70,11 +69,7 @@ public class PlayAgain extends ActionBarActivity implements View.OnClickListener
         //shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);//read URI
         startActivity(Intent.createChooser(shareIntent, getResources().getString(R.string.share)));  //choose sharing app
     }
-    private void HighScoreClick()
-    {   //High Score method
-        Intent HStext = new Intent(PlayAgain.this,PrettyScreen.class);
-        startActivity(HStext);
-    }
+
 
     public void onClick(View v)
     {//when "Play Again" button is clicked on the Play Again activity menu
@@ -89,9 +84,7 @@ public class PlayAgain extends ActionBarActivity implements View.OnClickListener
             case R.id.Share:      //if "Share" is clicked
                 ShareClick();     //share text and image
                 break;
-            case R.id.HighScore:
-                HighScoreClick();
-                break;
+
             /*if High Score is clicked... it will take you to a different screen
             to display the "Leader Board" */
         }
