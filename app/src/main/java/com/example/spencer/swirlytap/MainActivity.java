@@ -21,6 +21,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     private static final String TWITTER_SECRET = "RcSbTspCQY3atAkXFYmqRoOOZrJK7ZBiBEhpMsroVbJXrwM70G";
     Button buttonSinglePlayer; //create type button
     Button buttonPlayAgainTest; //create type button for PlayAgainTest
+    Button buttonLevel;
     MediaPlayer mediaPlayer; //for music
 
     @Override
@@ -44,6 +45,9 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         buttonSinglePlayer.setOnClickListener(this); //sets an onClickListener on buttonSinglePlayer
         buttonPlayAgainTest = (Button)findViewById(R.id.PlayAgainMain);
         buttonPlayAgainTest.setOnClickListener(this); //sets an onClickListener on buttonPlayAgainTest
+        buttonLevel = (Button) findViewById(R.id.levelMode);
+        buttonLevel.setOnClickListener(this);
+
         getSupportActionBar().hide();//hide the ActionBar (full screen)
     }
     private void singlePlayerClick()
@@ -58,6 +62,11 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         startActivity(new Intent(MainActivity.this, PlayAgain.class));
         finish();
     }
+    private void playLevelClick()
+    {
+        startActivity(new Intent (MainActivity.this, levelPlay.class));
+        finish();
+    }
     public void onClick(View v)
     {
         switch(v.getId())
@@ -68,6 +77,9 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
                 break;
             case R.id.PlayAgainMain:
                 PlayAgainTestClick();
+                break;
+            case R.id.levelMode:
+                playLevelClick();
                 break;
         }
     }
