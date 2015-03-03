@@ -21,11 +21,8 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     private static final String TWITTER_SECRET = "RcSbTspCQY3atAkXFYmqRoOOZrJK7ZBiBEhpMsroVbJXrwM70G";
     Button buttonSinglePlayer; //create type button
     Button buttonPlayAgainTest; //create type button for PlayAgainTest
-<<<<<<< HEAD
     Button buttonLevel;
-=======
     Button buttonLogIn;
->>>>>>> 8745a4da911c8efbd44e594745bc8c525f50d666
     MediaPlayer mediaPlayer; //for music
 
     @Override
@@ -69,17 +66,14 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         startActivity(new Intent(MainActivity.this, PlayAgain.class));
         finish();
     }
-<<<<<<< HEAD
     private void playLevelClick()
     {
         startActivity(new Intent (MainActivity.this, levelPlay.class));
         finish();
-=======
-    private void LogInClick()
-    {   //LogIn method
-        Intent login= new Intent(MainActivity.this,mySQLActivity.class);
+    }
+    private void LogInClick() {   //LogIn method
+        Intent login = new Intent(MainActivity.this, mySQLActivity.class);
         startActivity(login);
->>>>>>> 8745a4da911c8efbd44e594745bc8c525f50d666
     }
     public void onClick(View v)
     {
@@ -92,13 +86,11 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
             case R.id.PlayAgainMain:
                 PlayAgainTestClick();
                 break;
-<<<<<<< HEAD
             case R.id.levelMode:
                 playLevelClick();
-=======
+                break;
             case R.id.LogIn:
                 LogInClick();
->>>>>>> 8745a4da911c8efbd44e594745bc8c525f50d666
                 break;
         }
     }
