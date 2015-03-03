@@ -4,6 +4,8 @@ package com.example.spencer.swirlytap;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -17,6 +19,7 @@ import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TableLayout;
 import android.widget.TableRow;
@@ -31,6 +34,8 @@ public class levelPlay extends Activity implements View.OnClickListener
 {
     final int NUM_ROWS = 7;
     final int NUM_COLS = 10;
+    int level = 1;
+    LinearLayout llayout = (LinearLayout)findViewById(R.id.layout);
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -40,6 +45,7 @@ public class levelPlay extends Activity implements View.OnClickListener
         setContentView(R.layout.level_play); //show res/layout/activity_single_player.xml
 
         populateButtons(); //add buttons to grid
+        goToLevel(level); //go to level 1 at start
 
         ///////////////////////////////////////POPULATE LUCK ARRAY///////////////////////////////////
 
@@ -61,7 +67,7 @@ public class levelPlay extends Activity implements View.OnClickListener
             {
 
                 Button Swirl = new Button(this); //create button to display correctly
-                Swirl.setBackgroundResource(R.drawable.goodswirl); //make this grid block location have the image of goodswirl
+                //Swirl.setBackgroundResource(R.drawable.goodswirl); //make this grid block location have the image of goodswirl
                 Swirl.setVisibility(View.INVISIBLE);               //Start Swirl Invisible
                 Swirl.setEnabled(false);                           //Start Swirl button Disabled
                 Swirl.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT,
@@ -86,5 +92,18 @@ public class levelPlay extends Activity implements View.OnClickListener
     public void onClick(View v) {
 
     }
+
+    public void goToLevel(int lvl)
+    {
+        //depending on level do certain things
+        switch(lvl)
+        {
+            case 1:
+            llayout.setBackgroundResource(R.drawable.levelone);
+            break;
+        }
+    }
+    //switch the level cases...for certain levels change background and run animation
+
 }
 
