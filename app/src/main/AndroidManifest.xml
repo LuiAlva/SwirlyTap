@@ -29,13 +29,15 @@
             android:theme="@style/FullscreenTheme" >
         </activity>
         <activity
-            android:name=".PlayAgain"
+            android:name=".levelPlay"
+            android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_single_player"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait"
+            android:theme="@style/FullscreenTheme" >
         </activity>
         <activity
-            android:name=".PrettyScreen"
-            android:label="PrettyScreen"
+            android:name=".PlayAgain"
+            android:label="@string/title_activity_single_player"
             android:screenOrientation="portrait" >
         </activity>
         <activity

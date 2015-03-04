@@ -2,40 +2,22 @@ package com.example.spencer.swirlytap;
 
 
 import android.app.Activity;
-import android.content.Context;
-import android.content.Intent;
-import android.content.res.Resources;
-import android.graphics.drawable.Drawable;
-import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.os.CountDownTimer;
-import android.os.Handler;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
-import android.view.animation.AlphaAnimation;
-import android.view.animation.Animation;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.PopupWindow;
 import android.widget.TableLayout;
 import android.widget.TableRow;
-import android.widget.TextView;
 
 import java.util.Random;
 
-/**
- * Created by spencer on 2/28/2015.
- */
 public class levelPlay extends Activity implements View.OnClickListener
 {
     final int NUM_ROWS = 7;
     final int NUM_COLS = 10;
     int level = 1;
-    LinearLayout llayout = (LinearLayout)findViewById(R.id.layout);
+    LinearLayout llayout; //set it up after declaration
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -43,6 +25,7 @@ public class levelPlay extends Activity implements View.OnClickListener
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE); // Removes Title Bar
         setContentView(R.layout.level_play); //show res/layout/activity_single_player.xml
+        llayout = (LinearLayout)findViewById(R.id.layout);
 
         populateButtons(); //add buttons to grid
         goToLevel(level); //go to level 1 at start
