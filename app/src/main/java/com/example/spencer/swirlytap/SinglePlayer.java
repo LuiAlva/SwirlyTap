@@ -30,6 +30,7 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
     boolean addTime = false;    //Allows Time button to appear
     boolean Pause_Active = false;     //True if game is paused
     PopupWindow PauseWindow;    //Popup Window for Pause Menu
+    PopupWindow CountdownWindow;//Popup Window for Countdown at the beginning of the game
     //Grid & Storage ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++//
     private static final int NUM_ROWS = 6; //instantiated size of grid
     private static final int NUM_COLS = 4;
@@ -51,10 +52,11 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++//
     ImageButton PauseButton; //create image button for pause
     //Music & Sounds ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++//
-    MediaPlayer gameBG;  // For Background music
-    Uri tapGood;         // Sound when Good swirl is tapped
-    Uri tapBad;          // Sound for Bad swirl
-    Uri tapTimeAdd;      // Sound for Time add swirl
+    MediaPlayer gameBG;       // For Background music
+    MediaPlayer CountdownSound; //Sound for CountDown
+    Uri tapGood;              // Sound when Good swirl is tapped
+    Uri tapBad;               // Sound for Bad swirl
+    Uri tapTimeAdd;           // Sound for Time add swirl
     MediaPlayer GoodSound;    // MediaPlayer for playing good sound
     MediaPlayer GoodSound2;   // MediaPlayer for playing good sound - for faster sound
     MediaPlayer BadSound;     // MediaPlayer for playing Bad sound
@@ -63,6 +65,7 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
     CountDownTimer Updater;        //Timer that updates test and values at 30 frames/ms(millisecond)
     CountDownTimer TimeCountdown;  //Timer that updates the timer every second
     CountDownTimer SwirlEngine;    //Timer that lets the swirls appear. Update depends on Game_Speed
+    CountDownTimer CountdownTimer; //Timer for the countdown at the beginning
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -70,11 +73,11 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE); // Removes Title Bar
         setContentView(R.layout.activity_single_player); //show res/layout/activity_single_player.xml
-        gameBG = MediaPlayer.create(this, R.raw.game_song); //get song
+        gameBG = MediaPlayer.create(this, R.raw.game_song); //get background song
+        CountdownSound = MediaPlayer.create(this, R.raw.countdown); //get countdown sound
         PauseButton= (ImageButton)findViewById(R.id.pause_button);
         PauseButton.setOnClickListener(this); //sets an onClickListener on PauseButton
-        gameBG.setLooping(true);    //make song loop
-        gameBG.start();             //start song
+        gameBG.setLooping(true);    //make background song loop
         //tapGood = MediaPlayer.create(this, R.raw.tap_good); //get sound for a tap on a good swirl
         GoodSound = new MediaPlayer();     // Setup MediaPlayer for good sound
         GoodSound2 = new MediaPlayer();    // Setup MediaPlayer for good sound
@@ -116,7 +119,22 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
         }
         /////////////////////////////////////////////////////////////////////////////////////////
 
-        GameTimers(StartTime);      //start game timers
+        //Wait for game to load
+        new CountDownTimer(1000, 1000) {
+
+            @Override
+            public void onTick(long millisUntilFinished) {
+                if (millisUntilFinished / 1000 == 0) {
+                    onFinish();
+                } else {
+                }
+            }
+
+            @Override
+            public void onFinish() {
+                GameStartCountdown();       //Start beginning Countdown
+            }
+        }.start();
 
     }
 
@@ -569,4 +587,43 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
             e.printStackTrace();
         }
     }
+
+    public void GameStartCountdown() {
+        try {
+            LayoutInflater inflater = (LayoutInflater) SinglePlayer.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            View layout = inflater.inflate(R.layout.game_begin_countdown, (ViewGroup)findViewById(R.id.countdown_layout));
+            CountdownWindow = new PopupWindow(layout, 380, 800, true);
+            CountdownWindow.showAtLocation(layout, Gravity.CENTER, 0, 0);
+        }catch(Exception e) {
+            e.printStackTrace();
+        }
+
+        CountdownTimer = new CountDownTimer(4000,1000) {
+
+            TextView CountdownText = (TextView)CountdownWindow.getContentView().findViewById (R.id.count_down_text);
+
+            public void onTick(long millisUntilFinished)
+            {
+                if (millisUntilFinished / 1000 == 0)
+                {
+                    onFinish();
+                }
+                else
+                {
+                    CountdownSound.start();
+                    CountdownText.setText("" + millisUntilFinished / 1000 ); //display seconds left in text field
+                }
+            }
+            public void onFinish()
+            {
+                CountdownWindow.dismiss();
+                gameBG.start();             //start background song
+                GameTimers(StartTime);      //start game timers
+            }
+
+        }.start();
+
+    }
+
+
 }
