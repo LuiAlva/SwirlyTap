@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
@@ -21,6 +22,7 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
+import java.io.IOException;
 import java.util.Random;
 
 public class SinglePlayer extends Activity implements View.OnClickListener {
@@ -41,18 +43,22 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
     //Time & Speed ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++//
     int StartTime = 61000;       //Set start time, 60000 = 60 seconds temporary set to 20 seconds
     int Current_Time = 61000;    //Current in-game time
-    int Game_Speed = 800;        //Speed of the game
-    int Speed_Limit = 400;       //Highest Speed
+    int Game_Speed = 400;        //Speed of the game
+    int Speed_Limit = 200;       //Highest Speed
     int Game_Speed_Add = 15;     //Add speed every increment
     int Speed_Increment = 8;     //Points needed to increment speed
     int Speed_Increment_Add = 4; //Add to Speed_Increment to make it harder to speed up
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++//
     ImageButton PauseButton; //create image button for pause
     //Music & Sounds ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++//
-    MediaPlayer gameBG;  //for music
-    MediaPlayer tapGood; //sound when good swirl is tapped
-    MediaPlayer tapBad;  //sound when bad swirl is tapped
-    MediaPlayer tapTime; //Sound when time swirl is tapped
+    MediaPlayer gameBG;  // For Background music
+    Uri tapGood;         // Sound when Good swirl is tapped
+    Uri tapBad;          // Sound for Bad swirl
+    Uri tapTimeAdd;      // Sound for Time add swirl
+    MediaPlayer GoodSound;    // MediaPlayer for playing good sound
+    MediaPlayer GoodSound2;   // MediaPlayer for playing good sound - for faster sound
+    MediaPlayer BadSound;     // MediaPlayer for playing Bad sound
+    MediaPlayer SpecialSound; // MediaPlayer for playing Special button sounds
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++//
     CountDownTimer Updater;        //Timer that updates test and values at 30 frames/ms(millisecond)
     CountDownTimer TimeCountdown;  //Timer that updates the timer every second
@@ -69,9 +75,16 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
         PauseButton.setOnClickListener(this); //sets an onClickListener on PauseButton
         gameBG.setLooping(true);    //make song loop
         gameBG.start();             //start song
-        tapGood = MediaPlayer.create(this, R.raw.tap_good); //get sound for a tap on a good swirl
-        tapBad = MediaPlayer.create(this, R.raw.tap_bad);   //get sound for a tap on a bad swirl
-        tapTime = MediaPlayer.create(this, R.raw.tap_time);   //get sound for a tap on a time swirl
+        //tapGood = MediaPlayer.create(this, R.raw.tap_good); //get sound for a tap on a good swirl
+        GoodSound = new MediaPlayer();     // Setup MediaPlayer for good sound
+        GoodSound2 = new MediaPlayer();    // Setup MediaPlayer for good sound
+        BadSound = new MediaPlayer();      // Setup MediaPlayer for bad sound
+        SpecialSound = new MediaPlayer();  // Setup MediaPlayer for Special button sounds
+        tapGood = Uri.parse("android.resource://"+getPackageName()+"/"+R.raw.tap_good);    //Setup sound for Good swirl
+        tapBad = Uri.parse("android.resource://"+getPackageName()+"/"+R.raw.tap_bad);      //Setup sound for Bad swirl
+        tapTimeAdd = Uri.parse("android.resource://"+getPackageName()+"/"+R.raw.tap_time); //Setup sound for Time up swirl
+        //tapBad = MediaPlayer.create(this, R.raw.tap_bad);   //get sound for a tap on a bad swirl
+        //tapTimeAdd = MediaPlayer.create(this, R.raw.tap_time);   //get sound for a tap on a time swirl
         populateButtons(); //add buttons to grid
 
         ///////////////////////////////////////POPULATE LUCK ARRAY///////////////////////////////////
@@ -213,8 +226,6 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
                 else
                 {
                     displayButton();
-                    if (Score > 1)
-                        displayButton();
                 }
             }
             public void onFinish()
@@ -250,14 +261,15 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
                 }
             };
             if(goodButton.isEnabled() == true) {
-                buttonHandler.postDelayed(buttonRunnable, 1500); //will disappear after 2 seconds
+                buttonHandler.postDelayed(buttonRunnable, 1600); //will disappear after 2 seconds
             }
             goodButton.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v)
                 {
 
                     {
-                        tapGood.start();                         // Play short confirmation sound
+                        //tapGood.start();                         // Play short confirmation sound
+                        playGood(tapGood);
                         //v.startAnimation(disabledAnimation());
                         v.setVisibility(View.INVISIBLE);         // Make Swirl disappear when clicked
                         v.setEnabled(false);                     // Disable button
@@ -285,14 +297,15 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
             }
         };
         if(badButton.isEnabled() == true) {
-            buttonHandler.postDelayed(buttonRunnable, 2000); //will disappear after 2 seconds
+            buttonHandler.postDelayed(buttonRunnable, 1700); //will disappear after 2 seconds
         }
         badButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v)
             {
 
                 {
-                    tapBad.start();                         // Play short confirmation sound
+                    //tapBad.start();                         // Play short confirmation sound
+                    playBad(tapBad);
                     //v.startAnimation(disabledAnimation());
                     v.setVisibility(View.INVISIBLE);         // Make Swirl disappear when clicked
                     v.setEnabled(false);                     // Disable button
@@ -318,14 +331,15 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
             }
         };
         if(twiceButton.isEnabled() == true) {
-            buttonHandler.postDelayed(buttonRunnable, 1500); //will disappear after 2 seconds
+            buttonHandler.postDelayed(buttonRunnable, 1600); //will disappear after 2 seconds
         }
         twiceButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v)
             {
 
                 {
-                    tapGood.start();                         // Play short confirmation sound
+                    //tapGood.start();                         // Play short confirmation sound
+                    playGood2(tapGood);
                     //v.startAnimation(disabledAnimation());
                     v.setVisibility(View.INVISIBLE);         // Make Swirl disappear when clicked
                     v.setEnabled(false);                     // Disable button
@@ -350,14 +364,15 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
                     }
                 };
                 if (timeButton.isEnabled() == true) {
-                    buttonHandler.postDelayed(buttonRunnable, 1500); //will disappear after 2 seconds
+                    buttonHandler.postDelayed(buttonRunnable, 1800); //will disappear after 2 seconds
                 }
                 timeButton.setOnClickListener(new View.OnClickListener() {
                     public void onClick(View v) {
 
                         {
                             addTime = false;                        // Stop more time buttons from popping up
-                            tapTime.start();                        // Play short confirmation sound
+                            //tapTimeAdd.start();                        // Play short confirmation sound
+                            playSpecial(tapTimeAdd);
                             v.setVisibility(View.INVISIBLE);        // Make Swirl disappear when clicked
                             v.setEnabled(false);                    // Disable button
                             SwirlEngine.cancel();                   // Cancel old Timers
@@ -389,7 +404,8 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
                     public void onClick(View v) {
 
                         {
-                            tapGood.start();                         // Play short confirmation sound
+                            //tapGood.start();                         // Play short confirmation sound
+                            playGood2(tapGood);
                             //v.startAnimation(disabledAnimation());
                             v.setVisibility(View.INVISIBLE);         // Make Swirl disappear when clicked
                             v.setEnabled(false);                     // Disable button
@@ -416,7 +432,6 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
                     if (millisUntilFinished / 30 == 0) {
                         onFinish();
                     } else {
-                        displayButton();   //Displays 2 buttons at the same time
                         displayButton();
                     }
                 }
@@ -428,6 +443,56 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
         } else {
         }
     } //End Speed_Engine
+
+    //Sound Players+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    private void playGood(Uri uri) {
+        try{
+            GoodSound.reset();
+            GoodSound.setDataSource(this, uri);
+            GoodSound.prepare();
+            GoodSound.start();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void playGood2(Uri uri) {
+        try{
+            GoodSound2.reset();
+            GoodSound2.setDataSource(this, uri);
+            GoodSound2.prepare();
+            GoodSound2.start();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void playBad(Uri uri) {
+        try{
+            BadSound.reset();
+            BadSound.setDataSource(this, uri);
+            BadSound.prepare();
+            BadSound.start();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void playSpecial(Uri uri) {
+        try{
+            SpecialSound.reset();
+            SpecialSound.setDataSource(this, uri);
+            SpecialSound.prepare();
+            SpecialSound.start();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
     public void onClick(View v)
     {
@@ -442,6 +507,8 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
             break;
         }
     }
+
+    //Pause Menu Options +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
     //Continues game from Pause Menu
     public void Continue(View v) {
