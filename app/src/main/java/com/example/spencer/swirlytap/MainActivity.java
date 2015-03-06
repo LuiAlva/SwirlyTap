@@ -5,9 +5,12 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 
 import com.crashlytics.android.Crashlytics;
+import com.example.spencer.swirlytap.util.SystemUiHider;
 import com.twitter.sdk.android.Twitter;
 import com.twitter.sdk.android.core.TwitterAuthConfig;
 import com.twitter.sdk.android.tweetcomposer.TweetComposer;
@@ -25,10 +28,19 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     Button buttonLogIn;
     MediaPlayer mediaPlayer; //for music
 
+    private static final boolean AUTO_HIDE = true;          // Auto hide UI (ActionBar)
+    private static final int AUTO_HIDE_DELAY_MILLIS = 2000; // Hide system UI after 2000 milliseconds
+    private static final boolean TOGGLE_ON_CLICK = true;    // If UI is clicked show it
+    private static final int HIDER_FLAGS = 0;   // The flags to pass to {@link com.example.spencer.swirlytap.util.SystemUiHider#getInstance}.
+    private SystemUiHider mSystemUiHider;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        getWindow().requestFeature(Window.FEATURE_ACTION_BAR);   //Hides the action and title bars!
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++//
         super.onCreate(savedInstanceState);
-
+        getSupportActionBar().hide();//hide the ActionBar (full screen)
 
         TwitterAuthConfig authConfig = new TwitterAuthConfig(TWITTER_KEY, TWITTER_SECRET);
         if (!Fabric.isInitialized()) {
@@ -40,17 +52,16 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         }
         Fabric.with(this, new TweetComposer());
 
+
         setContentView(R.layout.activity_main);
         mediaPlayer = MediaPlayer.create(this, R.raw.title_song); //get song
-        //mediaPlayer.start(); //start song
+        mediaPlayer.start(); //start song
         buttonSinglePlayer = (Button)findViewById(R.id.singlePlayer);
         buttonSinglePlayer.setOnClickListener(this); //sets an onClickListener on buttonSinglePlayer
         buttonPlayAgainTest = (Button)findViewById(R.id.PlayAgainMain);
         buttonPlayAgainTest.setOnClickListener(this); //sets an onClickListener on buttonPlayAgainTest
         buttonLevel = (Button) findViewById(R.id.levelMode);
         buttonLevel.setOnClickListener(this);
-
-        getSupportActionBar().hide();//hide the ActionBar (full screen)
         buttonLogIn = (Button)findViewById(R.id.LogIn);
         buttonLogIn.setOnClickListener(this); //sets an onClickListener on buttonHighScore
     }
@@ -80,16 +91,19 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         switch(v.getId())
         {
             case R.id.singlePlayer:
-                //mediaPlayer.stop(); //stop song
+                mediaPlayer.stop(); //stop song
                 singlePlayerClick();
                 break;
             case R.id.PlayAgainMain:
+                mediaPlayer.stop(); //stop song
                 PlayAgainTestClick();
                 break;
             case R.id.levelMode:
+                mediaPlayer.stop(); //stop song
                 playLevelClick();
                 break;
             case R.id.LogIn:
+                mediaPlayer.stop(); //stop song
                 LogInClick();
                 break;
         }

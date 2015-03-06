@@ -30,5 +30,7 @@
     <string name="Username">Name</string>
     <string name="Submit">Submit</string>
     <string name="Uname">Username</string>
+    <string name="TimeUp">Time\'s up!</string>
+    <string name="Countdown">3</string>
 
 </resources>
