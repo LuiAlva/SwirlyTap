@@ -14,8 +14,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.view.animation.AlphaAnimation;
-import android.view.animation.Animation;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.PopupWindow;
@@ -31,7 +29,6 @@ import java.util.Random;
 public class SinglePlayer extends Activity implements View.OnClickListener {
     int Score = 0; //this is total score
     boolean addTime = false;    //Allows Time button to appear
-    boolean Pause_Active = false;     //True if game is paused
     PopupWindow popupWindow;//Popup Window for Countdown, Pause menu, and Time over
     ImageButton PauseButton; //create image button for pause
     //Grid & Storage ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++//
@@ -66,9 +63,17 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
     CountDownTimer TimeCountdown;  //Timer that updates the timer every second
     CountDownTimer SwirlEngine;    //Timer that lets the swirls appear. Update depends on Game_Speed
     CountDownTimer CountdownTimer; //Timer for the countdown at the beginning
+    //Swirl Disappear System ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++//
+    buttonDisappear[] GoodArray = new buttonDisappear[10];
+    buttonDisappear[] BadArray = new buttonDisappear[10];
+    buttonDisappear[] SpecialArray = new buttonDisappear[10];
+    int ArrayLocation;
+    int GoodCount;
+    int BadCount;
+    int SpecialCount;
 
     private static final boolean AUTO_HIDE = true;          // Auto hide UI (ActionBar)
-    private static final int AUTO_HIDE_DELAY_MILLIS = 2000; // Hide system UI after 2000 milliseconds
+    private static final int AUTO_HIDE_DELAY_MILLIS = 1000; // Hide system UI after 1000 milliseconds
     private static final boolean TOGGLE_ON_CLICK = true;    // If UI is clicked show it
     private static final int HIDER_FLAGS = 0;   // The flags to pass to {@link com.example.spencer.swirlytap.util.SystemUiHider#getInstance}.
     private SystemUiHider mSystemUiHider;
@@ -95,8 +100,8 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
         CountdownSound = MediaPlayer.create(this, R.raw.countdown); //get countdown sound
         GoodSound = new MediaPlayer();     // Setup MediaPlayer for good sound
         GoodSound2 = new MediaPlayer();    // Setup MediaPlayer for good sound
-        GoodSound.setVolume(20,20);
-        GoodSound2.setVolume(20,20);
+        GoodSound.setVolume(16,16);
+        GoodSound2.setVolume(16,16);
         BadSound = new MediaPlayer();      // Setup MediaPlayer for bad sound
         SpecialSound = new MediaPlayer();  // Setup MediaPlayer for Special button sounds
         tapGood = Uri.parse("android.resource://"+getPackageName()+"/"+R.raw.tap_good);    //Setup sound for Good swirl
@@ -133,6 +138,12 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
             }
         }
         /////////////////////////////////////////////////////////////////////////////////////////
+        // Null Disappear timers array
+        for(int i = 0; i < 10; i++){
+            GoodArray[i] = null;
+            BadArray[i] = null;
+            SpecialArray[i] = null;
+        }
 
         //Wait for game to load
         new CountDownTimer(1000, 1000) {
@@ -188,15 +199,6 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
         }//end 'for'
     }//end private void populateButtons
 
-    private Animation disabledAnimation() {
-        Animation disabledAnim = new AlphaAnimation(1.0f, 0.0f);
-        disabledAnim.setDuration(200);
-        disabledAnim.setFillEnabled(true);
-        disabledAnim.setFillAfter(true);
-        disabledAnim.cancel();
-        return disabledAnim;
-    } // End of PopulateButtons
-
     void GameTimers(int Time) { // contains the timers of the game
 
         TimeCountdown = new CountDownTimer(Time, 1000)
@@ -211,12 +213,12 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
                     onFinish();
                 }
                 else
-                    Current_Time = (int) millisUntilFinished;             //Updates current time
-                mTextField.setText("" + millisUntilFinished / 1000); //display seconds left in text field
+                    Current_Time = (int) millisUntilFinished;         //Updates current time
+                mTextField.setText("" + millisUntilFinished / 1000);  //display seconds left in text field
             }
             //stop time/game when time is up
             public void onFinish() {
-                mTextField.setText("0");                                              //Set end of timer
+                mTextField.setText("0");                              //Set end of timer
                 GameOver();
             }
 
@@ -242,6 +244,7 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
             }
             // Show text at end of timer
             public void onFinish() {
+                totalScore.setText("" + Score); //Update Score Counter
             }
         }.start();
 
@@ -266,6 +269,17 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
 
     } // End of GameTimers
 
+    class buttonDisappear{
+        public Button ButtonId;
+        CountDownTimer TimerId;
+        public buttonDisappear(Button button, CountDownTimer timer, int location){
+            ButtonId = button;
+            TimerId = timer;
+            ArrayLocation = location;
+        }
+
+    }
+
     public void displayButton() //will call when button needs to be displayed
     {
         final Runnable buttonRunnable;
@@ -273,14 +287,19 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
         Random r = new Random(); //randomly select location in luck array
         int randRow = r.nextInt(NUM_ROWS);
         int randCol = r.nextInt(NUM_COLS);
+        int i; //For array location for disappear
 
         if(luckArray[randRow][randCol]=="good") //GOOD BUTTON +1 POINT IF CLICKED
         {
+            for(i = 0; i < 10; i++) {        // Find empty spot in GoodArray
+                if(GoodArray[i] == null){break;}
+                if(i == 9) {i = 0;}
+            }
             final Button goodButton = buttons[randRow][randCol];     //Button in this location
             goodButton.setBackgroundResource(R.drawable.goodswirl); //Set image to goodswirl
             goodButton.setEnabled(true);                            //Enable Swirl
             goodButton.setVisibility(View.VISIBLE);                 //Make Swirl Visible
-            buttonRunnable = new Runnable() { //what will be called if button has not been clicked
+            /*buttonRunnable = new Runnable() { //what will be called if button has not been clicked
                 public void run()
                 {
 
@@ -291,14 +310,33 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
             };
             if(goodButton.isEnabled() == true) {
                 buttonHandler.postDelayed(buttonRunnable, 1600); //will disappear after 2 seconds
+            } */
+            final int finalI = i;
+            CountDownTimer temp = new CountDownTimer(1600,1600) { // Set timer for disappearance
+            public void onTick(long millisUntilFinished)
+            {
+                if (millisUntilFinished / 1600 == 0)
+                {
+                    onFinish();
+                }
+                else{}
             }
+
+            @Override
+            public void onFinish() {
+                GoodArray[finalI] = null;
+                goodButton.setVisibility(View.INVISIBLE);
+                goodButton.setEnabled(false);
+            }
+        }.start();
+            GoodArray[i] =  new buttonDisappear(goodButton, temp, i);
             goodButton.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v)
                 {
 
                     {
                         playGood(tapGood);
-                        //v.startAnimation(disabledAnimation());
+                        GoodArray[finalI] = null;                // Remove from array
                         v.setVisibility(View.INVISIBLE);         // Make Swirl disappear when clicked
                         v.setEnabled(false);                     // Disable button
                         Score++;                                 // Add one to score
@@ -311,11 +349,15 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
         }
         else if(luckArray[randRow][randCol] == "bad")
     {
+        for(i = 0; i < 10; i++) {        // Find empty spot in BadArray
+            if(BadArray[i] == null){break;}
+            if(i == 9) {i = 0;}
+        }
         final Button badButton = buttons[randRow][randCol];     //Button in this location
         badButton.setBackgroundResource(R.drawable.badswirl); //Set image to goodswirl
         badButton.setEnabled(true);                            //Enable Swirl
         badButton.setVisibility(View.VISIBLE);                 //Make Swirl Visible
-        buttonRunnable = new Runnable() { //what will be called if button has not been clicked
+        /*buttonRunnable = new Runnable() { //what will be called if button has not been clicked
             public void run()
             {
 
@@ -326,14 +368,33 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
         };
         if(badButton.isEnabled() == true) {
             buttonHandler.postDelayed(buttonRunnable, 1700); //will disappear after 2 seconds
-        }
+        }*/
+        final int finalI = i;
+        CountDownTimer temp = new CountDownTimer(1700,1700) { // Set timer for disappearance
+            public void onTick(long millisUntilFinished)
+            {
+                if (millisUntilFinished / 1700 == 0)
+                {
+                    onFinish();
+                }
+                else{}
+            }
+
+            @Override
+            public void onFinish() {
+                BadArray[finalI] = null;
+                badButton.setVisibility(View.INVISIBLE);
+                badButton.setEnabled(false);
+            }
+        }.start();
+        BadArray[i] =  new buttonDisappear(badButton, temp, i);
         badButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v)
             {
 
                 {
                     playBad(tapBad);
-                    //v.startAnimation(disabledAnimation());
+                    BadArray[finalI] = null;                // Remove from array
                     v.setVisibility(View.INVISIBLE);         // Make Swirl disappear when clicked
                     v.setEnabled(false);                     // Disable button
                     Score -= 5;                                 // Add one to score
@@ -344,11 +405,15 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
     }
     else if(luckArray[randRow][randCol] == "twicePoints")
     {
+        for(i = 0; i < 10; i++) {        // Find empty spot in SpecialArray
+            if(SpecialArray[i] == null){break;}
+            if(i == 9) {i = 0;}
+        }
         final Button twiceButton = buttons[randRow][randCol];     //Button in this location
         twiceButton.setBackgroundResource(R.drawable.twiceswirl); //Set image to goodswirl
         twiceButton.setEnabled(true);                            //Enable Swirl
         twiceButton.setVisibility(View.VISIBLE);                 //Make Swirl Visible
-        buttonRunnable = new Runnable() { //what will be called if button has not been clicked
+        /*buttonRunnable = new Runnable() { //what will be called if button has not been clicked
             public void run()
             {
 
@@ -359,17 +424,36 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
         };
         if(twiceButton.isEnabled() == true) {
             buttonHandler.postDelayed(buttonRunnable, 1600); //will disappear after 2 seconds
-        }
+        }*/
+        final int finalI = i;
+        CountDownTimer temp = new CountDownTimer(1600,1600) { // Set timer for disappearance
+            public void onTick(long millisUntilFinished)
+            {
+                if (millisUntilFinished / 1600 == 0)
+                {
+                    onFinish();
+                }
+                else{}
+            }
+
+            @Override
+            public void onFinish() {
+                SpecialArray[finalI] = null;
+                twiceButton.setVisibility(View.INVISIBLE);
+                twiceButton.setEnabled(false);
+            }
+        }.start();
+        SpecialArray[i] =  new buttonDisappear(twiceButton, temp, i);
         twiceButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v)
             {
 
                 {
                     playGood2(tapGood);
-                    //v.startAnimation(disabledAnimation());
+                    SpecialArray[finalI] = null;                // Remove from array
                     v.setVisibility(View.INVISIBLE);         // Make Swirl disappear when clicked
                     v.setEnabled(false);                     // Disable button
-                    Score+=2;                                 // Add one to score
+                    Score+=2;                                 // Add 2 to score
                 }
             }
         });
@@ -377,11 +461,15 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
     }
     else if(luckArray[randRow][randCol] == "addTime") {
             if (addTime == true) {
+                for(i = 0; i < 10; i++) {        // Find empty spot in SpecialArray
+                    if(SpecialArray[i] == null){break;}
+                    if(i == 9) {i = 0;}
+                }
                 final Button timeButton = buttons[randRow][randCol];     //Button in this location
                 timeButton.setBackgroundResource(R.drawable.fivetime); //Set image to goodswirl
                 timeButton.setEnabled(true);                            //Enable Swirl
                 timeButton.setVisibility(View.VISIBLE);                 //Make Swirl Visible
-                buttonRunnable = new Runnable() { //what will be called if button has not been clicked
+                /*buttonRunnable = new Runnable() { //what will be called if button has not been clicked
                     public void run() {
 
                         timeButton.setVisibility(View.INVISIBLE);
@@ -391,13 +479,33 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
                 };
                 if (timeButton.isEnabled() == true) {
                     buttonHandler.postDelayed(buttonRunnable, 1800); //will disappear after 2 seconds
-                }
+                }*/
+                final int finalI = i;
+                CountDownTimer temp = new CountDownTimer(1800,1800) { // Set timer for disappearance
+                    public void onTick(long millisUntilFinished)
+                    {
+                        if (millisUntilFinished / 1800 == 0)
+                        {
+                            onFinish();
+                        }
+                        else{}
+                    }
+
+                    @Override
+                    public void onFinish() {
+                        SpecialArray[finalI] = null;
+                        timeButton.setVisibility(View.INVISIBLE);
+                        timeButton.setEnabled(false);
+                    }
+                }.start();
+                SpecialArray[i] =  new buttonDisappear(timeButton, temp, i);
                 timeButton.setOnClickListener(new View.OnClickListener() {
                     public void onClick(View v) {
 
                         {
                             addTime = false;                        // Stop more time buttons from popping up
                             playSpecial(tapTimeAdd);                // Play time up sound
+                            SpecialArray[finalI] = null;            // Remove from array
                             v.setVisibility(View.INVISIBLE);        // Make Swirl disappear when clicked
                             v.setEnabled(false);                    // Disable button
                             SwirlEngine.cancel();                   // Cancel old Timers
@@ -410,11 +518,15 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
                 });
 
             } else if (addTime == false) {
+                for(i = 0; i < 10; i++) {        // Find empty spot in GoodArray
+                    if(GoodArray[i] == null){break;}
+                    if(i == 9) {i = 0;}
+                }
                 final Button goodButton = buttons[randRow][randCol];     //Button in this location
                 goodButton.setBackgroundResource(R.drawable.goodswirl); //Set image to goodswirl
                 goodButton.setEnabled(true);                            //Enable Swirl
                 goodButton.setVisibility(View.VISIBLE);                 //Make Swirl Visible
-                buttonRunnable = new Runnable() { //what will be called if button has not been clicked
+                /*buttonRunnable = new Runnable() { //what will be called if button has not been clicked
                     public void run() {
 
                         goodButton.setVisibility(View.INVISIBLE);
@@ -424,13 +536,32 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
                 };
                 if (goodButton.isEnabled() == true) {
                     buttonHandler.postDelayed(buttonRunnable, 1500); //will disappear after 2 seconds
-                }
+                }*/
+                final int finalI = i;
+                CountDownTimer temp = new CountDownTimer(1600,1600) { // Set timer for disappearance
+                    public void onTick(long millisUntilFinished)
+                    {
+                        if (millisUntilFinished / 1600 == 0)
+                        {
+                            onFinish();
+                        }
+                        else{}
+                    }
+
+                    @Override
+                    public void onFinish() {
+                        GoodArray[finalI] = null;
+                        goodButton.setVisibility(View.INVISIBLE);
+                        goodButton.setEnabled(false);
+                    }
+                }.start();
+                GoodArray[i] =  new buttonDisappear(goodButton, temp, i);
                 goodButton.setOnClickListener(new View.OnClickListener() {
                     public void onClick(View v) {
 
                         {
                             playGood2(tapGood);                      // Play good swirl sound
-                            //v.startAnimation(disabledAnimation());
+                            GoodArray[finalI] = null;            // Remove from array
                             v.setVisibility(View.INVISIBLE);         // Make Swirl disappear when clicked
                             v.setEnabled(false);                     // Disable button
                             Score++;                                 // Add one to score
@@ -522,12 +653,22 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
     {
         switch(v.getId()) {
             case R.id.pause_button:
-                Pause_Active = true;
-                gameBG.pause();
-                SwirlEngine.cancel();
+                gameBG.pause();                      // Pause the game music
+                for(int i = 0; i < 10; i++) {        // cancel all the timers in disappear array
+                    if(GoodArray[i] != null){
+                        GoodArray[i].TimerId.cancel();
+                    }
+                    if (BadArray[i] != null){
+                        BadArray[i].TimerId.cancel();
+                    }
+                    if (SpecialArray[i] != null){
+                        SpecialArray[i].TimerId.cancel();
+                    }
+                }
+                SwirlEngine.cancel();               // cancel the rest of the timers
                 Updater.cancel();
                 TimeCountdown.cancel();
-                PopupPauseMenu();
+                PopupPauseMenu();                   //Popup the Pause menu
             break;
         }
     }
@@ -536,15 +677,43 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
 
     //Continues game from Pause Menu
     public void Continue(View v) {
-        Pause_Active = false;
-        popupWindow.dismiss();
-        GameTimers(Current_Time);
-        gameBG.start();
+        new CountDownTimer(800,800) {
+            int i;
+            @Override
+            public void onTick(long millisUntilFinished) {
+                if (millisUntilFinished / 800 == 0)
+                {
+                    onFinish();
+                }
+                else
+                {
+                    if(i != 10) {
+                        for (i = 0; i < 10; i++) {        // starts all the timers in disappear array
+                            if (GoodArray[i] != null) {
+                                GoodArray[i].TimerId.start();
+                            }
+                            if (BadArray[i] != null) {
+                                BadArray[i].TimerId.start();
+                            }
+                            if (SpecialArray[i] != null) {
+                                SpecialArray[i].TimerId.start();
+                            }
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onFinish() {
+                popupWindow.dismiss();
+                GameTimers(Current_Time);
+                gameBG.start();
+            }
+        }.start();
     }
 
     //Restarts game from Pause Menu
     public void Restart(View v) {
-        Pause_Active = false;
         popupWindow.dismiss();
         startActivity(new Intent(SinglePlayer.this, SinglePlayer.class));
         finish();
@@ -552,7 +721,6 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
 
     //Quits game from Pause Menu. Sends back to Title menu.
     public void Quit(View v) {
-        Pause_Active = false;
         popupWindow.dismiss();
         startActivity(new Intent(SinglePlayer.this, MainActivity.class));
         finish();
@@ -642,14 +810,31 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
         }
         //Wait x seconds before going to results screen
         new CountDownTimer(3000,1000) {
+            int i = 0;
             public void onTick(long millisUntilFinished)
             {
                 if (millisUntilFinished / 1000 == 0)
                 {
                     onFinish();
                 }
-                else
-                {
+                else{
+                    // Cancel the timers and clear the arrays
+                    if (i != 10) {
+                        for (i = 0; i < 10; i++) {
+                            if (GoodArray[i] != null){
+                                GoodArray[i].TimerId.cancel();
+                            }
+                            if (BadArray[i] != null){
+                                BadArray[i].TimerId.cancel();
+                            }
+                            if (SpecialArray[i] != null){
+                                SpecialArray[i].TimerId.cancel();
+                            }
+                            GoodArray[i] = null;
+                            BadArray[i] = null;
+                            SpecialArray[i] = null;
+                        }
+                    }
                 }
             }
 
@@ -668,9 +853,7 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
 
     protected void onResume() {
         super.onResume();
-        View decorView = getWindow().getDecorView();   // Remove action Bar
-        int uiOptions = View.SYSTEM_UI_FLAG_FULLSCREEN;
-        decorView.setSystemUiVisibility(uiOptions);
+
     }
 
 
