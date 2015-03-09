@@ -66,7 +66,7 @@
         <Button
             android:layout_width="180sp"
             android:layout_height="60sp"
-            android:text="LogIn"
+            android:text="Lets Get Started!"
             android:textSize="26sp"
             android:id="@+id/LogIn"
             android:background="@drawable/button_bg"

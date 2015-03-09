@@ -32,5 +32,11 @@
     <string name="Uname">Username</string>
     <string name="TimeUp">Time\'s up!</string>
     <string name="Countdown">3</string>
+    <string name="LogIn">LogIn</string>
+    <string name="Register">New Button</string>
+    <string name="Registration">New Button</string>
+    <string name="Confirm">Register</string>
+    <string name="UpdateUserInfo">Update</string>
+    <string name="DeleteUserInfo">Delete User</string>
 
 </resources>
