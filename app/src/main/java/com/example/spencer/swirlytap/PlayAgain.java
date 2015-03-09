@@ -6,9 +6,12 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.support.v7.app.ActionBarActivity;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.spencer.swirlytap.util.SystemUiHider;
 import com.twitter.sdk.android.tweetcomposer.TweetComposer;
 
 import java.io.File;
@@ -21,8 +24,17 @@ public class PlayAgain extends ActionBarActivity implements View.OnClickListener
     Button buttonShare;     //create type button for 'Share'
     Button buttonHighScore; //create type button for 'High Score'
 
+    private static final boolean AUTO_HIDE = true;          // Auto hide UI (ActionBar)
+    private static final int AUTO_HIDE_DELAY_MILLIS = 1000; // Hide system UI after 1000 milliseconds
+    private static final boolean TOGGLE_ON_CLICK = true;    // If UI is clicked show it
+    private static final int HIDER_FLAGS = 0;   // The flags to pass to {@link com.example.spencer.swirlytap.util.SystemUiHider#getInstance}.
+    private SystemUiHider mSystemUiHider;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        //Hide Actionbar ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++//
+        getWindow().requestFeature(Window.FEATURE_ACTION_BAR);   //Hides the action and title bars!
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_play_again);
         getSupportActionBar().hide();
