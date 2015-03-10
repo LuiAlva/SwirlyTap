@@ -23,4 +23,9 @@
 
     <style name="ButtonBarButton" />
 
+    <style name="splashScreenTheme" parent="android:Theme">
+        <item name="android:windowBackground">@drawable/menu_bg</item>
+        <item name="android:windowNoTitle">true</item>
+    </style>
+
 </resources>

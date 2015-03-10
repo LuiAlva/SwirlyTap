@@ -379,7 +379,6 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
                 }
                 else{}
             }
-
             @Override
             public void onFinish() {
                 BadArray[finalI] = null;
@@ -401,7 +400,6 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
             }
             }
         });
-
     }
     else if(luckArray[randRow][randCol] == "twicePoints")
     {
@@ -416,10 +414,8 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
         /*buttonRunnable = new Runnable() { //what will be called if button has not been clicked
             public void run()
             {
-
                 twiceButton.setVisibility(View.INVISIBLE);
                 twiceButton.setEnabled(false);
-
             }
         };
         if(twiceButton.isEnabled() == true) {
@@ -794,9 +790,7 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
                 gameBG.start();             // Start background song
                 GameTimers(StartTime);      // Start game timers
             }
-
         }.start();
-
     }
 
     public void GameOver() {
@@ -855,6 +849,5 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
         super.onResume();
 
     }
-
 
 }
