@@ -70,7 +70,7 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
     int GoodCount;
     int BadCount;
     int SpecialCount;
-    Vibrator vibration = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE); //set up device vibration control
+    Vibrator vibration;
 
     private static final boolean AUTO_HIDE = true;          // Auto hide UI (ActionBar)
     private static final int AUTO_HIDE_DELAY_MILLIS = 1000; // Hide system UI after 1000 milliseconds
@@ -91,6 +91,7 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
         getActionBar().hide();
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_single_player); //show res/layout/activity_single_player.xml
+        vibration = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE); //set up device vibration control
         //Buttons +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++//
         PauseButton= (ImageButton)findViewById(R.id.pause_button);
         PauseButton.setOnClickListener(this); //sets an onClickListener on PauseButton
