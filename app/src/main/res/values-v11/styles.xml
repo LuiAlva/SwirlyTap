@@ -12,4 +12,9 @@
         <item name="android:background">@color/black_overlay</item>
     </style>
 
+    <style name="splashScreenTheme" parent="android:Theme">
+        <item name="android:windowBackground">@drawable/menu_bg</item>
+        <item name="android:windowNoTitle">true</item>
+    </style>
+
 </resources>
