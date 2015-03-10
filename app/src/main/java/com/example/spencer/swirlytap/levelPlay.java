@@ -11,20 +11,27 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
+import android.widget.TextView;
 
 import java.util.Random;
 
 public class levelPlay extends Activity implements View.OnClickListener
 {
-    final int NUM_ROWS = 7;
-    final int NUM_COLS = 10;
+    private static final int NUM_ROWS = 6; //instantiated size of grid
+    private static final int NUM_COLS = 4;
     String[][] luckArray = new String[NUM_ROWS][NUM_COLS];
     Button buttons[][] = new Button[NUM_ROWS][NUM_COLS];   //created total number of grid buttons
-    int game_speed = 400;
-    int Current_Time = 61000;
-    int score = 0;
-    int level = 1;
+    int lives = 3; //number of lives that player has at start of game
+    int score = 0; //initiating score
+    int level = 1; //start at level 1
+    int lvl1=9, lvl2 = 19, lvl3 = 29, lvl4 = 49;
+    int Current_Time = 61000;    //Current in-game time
+    int Game_Speed = 400;        //Speed of the game
     LinearLayout llayout; //set it up after declaration
+    CountDownTimer SwirlEngine;
+    CountDownTimer Updater;
+//    TextView mTextField = (TextView) findViewById(R.id.displayLives);
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -33,14 +40,16 @@ public class levelPlay extends Activity implements View.OnClickListener
         requestWindowFeature(Window.FEATURE_NO_TITLE); // Removes Title Bar
         setContentView(R.layout.level_play); //show res/layout/activity_single_player.xml
         llayout = (LinearLayout)findViewById(R.id.layout);
-
         populateButtons(); //add buttons to grid
-        goToLevel(level); //go to level 1 at start
+        GameTimers(61000);
+
+        //goToLevel(level); //go to level 1 at start
 
         ///////////////////////////////////////POPULATE LUCK ARRAY///////////////////////////////////
 
         //POPULATE luck array with different types of buttons
         Random rand = new Random(); //randomly select location in luck array
+        boolean isDisplay = false; //used to display certain buttons when true of same mod value
         for(int row = 0; row<NUM_ROWS; row++)
         {
             for(int col = 0; col<NUM_COLS; col++)
@@ -60,6 +69,7 @@ public class levelPlay extends Activity implements View.OnClickListener
             }
         }
     }
+
 
     private void populateButtons() //creating grid of buttons. These buttons are initialized as disabled and invisible
     {
@@ -101,34 +111,97 @@ public class levelPlay extends Activity implements View.OnClickListener
 
     }
 
+    void GameTimers(int Time) { // contains the timers of the game
+
+
+        Updater = new CountDownTimer(Time, 30)
+        {
+            //Get access to totalScore Textbox
+            TextView totalLives= (TextView) findViewById(R.id.displayLives);
+
+            public void onTick(long millisUntilFinished)
+            {
+                //Update totalScore Textbox with current score, end at 60 seconds
+                if (millisUntilFinished / 30 == 0)
+                {
+                    onFinish();
+                }
+                else
+                {
+                    totalLives.setText("" + lives); //Update Score Counter
+                    //Speed_Engine(Score);           //Update the Speed
+                }
+            }
+            // Show text at end of timer
+            public void onFinish() {
+                totalLives.setText("" + lives); //Update Score Counter
+            }
+        }.start();
+
+        SwirlEngine = new CountDownTimer(Time, Game_Speed) {
+            public void onTick(long millisUntilFinished)
+            {
+                if (millisUntilFinished / 30 == 0)
+                {
+                    onFinish();
+                }
+                else
+                {
+                    if(score >= 0 && score < 10) goToLevel(1);
+                    else if(score > 9 && score < 25) goToLevel(2);
+                    else if(score > 24 && score < 45) goToLevel(3);
+                }
+            }
+            public void onFinish()
+            {
+
+            }
+
+        }.start();
+
+    } // End of GameTimers
+
     public void goToLevel(int lvl)
     {
         //depending on level do certain things
         switch(lvl)
         {
             case 1:
+                level = 1;
                 llayout.setBackgroundResource(R.drawable.levelone);
-                gameTimer(1);
+                displayButton(level);
                 break;
             case 2:
+                level = 2;
                 llayout.setBackgroundResource(R.drawable.leveltwo);
-                gameTimer(2);
+                //SwirlEngine.cancel();
+                displayButton(level);
+                break;
+            case 3:
+                level = 3;
+                llayout.setBackgroundResource(R.drawable.levelthree);
+                //SwirlEngine.cancel();
+                displayButton(level);
                 break;
         }
     }
 
-    public void gameTimer(final int currentLevel)
+    public void gameTimer(final int currentLevel, final int gameTime)
     {
-        new CountDownTimer(60000, 1000)
+
+
+        SwirlEngine = new CountDownTimer(60000, gameTime)
         {
             int newScore = score;
             public void onTick(long millisUntilFinished)
             {
-                displayButton(currentLevel);
-                if (score > newScore + 10)
+                if (score > newScore + 9 * currentLevel)
                 {
                     onFinish();
                 }
+                else
+                    displayButton(currentLevel);
+
             }
 
             @Override
@@ -141,13 +214,19 @@ public class levelPlay extends Activity implements View.OnClickListener
         }.start();
 
     }
+    public void displayLives(int showLives)
+    {
+       // mTextField.setText(showLives);
+    }
     public void displayButton(int levelNum) //will call when button needs to be displayed
     {
+
         final Runnable buttonRunnable;
         final Handler buttonHandler = new Handler();
         Random r = new Random(); //randomly select location in luck array
         int randRow = r.nextInt(NUM_ROWS);
         int randCol = r.nextInt(NUM_COLS);
+        levelNum = level;
 
         if(luckArray[randRow][randCol]=="good") //GOOD BUTTON +1 POINT IF CLICKED
         {
@@ -214,12 +293,15 @@ public class levelPlay extends Activity implements View.OnClickListener
                         v.setVisibility(View.INVISIBLE);         // Make Swirl disappear when clicked
                         v.setEnabled(false);                     // Disable button
                         score -= 5;                                 // Add one to score
+                        lives -= 1;
+                        displayLives(lives);
+                        //check if lives == 0...if so then call end game activity
                     }
                 }
             });
 
         }
-        else if(luckArray[randRow][randCol] == "twicePoints" && levelNum == 3)
+        else if(luckArray[randRow][randCol] == "twicePoints" && levelNum >= 3)
         {
             final Button twiceButton = buttons[randRow][randCol];     //Button in this location
             twiceButton.setBackgroundResource(R.drawable.twiceswirl); //Set image to goodswirl
@@ -253,6 +335,7 @@ public class levelPlay extends Activity implements View.OnClickListener
             });
 
         }
+
 
     } //End of displaybutton
 
