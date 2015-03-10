@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
+import android.os.Vibrator;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,9 +21,7 @@ import android.widget.PopupWindow;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
-
 import com.example.spencer.swirlytap.util.SystemUiHider;
-
 import java.io.IOException;
 import java.util.Random;
 
@@ -71,6 +70,7 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
     int GoodCount;
     int BadCount;
     int SpecialCount;
+    Vibrator vibration = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE); //set up device vibration control
 
     private static final boolean AUTO_HIDE = true;          // Auto hide UI (ActionBar)
     private static final int AUTO_HIDE_DELAY_MILLIS = 1000; // Hide system UI after 1000 milliseconds
@@ -277,7 +277,6 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
             TimerId = timer;
             ArrayLocation = location;
         }
-
     }
 
     public void displayButton() //will call when button needs to be displayed
@@ -390,13 +389,13 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
         badButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v)
             {
-
-                {
-                    playBad(tapBad);
-                    BadArray[finalI] = null;                // Remove from array
-                    v.setVisibility(View.INVISIBLE);         // Make Swirl disappear when clicked
-                    v.setEnabled(false);                     // Disable button
-                    Score -= 5;                                 // Add one to score
+            {
+                playBad(tapBad);                        // Play tapBad
+                vibration.vibrate(300);                 // Vibrate device for 300 milliseconds
+                BadArray[finalI] = null;                // Remove from array
+                v.setVisibility(View.INVISIBLE);        // Make Swirl disappear when clicked
+                v.setEnabled(false);                    // Disable button
+                Score -= 5;                             // Add one to score
             }
             }
         });
