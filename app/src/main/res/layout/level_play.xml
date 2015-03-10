@@ -9,6 +9,27 @@
         android:id="@+id/tableForButtons"
         android:layout_width="match_parent"
         android:layout_height="577dp"
-        android:orientation="horizontal" />
+        android:orientation="horizontal" >
+
+        <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent">
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="@string/lives"
+                android:id="@+id/displayLives"
+                android:layout_column="0" />
+
+        </TableRow>
+    </TableLayout>
 
 </LinearLayout>

@@ -38,5 +38,6 @@
     <string name="Confirm">Register</string>
     <string name="UpdateUserInfo">Update</string>
     <string name="DeleteUserInfo">Delete User</string>
+    <string name="lives">Lives:</string>
 
 </resources>
