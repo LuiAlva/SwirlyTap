@@ -11,8 +11,8 @@
         android:layout_height="fill_parent">
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="@string/TimeUp"
             android:id="@+id/GameOverText"
@@ -20,6 +20,7 @@
             android:textColor="#d671faff"
             android:textAlignment="center"
             android:textSize="60sp"
-            android:textStyle="bold|italic" />
+            android:textStyle="bold|italic"
+            android:gravity="center" />
     </FrameLayout>
 </LinearLayout>

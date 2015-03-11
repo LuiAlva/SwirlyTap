@@ -46,8 +46,9 @@
 
     <FrameLayout
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_below="@+id/frameLayout">
+        android:layout_height="130sp"
+        android:layout_below="@+id/frameLayout"
+        android:layout_alignParentBottom="true">
 
         <Button
             android:layout_width="140sp"
@@ -62,8 +63,8 @@
             android:text="@string/play_again_test"
             android:id="@+id/PlayAgainMain"
             android:layout_width="140sp"
-            android:layout_height="30sp"
-            android:textSize="12sp"
+            android:layout_height="60sp"
+            android:textSize="17sp"
             android:background="@drawable/button_bg"
             android:layout_gravity="center_horizontal|bottom" />
     </FrameLayout>

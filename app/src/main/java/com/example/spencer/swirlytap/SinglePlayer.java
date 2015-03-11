@@ -673,6 +673,7 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
 
     //Continues game from Pause Menu
     public void Continue(View v) {
+        popupWindow.dismiss();
         new CountDownTimer(800,800) {
             int i;
             @Override
@@ -701,7 +702,6 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
 
             @Override
             public void onFinish() {
-                popupWindow.dismiss();
                 GameTimers(Current_Time);
                 gameBG.start();
             }
