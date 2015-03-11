@@ -14,16 +14,15 @@
         android:layout_height="fill_parent"
         android:weightSum="1">
 
-        <LinearLayout
-            android:orientation="vertical"
+        <TableRow
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:weightSum="1">
+            android:layout_height="200sp">
 
             <RelativeLayout
                 android:layout_width="fill_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1.11">
+                android:layout_height="131dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginTop="30sp">
 
                 <TextView
                     android:text="@string/temp_you_scored"
@@ -45,72 +44,79 @@
                     android:layout_centerHorizontal="true" />
 
             </RelativeLayout>
+        </TableRow>
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="384dp">
+        <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
 
-                <Button
-                    android:text="@string/action_home"
-                    android:id="@+id/returnHome"
-                    android:layout_width="225sp"
-                    android:layout_height="80sp"
-                    android:textSize="30sp"
-                    android:textColor="#ff010100"
-                    android:background="@drawable/button_bg"
-                    android:layout_above="@+id/Share"
-                    android:layout_centerHorizontal="true" />
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent">
 
-                <Button
-                    android:text="@string/share"
-                    android:id="@+id/Share"
-                    android:layout_width="225sp"
-                    android:layout_height="80sp"
-                    android:textSize="30sp"
-                    android:textColor="#ff010100"
-                    android:background="@drawable/button_bg"
-                    android:layout_above="@+id/HighScore"
-                    android:layout_alignLeft="@+id/returnHome"
-                    android:layout_alignStart="@+id/returnHome" />
-
-                <Button
-                    android:text="@string/High_Score"
-                    android:id="@+id/HighScore"
-                    android:layout_width="225sp"
-                    android:layout_height="80sp"
-                    android:textSize="30sp"
-                    android:textColor="#ff010100"
-                    android:layout_centerVertical="true"
-                    android:background="@drawable/button_bg"
-                    android:enabled="true"
-                    android:focusableInTouchMode="true"
-                    android:clickable="true"
-                    android:layout_alignParentBottom="true"
-                    android:layout_alignLeft="@+id/Share"
-                    android:layout_alignStart="@+id/Share"
-                    android:layout_marginBottom="42dp" />
-
-                <Button
-                    android:text="@string/play_again"
-                    android:id="@+id/PlayAgain"
-                    android:layout_width="225dp"
-                    android:layout_height="80dp"
-                    android:textSize="30sp"
-                    android:textColor="#ff000000"
-                    android:background="@drawable/button_bg"
-                    android:gravity="center"
-                    android:layout_above="@+id/returnHome"
-                    android:layout_alignLeft="@+id/returnHome"
-                    android:layout_alignStart="@+id/returnHome" />
-
-                <!--    <com.twitter.sdk.android.tweetui.TweetView
-                    xmlns:twittersdk="http://schemas.android.com/apk/res-auto"
-                    android:id="@+id/photo_default_tweet"
-                    android:layout_width="match_parent"
+                <GridLayout
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    twittersdk:tw__tweet_id="20"/> -->
+                    android:layout_marginTop="30sp"
+                    android:orientation="vertical"
+                    android:layout_gravity="center">
 
-            </RelativeLayout>
-        </LinearLayout>
+                    <Button
+                        android:text="@string/action_home"
+                        android:id="@+id/returnHome"
+                        android:layout_width="140sp"
+                        android:layout_height="40sp"
+                        android:textSize="20sp"
+                        android:textColor="#ff010100"
+                        android:background="@drawable/button_bg"
+                        android:layout_marginBottom="20sp" />
+
+                    <Button
+                        android:text="@string/share"
+                        android:id="@+id/Share"
+                        android:layout_width="140sp"
+                        android:layout_height="40sp"
+                        android:textSize="20sp"
+                        android:textColor="#ff010100"
+                        android:background="@drawable/button_bg"
+                        android:layout_marginBottom="20sp" />
+
+                    <Button
+                        android:text="@string/High_Score"
+                        android:id="@+id/HighScore"
+                        android:layout_width="140sp"
+                        android:layout_height="40sp"
+                        android:textSize="17sp"
+                        android:textColor="#ff010100"
+                        android:background="@drawable/button_bg"
+                        android:enabled="true"
+                        android:focusableInTouchMode="true"
+                        android:clickable="true"
+                        android:layout_marginBottom="20sp" />
+
+                    <Button
+                        android:text="@string/play_again"
+                        android:id="@+id/PlayAgain"
+                        android:layout_width="140sp"
+                        android:layout_height="40sp"
+                        android:textSize="18sp"
+                        android:textColor="#ff000000"
+                        android:background="@drawable/button_bg"
+                        android:gravity="center"
+                        android:layout_marginBottom="20sp" />
+
+                    <!--    <com.twitter.sdk.android.tweetui.TweetView
+                        xmlns:twittersdk="http://schemas.android.com/apk/res-auto"
+                        android:id="@+id/photo_default_tweet"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        twittersdk:tw__tweet_id="20"/> -->
+
+                </GridLayout>
+            </LinearLayout>
+
+        </TableRow>
     </LinearLayout>
+
 </LinearLayout>

@@ -13,7 +13,6 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="@string/Countdown"
             android:id="@+id/count_down_text"
             android:layout_gravity="center_horizontal"
@@ -21,6 +20,7 @@
             android:layout_centerHorizontal="true"
             android:textColor="#d671faff"
             android:textAlignment="center"
-            android:textSize="300sp" />
+            android:textSize="300sp"
+            android:textStyle="bold|italic" />
     </RelativeLayout>
 </LinearLayout>

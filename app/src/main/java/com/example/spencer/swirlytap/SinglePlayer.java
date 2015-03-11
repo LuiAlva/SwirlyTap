@@ -727,7 +727,7 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
         try {
             LayoutInflater inflater = (LayoutInflater) SinglePlayer.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             View layout = inflater.inflate(R.layout.activity_pause_menu, (ViewGroup)findViewById(R.id.pause_layout));
-            popupWindow = new PopupWindow(layout, 380, 800, true);
+            popupWindow = new PopupWindow(layout, getWindow().getAttributes().width, getWindow().getAttributes().height, true);
             popupWindow.showAtLocation(layout, Gravity.CENTER, 0, 0);
             ImageButton Continue = (ImageButton)findViewById(R.id.Paused);
             Continue.setOnClickListener( new View.OnClickListener() {
@@ -762,7 +762,7 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
         try {
             LayoutInflater inflater = (LayoutInflater) SinglePlayer.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             View layout = inflater.inflate(R.layout.game_start_screen, (ViewGroup)findViewById(R.id.countdown_layout));
-            popupWindow = new PopupWindow(layout, 380, 800, true);
+            popupWindow = new PopupWindow(layout, getWindow().getAttributes().width, getWindow().getAttributes().height, true);
             popupWindow.showAtLocation(layout, Gravity.CENTER, 0, 0);
         }catch(Exception e) {
             e.printStackTrace();
@@ -797,7 +797,7 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
         try {
             LayoutInflater inflater = (LayoutInflater) SinglePlayer.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             View layout = inflater.inflate(R.layout.game_over_screen, (ViewGroup)findViewById(R.id.game_over_layout));
-            popupWindow = new PopupWindow(layout, 600, 900, true);
+            popupWindow = new PopupWindow(layout, getWindow().getAttributes().width, getWindow().getAttributes().height, true);
             popupWindow.showAtLocation(layout, Gravity.CENTER, 0, 0);
         }catch(Exception e) {
             e.printStackTrace();

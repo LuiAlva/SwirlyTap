@@ -1,7 +1,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.spencer.swirlytap.PauseMenu"
+    tools:context="com.example.spencer.swirlytap.SinglePlayer"
     android:orientation="vertical"
     android:background="@drawable/tw__transparent"
     android:clickable="true"
@@ -27,15 +27,16 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/Paused"
                     android:src="@drawable/paused"
-                    android:contentDescription="Paused"
+                    android:contentDescription="@string/Paused"
                     android:scaleType="centerInside"
                     android:onClick="Continue"
                     android:background="#00ffffff"
                     android:layout_alignParentTop="true"
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true"
-                    android:layout_marginTop="60sp"
-                    android:layout_alignParentRight="true" />
+                    android:layout_marginTop="80sp"
+                    android:layout_marginLeft="20sp"
+                    android:layout_marginRight="20sp" />
             </RelativeLayout>
 
             <FrameLayout
@@ -46,7 +47,7 @@
                     style="?android:attr/buttonStyleSmall"
                     android:layout_width="200sp"
                     android:layout_height="60sp"
-                    android:text="QUIT"
+                    android:text="@string/QUIT"
                     android:id="@+id/Quit"
                     android:background="@drawable/button_bg"
                     android:enabled="true"
@@ -55,9 +56,6 @@
                     android:typeface="normal"
                     android:nestedScrollingEnabled="false"
                     android:textStyle="bold"
-                    android:layout_alignParentTop="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_alignParentEnd="true"
                     android:layout_gravity="center_horizontal|bottom"
                     android:longClickable="true" />
 
@@ -65,7 +63,7 @@
                     style="?android:attr/buttonStyleSmall"
                     android:layout_width="200sp"
                     android:layout_height="60sp"
-                    android:text="RESTART"
+                    android:text="@string/RESTART"
                     android:id="@+id/Restart"
                     android:background="@drawable/button_bg"
                     android:enabled="true"
@@ -74,16 +72,13 @@
                     android:typeface="normal"
                     android:nestedScrollingEnabled="false"
                     android:textStyle="bold"
-                    android:layout_alignParentTop="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_alignParentEnd="true"
                     android:layout_gravity="center" />
 
                 <Button
                     style="?android:attr/buttonStyleSmall"
                     android:layout_width="200sp"
                     android:layout_height="60sp"
-                    android:text="CONTINUE"
+                    android:text="@string/CONTINUE"
                     android:id="@+id/Continue"
                     android:background="@drawable/button_bg"
                     android:enabled="true"
@@ -91,10 +86,7 @@
                     android:textSize="20sp"
                     android:typeface="normal"
                     android:textStyle="bold"
-                    android:layout_gravity="center_horizontal|top"
-                    android:layout_alignParentTop="true"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentStart="true" />
+                    android:layout_gravity="center_horizontal|top"/>
 
             </FrameLayout>
 

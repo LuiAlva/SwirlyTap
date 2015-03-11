@@ -19,7 +19,7 @@
             android:layout_gravity="center"
             android:textColor="#d671faff"
             android:textAlignment="center"
-            android:textSize="40sp"
+            android:textSize="60sp"
             android:textStyle="bold|italic" />
     </FrameLayout>
 </LinearLayout>
