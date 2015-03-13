@@ -57,13 +57,9 @@ public class levelPlay extends Activity implements View.OnClickListener
                 //bad button should display in a more random fashion...please test
                 int randCell = rand.nextInt(NUM_ROWS*NUM_COLS); //random selection of numbers
                 if(randCell%5 ==0) //much less chance to receive bad button
-                {
                     luckArray[row][col] = "bad"; //place bad button in array
-                }
                 else if(randCell%6 == 0)
-                {
                     luckArray[row][col] = "twicePoints"; //place 2x button in array
-                }
                 else
                     luckArray[row][col] = "good"; //much higher chance to receive good button
             }
@@ -82,7 +78,6 @@ public class levelPlay extends Activity implements View.OnClickListener
             table.addView(tableRow);
             for(int col = 0; col < NUM_COLS; col++) //cols instantiated at top
             {
-
                 Button Swirl = new Button(this); //create button to display correctly
                 //Swirl.setBackgroundResource(R.drawable.goodswirl); //make this grid block location have the image of goodswirl
                 Swirl.setVisibility(View.INVISIBLE);               //Start Swirl Invisible
@@ -101,7 +96,6 @@ public class levelPlay extends Activity implements View.OnClickListener
                 });
                 tableRow.addView(Swirl);
                 buttons[row][col] = Swirl;
-
             }
         }//end 'for'
     }//end private void populateButtons
@@ -112,8 +106,6 @@ public class levelPlay extends Activity implements View.OnClickListener
     }
 
     void GameTimers(int Time) { // contains the timers of the game
-
-
         Updater = new CountDownTimer(Time, 30)
         {
             //Get access to totalScore Textbox
@@ -123,14 +115,11 @@ public class levelPlay extends Activity implements View.OnClickListener
             {
                 //Update totalScore Textbox with current score, end at 60 seconds
                 if (millisUntilFinished / 30 == 0)
-                {
                     onFinish();
-                }
+
                 else
-                {
                     totalLives.setText("" + lives); //Update Score Counter
                     //Speed_Engine(Score);           //Update the Speed
-                }
             }
             // Show text at end of timer
             public void onFinish() {
@@ -150,6 +139,7 @@ public class levelPlay extends Activity implements View.OnClickListener
                     if(score >= 0 && score < 10) goToLevel(1);
                     else if(score > 9 && score < 25) goToLevel(2);
                     else if(score > 24 && score < 45) goToLevel(3);
+                    else if(score > 44 && score < 85) goToLevel(4);
                 }
             }
             public void onFinish()
@@ -183,6 +173,12 @@ public class levelPlay extends Activity implements View.OnClickListener
                 //SwirlEngine.cancel();
                 displayButton(level);
                 break;
+            case 4:
+                level = 4;
+                llayout.setBackgroundResource(R.drawable.levelthree);
+                displayButton(level);
+                break;
+
         }
     }
 
