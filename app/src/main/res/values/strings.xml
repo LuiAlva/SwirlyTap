@@ -20,7 +20,7 @@
     <string name="restart">Restart Game</string>
     <string name="share">Share</string>
     <string name="share_score">Share Score</string>
-    <string name="High_Score">High Score</string>
+    <string name="High_Score">High Scores</string>
     <string name="congratulations">Congratulations!</string>
     <string name="title_activity_pause_menu">PauseMenu</string>
     <string name="dummy_button">Dummy Button</string>
@@ -39,5 +39,14 @@
     <string name="UpdateUserInfo">Update</string>
     <string name="DeleteUserInfo">Delete User</string>
     <string name="lives">Lives:</string>
+    <string name="Login">Lets Get Started!</string>
+    <string name="TimeMode">Time Mode</string>
+    <string name="LevelMode">Level Mode</string>
+    <string name="TitleImage">Title: SwirlyTap</string>
+    <string name="CONTINUE">CONTINUE</string>
+    <string name="RESTART">RESTART</string>
+    <string name="QUIT">QUIT</string>
+    <string name="Paused">Paused</string>
+
 
 </resources>

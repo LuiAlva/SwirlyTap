@@ -15,38 +15,22 @@
         android:id="@+id/frameLayout">
 
         <Button
-            android:text="Level Mode"
-            android:id="@+id/levelMode"
-            android:layout_width="180sp"
-            android:layout_height="60sp"
-            android:textSize="24sp"
-            android:background="@drawable/button_bg"
-            android:layout_below="@+id/singlePlayer"
-            android:layout_alignLeft="@+id/singlePlayer"
-            android:layout_alignStart="@+id/singlePlayer"
-            android:layout_gravity="center_horizontal|bottom" />
-
-        <Button
-            android:text="Time Mode"
+            android:text="@string/TimeMode"
             android:id="@+id/singlePlayer"
             android:layout_width="180sp"
             android:layout_height="60sp"
-            android:layout_centerVertical="true"
-            android:layout_centerHorizontal="true"
             android:textSize="24sp"
             android:background="@drawable/button_bg"
-            android:layout_gravity="center" />
+            android:layout_gravity="center_horizontal|top" />
 
         <Button
+            android:text="@string/LevelMode"
+            android:id="@+id/levelMode"
             android:layout_width="180sp"
             android:layout_height="60sp"
-            android:text="Lets Get Started!"
-            android:textSize="26sp"
-            android:id="@+id/LogIn"
+            android:textSize="22sp"
             android:background="@drawable/button_bg"
-            android:layout_gravity="center_horizontal|top"
-            android:layout_alignBottom="@+id/imageView2"
-            android:layout_centerHorizontal="true" />
+            android:layout_gravity="center" />
 
     </FrameLayout>
 
@@ -57,23 +41,32 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="37sp" />
+        android:layout_marginTop="37sp"
+        android:contentDescription="@string/TitleImage" />
 
     <FrameLayout
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_below="@+id/frameLayout">
+        android:layout_height="130sp"
+        android:layout_below="@+id/frameLayout"
+        android:layout_alignParentBottom="true">
+
+        <Button
+            android:layout_width="140sp"
+            android:layout_height="60sp"
+            android:text="@string/Login"
+            android:textSize="16sp"
+            android:id="@+id/LogIn"
+            android:background="@drawable/button_bg"
+            android:layout_gravity="center_horizontal|top" />
 
         <Button
             android:text="@string/play_again_test"
             android:id="@+id/PlayAgainMain"
-            android:layout_width="180sp"
+            android:layout_width="140sp"
             android:layout_height="60sp"
-            android:textSize="16sp"
+            android:textSize="17sp"
             android:background="@drawable/button_bg"
-            android:layout_below="@+id/levelMode"
-            android:layout_centerHorizontal="true"
-            android:layout_gravity="center" />
+            android:layout_gravity="center_horizontal|bottom" />
     </FrameLayout>
 
 </RelativeLayout>
