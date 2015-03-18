@@ -2,34 +2,101 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="horizontal"
+    android:orientation="vertical"
     android:id="@+id/layout">
 
-    <TableLayout
-        android:id="@+id/tableForButtons"
-        android:layout_width="match_parent"
-        android:layout_height="577dp"
-        android:orientation="horizontal" >
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_column="0">
 
-        <TableRow
+        <LinearLayout
+            android:orientation="vertical"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent">
 
-        </TableRow>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#6f000000"
+                android:layout_gravity="center_horizontal">
 
-        <TableRow
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent">
+                <ImageButton
+                    android:layout_width="40sp"
+                    android:layout_height="60sp"
+                    android:scaleType="fitXY"
+                    android:background="#00ffffff"
+                    android:id="@+id/lifeone"
+                    android:layout_alignBottom="@+id/imageButton"
+                    android:layout_alignParentTop="true"
+                    android:src="@drawable/heart" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="@string/lives"
-                android:id="@+id/displayLives"
-                android:layout_column="0" />
+                <ImageButton
+                    android:layout_width="40sp"
+                    android:layout_height="60sp"
+                    android:scaleType="fitXY"
+                    android:background="#00ffffff"
+                    android:id="@+id/lifetwo"
+                    android:layout_alignParentTop="true"
+                    android:layout_toRightOf="@+id/lifeone"
+                    android:layout_alignBottom="@+id/lifeone"
+                    android:src="@drawable/heart" />
 
-        </TableRow>
-    </TableLayout>
+                <ImageButton
+                    android:layout_width="40sp"
+                    android:layout_height="60sp"
+                    android:scaleType="fitXY"
+                    android:background="#00ffffff"
+                    android:id="@+id/lifethree"
+                    android:layout_alignParentTop="true"
+                    android:layout_toRightOf="@+id/lifetwo"
+                    android:layout_alignBottom="@+id/lifetwo"
+                    android:src="@drawable/heart" />
+
+                <TextView
+                    android:text="@string/initial_Score"
+                    android:id="@+id/textView4"
+                    android:layout_width="130sp"
+                    android:layout_height="78dp"
+                    android:scaleType="center"
+                    android:textSize="50sp"
+                    android:textColor="#ff4ed7e5"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true"
+                    android:gravity="center"
+                    android:background="@drawable/score_frame" />
+
+                <ImageButton
+                    android:src="@drawable/pause"
+                    android:id="@+id/imageButton"
+                    android:layout_width="88sp"
+                    android:layout_height="63sp"
+                    android:scaleType="fitXY"
+                    android:background="#00ffffff"
+                    android:clickable="true"
+                    android:cropToPadding="false"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true" />
+
+                <ImageView
+                    android:id="@+id/imageView3"
+                    android:layout_width="match_parent"
+                    android:layout_height="5sp"
+                    android:layout_below="@+id/textView4"
+                    android:layout_centerHorizontal="true" />
+
+                <TableLayout
+                    android:id="@+id/tableForButtons"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:layout_below="@+id/imageView3"
+                    android:layout_centerHorizontal="true" />
+
+            </RelativeLayout>
+        </LinearLayout>
+    </LinearLayout>
 
 </LinearLayout>
