@@ -39,7 +39,7 @@ public class DatabaseOperations extends SQLiteOpenHelper {
         ContentValues cv = new ContentValues();
         cv.put(TableData.TableInfo.USER_NAME,username);
         cv.put(TableData.TableInfo.USER_PASS,password);
-        long v = SQ.insert(TableData.TableInfo.TABLE_NAME, null,cv);
+        long i = SQ.insert(TableData.TableInfo.TABLE_NAME, null,cv);
         Log.d("Database operations", "Something inserted");
     }
 }

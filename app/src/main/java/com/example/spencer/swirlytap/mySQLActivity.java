@@ -1,6 +1,7 @@
 
 package com.example.spencer.swirlytap;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.View;
@@ -34,6 +35,8 @@ public class mySQLActivity extends ActionBarActivity implements View.OnClickList
     }
     private void RegisterClick()
     {
+        startActivity(new Intent(mySQLActivity.this,RegisterActivity.class));
+        finish();
 
     }
     private void UpDateClick()

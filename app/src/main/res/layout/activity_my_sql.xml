@@ -16,7 +16,11 @@
         android:layout_alignParentTop="true"
         android:layout_marginTop="59dp"
         android:textSize="35sp"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:clickable="true"
+        android:focusableInTouchMode="true"
+        android:focusable="true"
+        android:enabled="true" />
 
     <Button
         android:layout_width="170sp"
@@ -28,7 +32,11 @@
         android:layout_alignStart="@+id/LogIn"
         android:layout_alignRight="@+id/LogIn"
         android:layout_alignEnd="@+id/LogIn"
-        android:textSize="30sp" />
+        android:textSize="30sp"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:clickable="true"
+        android:enabled="true" />
 
     <Button
         android:layout_width="170sp"
@@ -38,7 +46,9 @@
         android:layout_below="@+id/Register"
         android:layout_alignLeft="@+id/Register"
         android:layout_alignStart="@+id/Register"
-        android:textSize="30sp" />
+        android:textSize="30sp"
+        android:clickable="true"
+        android:enabled="true" />
 
     <Button
         android:layout_width="170sp"
@@ -48,7 +58,11 @@
         android:layout_below="@+id/UpDate"
         android:layout_alignLeft="@+id/UpDate"
         android:layout_alignStart="@+id/UpDate"
-        android:textSize="23sp" />
+        android:textSize="23sp"
+        android:clickable="true"
+        android:enabled="true"
+        android:focusableInTouchMode="true"
+        android:focusable="true" />
 
 
 </RelativeLayout>

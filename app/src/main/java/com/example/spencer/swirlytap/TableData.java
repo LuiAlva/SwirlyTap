@@ -2,9 +2,6 @@ package com.example.spencer.swirlytap;
 
 import android.provider.BaseColumns;
 
-/**
- * Created by ebe550 on 3/10/2015.
- */
 public class TableData {
 
     public TableData()

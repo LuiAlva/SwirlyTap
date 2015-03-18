@@ -51,6 +51,11 @@
             android:name=".mySQLActivity"
             android:label="@string/title_activity_my_sql" >
         </activity>
+        <activity
+            android:name= ".RegisterActivity"
+            android:label="RegisterActivity" >
+            </activity>
+
         <meta-data
             android:name="com.crashlytics.ApiKey"
             android:value="3c3dfc16c40dbf849a9915c2ece897ac19b071d6" />

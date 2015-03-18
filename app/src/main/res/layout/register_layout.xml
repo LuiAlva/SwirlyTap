@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/Register_layout"
+    android:gravity="top|center_vertical|center|center_horizontal">
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:id="@+id/editUserName"
+        android:layout_gravity="right"
+        android:hint ="@string/enterUN"
+        android:textSize="30sp" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:id="@+id/editpassword"
+        android:layout_gravity="right"
+        android:inputType="textPassword"
+        android:hint ="@string/enterPass"
+        android:textSize="30sp" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPassword"
+        android:hint="@string/Pass_Word"
+        android:id="@+id/editpassword1"
+        android:layout_gravity="right"
+        android:textSize="30sp" />
+
+    <Button
+        android:layout_width="195sp"
+        android:layout_height="75sp"
+        android:text="@string/Register_pass"
+        android:id="@+id/register"
+        android:textSize="25sp"
+        android:gravity="center" />
+
+
+</LinearLayout>

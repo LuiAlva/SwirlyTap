@@ -47,6 +47,14 @@
     <string name="RESTART">RESTART</string>
     <string name="QUIT">QUIT</string>
     <string name="Paused">Paused</string>
+    <string name="pass_word">Password</string>
+    <string name="name_pass">Name</string>
+    <string name="Pass_Word">Confirm Password</string>
+    <string name="password">Password</string>
+    <string name="register_button">New Button</string>
+    <string name="Register_pass">Register</string>
+    <string name="enterUN">Enter Username</string>
+    <string name="enterPass">Enter Password</string>
 
 
 </resources>
