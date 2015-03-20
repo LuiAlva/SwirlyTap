@@ -116,7 +116,7 @@ public class levelPlay extends Activity implements View.OnClickListener
 
                     tempLevel = level;
                     llayout.setBackgroundResource(R.drawable.levelone);
-                    Game_Speed = 400;
+                    Game_Speed = 1000;
                     gameTimer(60000);
                 }
                 displayButton(1);
@@ -128,10 +128,22 @@ public class levelPlay extends Activity implements View.OnClickListener
                 {
                     tempLevel = level;
                     llayout.setBackgroundResource(R.drawable.leveltwo);
-                    SwirlEngine.cancel();                   // Cancel old Timers
-                    Updater.cancel();
-                    Game_Speed = 425;
-                    gameTimer(60000);
+                    Game_Speed = 900;
+                    SwirlEngine.cancel();                   // cancel the old timer with the old speed
+                    SwirlEngine = new CountDownTimer(Current_Time, Game_Speed) { // start new timer with changed speed
+                        @Override
+                        public void onTick(long millisUntilFinished) {
+                            if (millisUntilFinished / 30 == 0) {
+                                onFinish();
+                            } else {
+                                levelUpdate();
+                            }
+                        }
+                        @Override
+                        public void onFinish() {
+
+                        }
+                    }.start();
                 }
                 //SwirlEngine.cancel();
                 displayButton(2);
@@ -143,10 +155,22 @@ public class levelPlay extends Activity implements View.OnClickListener
                 {
                    tempLevel = level;
                    llayout.setBackgroundResource(R.drawable.levelthree);
-                   SwirlEngine.cancel();                   // Cancel old Timers
-                   Updater.cancel();
-                   Game_Speed = 450;
-                   gameTimer(60000);
+                   Game_Speed = 800;
+                   SwirlEngine.cancel();                   // cancel the old timer with the old speed
+                   SwirlEngine = new CountDownTimer(Current_Time, Game_Speed) { // start new timer with changed speed
+                        @Override
+                        public void onTick(long millisUntilFinished) {
+                            if (millisUntilFinished / 30 == 0) {
+                                onFinish();
+                            } else {
+                                levelUpdate();
+                            }
+                        }
+                        @Override
+                        public void onFinish() {
+
+                        }
+                    }.start();
                 }
                 displayButton(2);
                 break;
@@ -157,10 +181,22 @@ public class levelPlay extends Activity implements View.OnClickListener
                 {
                     tempLevel = level;
                     llayout.setBackgroundResource(R.drawable.levelfour);
-                    SwirlEngine.cancel();                   // Cancel old Timers
-                    Updater.cancel();
-                    Game_Speed = 475;
-                    gameTimer(60000);
+                    Game_Speed = 700;
+                    SwirlEngine.cancel();                   // cancel the old timer with the old speed
+                    SwirlEngine = new CountDownTimer(Current_Time, Game_Speed) { // start new timer with changed speed
+                        @Override
+                        public void onTick(long millisUntilFinished) {
+                            if (millisUntilFinished / 30 == 0) {
+                                onFinish();
+                            } else {
+                                levelUpdate();
+                            }
+                        }
+                        @Override
+                        public void onFinish() {
+
+                        }
+                    }.start();
                 }
                 displayButton(3);
                 break;
@@ -171,10 +207,23 @@ public class levelPlay extends Activity implements View.OnClickListener
                 {
                     llayout.setBackgroundResource(R.drawable.levelfive);
                     tempLevel = level;
-                    SwirlEngine.cancel();                   // Cancel old Timers
-                    Updater.cancel();
                     Game_Speed = 500;
-                    gameTimer(60000);
+                    SwirlEngine.cancel();                   // cancel the old timer with the old speed
+                    SwirlEngine = new CountDownTimer(Current_Time, Game_Speed) { // start new timer with changed speed
+                        @Override
+                        public void onTick(long millisUntilFinished) {
+                            if (millisUntilFinished / 30 == 0) {
+                                onFinish();
+                            } else {
+                                levelUpdate();
+                            }
+                        }
+                        @Override
+                        public void onFinish() {
+
+                        }
+                    }.start();
+
                 }
                 displayButton(3);
                 break;
@@ -185,10 +234,23 @@ public class levelPlay extends Activity implements View.OnClickListener
                 {
                     llayout.setBackgroundResource(R.drawable.levelthree);
                     tempLevel = level;
-                    SwirlEngine.cancel();                   // Cancel old Timers
-                    Updater.cancel();
                     Game_Speed = 500;
-                    gameTimer(60000);
+                    SwirlEngine.cancel();                   // cancel the old timer with the old speed
+                    SwirlEngine = new CountDownTimer(Current_Time, Game_Speed) { // start new timer with changed speed
+                        @Override
+                        public void onTick(long millisUntilFinished) {
+                            if (millisUntilFinished / 30 == 0) {
+                                onFinish();
+                            } else {
+                                levelUpdate();
+                            }
+                        }
+                        @Override
+                        public void onFinish() {
+
+                        }
+                    }.start();
+
                 }
 
                 displayButton(3);
@@ -435,7 +497,7 @@ public class levelPlay extends Activity implements View.OnClickListener
             }
         }.start();
 
-        Updater = new CountDownTimer(Time, 30)
+        Updater = new CountDownTimer(1000000, 30)
         {
             TextView totalScore= (TextView) findViewById(R.id.displayScore);
             public void onTick(long millisUntilFinished)
