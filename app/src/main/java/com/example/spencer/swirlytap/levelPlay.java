@@ -23,7 +23,10 @@ public class levelPlay extends Activity implements View.OnClickListener
 {
     private static final int NUM_ROWS = 6; //instantiated size of grid
     private static final int NUM_COLS = 4;
-    String[][] luckArray = new String[NUM_ROWS][NUM_COLS];
+    String[][] luckArray1 = new String[NUM_ROWS][NUM_COLS]; //instantiate all luck arrays
+    String[][] luckArray2 = new String[NUM_ROWS][NUM_COLS];
+    String[][] luckArray3 = new String[NUM_ROWS][NUM_COLS];
+    String[][] luckArray4 = new String[NUM_ROWS][NUM_COLS];
     Button buttons[][] = new Button[NUM_ROWS][NUM_COLS];   //created total number of grid buttons
     int lives = 3; //number of lives that player has at start of game
     int score = 0; //initiating score
@@ -31,6 +34,7 @@ public class levelPlay extends Activity implements View.OnClickListener
     int tempLevel = 0; //set temp level to 0
     int Current_Time = 61000;    //Current in-game time
     int Game_Speed = 400;        //Speed of the game
+    int randCell;
     LinearLayout llayout; //set it up after declaration
     CountDownTimer SwirlEngine;
     CountDownTimer Updater;
@@ -48,21 +52,16 @@ public class levelPlay extends Activity implements View.OnClickListener
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE); // Removes Title Bar
         setContentView(R.layout.level_play); //show res/layout/activity_single_player.xml
+
         llayout = (LinearLayout)findViewById(R.id.layout);
         lifeOne = (ImageButton)findViewById(R.id.lifeone);
         lifeTwo = (ImageButton)findViewById(R.id.lifetwo);
         lifeThree = (ImageButton)findViewById(R.id.lifethree);
 
+        setLives(lives);//start game with 3 lives displayed as hearts on screen
         populateButtons(); //add buttons to grid
-
-        GameTimers(61000);
-
-        //goToLevel(level); //go to level 1 at start
-
-        ///////////////////////////////////////POPULATE LUCK ARRAY///////////////////////////////////
-
-        //POPULATE luck array with different types of buttons
-
+        populateLuckArrays(); //create all luck arrays prior to game starting
+        goToLevel(1); //start game at level 1
     }
 
 
@@ -78,7 +77,6 @@ public class levelPlay extends Activity implements View.OnClickListener
             for(int col = 0; col < NUM_COLS; col++) //cols instantiated at top
             {
                 Button Swirl = new Button(this); //create button to display correctly
-                //Swirl.setBackgroundResource(R.drawable.goodswirl); //make this grid block location have the image of goodswirl
                 Swirl.setVisibility(View.INVISIBLE);               //Start Swirl Invisible
                 Swirl.setEnabled(false);                           //Start Swirl button Disabled
                 Swirl.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT,
@@ -104,129 +102,96 @@ public class levelPlay extends Activity implements View.OnClickListener
 
     }
 
-    void GameTimers(int Time) { // contains the timers of the game
 
-        Updater = new CountDownTimer(Time, Game_Speed) {
-            public void onTick(long millisUntilFinished)
-            {
-                if (millisUntilFinished / 30 == 0)
-                {
-                    onFinish();
-                }
-                else
-                {
-                    if(score >= 0 && score < 10) goToLevel(1);
-                    else if(score > 9 && score < 25) goToLevel(2);
-                    else if(score > 24 && score < 45) goToLevel(3);
-                    else if(score > 44 && score < 85) goToLevel(4);
-                    else if(score >84 && score < 130) goToLevel(5);
-                }
-            }
-            public void onFinish()
-            {
-
-            }
-
-        }.start();
-
-    } // End of GameTimers
 
     public void goToLevel(int lvl)
     {
         //depending on level do certain things
         switch(lvl)
         {
+            ///////////////////////////////LEVEL ONE////////////////////////////////////////////
             case 1:
                 if(tempLevel < level)
                 {
-                    Random rand = new Random(); //randomly select location in luck array
-                    for(int row = 0; row<NUM_ROWS; row++)
-                    {
-                        for(int col = 0; col<NUM_COLS; col++)
-                        {
-                                luckArray[row][col] = "good"; //much higher chance to receive good button
-                        }
-                    }
+
                     tempLevel = level;
                     llayout.setBackgroundResource(R.drawable.levelone);
+                    Game_Speed = 400;
+                    gameTimer(60000);
                 }
-
-                displayButton(level);
+                displayButton(1);
                 break;
+            ///////////////////////////////LEVEL TWO////////////////////////////////////////////
             case 2:
                 level = 2;
                 if(tempLevel < level)
                 {
-                    Random rand = new Random(); //randomly select location in luck array
-                    for(int row = 0; row<NUM_ROWS; row++)
-                    {
-                        for(int col = 0; col<NUM_COLS; col++)
-                        {
-                            //bad button should display in a more random fashion...please test
-                            int randCell = rand.nextInt(NUM_ROWS*NUM_COLS); //random selection of numbers
-                            if(randCell%5 ==0) //much less chance to receive bad button
-                                luckArray[row][col] = "bad"; //place bad button in array
-                            else
-                                luckArray[row][col] = "good"; //much higher chance to receive good button
-                        }
-                    }
                     tempLevel = level;
                     llayout.setBackgroundResource(R.drawable.leveltwo);
+                    SwirlEngine.cancel();                   // Cancel old Timers
+                    Updater.cancel();
+                    Game_Speed = 425;
+                    gameTimer(60000);
                 }
-
                 //SwirlEngine.cancel();
-                displayButton(level);
+                displayButton(2);
                 break;
+            ///////////////////////////////LEVEL THREE////////////////////////////////////////////
             case 3:
                 level = 3;
                 if(tempLevel < level)
                 {
                    tempLevel = level;
-                   gameTimer(500);
                    llayout.setBackgroundResource(R.drawable.levelthree);
+                   SwirlEngine.cancel();                   // Cancel old Timers
+                   Updater.cancel();
+                   Game_Speed = 450;
+                   gameTimer(60000);
                 }
-                displayButton(level);
+                displayButton(2);
                 break;
+            ///////////////////////////////LEVEL FOUR////////////////////////////////////////////
             case 4:
                 level = 4;
                 if(tempLevel < level)
                 {
-                    Random rand = new Random(); //randomly select location in luck array
-                    for(int row = 0; row<NUM_ROWS; row++)
-                    {
-                        for(int col = 0; col<NUM_COLS; col++)
-                        {
-                            //bad button should display in a more random fashion...please test
-                            int randCell = rand.nextInt(NUM_ROWS*NUM_COLS); //random selection of numbers
-                            if(randCell%5 ==0) //much less chance to receive bad button
-                                luckArray[row][col] = "bad"; //place bad button in array
-                            else if(randCell%8 == 0)
-                            {
-                                luckArray[row][col] = "twicePoints";
-                            }
-                            else
-                                luckArray[row][col] = "good"; //much higher chance to receive good button
-                        }
-                    }
                     tempLevel = level;
                     llayout.setBackgroundResource(R.drawable.levelfour);
+                    SwirlEngine.cancel();                   // Cancel old Timers
+                    Updater.cancel();
+                    Game_Speed = 475;
+                    gameTimer(60000);
                 }
-                displayButton(level);
+                displayButton(3);
                 break;
+            ///////////////////////////////LEVEL FIVE////////////////////////////////////////////
             case 5:
                 level = 5;
                 if(tempLevel < level)
                 {
                     llayout.setBackgroundResource(R.drawable.levelfive);
-                    gameTimer(500);
                     tempLevel = level;
+                    SwirlEngine.cancel();                   // Cancel old Timers
+                    Updater.cancel();
+                    Game_Speed = 500;
+                    gameTimer(60000);
                 }
-                displayButton(level);
+                displayButton(3);
                 break;
+            ///////////////////////////////LEVEL SIX////////////////////////////////////////////
             case 6:
                 level = 6;
-                llayout.setBackgroundResource(R.drawable.levelthree);
-                displayButton(level);
+                if(tempLevel < level)
+                {
+                    llayout.setBackgroundResource(R.drawable.levelthree);
+                    tempLevel = level;
+                    SwirlEngine.cancel();                   // Cancel old Timers
+                    Updater.cancel();
+                    Game_Speed = 500;
+                    gameTimer(60000);
+                }
+
+                displayButton(3);
                 break;
             //go to infinite level in which will only end if user loses all 3 lives
             //introduce death swirl..loses all 3 lives if clicked
@@ -234,35 +199,7 @@ public class levelPlay extends Activity implements View.OnClickListener
         }
     }
 
-    public void gameTimer(int Time)
-    {
-        SwirlEngine = new CountDownTimer(Time, Game_Speed)
-        {
-            int newScore = score;
-            public void onTick(long millisUntilFinished)
-            {
-                if (millisUntilFinished / Game_Speed == 0)
-                {
-                    onFinish();
-                }
-                else
-                    displayButton(level);
-
-            }
-
-            @Override
-            public void onFinish()
-            {
-                SwirlEngine.start();
-            }
-
-
-
-        }.start();
-
-    }
-
-    public void displayButton(int levelNum) //will call when button needs to be displayed
+    public void displayButton(int luckArrayType) //will call when button needs to be displayed
     {
 
         final Runnable buttonRunnable;
@@ -270,124 +207,255 @@ public class levelPlay extends Activity implements View.OnClickListener
         Random r = new Random(); //randomly select location in luck array
         int randRow = r.nextInt(NUM_ROWS);
         int randCol = r.nextInt(NUM_COLS);
-        levelNum = level;
 
-        if(luckArray[randRow][randCol]=="good") //GOOD BUTTON +1 POINT IF CLICKED
+        if(luckArrayType == 1) //DISPLAY ALL BUTTONS FOR LUCKARRAY 1
         {
-            final Button goodButton = buttons[randRow][randCol];     //Button in this location
-            goodButton.setBackgroundResource(R.drawable.goodswirl); //Set image to goodswirl
-            goodButton.setEnabled(true);                            //Enable Swirl
-            goodButton.setVisibility(View.VISIBLE);                 //Make Swirl Visible
-            buttonRunnable = new Runnable() { //what will be called if button has not been clicked
-                public void run()
-                {
+            if (luckArray1[randRow][randCol] == "good") //GOOD BUTTON +1 POINT IF CLICKED
+            {
 
-                    goodButton.setVisibility(View.INVISIBLE);
-                    goodButton.setEnabled(false);
+                final Button goodButton = buttons[randRow][randCol];     //Button in this location
+                goodButton.setBackgroundResource(R.drawable.goodswirl); //Set image to goodswirl
+                goodButton.setEnabled(true);                            //Enable Swirl
+                goodButton.setVisibility(View.VISIBLE);                 //Make Swirl Visible
+                buttonRunnable = new Runnable() { //what will be called if button has not been clicked
+                    public void run() {
 
-                }
-            };
-            if(goodButton.isEnabled() == true) {
-                buttonHandler.postDelayed(buttonRunnable, 1600); //will disappear after 2 seconds
-            }
-            goodButton.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View v)
-                {
+                        goodButton.setVisibility(View.INVISIBLE);
+                        goodButton.setEnabled(false);
 
-                    {
-                        //tapGood.start();                         // Play short confirmation sound
-                       // playGood(tapGood);
-                        //v.startAnimation(disabledAnimation());
-                       // SwirlEngine.cancel();
-                        //Current_Time += 5000;
-
-                        v.setVisibility(View.INVISIBLE);         // Make Swirl disappear when clicked
-                        v.setEnabled(false);                     // Disable button
-                        score++;                                 // Add one to score
                     }
+                };
+                if (goodButton.isEnabled() == true) {
+                    buttonHandler.postDelayed(buttonRunnable, 1700); //will disappear after 2 seconds
                 }
-            });
+                goodButton.setOnClickListener(new View.OnClickListener() {
+                    public void onClick(View v) {
 
+                        {
+                            v.setVisibility(View.INVISIBLE);         // Make Swirl disappear when clicked
+                            v.setEnabled(false);                     // Disable button
+                            score++;                                 // Add one to score
+                        }
+                    }
+                });
 
-            //set 1 second timer... if timer reached then make button disappear
+            }
         }
-        else if(luckArray[randRow][randCol] == "bad")
+        else if(luckArrayType == 2) //DISPLAY ALL BUTTONS FOR LUCKARRAY 2
         {
-            final Button badButton = buttons[randRow][randCol];     //Button in this location
-            badButton.setBackgroundResource(R.drawable.badswirl); //Set image to goodswirl
-            badButton.setEnabled(true);                            //Enable Swirl
-            badButton.setVisibility(View.VISIBLE);                 //Make Swirl Visible
-            buttonRunnable = new Runnable() { //what will be called if button has not been clicked
-                public void run()
-                {
+            if(luckArray2[randRow][randCol]=="good") //GOOD BUTTON +1 POINT IF CLICKED
+            {
 
-                    badButton.setVisibility(View.INVISIBLE);
-                    badButton.setEnabled(false);
-
-                }
-            };
-            if(badButton.isEnabled() == true) {
-                buttonHandler.postDelayed(buttonRunnable, 1700); //will disappear after 2 seconds
-            }
-            badButton.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View v)
-                {
-
+                final Button goodButton = buttons[randRow][randCol];     //Button in this location
+                goodButton.setBackgroundResource(R.drawable.goodswirl); //Set image to goodswirl
+                goodButton.setEnabled(true);                            //Enable Swirl
+                goodButton.setVisibility(View.VISIBLE);                 //Make Swirl Visible
+                buttonRunnable = new Runnable() { //what will be called if button has not been clicked
+                    public void run()
                     {
-                        //tapBad.start();                         // Play short confirmation sound
-                      //  playBad(tapBad);
-                        //v.startAnimation(disabledAnimation());
-                        v.setVisibility(View.INVISIBLE);         // Make Swirl disappear when clicked
-                        v.setEnabled(false);                     // Disable button
-                        score -= 5;                                 // Add one to score
-                        lives -= 1;
-                        setLives();
-                        //check if lives == 0...if so then call end game activity
-                    }
-                }
-            });
 
+                        goodButton.setVisibility(View.INVISIBLE);
+                        goodButton.setEnabled(false);
+
+                    }
+                };
+                if(goodButton.isEnabled() == true) {
+                    buttonHandler.postDelayed(buttonRunnable, 1700); //will disappear after 2 seconds
+                }
+                goodButton.setOnClickListener(new View.OnClickListener() {
+                    public void onClick(View v)
+                    {
+
+                        {
+                            v.setVisibility(View.INVISIBLE);         // Make Swirl disappear when clicked
+                            v.setEnabled(false);                     // Disable button
+                            score++;                                 // Add one to score
+                        }
+                    }
+                });
+
+
+                //set 1 second timer... if timer reached then make button disappear
+            }
+            else if(luckArray2[randRow][randCol] == "bad")
+            {
+                final Button badButton = buttons[randRow][randCol];     //Button in this location
+                badButton.setBackgroundResource(R.drawable.badswirl); //Set image to goodswirl
+                badButton.setEnabled(true);                            //Enable Swirl
+                badButton.setVisibility(View.VISIBLE);                 //Make Swirl Visible
+                buttonRunnable = new Runnable() { //what will be called if button has not been clicked
+                    public void run()
+                    {
+
+                        badButton.setVisibility(View.INVISIBLE);
+                        badButton.setEnabled(false);
+
+                    }
+                };
+                if(badButton.isEnabled() == true) {
+                    buttonHandler.postDelayed(buttonRunnable, 1700); //will disappear after 2 seconds
+                }
+                badButton.setOnClickListener(new View.OnClickListener() {
+                    public void onClick(View v)
+                    {
+
+                        {
+                            v.setVisibility(View.INVISIBLE);         // Make Swirl disappear when clicked
+                            v.setEnabled(false);                     // Disable button
+                            score -= 2;                                 // Add one to score
+                            lives -= 1;
+                            setLives(lives);
+                        }
+                    }
+                });
+            }
         }
-        else if(luckArray[randRow][randCol] == "twicePoints")
+        else if(luckArrayType == 3) //DISPLAY ALL BUTTONS FOR LUCKARRAY 3
         {
-            final Button twiceButton = buttons[randRow][randCol];     //Button in this location
-            twiceButton.setBackgroundResource(R.drawable.twiceswirl); //Set image to goodswirl
-            twiceButton.setEnabled(true);                            //Enable Swirl
-            twiceButton.setVisibility(View.VISIBLE);                 //Make Swirl Visible
-            buttonRunnable = new Runnable() { //what will be called if button has not been clicked
-                public void run()
-                {
+            if(luckArray3[randRow][randCol]=="good") //GOOD BUTTON +1 POINT IF CLICKED
+            {
 
-                    twiceButton.setVisibility(View.INVISIBLE);
-                    twiceButton.setEnabled(false);
-
-                }
-            };
-            if(twiceButton.isEnabled() == true) {
-                buttonHandler.postDelayed(buttonRunnable, 1600); //will disappear after 2 seconds
-            }
-            twiceButton.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View v)
-                {
-
+                final Button goodButton = buttons[randRow][randCol];     //Button in this location
+                goodButton.setBackgroundResource(R.drawable.goodswirl); //Set image to goodswirl
+                goodButton.setEnabled(true);                            //Enable Swirl
+                goodButton.setVisibility(View.VISIBLE);                 //Make Swirl Visible
+                buttonRunnable = new Runnable() { //what will be called if button has not been clicked
+                    public void run()
                     {
-                        //tapGood.start();                         // Play short confirmation sound
-                      //  playGood2(tapGood);
-                        //v.startAnimation(disabledAnimation());
-                        v.setVisibility(View.INVISIBLE);         // Make Swirl disappear when clicked
-                        v.setEnabled(false);                     // Disable button
-                        score+=2;                                 // Add one to score
+
+                        goodButton.setVisibility(View.INVISIBLE);
+                        goodButton.setEnabled(false);
+
                     }
+                };
+                if(goodButton.isEnabled() == true) {
+                    buttonHandler.postDelayed(buttonRunnable, 1700); //will disappear after 2 seconds
                 }
-            });
+                goodButton.setOnClickListener(new View.OnClickListener() {
+                    public void onClick(View v)
+                    {
 
+                        {
+                            v.setVisibility(View.INVISIBLE);         // Make Swirl disappear when clicked
+                            v.setEnabled(false);                     // Disable button
+                            score++;                                 // Add one to score
+                        }
+                    }
+                });
+
+
+                //set 1 second timer... if timer reached then make button disappear
+            }
+            else if(luckArray3[randRow][randCol] == "bad")
+            {
+                final Button badButton = buttons[randRow][randCol];     //Button in this location
+                badButton.setBackgroundResource(R.drawable.badswirl); //Set image to goodswirl
+                badButton.setEnabled(true);                            //Enable Swirl
+                badButton.setVisibility(View.VISIBLE);                 //Make Swirl Visible
+                buttonRunnable = new Runnable() { //what will be called if button has not been clicked
+                    public void run()
+                    {
+
+                        badButton.setVisibility(View.INVISIBLE);
+                        badButton.setEnabled(false);
+
+                    }
+                };
+                if(badButton.isEnabled() == true) {
+                    buttonHandler.postDelayed(buttonRunnable, 1700); //will disappear after 2 seconds
+                }
+                badButton.setOnClickListener(new View.OnClickListener() {
+                    public void onClick(View v)
+                    {
+
+                        {
+                            v.setVisibility(View.INVISIBLE);         // Make Swirl disappear when clicked
+                            v.setEnabled(false);                     // Disable button
+                            score -= 2;                                 // Add one to score
+                            lives -= 1;
+                            setLives(lives);
+                        }
+                    }
+                });
+
+            }
+            else if(luckArray3[randRow][randCol] == "twicePoints")
+            {
+                final Button twiceButton = buttons[randRow][randCol];     //Button in this location
+                twiceButton.setBackgroundResource(R.drawable.twiceswirl); //Set image to goodswirl
+                twiceButton.setEnabled(true);                            //Enable Swirl
+                twiceButton.setVisibility(View.VISIBLE);                 //Make Swirl Visible
+                buttonRunnable = new Runnable() { //what will be called if button has not been clicked
+                    public void run()
+                    {
+
+                        twiceButton.setVisibility(View.INVISIBLE);
+                        twiceButton.setEnabled(false);
+
+                    }
+                };
+                if(twiceButton.isEnabled() == true) {
+                    buttonHandler.postDelayed(buttonRunnable, 1600); //will disappear after 2 seconds
+                }
+                twiceButton.setOnClickListener(new View.OnClickListener() {
+                    public void onClick(View v)
+                    {
+
+                        {
+                            v.setVisibility(View.INVISIBLE);         // Make Swirl disappear when clicked
+                            v.setEnabled(false);                     // Disable button
+                            score+=2;                                 // Add one to score
+                            // scoreUpdate();
+                        }
+                    }
+                });
+            }
         }
-
 
     } //End of displaybutton
-    public void setLives()
+
+    //GAME TIMERS BELOW
+    public void gameTimer(int Time) //used to speed up button display
     {
-        switch(lives)
+        SwirlEngine = new CountDownTimer(Time, Game_Speed)
+        {
+            int newScore = score;
+            public void onTick(long millisUntilFinished)
+            {
+                if (millisUntilFinished / Game_Speed == 0)
+                    onFinish();
+                else
+                    levelUpdate(); //speed at which buttons are displayed
+            }
+            @Override
+            public void onFinish()
+            {
+                //if finishes then end game and say level was not completed quickly enough
+                //each level must be completed in under 1 minute
+            }
+        }.start();
+
+        Updater = new CountDownTimer(Time, 30)
+        {
+            TextView totalScore= (TextView) findViewById(R.id.displayScore);
+            public void onTick(long millisUntilFinished)
+            {
+                if (millisUntilFinished / 30 == 0)
+                    onFinish();
+                else
+                {
+                    totalScore.setText("" + score); //Update Score Counter
+                }
+            }
+            public void onFinish()
+            {
+                totalScore.setText("" + score); //Update Score Counter
+            }
+        }.start();
+    }
+    public void setLives(int numLives)
+    {
+        switch(numLives)
         {
             case 3: //user has 3 lives ...display all lives as red hearts
                 lifeOne.setBackgroundResource(R.drawable.heart);
@@ -412,7 +480,43 @@ public class levelPlay extends Activity implements View.OnClickListener
         }
     }
 
-    //switch the level cases...for certain levels change background and run animation
+    public void levelUpdate() //will update level depending on score...
+    {
+        if (score >= 0 && score < 10) goToLevel(1);
+        else if (score > 9 && score < 25) goToLevel(2);
+        else if (score > 24 && score < 45) goToLevel(3);
+        else if (score > 44 && score < 85) goToLevel(4);
+        else if (score > 84 && score < 130) goToLevel(5);
+        else if (score > 129) goToLevel(6);
+    }
 
+    public void populateLuckArrays()
+    {
+        Random rand = new Random(); //randomly select location in luck array
+        for(int row = 0; row<NUM_ROWS; row++)
+        {
+            for(int col = 0; col<NUM_COLS; col++)
+            {
+                //////////////////////FIRST LUCK ARRAY///////////////////////////////////
+                luckArray1[row][col] = "good"; //all items in luckArray1 are good buttons
+                /////////////////////SECOND LUCK ARRAY///////////////////////////////////
+                randCell = rand.nextInt(NUM_ROWS*NUM_COLS); //random selection of numbers
+                if(randCell%5 ==0) //items in luck array 2 are both good and bad buttons
+                    luckArray2[row][col] = "bad"; //place bad button in array
+                else
+                    luckArray2[row][col] = "good"; //much higher chance to receive good button
+                /////////////////////THIRD LUCK ARRAY//////////////////////////////////////
+                randCell = rand.nextInt(NUM_ROWS*NUM_COLS); //items in luck array 3 are good, bad, and double point buttons
+                if(randCell%3 ==0) //much less chance to receive bad button
+                    luckArray3[row][col] = "bad"; //place bad button in array
+                else if(randCell%8 == 0)
+                    luckArray3[row][col] = "twicePoints";
+                else
+                    luckArray3[row][col] = "good"; //much higher chance to receive good button
+                //ROOM TO ADD LUCK ARRAY 4,5,6...etc
+            }
+        }
+
+    }
 }
 

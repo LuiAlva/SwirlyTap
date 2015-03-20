@@ -29,8 +29,7 @@
                     android:background="#00ffffff"
                     android:id="@+id/lifeone"
                     android:layout_alignBottom="@+id/imageButton"
-                    android:layout_alignParentTop="true"
-                    android:src="@drawable/heart" />
+                    android:layout_alignParentTop="true" />
 
                 <ImageButton
                     android:layout_width="40sp"
@@ -40,8 +39,7 @@
                     android:id="@+id/lifetwo"
                     android:layout_alignParentTop="true"
                     android:layout_toRightOf="@+id/lifeone"
-                    android:layout_alignBottom="@+id/lifeone"
-                    android:src="@drawable/heart" />
+                    android:layout_alignBottom="@+id/lifeone" />
 
                 <ImageButton
                     android:layout_width="40sp"
@@ -51,12 +49,11 @@
                     android:id="@+id/lifethree"
                     android:layout_alignParentTop="true"
                     android:layout_toRightOf="@+id/lifetwo"
-                    android:layout_alignBottom="@+id/lifetwo"
-                    android:src="@drawable/heart" />
+                    android:layout_alignBottom="@+id/lifetwo" />
 
                 <TextView
                     android:text="@string/initial_Score"
-                    android:id="@+id/textView4"
+                    android:id="@+id/displayScore"
                     android:layout_width="130sp"
                     android:layout_height="78dp"
                     android:scaleType="center"
@@ -84,7 +81,7 @@
                     android:id="@+id/imageView3"
                     android:layout_width="match_parent"
                     android:layout_height="5sp"
-                    android:layout_below="@+id/textView4"
+                    android:layout_below="@+id/displayScore"
                     android:layout_centerHorizontal="true" />
 
                 <TableLayout
