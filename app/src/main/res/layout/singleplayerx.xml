@@ -105,7 +105,7 @@
                 <ProgressBar
                     style="?android:attr/progressBarStyleHorizontal"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="30sp"
                     android:id="@+id/SpeedBar"
                     android:background="#5e39f8ff"
                     android:layout_gravity="center_vertical"
@@ -122,7 +122,7 @@
 
                     <ImageButton
                         android:layout_width="50sp"
-                        android:layout_height="50sp"
+                        android:layout_height="40sp"
                         android:id="@+id/Nuke"
                         android:focusableInTouchMode="true"
                         android:src="@drawable/nuke_button_inactive"
@@ -134,7 +134,7 @@
 
                     <ImageButton
                         android:layout_width="50sp"
-                        android:layout_height="50sp"
+                        android:layout_height="40sp"
                         android:id="@+id/PlaceHolderButton1"
                         android:focusableInTouchMode="true"
                         android:src="@drawable/nuke_button_inactive"
@@ -145,7 +145,7 @@
 
                     <ImageButton
                         android:layout_width="50sp"
-                        android:layout_height="50sp"
+                        android:layout_height="40sp"
                         android:id="@+id/PlaceHolderButton2"
                         android:focusableInTouchMode="true"
                         android:src="@drawable/nuke_button_inactive"
@@ -162,14 +162,11 @@
                     android:layout_alignParentLeft="false"
                     android:layout_alignRight="@+id/SpeedBar"
                     android:layout_alignLeft="@+id/SpeedBar"
-                    android:textSize="24sp"
+                    android:textSize="25sp"
                     android:textColor="#ff000000"
                     android:textStyle="bold|italic"
                     android:editable="false"
-                    android:gravity="center"
-                    android:layout_alignParentBottom="false"
-                    android:layout_below="@+id/SpeedBar"
-                    android:background="#4563f6ff" />
+                    android:gravity="center" />
             </RelativeLayout>
 
         </RelativeLayout>

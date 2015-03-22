@@ -18,10 +18,13 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.PopupWindow;
+import android.widget.ProgressBar;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+
 import com.example.spencer.swirlytap.util.SystemUiHider;
+
 import java.io.IOException;
 import java.util.Random;
 
@@ -30,6 +33,7 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
     boolean addTime = false;    //Allows Time button to appear
     PopupWindow popupWindow;//Popup Window for Countdown, Pause menu, and Time over
     ImageButton PauseButton; //create image button for pause
+    ProgressBar Speed_Bar;    //Speed bar
     //Grid & Storage ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++//
     private static final int NUM_ROWS = 6; //instantiated size of grid
     private static final int NUM_COLS = 4;
@@ -42,11 +46,13 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
     //Time & Speed ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++//
     int StartTime = 61000;       //Set start time, 60000 = 60 seconds temporary set to 20 seconds
     int Current_Time = 61000;    //Current in-game time
-    int Game_Speed = 400;        //Speed of the game
-    int Speed_Limit = 200;       //Highest Speed
+    int Current_Speed = 400;     //Current in-game speed
+    int Start_Speed = 370;        //Speed at the start of the game
+    int Speed_Limit = 145;       //Highest Speed
     int Game_Speed_Add = 15;     //Add speed every increment
-    int Speed_Increment = 8;     //Points needed to increment speed
-    int Speed_Increment_Add = 4; //Add to Speed_Increment to make it harder to speed up
+    int Speed_Increment = 5;     //Points needed to increment speed
+    int Speed_Increment_Add = 0; //Add to Speed_Increment to make it harder to speed up
+    int Speed_Increment_Set = 5; //Equal to Speed_Increment
     //Music & Sounds ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++//
     Uri tapGood;              // Sound when Good swirl is tapped
     Uri tapBad;               // Sound for Bad swirl
@@ -60,16 +66,17 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
     //Timers ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++//
     CountDownTimer Updater;        //Timer that updates test and values at 30 frames/ms(millisecond)
     CountDownTimer TimeCountdown;  //Timer that updates the timer every second
-    CountDownTimer SwirlEngine;    //Timer that lets the swirls appear. Update depends on Game_Speed
+    CountDownTimer SwirlEngine;    //Timer that lets the swirls appear. Update depends on Start_Speed
     CountDownTimer CountdownTimer; //Timer for the countdown at the beginning
     //Swirl Disappear System ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++//
     buttonDisappear[] GoodArray = new buttonDisappear[10];
     buttonDisappear[] BadArray = new buttonDisappear[10];
     buttonDisappear[] SpecialArray = new buttonDisappear[10];
     int ArrayLocation;
-    int GoodCount;
-    int BadCount;
-    int SpecialCount;
+    int Good_Pressed = 0;
+    int Bad_Pressed = 0;
+    int Time_Pressed = 0;
+    int Good2_Pressed = 0;
     Vibrator vibration;
 
     private static final boolean AUTO_HIDE = true;          // Auto hide UI (ActionBar)
@@ -95,6 +102,7 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
         //Buttons +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++//
         PauseButton= (ImageButton)findViewById(R.id.pause_button);
         PauseButton.setOnClickListener(this); //sets an onClickListener on PauseButton
+        Speed_Bar = (ProgressBar)findViewById(R.id.SpeedBar);
         //Sounds ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++//
         gameBG = MediaPlayer.create(this, R.raw.game_song); //get background song
         gameBG.setLooping(true);    //make background song loop
@@ -240,7 +248,8 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
                 else
                 {
                     totalScore.setText("" + Score); //Update Score Counter
-                    Speed_Engine(Score);           //Update the Speed
+                    if (Current_Speed != Speed_Limit)
+                        Speed_Engine(Score);           //Update the Speed
                 }
             }
             // Show text at end of timer
@@ -249,7 +258,7 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
             }
         }.start();
 
-        SwirlEngine = new CountDownTimer(Time, Game_Speed) {
+        SwirlEngine = new CountDownTimer(Time, Start_Speed) {
             public void onTick(long millisUntilFinished)
             {
                 if (millisUntilFinished / 30 == 0)
@@ -340,6 +349,8 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
                         v.setVisibility(View.INVISIBLE);         // Make Swirl disappear when clicked
                         v.setEnabled(false);                     // Disable button
                         Score++;                                 // Add one to score
+                        Good_Pressed++;
+
                     }
                 }
             });
@@ -397,6 +408,7 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
                 v.setVisibility(View.INVISIBLE);        // Make Swirl disappear when clicked
                 v.setEnabled(false);                    // Disable button
                 Score -= 5;                             // Add one to score
+                Bad_Pressed++;
             }
             }
         });
@@ -450,6 +462,7 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
                     v.setVisibility(View.INVISIBLE);         // Make Swirl disappear when clicked
                     v.setEnabled(false);                     // Disable button
                     Score+=2;                                 // Add 2 to score
+                    Good2_Pressed++;
                 }
             }
         });
@@ -509,6 +522,7 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
                             TimeCountdown.cancel();
                             Current_Time += 5000;                             // Add 5 seconds to time
                             GameTimers(Current_Time);                          // Add one to score
+                            Time_Pressed++;
                         }
                     }
                 });
@@ -561,6 +575,7 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
                             v.setVisibility(View.INVISIBLE);         // Make Swirl disappear when clicked
                             v.setEnabled(false);                     // Disable button
                             Score++;                                 // Add one to score
+                            Good_Pressed++;
                         }
                     }
                 });
@@ -570,14 +585,15 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
     } //End of displaybutton
 
     void Speed_Engine(int Score) {
-
-        if ((Score % Speed_Increment) == 0 && Score != 0 && Game_Speed >= Speed_Limit) //every (Speed_Increment) points, and the speed isn't going past the speed limit
+        TextView SpeedPercent = (TextView)findViewById(R.id.SpeedLabel);
+        if (((Good_Pressed + Good2_Pressed) % Speed_Increment) == 0 && Score != 0 && Current_Speed > Speed_Limit) //every (Speed_Increment) points, and the speed isn't going past the speed limit
         {
-            Game_Speed -= Game_Speed_Add;           //Speed up the game by 50 frames/second
-            Speed_Increment += Speed_Increment_Add; //Add more points to increment to make it harder to speed up
+            Current_Speed -= Game_Speed_Add;           //Speed up the game by 50 frames/second
+            Speed_Increment_Set += Speed_Increment_Add; // Set points to increment
+            Speed_Increment += Speed_Increment_Set; //Add more points to increment to make it harder to speed up
             addTime = true;                         //Allows adding one add time button
             SwirlEngine.cancel();                   // cancel the old timer with the old speed
-            SwirlEngine = new CountDownTimer(Current_Time, Game_Speed) { // start new timer with changed speed
+            SwirlEngine = new CountDownTimer(Current_Time, Current_Speed) { // start new timer with changed speed
                 @Override
                 public void onTick(long millisUntilFinished) {
                     if (millisUntilFinished / 30 == 0) {
@@ -591,6 +607,16 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
 
                 }
             }.start();
+            // Set the progress of the speedbar and Speed Label
+            Speed_Bar.setProgress((100/((Start_Speed -Speed_Limit)/Game_Speed_Add))*(((Start_Speed -Speed_Limit)/Game_Speed_Add)- ((Current_Speed - Speed_Limit)/Game_Speed_Add)));
+            if(Current_Speed == Speed_Limit) {
+                SpeedPercent.setText("Speed Maxed!");
+                Speed_Bar.setProgress(100);
+            }
+            else {
+                SpeedPercent.setText("Speed: " + (100 / ((Start_Speed - Speed_Limit) / Game_Speed_Add)) * (((Start_Speed - Speed_Limit) / Game_Speed_Add) - ((Current_Speed - Speed_Limit) / Game_Speed_Add)) + "% " + Current_Speed);
+                Speed_Bar.setProgress((100 / ((Start_Speed - Speed_Limit) / Game_Speed_Add)) * (((Start_Speed - Speed_Limit) / Game_Speed_Add) - ((Current_Speed - Speed_Limit) / Game_Speed_Add)));
+            }
         } else {
         }
     } //End Speed_Engine

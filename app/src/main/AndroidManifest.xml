@@ -42,12 +42,6 @@
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name=".PauseMenu"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:label="@string/title_activity_pause_menu"
-            android:theme="@style/FullscreenTheme" >
-        </activity>
-        <activity
             android:name=".mySQLActivity"
             android:label="@string/title_activity_my_sql" >
         </activity>
