@@ -31,6 +31,7 @@ import java.util.Random;
 public class SinglePlayer extends Activity implements View.OnClickListener {
     int Score = 0; //this is total score
     boolean addTime = false;    //Allows Time button to appear
+    boolean paused = false;
     PopupWindow popupWindow;//Popup Window for Countdown, Pause menu, and Time over
     ImageButton PauseButton; //create image button for pause
     ProgressBar Speed_Bar;    //Speed bar
@@ -47,12 +48,12 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
     int StartTime = 61000;       //Set start time, 60000 = 60 seconds temporary set to 20 seconds
     int Current_Time = 61000;    //Current in-game time
     int Current_Speed = 400;     //Current in-game speed
-    int Start_Speed = 370;        //Speed at the start of the game
-    int Speed_Limit = 145;       //Highest Speed
-    int Game_Speed_Add = 15;     //Add speed every increment
-    int Speed_Increment = 5;     //Points needed to increment speed
+    int Start_Speed = 380;        //Speed at the start of the game
+    int Speed_Limit = 180;       //Highest Speed
+    int Game_Speed_Add = 10;     //Add speed every increment
+    int Speed_Increment = 4;     //Points needed to increment speed
     int Speed_Increment_Add = 0; //Add to Speed_Increment to make it harder to speed up
-    int Speed_Increment_Set = 5; //Equal to Speed_Increment
+    int Speed_Increment_Set = 4; //Equal to Speed_Increment
     //Music & Sounds ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++//
     Uri tapGood;              // Sound when Good swirl is tapped
     Uri tapBad;               // Sound for Bad swirl
@@ -109,10 +110,10 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
         CountdownSound = MediaPlayer.create(this, R.raw.countdown); //get countdown sound
         GoodSound = new MediaPlayer();     // Setup MediaPlayer for good sound
         GoodSound2 = new MediaPlayer();    // Setup MediaPlayer for good sound
-        GoodSound.setVolume(16,16);
-        GoodSound2.setVolume(16,16);
         BadSound = new MediaPlayer();      // Setup MediaPlayer for bad sound
         SpecialSound = new MediaPlayer();  // Setup MediaPlayer for Special button sounds
+        GoodSound.setVolume(16,16);
+        GoodSound2.setVolume(16,16);
         tapGood = Uri.parse("android.resource://"+getPackageName()+"/"+R.raw.tap_good);    //Setup sound for Good swirl
         tapBad = Uri.parse("android.resource://"+getPackageName()+"/"+R.raw.tap_bad);      //Setup sound for Bad swirl
         tapTimeAdd = Uri.parse("android.resource://"+getPackageName()+"/"+R.raw.tap_time); //Setup sound for Time up swirl
@@ -222,7 +223,7 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
                     onFinish();
                 }
                 else
-                    Current_Time = (int) millisUntilFinished;         //Updates current time
+                Current_Time = (int) millisUntilFinished;         //Updates current time
                 mTextField.setText("" + millisUntilFinished / 1000);  //display seconds left in text field
             }
             //stop time/game when time is up
@@ -248,8 +249,7 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
                 else
                 {
                     totalScore.setText("" + Score); //Update Score Counter
-                    if (Current_Speed != Speed_Limit)
-                        Speed_Engine(Score);           //Update the Speed
+                    Speed_Engine(Score);           //Update the Speed
                 }
             }
             // Show text at end of timer
@@ -381,7 +381,7 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
             buttonHandler.postDelayed(buttonRunnable, 1700); //will disappear after 2 seconds
         }*/
         final int finalI = i;
-        CountDownTimer temp = new CountDownTimer(1700,1700) { // Set timer for disappearance
+        CountDownTimer temp = new CountDownTimer(1000,1000) { // Set timer for disappearance
             public void onTick(long millisUntilFinished)
             {
                 if (millisUntilFinished / 1700 == 0)
@@ -521,7 +521,7 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
                             Updater.cancel();
                             TimeCountdown.cancel();
                             Current_Time += 5000;                             // Add 5 seconds to time
-                            GameTimers(Current_Time);                          // Add one to score
+                            GameTimers(Current_Time);                          // Update Timers
                             Time_Pressed++;
                         }
                     }
@@ -675,6 +675,10 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
     {
         switch(v.getId()) {
             case R.id.pause_button:
+                paused = true;
+                SwirlEngine.cancel();               // cancel the rest of the timers
+                Updater.cancel();
+                TimeCountdown.cancel();
                 gameBG.pause();                      // Pause the game music
                 for(int i = 0; i < 10; i++) {        // cancel all the timers in disappear array
                     if(GoodArray[i] != null){
@@ -687,9 +691,7 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
                         SpecialArray[i].TimerId.cancel();
                     }
                 }
-                SwirlEngine.cancel();               // cancel the rest of the timers
-                Updater.cancel();
-                TimeCountdown.cancel();
+
                 PopupPauseMenu();                   //Popup the Pause menu
             break;
         }
@@ -699,12 +701,11 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
 
     //Continues game from Pause Menu
     public void Continue(View v) {
-        popupWindow.dismiss();
-        new CountDownTimer(800,800) {
+        new CountDownTimer(30,30) {
             int i;
             @Override
             public void onTick(long millisUntilFinished) {
-                if (millisUntilFinished / 800 == 0)
+                if (millisUntilFinished / 30 == 0)
                 {
                     onFinish();
                 }
@@ -728,6 +729,8 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
 
             @Override
             public void onFinish() {
+                paused = false;
+                popupWindow.dismiss();
                 GameTimers(Current_Time);
                 gameBG.start();
             }
@@ -873,6 +876,44 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
 
     protected void onResume() {
         super.onResume();
+
+        CountdownSound = MediaPlayer.create(this, R.raw.countdown); //get countdown sound
+        GoodSound = new MediaPlayer();     // Setup MediaPlayer for good sound
+        GoodSound2 = new MediaPlayer();    // Setup MediaPlayer for good sound
+        BadSound = new MediaPlayer();      // Setup MediaPlayer for bad sound
+        SpecialSound = new MediaPlayer();  // Setup MediaPlayer for Special button sounds
+        gameBG = MediaPlayer.create(this, R.raw.game_song); //get background song
+
+    }
+
+    protected void onPause() {
+        super.onPause();
+
+        if(!paused) {
+            gameBG.pause();                      // Pause the game music
+            paused = true;
+            for (int i = 0; i < 10; i++) {        // cancel all the timers in disappear array
+                if (GoodArray[i] != null) {
+                    GoodArray[i].TimerId.cancel();
+                }
+                if (BadArray[i] != null) {
+                    BadArray[i].TimerId.cancel();
+                }
+                if (SpecialArray[i] != null) {
+                    SpecialArray[i].TimerId.cancel();
+                }
+            }
+            SwirlEngine.cancel();               // cancel the rest of the timers
+            Updater.cancel();
+            TimeCountdown.cancel();
+            PopupPauseMenu();                   //Popup the Pause menu
+        }
+
+        CountdownSound.release();
+        GoodSound.release();
+        GoodSound2.release();
+        BadSound.release();
+        SpecialSound.release();
 
     }
 
