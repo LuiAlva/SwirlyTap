@@ -12,7 +12,7 @@ public class RegisterActivity extends ActionBarActivity
     EditText  USER_NAME, USER_PASS, CON_PASS;
     String user_name,user_pass,con_pass;
     Button buttonREG;
-    Context newctx;
+    Context newctx = this;
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {

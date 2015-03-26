@@ -31,6 +31,7 @@ public class PlayAgain extends ActionBarActivity implements View.OnClickListener
     Button buttonHome;      //create type button for 'Home'
     Button buttonShare;     //create type button for 'Share'
     Button buttonHighScore; //create type button for 'High Score'
+    MediaPlayer mediaPlayer;// For sounds
 
     private static final boolean AUTO_HIDE = true;          // Auto hide UI (ActionBar)
     private static final int AUTO_HIDE_DELAY_MILLIS = 1000; // Hide system UI after 1000 milliseconds
@@ -46,7 +47,6 @@ public class PlayAgain extends ActionBarActivity implements View.OnClickListener
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_play_again);
         getSupportActionBar().hide();
-        MediaPlayer mediaPlayer; //for sound
         mediaPlayer = MediaPlayer.create(this, R.raw.game_success); //get success sound
 
         Intent game = getIntent(); // Grab the the intent of game that ended
@@ -122,6 +122,7 @@ public class PlayAgain extends ActionBarActivity implements View.OnClickListener
 
         chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, targetedShareIntents.toArray(new Parcelable[]{}));
         startActivity(chooserIntent);
+        finish();
     }
 
     public void onClick(View v)
@@ -144,6 +145,20 @@ public class PlayAgain extends ActionBarActivity implements View.OnClickListener
             /*if High Score is clicked... it will take you to a different screen
             to display the "Leader Board" */
         }
+    }
+
+    protected void onResume() {
+        super.onResume();
+    }
+
+    protected void onPause() {
+        super.onPause();
+
+        mediaPlayer.release();
+    }
+
+    public void onBackPressed() {
+        HomeClick();      //return to Home screen (MainActivity)
     }
 
 ////    TweetComposer.Builder builder = new TweetComposer.Builder(this)
