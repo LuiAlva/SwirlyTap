@@ -6,9 +6,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
-/**
- * Created by ebe550 on 3/10/2015.
- */
+
 public class DatabaseOperations extends SQLiteOpenHelper {
     public static final int database_version = 1;
     public String CREATE_QUERY = "CREATE TABLE" + TableData.TableInfo.TABLE_NAME+"("+TableData.TableInfo.USER_NAME+" TEXT,"+TableData.TableInfo.USER_PASS+"TEXT );";
@@ -39,7 +37,7 @@ public class DatabaseOperations extends SQLiteOpenHelper {
         ContentValues cv = new ContentValues();
         cv.put(TableData.TableInfo.USER_NAME,username);
         cv.put(TableData.TableInfo.USER_PASS,password);
-        long i = SQ.insert(TableData.TableInfo.TABLE_NAME, null,cv);
+        SQ.insert(TableData.TableInfo.TABLE_NAME, null, cv);
         Log.d("Database operations", "Something inserted");
     }
 }

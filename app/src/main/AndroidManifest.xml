@@ -47,7 +47,7 @@
         </activity>
         <activity
             android:name= ".RegisterActivity"
-            android:label="RegisterActivity" >
+            android:label="RegisterActivity">
             </activity>
 
         <meta-data
