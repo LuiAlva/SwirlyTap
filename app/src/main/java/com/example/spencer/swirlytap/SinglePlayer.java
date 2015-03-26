@@ -32,9 +32,10 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
     int Score = 0; //this is total score
     boolean addTime = false;    //Allows Time button to appear
     boolean paused = false;
-    PopupWindow popupWindow;//Popup Window for Countdown, Pause menu, and Time over
-    ImageButton PauseButton; //create image button for pause
-    ProgressBar Speed_Bar;    //Speed bar
+    PopupWindow popupWindow; // Popup Window for Countdown, Pause menu, and Time over
+    ImageButton PauseButton; // create image button for pause
+    ImageButton Nuke;        // Create Image button for Nuke
+    ProgressBar Speed_Bar;   // Speed bar
     //Grid & Storage ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++//
     private static final int NUM_ROWS = 6; //instantiated size of grid
     private static final int NUM_COLS = 4;
@@ -47,7 +48,7 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
     //Time & Speed ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++//
     int StartTime = 61000;       //Set start time, 60000 = 60 seconds temporary set to 20 seconds
     int Current_Time = 61000;    //Current in-game time
-    int Current_Speed = 400;     //Current in-game speed
+    int Current_Speed = 380;     //Current in-game speed
     int Start_Speed = 380;        //Speed at the start of the game
     int Speed_Limit = 180;       //Highest Speed
     int Game_Speed_Add = 10;     //Add speed every increment
@@ -58,12 +59,14 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
     Uri tapGood;              // Sound when Good swirl is tapped
     Uri tapBad;               // Sound for Bad swirl
     Uri tapTimeAdd;           // Sound for Time add swirl
+    Uri CountdownSound;       // Sound for Countdown at the beginning of the game
+    Uri CountdownGoSound;     // Sound for Start after Countdown
     MediaPlayer GoodSound;    // MediaPlayer for playing good sound
     MediaPlayer GoodSound2;   // MediaPlayer for playing good sound - for faster sound
     MediaPlayer BadSound;     // MediaPlayer for playing Bad sound
     MediaPlayer SpecialSound; // MediaPlayer for playing Special button sounds
     MediaPlayer gameBG;       // For Background music
-    MediaPlayer CountdownSound; //Sound for CountDown
+    MediaPlayer NukeBoom;     // For Nuke Explosion
     //Timers ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++//
     CountDownTimer Updater;        //Timer that updates test and values at 30 frames/ms(millisecond)
     CountDownTimer TimeCountdown;  //Timer that updates the timer every second
@@ -74,10 +77,14 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
     buttonDisappear[] BadArray = new buttonDisappear[10];
     buttonDisappear[] SpecialArray = new buttonDisappear[10];
     int ArrayLocation;
-    int Good_Pressed = 0;
-    int Bad_Pressed = 0;
-    int Time_Pressed = 0;
-    int Good2_Pressed = 0;
+    int Good_Pressed = 0;       // GoodSwirls pressed
+    int Bad_Pressed = 0;        // BadSwirls pressed
+    int Time_Pressed = 0;       // TimeSwirls pressed
+    int Good2_Pressed = 0;      // 2xGoodSwirls pressed
+    int OnScreenGood = 0;       // GoodSwirls On Screen
+    int OnScreenBad = 0;        // BadSwirls On Screen
+    int OnScreenTime = 0;       // TimeSwirls On Screen
+    int OnScreenGood2 = 0;      // 2xGoodSwirls On Screen
     Vibrator vibration;
 
     private static final boolean AUTO_HIDE = true;          // Auto hide UI (ActionBar)
@@ -101,22 +108,30 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
         setContentView(R.layout.activity_single_player); //show res/layout/activity_single_player.xml
         vibration = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE); //set up device vibration control
         //Buttons +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++//
-        PauseButton= (ImageButton)findViewById(R.id.pause_button);
+        PauseButton = (ImageButton)findViewById(R.id.pause_button);
         PauseButton.setOnClickListener(this); //sets an onClickListener on PauseButton
+        Nuke = (ImageButton)findViewById(R.id.Nuke);
+        Nuke.setOnClickListener(this); //sets an onClickListener on PauseButton
+        Nuke.setEnabled(false);        //Start Nuke Disabled
         Speed_Bar = (ProgressBar)findViewById(R.id.SpeedBar);
         //Sounds ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++//
         gameBG = MediaPlayer.create(this, R.raw.game_song); //get background song
         gameBG.setLooping(true);    //make background song loop
-        CountdownSound = MediaPlayer.create(this, R.raw.countdown); //get countdown sound
+        NukeBoom =  MediaPlayer.create(this, R.raw.nuke_explosion); //get nuke explosion
         GoodSound = new MediaPlayer();     // Setup MediaPlayer for good sound
         GoodSound2 = new MediaPlayer();    // Setup MediaPlayer for good sound
         BadSound = new MediaPlayer();      // Setup MediaPlayer for bad sound
         SpecialSound = new MediaPlayer();  // Setup MediaPlayer for Special button sounds
-        GoodSound.setVolume(16,16);
-        GoodSound2.setVolume(16,16);
+        GoodSound.setVolume(12,12);
+        GoodSound2.setVolume(12,12);
+        CountdownSound = Uri.parse("android.resource://"+getPackageName()+"/"+R.raw.countdown);    //Setup sound for Countdown
+        CountdownGoSound = Uri.parse("android.resource://"+getPackageName()+"/"+R.raw.countdown_go);//Setup sound for Start sound
         tapGood = Uri.parse("android.resource://"+getPackageName()+"/"+R.raw.tap_good);    //Setup sound for Good swirl
         tapBad = Uri.parse("android.resource://"+getPackageName()+"/"+R.raw.tap_bad);      //Setup sound for Bad swirl
         tapTimeAdd = Uri.parse("android.resource://"+getPackageName()+"/"+R.raw.tap_time); //Setup sound for Time up swirl
+
+        Nuke.setImageResource(R.drawable.nuke_button_active); // Activate Nuke for now
+        Nuke.setEnabled(true);
 
         populateButtons(); //add buttons to grid
 
@@ -229,6 +244,7 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
             //stop time/game when time is up
             public void onFinish() {
                 mTextField.setText("0");                              //Set end of timer
+                DestroySwirls();
                 GameOver();
             }
 
@@ -249,7 +265,8 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
                 else
                 {
                     totalScore.setText("" + Score); //Update Score Counter
-                    Speed_Engine(Score);           //Update the Speed
+                    if (Current_Speed != Speed_Limit)
+                       Speed_Engine(Score);           //Update the Speed
                 }
             }
             // Show text at end of timer
@@ -258,7 +275,7 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
             }
         }.start();
 
-        SwirlEngine = new CountDownTimer(Time, Start_Speed) {
+        SwirlEngine = new CountDownTimer(Time, Current_Speed) {
             public void onTick(long millisUntilFinished)
             {
                 if (millisUntilFinished / 30 == 0)
@@ -282,10 +299,9 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
     class buttonDisappear{
         public Button ButtonId;
         CountDownTimer TimerId;
-        public buttonDisappear(Button button, CountDownTimer timer, int location){
+        public buttonDisappear(Button button, CountDownTimer timer){
             ButtonId = button;
             TimerId = timer;
-            ArrayLocation = location;
         }
     }
 
@@ -306,20 +322,9 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
             }
             final Button goodButton = buttons[randRow][randCol];     //Button in this location
             goodButton.setBackgroundResource(R.drawable.goodswirl); //Set image to goodswirl
+            OnScreenGood++;                                         //Count on Screen
             goodButton.setEnabled(true);                            //Enable Swirl
             goodButton.setVisibility(View.VISIBLE);                 //Make Swirl Visible
-            /*buttonRunnable = new Runnable() { //what will be called if button has not been clicked
-                public void run()
-                {
-
-                    goodButton.setVisibility(View.INVISIBLE);
-                    goodButton.setEnabled(false);
-
-                }
-            };
-            if(goodButton.isEnabled() == true) {
-                buttonHandler.postDelayed(buttonRunnable, 1600); //will disappear after 2 seconds
-            } */
             final int finalI = i;
             CountDownTimer temp = new CountDownTimer(1600,1600) { // Set timer for disappearance
             public void onTick(long millisUntilFinished)
@@ -333,23 +338,28 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
 
             @Override
             public void onFinish() {
+                GoodArray[finalI].ButtonId = null;       // Remove Button ID
                 GoodArray[finalI] = null;
                 goodButton.setVisibility(View.INVISIBLE);
                 goodButton.setEnabled(false);
+                OnScreenGood--;
             }
         }.start();
-            GoodArray[i] =  new buttonDisappear(goodButton, temp, i);
+            GoodArray[i] =  new buttonDisappear(goodButton, temp);
             goodButton.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v)
                 {
 
                     {
                         playGood(tapGood);
+                        GoodArray[finalI].TimerId.cancel();      // Cancel it's disappear Timer
+                        GoodArray[finalI].ButtonId = null;       // Remove Button ID
                         GoodArray[finalI] = null;                // Remove from array
                         v.setVisibility(View.INVISIBLE);         // Make Swirl disappear when clicked
                         v.setEnabled(false);                     // Disable button
                         Score++;                                 // Add one to score
                         Good_Pressed++;
+                        OnScreenGood--;
 
                     }
                 }
@@ -364,22 +374,11 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
             if(BadArray[i] == null){break;}
             if(i == 9) {i = 0;}
         }
-        final Button badButton = buttons[randRow][randCol];     //Button in this location
-        badButton.setBackgroundResource(R.drawable.badswirl); //Set image to goodswirl
+        OnScreenBad++;                                         // Count on screen
+        final Button badButton = buttons[randRow][randCol];    //Button in this location
+        badButton.setBackgroundResource(R.drawable.badswirl);  //Set image to BadSwirl
         badButton.setEnabled(true);                            //Enable Swirl
         badButton.setVisibility(View.VISIBLE);                 //Make Swirl Visible
-        /*buttonRunnable = new Runnable() { //what will be called if button has not been clicked
-            public void run()
-            {
-
-                badButton.setVisibility(View.INVISIBLE);
-                badButton.setEnabled(false);
-
-            }
-        };
-        if(badButton.isEnabled() == true) {
-            buttonHandler.postDelayed(buttonRunnable, 1700); //will disappear after 2 seconds
-        }*/
         final int finalI = i;
         CountDownTimer temp = new CountDownTimer(1000,1000) { // Set timer for disappearance
             public void onTick(long millisUntilFinished)
@@ -395,20 +394,24 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
                 BadArray[finalI] = null;
                 badButton.setVisibility(View.INVISIBLE);
                 badButton.setEnabled(false);
+                OnScreenBad--;
             }
         }.start();
-        BadArray[i] =  new buttonDisappear(badButton, temp, i);
+        BadArray[i] =  new buttonDisappear(badButton, temp);
         badButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v)
             {
             {
                 playBad(tapBad);                        // Play tapBad
                 vibration.vibrate(300);                 // Vibrate device for 300 milliseconds
+                BadArray[finalI].TimerId.cancel();      // Cancel it's disappear Timer
+                BadArray[finalI].ButtonId = null;       // Remove Button ID
                 BadArray[finalI] = null;                // Remove from array
                 v.setVisibility(View.INVISIBLE);        // Make Swirl disappear when clicked
                 v.setEnabled(false);                    // Disable button
-                Score -= 5;                             // Add one to score
+                Score -= 5;                             // Subtract 5 from score
                 Bad_Pressed++;
+                OnScreenBad--;
             }
             }
         });
@@ -419,20 +422,11 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
             if(SpecialArray[i] == null){break;}
             if(i == 9) {i = 0;}
         }
+        OnScreenGood2++;
         final Button twiceButton = buttons[randRow][randCol];     //Button in this location
         twiceButton.setBackgroundResource(R.drawable.twiceswirl); //Set image to goodswirl
         twiceButton.setEnabled(true);                            //Enable Swirl
         twiceButton.setVisibility(View.VISIBLE);                 //Make Swirl Visible
-        /*buttonRunnable = new Runnable() { //what will be called if button has not been clicked
-            public void run()
-            {
-                twiceButton.setVisibility(View.INVISIBLE);
-                twiceButton.setEnabled(false);
-            }
-        };
-        if(twiceButton.isEnabled() == true) {
-            buttonHandler.postDelayed(buttonRunnable, 1600); //will disappear after 2 seconds
-        }*/
         final int finalI = i;
         CountDownTimer temp = new CountDownTimer(1600,1600) { // Set timer for disappearance
             public void onTick(long millisUntilFinished)
@@ -446,23 +440,28 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
 
             @Override
             public void onFinish() {
+                SpecialArray[finalI].ButtonId = null;       // Remove Button ID
                 SpecialArray[finalI] = null;
                 twiceButton.setVisibility(View.INVISIBLE);
                 twiceButton.setEnabled(false);
+                OnScreenGood2--;
             }
         }.start();
-        SpecialArray[i] =  new buttonDisappear(twiceButton, temp, i);
+        SpecialArray[i] =  new buttonDisappear(twiceButton, temp);
         twiceButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v)
             {
 
                 {
                     playGood2(tapGood);
+                    SpecialArray[finalI].TimerId.cancel();      // Cancel it's disappear Timer
+                    SpecialArray[finalI].ButtonId = null;       // Remove Button ID
                     SpecialArray[finalI] = null;                // Remove from array
                     v.setVisibility(View.INVISIBLE);         // Make Swirl disappear when clicked
                     v.setEnabled(false);                     // Disable button
                     Score+=2;                                 // Add 2 to score
                     Good2_Pressed++;
+                    OnScreenGood2--;
                 }
             }
         });
@@ -474,21 +473,11 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
                     if(SpecialArray[i] == null){break;}
                     if(i == 9) {i = 0;}
                 }
+                OnScreenTime++;
                 final Button timeButton = buttons[randRow][randCol];     //Button in this location
                 timeButton.setBackgroundResource(R.drawable.fivetime); //Set image to goodswirl
                 timeButton.setEnabled(true);                            //Enable Swirl
                 timeButton.setVisibility(View.VISIBLE);                 //Make Swirl Visible
-                /*buttonRunnable = new Runnable() { //what will be called if button has not been clicked
-                    public void run() {
-
-                        timeButton.setVisibility(View.INVISIBLE);
-                        timeButton.setEnabled(false);
-
-                    }
-                };
-                if (timeButton.isEnabled() == true) {
-                    buttonHandler.postDelayed(buttonRunnable, 1800); //will disappear after 2 seconds
-                }*/
                 final int finalI = i;
                 CountDownTimer temp = new CountDownTimer(1800,1800) { // Set timer for disappearance
                     public void onTick(long millisUntilFinished)
@@ -502,28 +491,31 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
 
                     @Override
                     public void onFinish() {
+                        SpecialArray[finalI].ButtonId = null;   // Remove Button ID
                         SpecialArray[finalI] = null;
                         timeButton.setVisibility(View.INVISIBLE);
                         timeButton.setEnabled(false);
+                        OnScreenTime--;
                     }
                 }.start();
-                SpecialArray[i] =  new buttonDisappear(timeButton, temp, i);
+                SpecialArray[i] =  new buttonDisappear(timeButton, temp);
                 timeButton.setOnClickListener(new View.OnClickListener() {
                     public void onClick(View v) {
+                        addTime = false;                              // Stop more time buttons from popping up
+                        playSpecial(tapTimeAdd);                      // Play time up sound
+                        SpecialArray[finalI].TimerId.cancel();        // Cancel it's disappear Timer
+                        SpecialArray[finalI].ButtonId = null;         // Remove Button ID
+                        SpecialArray[finalI] = null;                  // Remove from array
+                        v.setVisibility(View.INVISIBLE);              // Make Swirl disappear when clicked
+                        v.setEnabled(false);                          // Disable button
+                        SwirlEngine.cancel();                         // Cancel old Timers
+                        Updater.cancel();
+                        TimeCountdown.cancel();
+                        Current_Time += 5000;                             // Add 5 seconds to time
+                        GameTimers(Current_Time);                         // Update Timers
+                        Time_Pressed++;
+                        OnScreenTime--;
 
-                        {
-                            addTime = false;                        // Stop more time buttons from popping up
-                            playSpecial(tapTimeAdd);                // Play time up sound
-                            SpecialArray[finalI] = null;            // Remove from array
-                            v.setVisibility(View.INVISIBLE);        // Make Swirl disappear when clicked
-                            v.setEnabled(false);                    // Disable button
-                            SwirlEngine.cancel();                   // Cancel old Timers
-                            Updater.cancel();
-                            TimeCountdown.cancel();
-                            Current_Time += 5000;                             // Add 5 seconds to time
-                            GameTimers(Current_Time);                          // Update Timers
-                            Time_Pressed++;
-                        }
                     }
                 });
 
@@ -532,21 +524,11 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
                     if(GoodArray[i] == null){break;}
                     if(i == 9) {i = 0;}
                 }
-                final Button goodButton = buttons[randRow][randCol];     //Button in this location
+                OnScreenGood++;
+                final Button goodButton = buttons[randRow][randCol];    //Button in this location
                 goodButton.setBackgroundResource(R.drawable.goodswirl); //Set image to goodswirl
                 goodButton.setEnabled(true);                            //Enable Swirl
                 goodButton.setVisibility(View.VISIBLE);                 //Make Swirl Visible
-                /*buttonRunnable = new Runnable() { //what will be called if button has not been clicked
-                    public void run() {
-
-                        goodButton.setVisibility(View.INVISIBLE);
-                        goodButton.setEnabled(false);
-
-                    }
-                };
-                if (goodButton.isEnabled() == true) {
-                    buttonHandler.postDelayed(buttonRunnable, 1500); //will disappear after 2 seconds
-                }*/
                 final int finalI = i;
                 CountDownTimer temp = new CountDownTimer(1600,1600) { // Set timer for disappearance
                     public void onTick(long millisUntilFinished)
@@ -560,22 +542,27 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
 
                     @Override
                     public void onFinish() {
+                        GoodArray[finalI].ButtonId = null;       // Remove Button ID
                         GoodArray[finalI] = null;
                         goodButton.setVisibility(View.INVISIBLE);
                         goodButton.setEnabled(false);
+                        OnScreenGood--;
                     }
                 }.start();
-                GoodArray[i] =  new buttonDisappear(goodButton, temp, i);
+                GoodArray[i] =  new buttonDisappear(goodButton, temp);
                 goodButton.setOnClickListener(new View.OnClickListener() {
                     public void onClick(View v) {
 
                         {
                             playGood2(tapGood);                      // Play good swirl sound
-                            GoodArray[finalI] = null;            // Remove from array
+                            GoodArray[finalI].TimerId.cancel();      // Cancel it's disappear Timer
+                            GoodArray[finalI].ButtonId = null;       // Remove Button ID
+                            GoodArray[finalI] = null;                // Remove from array
                             v.setVisibility(View.INVISIBLE);         // Make Swirl disappear when clicked
                             v.setEnabled(false);                     // Disable button
                             Score++;                                 // Add one to score
                             Good_Pressed++;
+                            OnScreenGood--;
                         }
                     }
                 });
@@ -610,16 +597,79 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
             // Set the progress of the speedbar and Speed Label
             Speed_Bar.setProgress((100/((Start_Speed -Speed_Limit)/Game_Speed_Add))*(((Start_Speed -Speed_Limit)/Game_Speed_Add)- ((Current_Speed - Speed_Limit)/Game_Speed_Add)));
             if(Current_Speed == Speed_Limit) {
-                SpeedPercent.setText("Speed Maxed!");
+                SpeedPercent.setText("Velocity Maxed!");
                 Speed_Bar.setProgress(100);
             }
+            else if (Current_Speed == Start_Speed) {
+                SpeedPercent.setText("Velocity: 1%");
+                Speed_Bar.setProgress(1);
+            }
             else {
-                SpeedPercent.setText("Speed: " + (100 / ((Start_Speed - Speed_Limit) / Game_Speed_Add)) * (((Start_Speed - Speed_Limit) / Game_Speed_Add) - ((Current_Speed - Speed_Limit) / Game_Speed_Add)) + "% " + Current_Speed);
+                SpeedPercent.setText("Velocity: " + (100 / ((Start_Speed - Speed_Limit) / Game_Speed_Add)) * (((Start_Speed - Speed_Limit) / Game_Speed_Add) - ((Current_Speed - Speed_Limit) / Game_Speed_Add)) + "%");
                 Speed_Bar.setProgress((100 / ((Start_Speed - Speed_Limit) / Game_Speed_Add)) * (((Start_Speed - Speed_Limit) / Game_Speed_Add) - ((Current_Speed - Speed_Limit) / Game_Speed_Add)));
             }
         } else {
         }
     } //End Speed_Engine
+
+    public void DestroySwirls() {
+
+        for (int i = 0; i < 10; i++) {
+            if (GoodArray[i] != null) {
+                GoodArray[i].TimerId.cancel();
+                GoodArray[i].ButtonId.setVisibility(View.INVISIBLE);
+                GoodArray[i].ButtonId.setEnabled(false);
+            }
+            if (BadArray[i] != null) {
+                BadArray[i].TimerId.cancel();
+                BadArray[i].ButtonId.setVisibility(View.INVISIBLE);
+                BadArray[i].ButtonId.setEnabled(false);
+            }
+            if (SpecialArray[i] != null) {
+                SpecialArray[i].TimerId.cancel();
+                SpecialArray[i].ButtonId.setVisibility(View.INVISIBLE);
+                SpecialArray[i].ButtonId.setEnabled(false);
+            }
+            GoodArray[i] = null;
+            BadArray[i] = null;
+            SpecialArray[i] = null;
+        }
+    }
+
+    public void ExplodeNuke() {
+        paused = true;
+        SwirlEngine.cancel();                   // Cancel All timers
+        NukeBoom.start();                       // Play Nuke Explosion sound
+        vibration.vibrate(2000);                 // Vibrate device for 500 milliseconds
+        Updater.cancel();
+        TimeCountdown.cancel();
+        Score += OnScreenGood;                  // Add All Scores and Time
+        Score -= OnScreenBad;
+        Score += (OnScreenGood2 * 2);
+        Current_Time += (OnScreenTime * 5000);
+        Good_Pressed += OnScreenGood;           // Add all the swirls that were pressed
+        Good2_Pressed += OnScreenGood2;
+        Bad_Pressed += OnScreenBad;
+        Time_Pressed += OnScreenTime;
+        DestroySwirls();                        // Destroy the Swirls
+        Nuke.setEnabled(false);                 // Disable Nuke
+        Nuke.setImageResource(R.drawable.nuke_button_inactive);
+        new CountDownTimer(2000,1000) { // Set timer for disappearance
+            public void onTick(long millisUntilFinished)
+            {
+                if (millisUntilFinished == 0)
+                {
+                    onFinish();
+                }
+                else{}
+            }
+            @Override
+            public void onFinish() {
+                GameTimers(Current_Time);               // Start Timers
+                paused = false;
+            }
+        }.start();
+    }
 
     //Sound Players+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     private void playGood(Uri uri) {
@@ -669,14 +719,17 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
             e.printStackTrace();
         }
     }
-    //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    //Sound Players ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
     public void onClick(View v)
     {
         switch(v.getId()) {
             case R.id.pause_button:
                 PauseActivate();                // Pause the game
-            break;
+                break;
+            case R.id.Nuke:
+                ExplodeNuke();
+                break;
         }
     }
 
@@ -716,17 +769,15 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
                 }
                 else
                 {
-                    if(i != 10) {
-                        for (i = 0; i < 10; i++) {        // starts all the timers in disappear array
-                            if (GoodArray[i] != null) {
-                                GoodArray[i].TimerId.start();
-                            }
-                            if (BadArray[i] != null) {
-                                BadArray[i].TimerId.start();
-                            }
-                            if (SpecialArray[i] != null) {
-                                SpecialArray[i].TimerId.start();
-                            }
+                    for (i = 0; i < 10; i++) {        // starts all the timers in disappear array
+                        if (GoodArray[i] != null) {
+                            GoodArray[i].TimerId.start();
+                        }
+                        if (BadArray[i] != null) {
+                            BadArray[i].TimerId.start();
+                        }
+                        if (SpecialArray[i] != null) {
+                            SpecialArray[i].TimerId.start();
                         }
                     }
                 }
@@ -792,7 +843,11 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
         }
     }
 
+    //PAUSE MENU ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+    // Game Start and Game Over ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public void GameStart() {
+        paused = true;
         try {
             LayoutInflater inflater = (LayoutInflater) SinglePlayer.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             View layout = inflater.inflate(R.layout.game_start_screen, (ViewGroup)findViewById(R.id.countdown_layout));
@@ -801,10 +856,9 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
         }catch(Exception e) {
             e.printStackTrace();
         }
+        final TextView CountdownText = (TextView) popupWindow.getContentView().findViewById (R.id.count_down_text);
 
         CountdownTimer = new CountDownTimer(4000,1000) {
-
-            TextView CountdownText = (TextView) popupWindow.getContentView().findViewById (R.id.count_down_text);
 
             public void onTick(long millisUntilFinished)
             {
@@ -814,20 +868,23 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
                 }
                 else
                 {
-                    CountdownSound.start();                                  // Play sound
+                    playSpecial(CountdownSound);                                  // Play sound
                     CountdownText.setText("" + millisUntilFinished / 1000 ); // Display Countdown
                 }
             }
             public void onFinish()
             {
+                playSpecial(CountdownGoSound);
                 popupWindow.dismiss();      // Dismiss Countdown
                 gameBG.start();             // Start background song
                 GameTimers(StartTime);      // Start game timers
+                paused = false;
             }
         }.start();
     }
 
     public void GameOver() {
+        paused = true;
         try {
             LayoutInflater inflater = (LayoutInflater) SinglePlayer.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             View layout = inflater.inflate(R.layout.game_over_screen, (ViewGroup)findViewById(R.id.game_over_layout));
@@ -879,15 +936,17 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
         }.start();
     }
 
+    // Game Start and Game Over(end) ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
     protected void onResume() {
         super.onResume();
 
-        CountdownSound = MediaPlayer.create(this, R.raw.countdown); //get countdown sound
         GoodSound = new MediaPlayer();     // Setup MediaPlayer for good sound
         GoodSound2 = new MediaPlayer();    // Setup MediaPlayer for good sound
         BadSound = new MediaPlayer();      // Setup MediaPlayer for bad sound
         SpecialSound = new MediaPlayer();  // Setup MediaPlayer for Special button sounds
         gameBG = MediaPlayer.create(this, R.raw.game_song); //get background song
+        gameBG.setLooping(true);    //make background song loop
 
     }
 
@@ -895,7 +954,6 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
         super.onPause();
 
         PauseActivate();                // Pause the game
-        CountdownSound.release();
         GoodSound.release();
         GoodSound2.release();
         BadSound.release();

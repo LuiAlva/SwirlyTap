@@ -17,7 +17,7 @@
             android:text="@string/TimeUp"
             android:id="@+id/GameOverText"
             android:layout_gravity="center"
-            android:textColor="#d671faff"
+            android:textColor="#FC5130"
             android:textAlignment="center"
             android:textSize="60sp"
             android:textStyle="bold|italic"

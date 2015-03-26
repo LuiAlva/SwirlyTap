@@ -55,7 +55,6 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
 
         setContentView(R.layout.activity_main);
         mediaPlayer = MediaPlayer.create(this, R.raw.title_song); //get song
-        mediaPlayer.start(); //start song
         buttonSinglePlayer = (Button)findViewById(R.id.singlePlayer);
         buttonSinglePlayer.setOnClickListener(this); //sets an onClickListener on buttonSinglePlayer
         buttonPlayAgainTest = (Button)findViewById(R.id.PlayAgainMain);
@@ -64,6 +63,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         buttonLevel.setOnClickListener(this);
         buttonLogIn = (Button)findViewById(R.id.LogIn);
         buttonLogIn.setOnClickListener(this); //sets an onClickListener on buttonHighScore
+        mediaPlayer.isLooping();
     }
     private void singlePlayerClick()
     {
@@ -85,29 +85,39 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     private void LogInClick() {   //LogIn method
         Intent login = new Intent(MainActivity.this, mySQLActivity.class);
         startActivity(login);
+        finish();
     }
     public void onClick(View v)
     {
         switch(v.getId())
         {
             case R.id.singlePlayer:
-                mediaPlayer.stop(); //stop song
+                mediaPlayer.pause(); //stop song
                 singlePlayerClick();
                 break;
             case R.id.PlayAgainMain:
-                mediaPlayer.stop(); //stop song
+                mediaPlayer.pause(); //stop song
                 PlayAgainTestClick();
                 break;
             case R.id.levelMode:
-                mediaPlayer.stop(); //stop song
+                mediaPlayer.pause(); //stop song
                 playLevelClick();
                 break;
             case R.id.LogIn:
-                mediaPlayer.stop(); //stop song
+                mediaPlayer.pause(); //stop song
                 LogInClick();
                 break;
         }
     }
-    //@Override
-    //protect void on
+
+    protected void onResume() {
+        super.onResume();
+        mediaPlayer = MediaPlayer.create(this, R.raw.title_song); //get song
+        mediaPlayer.start();
+    }
+
+    protected void onPause() {
+        super.onPause();
+        mediaPlayer.release();
+    }
 }//end public class Main Activity
