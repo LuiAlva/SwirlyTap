@@ -55,6 +55,10 @@
     <string name="Register_pass">Register</string>
     <string name="enterUN">Enter Username</string>
     <string name="enterPass">Enter Password</string>
+    <string name="username1">Enter Username</string>
+    <string name="password1">Enter Password</string>
+    <string name="clickbutton">New Button</string>
+    <string name="loginbutton">Login</string>
 
 
 </resources>
