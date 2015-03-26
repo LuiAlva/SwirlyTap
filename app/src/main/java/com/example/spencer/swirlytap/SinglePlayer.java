@@ -675,29 +675,34 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
     {
         switch(v.getId()) {
             case R.id.pause_button:
-                paused = true;
-                SwirlEngine.cancel();               // cancel the rest of the timers
-                Updater.cancel();
-                TimeCountdown.cancel();
-                gameBG.pause();                      // Pause the game music
-                for(int i = 0; i < 10; i++) {        // cancel all the timers in disappear array
-                    if(GoodArray[i] != null){
-                        GoodArray[i].TimerId.cancel();
-                    }
-                    if (BadArray[i] != null){
-                        BadArray[i].TimerId.cancel();
-                    }
-                    if (SpecialArray[i] != null){
-                        SpecialArray[i].TimerId.cancel();
-                    }
-                }
-
-                PopupPauseMenu();                   //Popup the Pause menu
+                PauseActivate();                // Pause the game
             break;
         }
     }
 
     //Pause Menu Options +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+    public void PauseActivate() {
+        if(!paused) {
+            gameBG.pause();                      // Pause the game music
+            paused = true;
+            for (int i = 0; i < 10; i++) {        // cancel all the timers in disappear array
+                if (GoodArray[i] != null) {
+                    GoodArray[i].TimerId.cancel();
+                }
+                if (BadArray[i] != null) {
+                    BadArray[i].TimerId.cancel();
+                }
+                if (SpecialArray[i] != null) {
+                    SpecialArray[i].TimerId.cancel();
+                }
+            }
+            SwirlEngine.cancel();               // cancel the rest of the timers
+            Updater.cancel();
+            TimeCountdown.cancel();
+            PopupPauseMenu();                   //Popup the Pause menu
+        }
+    }
 
     //Continues game from Pause Menu
     public void Continue(View v) {
@@ -889,32 +894,17 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
     protected void onPause() {
         super.onPause();
 
-        if(!paused) {
-            gameBG.pause();                      // Pause the game music
-            paused = true;
-            for (int i = 0; i < 10; i++) {        // cancel all the timers in disappear array
-                if (GoodArray[i] != null) {
-                    GoodArray[i].TimerId.cancel();
-                }
-                if (BadArray[i] != null) {
-                    BadArray[i].TimerId.cancel();
-                }
-                if (SpecialArray[i] != null) {
-                    SpecialArray[i].TimerId.cancel();
-                }
-            }
-            SwirlEngine.cancel();               // cancel the rest of the timers
-            Updater.cancel();
-            TimeCountdown.cancel();
-            PopupPauseMenu();                   //Popup the Pause menu
-        }
-
+        PauseActivate();                // Pause the game
         CountdownSound.release();
         GoodSound.release();
         GoodSound2.release();
         BadSound.release();
         SpecialSound.release();
 
+    }
+
+    public void onBackPressed() {
+        PauseActivate();                // Pause the game
     }
 
 }
