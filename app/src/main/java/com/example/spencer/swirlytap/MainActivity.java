@@ -113,6 +113,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     protected void onResume() {
         super.onResume();
         mediaPlayer = MediaPlayer.create(this, R.raw.title_song); //get song
+        mediaPlayer.setLooping(true);    //make background song loop
         mediaPlayer.start();
     }
 

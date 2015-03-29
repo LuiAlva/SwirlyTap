@@ -380,7 +380,7 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
         badButton.setEnabled(true);                            //Enable Swirl
         badButton.setVisibility(View.VISIBLE);                 //Make Swirl Visible
         final int finalI = i;
-        CountDownTimer temp = new CountDownTimer(1500,1000) { // Set timer for disappearance
+        CountDownTimer temp = new CountDownTimer(1500,1500) { // Set timer for disappearance
             public void onTick(long millisUntilFinished)
             {
                 if (millisUntilFinished / 1500 == 0)
@@ -640,7 +640,7 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
         paused = true;
         SwirlEngine.cancel();                   // Cancel All timers
         NukeBoom.start();                       // Play Nuke Explosion sound
-        vibration.vibrate(2000);                 // Vibrate device for 500 milliseconds
+        vibration.vibrate(1000);                 // Vibrate device for 500 milliseconds
         Updater.cancel();
         TimeCountdown.cancel();
         Score += OnScreenGood;                  // Add All Scores and Time
@@ -654,7 +654,7 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
         DestroySwirls();                        // Destroy the Swirls
         Nuke.setEnabled(false);                 // Disable Nuke
         Nuke.setImageResource(R.drawable.nuke_button_inactive);
-        new CountDownTimer(2000,1000) { // Set timer for disappearance
+        new CountDownTimer(1000,1000) { // Set timer for disappearance
             public void onTick(long millisUntilFinished)
             {
                 if (millisUntilFinished == 0)
@@ -930,6 +930,10 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
                 gameBG.stop();                                                        //stop song
                 Intent intentAgain = new Intent(SinglePlayer.this, PlayAgain.class);  //create intent (to go to PlayAgain menu)
                 intentAgain.putExtra("score", Score);                                 //Send variable Score (score) to new intent (PlayAgain)
+                intentAgain.putExtra("GoodSwirls", Good_Pressed);                     //
+                intentAgain.putExtra("BadSwirls", Bad_Pressed);
+                intentAgain.putExtra("Good2Swirls", Good2_Pressed);
+                intentAgain.putExtra("TimeSwirls", Time_Pressed);
                 startActivity(intentAgain);                                           //go to PlayAgain activity/menu
                 finish();
             }

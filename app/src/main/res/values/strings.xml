@@ -8,14 +8,14 @@
     <string name="single_player">Single Player</string>
     <string name="title_activity_play_again">Play Again</string>
     <string name="play_again">Play Again</string>
-    <string name="play_again_test">Play Again Test</string>
+    <string name="play_again_test">End Test</string>
     <string name="score">Score</string>
     <string name="initial_Score">00</string>
     <string name="Pause_Button">Pause</string>
     <string name="num_sixty">60</string>
     <string name="time">TIME</string>
     <string name="time_sixty">Time: 60</string>
-    <string name="temp_you_scored">0 points!</string>
+    <string name="temp_you_scored">000 points!</string>
     <string name="action_home">Home</string>
     <string name="restart">Restart Game</string>
     <string name="share">Share</string>

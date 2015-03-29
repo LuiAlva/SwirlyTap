@@ -51,8 +51,21 @@ public class PlayAgain extends ActionBarActivity implements View.OnClickListener
 
         Intent game = getIntent(); // Grab the the intent of game that ended
         int score = game.getIntExtra("score", 0); //Grab score from game
+        int GoodSwirls = game.getIntExtra("GoodSwirls", 0);
+        int BadSwirls = game.getIntExtra("BadSwirls", 0);
+        int Good2Swirls = game.getIntExtra("Good2Swirls", 0);
+        int TimeSwirls = game.getIntExtra("TimeSwirls", 0);
         TextView Score= (TextView) findViewById(R.id.textView);
         Score.setText("" + score + " points!");   //Set text to show score
+        TextView GoodCount= (TextView) findViewById(R.id.Good_Swirl_Counter);
+        GoodCount.setText(""+ GoodSwirls);   //Set text to show score
+        TextView BadCount= (TextView) findViewById(R.id.Bad_Swirl_Counter);
+        BadCount.setText(""+ BadSwirls);   //Set text to show score
+        TextView Good2Counter= (TextView) findViewById(R.id.Good2_Swirl_Counter);
+        Good2Counter.setText(""+ Good2Swirls);   //Set text to show score
+        TextView TimeCounter= (TextView) findViewById(R.id.Time_Swirl_Counter);
+        TimeCounter.setText(""+ TimeSwirls);   //Set text to show score
+
 
         buttonAgain = (Button)findViewById(R.id.PlayAgain);
         buttonAgain.setOnClickListener(this);     //sets an onClickListener on buttonAgain

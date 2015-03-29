@@ -77,7 +77,7 @@
                     android:background="#00ffffff"
                     android:clickable="true"
                     android:cropToPadding="false"
-                    android:layout_alignParentTop="true"
+                    android:layout_alignParentTop="false"
                     android:layout_alignParentRight="true"
                     android:layout_alignParentEnd="true" />
             </RelativeLayout>
@@ -123,8 +123,8 @@
                     android:paddingLeft="10sp">
 
                     <ImageButton
-                        android:layout_width="50sp"
-                        android:layout_height="50sp"
+                        android:layout_width="60sp"
+                        android:layout_height="60sp"
                         android:id="@+id/Nuke"
                         android:focusableInTouchMode="true"
                         android:src="@drawable/nuke_button_inactive"
@@ -136,8 +136,8 @@
                         android:onClick="ExplodeNuke" />
 
                     <ImageButton
-                        android:layout_width="50sp"
-                        android:layout_height="50sp"
+                        android:layout_width="60sp"
+                        android:layout_height="60sp"
                         android:id="@+id/PlaceHolderButton1"
                         android:focusableInTouchMode="true"
                         android:src="@drawable/nuke_button_inactive"
@@ -147,8 +147,8 @@
                         android:layout_alignParentRight="false" />
 
                     <ImageButton
-                        android:layout_width="50sp"
-                        android:layout_height="50sp"
+                        android:layout_width="60sp"
+                        android:layout_height="60sp"
                         android:id="@+id/PlaceHolderButton2"
                         android:focusableInTouchMode="true"
                         android:src="@drawable/nuke_button_inactive"
@@ -158,14 +158,14 @@
 
                 <TextView
                     android:layout_width="wrap_content"
-                    android:layout_height="30sp"
+                    android:layout_height="40sp"
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:text="Velocity: 1%"
                     android:id="@+id/SpeedLabel"
                     android:layout_alignParentLeft="false"
                     android:layout_alignRight="@+id/SpeedBar"
                     android:layout_alignLeft="@+id/SpeedBar"
-                    android:textSize="20sp"
+                    android:textSize="14sp"
                     android:textColor="#ff000000"
                     android:textStyle="bold|italic"
                     android:editable="false"
