@@ -515,6 +515,7 @@ public class levelPlay extends Activity implements View.OnClickListener
             }
         }.start();
     }
+    /////////////////////////FUNCTION DISPLAYS PROPER AMOUNT OF LIVES (HEARTS)/////////////////////
     public void setLives(int numLives)
     {
         switch(numLives)
@@ -575,10 +576,17 @@ public class levelPlay extends Activity implements View.OnClickListener
                     luckArray3[row][col] = "twicePoints";
                 else
                     luckArray3[row][col] = "good"; //much higher chance to receive good button
-                //ROOM TO ADD LUCK ARRAY 4,5,6...etc
+                /////////////////////FOURTH LUCK ARRAY/////////////////////////////////////
+                /////////////////////FIFTH LUCK ARRAY//////////////////////////////////////
+
             }
         }
 
+    }
+    ///////////////////////////FUNCTION THAT DISPLAYS BUTTON ACROSS SCREEN////////////////////
+    public void sendFlyButton()
+    {
+        //button animation that moves across screen at random y
     }
 }
 
