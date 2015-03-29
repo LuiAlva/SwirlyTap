@@ -9,6 +9,7 @@ import android.os.CountDownTimer;
 import android.os.Handler;
 import android.view.View;
 import android.view.Window;
+import android.view.animation.AlphaAnimation;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -41,6 +42,7 @@ public class levelPlay extends Activity implements View.OnClickListener
     ImageButton lifeOne;
     ImageButton lifeTwo;
     ImageButton lifeThree;
+    TextView leveldisplay;
 
 
 //    TextView mTextField = (TextView) findViewById(R.id.displayLives);
@@ -57,7 +59,8 @@ public class levelPlay extends Activity implements View.OnClickListener
         lifeOne = (ImageButton)findViewById(R.id.lifeone);
         lifeTwo = (ImageButton)findViewById(R.id.lifetwo);
         lifeThree = (ImageButton)findViewById(R.id.lifethree);
-
+        leveldisplay = (TextView)findViewById(R.id.leveldisplay);
+        leveldisplay.setVisibility(View.INVISIBLE);//start invisible and make visible for 2 seconds at beginning of each level
         setLives(lives);//start game with 3 lives displayed as hearts on screen
         populateButtons(); //add buttons to grid
         populateLuckArrays(); //create all luck arrays prior to game starting
@@ -116,6 +119,8 @@ public class levelPlay extends Activity implements View.OnClickListener
 
                     tempLevel = level;
                     llayout.setBackgroundResource(R.drawable.levelone);
+                    //call function that displays level
+                    displayLevel(level);
                     Game_Speed = 1000;
                     gameTimer(60000);
                 }
@@ -128,7 +133,8 @@ public class levelPlay extends Activity implements View.OnClickListener
                 {
                     tempLevel = level;
                     llayout.setBackgroundResource(R.drawable.leveltwo);
-                    Game_Speed = 900;
+                    displayLevel(level);//display level animation
+                    Game_Speed = 900; //ramp up game speed
                     SwirlEngine.cancel();                   // cancel the old timer with the old speed
                     SwirlEngine = new CountDownTimer(Current_Time, Game_Speed) { // start new timer with changed speed
                         @Override
@@ -146,7 +152,7 @@ public class levelPlay extends Activity implements View.OnClickListener
                     }.start();
                 }
                 //SwirlEngine.cancel();
-                displayButton(2);
+                displayButton(2); //using the second luck array
                 break;
             ///////////////////////////////LEVEL THREE////////////////////////////////////////////
             case 3:
@@ -155,6 +161,7 @@ public class levelPlay extends Activity implements View.OnClickListener
                 {
                    tempLevel = level;
                    llayout.setBackgroundResource(R.drawable.levelthree);
+                   displayLevel(level); //display the level animation
                    Game_Speed = 800;
                    SwirlEngine.cancel();                   // cancel the old timer with the old speed
                    SwirlEngine = new CountDownTimer(Current_Time, Game_Speed) { // start new timer with changed speed
@@ -181,7 +188,8 @@ public class levelPlay extends Activity implements View.OnClickListener
                 {
                     tempLevel = level;
                     llayout.setBackgroundResource(R.drawable.levelfour);
-                    Game_Speed = 700;
+                    displayLevel(level);//display the level animation
+                    Game_Speed = 700; //ramp up the speed of the game
                     SwirlEngine.cancel();                   // cancel the old timer with the old speed
                     SwirlEngine = new CountDownTimer(Current_Time, Game_Speed) { // start new timer with changed speed
                         @Override
@@ -587,6 +595,14 @@ public class levelPlay extends Activity implements View.OnClickListener
     public void sendFlyButton()
     {
         //button animation that moves across screen at random y
+    }
+    public void displayLevel(int levelnum) //function used to display the level animation based on current level
+    {
+        leveldisplay.setText("Level " + levelnum);
+        //leveldisplay.setVisibility(View.VISIBLE);
+        AlphaAnimation anim = new AlphaAnimation(1.0f, 0.0f);//fade out the text
+        anim.setDuration(2000);
+        leveldisplay.startAnimation(anim);
     }
 }
 
