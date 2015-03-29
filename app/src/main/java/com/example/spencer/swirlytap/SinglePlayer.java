@@ -380,10 +380,10 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
         badButton.setEnabled(true);                            //Enable Swirl
         badButton.setVisibility(View.VISIBLE);                 //Make Swirl Visible
         final int finalI = i;
-        CountDownTimer temp = new CountDownTimer(1000,1000) { // Set timer for disappearance
+        CountDownTimer temp = new CountDownTimer(1500,1000) { // Set timer for disappearance
             public void onTick(long millisUntilFinished)
             {
-                if (millisUntilFinished / 1700 == 0)
+                if (millisUntilFinished / 1500 == 0)
                 {
                     onFinish();
                 }
