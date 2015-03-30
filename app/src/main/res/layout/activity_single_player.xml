@@ -23,7 +23,7 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="#6f000000"
+                android:background="#303036"
                 android:id="@+id/TopMenu">
 
                 <TextView
@@ -31,7 +31,7 @@
                     android:id="@+id/textView"
                     android:layout_width="80sp"
                     android:layout_height="wrap_content"
-                    android:textColor="#ff3ad7ff"
+                    android:textColor="#30BCED"
                     android:textSize="24sp"
                     android:layout_alignParentTop="true"
                     android:layout_alignParentLeft="true"
@@ -44,7 +44,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:autoText="false"
-                    android:textColor="#ff3ad7ff"
+                    android:textColor="#30BCED"
                     android:textSize="30sp"
                     android:textIsSelectable="true"
                     android:gravity="center|top"
@@ -61,7 +61,7 @@
                     android:layout_height="78dp"
                     android:scaleType="center"
                     android:textSize="50sp"
-                    android:textColor="#ff4ed7e5"
+                    android:textColor="#30BCED"
                     android:layout_alignParentTop="true"
                     android:layout_centerHorizontal="true"
                     android:gravity="center"
@@ -77,7 +77,7 @@
                     android:background="#00ffffff"
                     android:clickable="true"
                     android:cropToPadding="false"
-                    android:layout_alignParentTop="true"
+                    android:layout_alignParentTop="false"
                     android:layout_alignParentRight="true"
                     android:layout_alignParentEnd="true" />
             </RelativeLayout>
@@ -88,7 +88,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:layout_below="@+id/TopMenu"
-                android:background="@drawable/oneplayer_bg"
+                android:background="@drawable/swirl_table_border"
                 android:layout_alignParentStart="false"
                 android:layout_above="@+id/bottom_menu">
             </TableLayout>
@@ -107,12 +107,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/SpeedBar"
-                    android:background="#5e39f8ff"
+                    android:background="@drawable/velo_bar"
                     android:layout_gravity="center_vertical"
-                    android:progressTint="#ffff240f"
+                    android:progressTint="#FC5130"
                     android:layout_alignParentLeft="true"
                     android:layout_toLeftOf="@+id/ButtonLayout"
-                    android:layout_toStartOf="@+id/ButtonLayout" />
+                    android:layout_toStartOf="@+id/ButtonLayout"
+                    android:progress="1" />
 
                 <RelativeLayout
                     android:layout_width="wrap_content"
@@ -122,8 +123,8 @@
                     android:paddingLeft="10sp">
 
                     <ImageButton
-                        android:layout_width="50sp"
-                        android:layout_height="50sp"
+                        android:layout_width="60sp"
+                        android:layout_height="60sp"
                         android:id="@+id/Nuke"
                         android:focusableInTouchMode="true"
                         android:src="@drawable/nuke_button_inactive"
@@ -131,11 +132,12 @@
                         android:background="#00ffffff"
                         android:layout_toRightOf="@+id/PlaceHolderButton1"
                         android:layout_alignParentEnd="false"
-                        android:layout_alignParentRight="false" />
+                        android:layout_alignParentRight="false"
+                        android:onClick="ExplodeNuke" />
 
                     <ImageButton
-                        android:layout_width="50sp"
-                        android:layout_height="50sp"
+                        android:layout_width="60sp"
+                        android:layout_height="60sp"
                         android:id="@+id/PlaceHolderButton1"
                         android:focusableInTouchMode="true"
                         android:src="@drawable/nuke_button_inactive"
@@ -145,8 +147,8 @@
                         android:layout_alignParentRight="false" />
 
                     <ImageButton
-                        android:layout_width="50sp"
-                        android:layout_height="50sp"
+                        android:layout_width="60sp"
+                        android:layout_height="60sp"
                         android:id="@+id/PlaceHolderButton2"
                         android:focusableInTouchMode="true"
                         android:src="@drawable/nuke_button_inactive"
@@ -156,21 +158,21 @@
 
                 <TextView
                     android:layout_width="wrap_content"
-                    android:layout_height="30sp"
+                    android:layout_height="40sp"
                     android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="Speed: 0%"
+                    android:text="Velocity: 1%"
                     android:id="@+id/SpeedLabel"
                     android:layout_alignParentLeft="false"
                     android:layout_alignRight="@+id/SpeedBar"
                     android:layout_alignLeft="@+id/SpeedBar"
-                    android:textSize="24sp"
+                    android:textSize="14sp"
                     android:textColor="#ff000000"
                     android:textStyle="bold|italic"
                     android:editable="false"
                     android:gravity="center"
                     android:layout_alignParentBottom="false"
                     android:layout_below="@+id/SpeedBar"
-                    android:background="#4563f6ff" />
+                    android:background="#94fffaff" />
             </RelativeLayout>
 
         </RelativeLayout>

@@ -54,7 +54,7 @@
                 <TextView
                     android:text="@string/initial_Score"
                     android:id="@+id/displayScore"
-                    android:layout_width="130sp"
+                    android:layout_width="100sp"
                     android:layout_height="78dp"
                     android:scaleType="center"
                     android:textSize="50sp"
@@ -90,7 +90,38 @@
                     android:layout_height="match_parent"
                     android:orientation="horizontal"
                     android:layout_below="@+id/imageView3"
-                    android:layout_centerHorizontal="true" />
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true">
+
+                    <TableRow
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent">
+
+                    </TableRow>
+
+                    <TextView
+                        android:layout_width="200dp"
+                        android:layout_height="50dp"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:text="Level 1"
+                        android:id="@+id/leveldisplay"
+                        android:layout_column="16"
+                        android:background="@drawable/levelbackground"
+                        android:textAlignment="center"
+                        android:textIsSelectable="false" />
+
+                    <TableRow
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent">
+
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent">
+
+                    </TableRow>
+                </TableLayout>
 
             </RelativeLayout>
         </LinearLayout>

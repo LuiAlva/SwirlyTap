@@ -75,7 +75,7 @@ MERGED from com.android.support:support-v4:21.0.3:16:5
 		ADDED from AndroidManifest.xml:14:9
 	android:largeHeap
 		ADDED from AndroidManifest.xml:12:9
-activity#com.example.spencer.swirlytap.MainActivity
+activity#com.gmail.dianaupham.swirlytap.MainActivity
 ADDED from AndroidManifest.xml:15:9
 	android:screenOrientation
 		ADDED from AndroidManifest.xml:18:13
@@ -93,7 +93,7 @@ category#android.intent.category.LAUNCHER
 ADDED from AndroidManifest.xml:21:17
 	android:name
 		ADDED from AndroidManifest.xml:21:27
-activity#com.example.spencer.swirlytap.SinglePlayer
+activity#com.gmail.dianaupham.swirlytap.SinglePlayer
 ADDED from AndroidManifest.xml:24:9
 	android:screenOrientation
 		ADDED from AndroidManifest.xml:28:13
@@ -105,7 +105,7 @@ ADDED from AndroidManifest.xml:24:9
 		ADDED from AndroidManifest.xml:29:13
 	android:name
 		ADDED from AndroidManifest.xml:25:13
-activity#com.example.spencer.swirlytap.PlayAgain
+activity#com.gmail.dianaupham.swirlytap.PlayAgain
 ADDED from AndroidManifest.xml:31:9
 	android:screenOrientation
 		ADDED from AndroidManifest.xml:34:13
