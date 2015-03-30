@@ -22,11 +22,14 @@ import android.widget.ProgressBar;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
-
 import com.example.spencer.swirlytap.R;
-
 import java.io.IOException;
 import java.util.Random;
+import com.google.android.gms.*;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.games.Games;
+import com.google.example.games.basegameutils.BaseGameUtils;
 
 public class SinglePlayer extends Activity implements View.OnClickListener {
     int Score = 0; //this is total score
@@ -132,6 +135,7 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
 
         Nuke.setImageResource(R.drawable.nuke_button_active); // Activate Nuke for now
         Nuke.setEnabled(true);
+
 
         populateButtons(); //add buttons to grid
 
