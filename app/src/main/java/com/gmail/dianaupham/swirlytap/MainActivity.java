@@ -1,4 +1,4 @@
-package com.example.spencer.swirlytap;
+package com.gmail.dianaupham.swirlytap;
 
 import android.content.Intent;
 import android.media.MediaPlayer;
@@ -10,7 +10,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 
 import com.crashlytics.android.Crashlytics;
-import com.example.spencer.swirlytap.util.SystemUiHider;
+import com.example.spencer.swirlytap.R;
 import com.twitter.sdk.android.Twitter;
 import com.twitter.sdk.android.core.TwitterAuthConfig;
 import com.twitter.sdk.android.tweetcomposer.TweetComposer;
@@ -31,7 +31,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     private static final boolean AUTO_HIDE = true;          // Auto hide UI (ActionBar)
     private static final int AUTO_HIDE_DELAY_MILLIS = 2000; // Hide system UI after 2000 milliseconds
     private static final boolean TOGGLE_ON_CLICK = true;    // If UI is clicked show it
-    private static final int HIDER_FLAGS = 0;   // The flags to pass to {@link com.example.spencer.swirlytap.util.SystemUiHider#getInstance}.
+    private static final int HIDER_FLAGS = 0;   // The flags to pass to {@link com.gmail.dianaupham.swirlytap.SystemUiHider#getInstance}.
     private SystemUiHider mSystemUiHider;
 
     @Override
@@ -50,7 +50,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
                     .build();
         Fabric.with(fabric);
         }
-        Fabric.with(this, new TweetComposer());
+        Fabric.with(this, new TweetComposer(), new Crashlytics());
 
 
         setContentView(R.layout.activity_main);

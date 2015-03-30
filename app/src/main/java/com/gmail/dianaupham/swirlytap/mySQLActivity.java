@@ -1,11 +1,13 @@
 
-package com.example.spencer.swirlytap;
+package com.gmail.dianaupham.swirlytap;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 import android.widget.Button;
+
+import com.example.spencer.swirlytap.R;
 
 
 public class mySQLActivity extends ActionBarActivity implements View.OnClickListener{

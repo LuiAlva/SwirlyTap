@@ -1,4 +1,4 @@
-package com.example.spencer.swirlytap;
+package com.gmail.dianaupham.swirlytap;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.View;
@@ -6,6 +6,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.content.Context;
 import android.widget.Toast;
+
+import com.example.spencer.swirlytap.R;
 
 public class RegisterActivity extends ActionBarActivity
 {

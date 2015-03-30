@@ -1,4 +1,4 @@
-package com.example.spencer.swirlytap;
+package com.gmail.dianaupham.swirlytap;
 
 import android.provider.BaseColumns;
 

@@ -1,4 +1,4 @@
-package com.example.spencer.swirlytap;
+package com.gmail.dianaupham.swirlytap;
 
 
 import android.app.Activity;
@@ -16,6 +16,8 @@ import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+
+import com.example.spencer.swirlytap.R;
 
 import java.sql.Time;
 import java.util.Random;

@@ -1,4 +1,4 @@
-package com.example.spencer.swirlytap.util;
+package com.gmail.dianaupham.swirlytap;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
