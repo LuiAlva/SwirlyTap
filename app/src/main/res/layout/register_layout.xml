@@ -32,7 +32,6 @@
         android:inputType="textPassword"
         android:hint="@string/Pass_Word"
         android:id="@+id/editpassword1"
-        android:layout_gravity="right"
         android:textSize="30sp" />
 
     <Button
