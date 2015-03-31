@@ -143,7 +143,7 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
 
         //POPULATE luck array with different types of buttons
         Random rand = new Random(); //randomly select location in luck array
-
+        rand.setSeed(System.currentTimeMillis());
         for(int row = 0; row<ARRAY_ROWS; row++)
         {
             for(int col = 0; col<ARRAY_COLS; col++)
@@ -314,6 +314,7 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
         final Runnable buttonRunnable;
         final Handler buttonHandler = new Handler();
         Random r = new Random(); //randomly select location in luck array
+        r.setSeed(System.currentTimeMillis());
         int randRow = r.nextInt(NUM_ROWS);
         int randCol = r.nextInt(NUM_COLS);
         int i; //For array location for disappear

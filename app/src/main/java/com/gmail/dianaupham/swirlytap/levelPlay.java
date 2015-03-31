@@ -38,6 +38,7 @@ public class levelPlay extends Activity implements View.OnClickListener
     int Current_Time = 61000;    //Current in-game time
     int Game_Speed = 400;        //Speed of the game
     int randCell;
+    int randSeeder = 0;
     LinearLayout llayout; //set it up after declaration
     CountDownTimer SwirlEngine;
     CountDownTimer Updater;
@@ -101,14 +102,8 @@ public class levelPlay extends Activity implements View.OnClickListener
             }
         }//end 'for'
     }//end private void populateButtons
-
     @Override
-    public void onClick(View v) {
-
-    }
-
-
-
+    public void onClick(View v) { }
     public void goToLevel(int lvl)
     {
         //depending on level do certain things
@@ -118,13 +113,11 @@ public class levelPlay extends Activity implements View.OnClickListener
             case 1:
                 if(tempLevel < level)
                 {
-
                     tempLevel = level;
                     llayout.setBackgroundResource(R.drawable.levelone);
                     //call function that displays level
                     displayLevel(level);
-                    Game_Speed = 1000;
-                    gameTimer(60000);
+                    Game_Speed = 1000; gameTimer(60000);
                 }
                 displayButton(1);
                 break;
@@ -277,6 +270,7 @@ public class levelPlay extends Activity implements View.OnClickListener
         final Runnable buttonRunnable;
         final Handler buttonHandler = new Handler();
         Random r = new Random(); //randomly select location in luck array
+        r.setSeed(System.currentTimeMillis()); //set seed for random value. This allows buttons to display more randomly
         int randRow = r.nextInt(NUM_ROWS);
         int randCol = r.nextInt(NUM_COLS);
 
@@ -487,7 +481,7 @@ public class levelPlay extends Activity implements View.OnClickListener
     } //End of displaybutton
 
     //GAME TIMERS BELOW
-    public void gameTimer(int Time) //used to speed up button display
+    public void gameTimer(final int Time) //used to speed up button display
     {
         SwirlEngine = new CountDownTimer(Time, Game_Speed)
         {
@@ -566,6 +560,7 @@ public class levelPlay extends Activity implements View.OnClickListener
     public void populateLuckArrays()
     {
         Random rand = new Random(); //randomly select location in luck array
+        rand.setSeed(System.currentTimeMillis());
         for(int row = 0; row<NUM_ROWS; row++)
         {
             for(int col = 0; col<NUM_COLS; col++)

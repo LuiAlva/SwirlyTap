@@ -1,1 +1,2 @@
-include ':app', ':BaseGameUtils'
+include ':BaseGameUtils'
+include ':app'
