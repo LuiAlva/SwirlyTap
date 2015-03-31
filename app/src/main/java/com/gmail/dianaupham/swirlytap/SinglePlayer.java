@@ -88,6 +88,8 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
     int OnScreenBad = 0;        // BadSwirls On Screen
     int OnScreenTime = 0;       // TimeSwirls On Screen
     int OnScreenGood2 = 0;      // 2xGoodSwirls On Screen
+    int Extra_Time_Max = 4;     // Set limit for amount of time added (20 seconds)
+    int Extra_Time_Counter = 0; // Count amount of ExtraTime added
     Vibrator vibration;
 
     private static final boolean AUTO_HIDE = true;          // Auto hide UI (ActionBar)
@@ -473,57 +475,61 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
 
     }
     else if(luckArray[randRow][randCol] == "addTime") {
-            if (addTime == true) {
-                for(i = 0; i < 10; i++) {        // Find empty spot in SpecialArray
-                    if(SpecialArray[i] == null){break;}
-                    if(i == 9) {i = 0;}
-                }
-                OnScreenTime++;
-                final Button timeButton = buttons[randRow][randCol];     //Button in this location
-                timeButton.setBackgroundResource(R.drawable.fivetime); //Set image to goodswirl
-                timeButton.setEnabled(true);                            //Enable Swirl
-                timeButton.setVisibility(View.VISIBLE);                 //Make Swirl Visible
-                final int finalI = i;
-                CountDownTimer temp = new CountDownTimer(1800,1800) { // Set timer for disappearance
-                    public void onTick(long millisUntilFinished)
-                    {
-                        if (millisUntilFinished / 1800 == 0)
-                        {
-                            onFinish();
+            if (addTime == true /*&& Extra_Time_Counter <= Extra_Time_Max*/) {
+                if (Extra_Time_Counter < Extra_Time_Max)
+                {
+                    for (i = 0; i < 10; i++) {        // Find empty spot in SpecialArray
+                        if (SpecialArray[i] == null) {
+                            break;
                         }
-                        else{}
+                        if (i == 9) {
+                            i = 0;
+                        }
                     }
+                    OnScreenTime++;
+                    final Button timeButton = buttons[randRow][randCol];     //Button in this location
+                    timeButton.setBackgroundResource(R.drawable.fivetime); //Set image to goodswirl
+                    timeButton.setEnabled(true);                            //Enable Swirl
+                    timeButton.setVisibility(View.VISIBLE);                 //Make Swirl Visible
+                    final int finalI = i;
+                    CountDownTimer temp = new CountDownTimer(1800, 1800) { // Set timer for disappearance
+                        public void onTick(long millisUntilFinished) {
+                            if (millisUntilFinished / 1800 == 0) {
+                                onFinish();
+                            } else {
+                            }
+                        }
 
-                    @Override
-                    public void onFinish() {
-                        SpecialArray[finalI].ButtonId = null;   // Remove Button ID
-                        SpecialArray[finalI] = null;
-                        timeButton.setVisibility(View.INVISIBLE);
-                        timeButton.setEnabled(false);
-                        OnScreenTime--;
-                    }
-                }.start();
-                SpecialArray[i] =  new buttonDisappear(timeButton, temp);
-                timeButton.setOnClickListener(new View.OnClickListener() {
-                    public void onClick(View v) {
-                        addTime = false;                              // Stop more time buttons from popping up
-                        playSpecial(tapTimeAdd);                      // Play time up sound
-                        SpecialArray[finalI].TimerId.cancel();        // Cancel it's disappear Timer
-                        SpecialArray[finalI].ButtonId = null;         // Remove Button ID
-                        SpecialArray[finalI] = null;                  // Remove from array
-                        v.setVisibility(View.INVISIBLE);              // Make Swirl disappear when clicked
-                        v.setEnabled(false);                          // Disable button
-                        SwirlEngine.cancel();                         // Cancel old Timers
-                        Updater.cancel();
-                        TimeCountdown.cancel();
-                        Current_Time += 5000;                             // Add 5 seconds to time
-                        GameTimers(Current_Time);                         // Update Timers
-                        Time_Pressed++;
-                        OnScreenTime--;
-
-                    }
-                });
-
+                        @Override
+                        public void onFinish() {
+                            SpecialArray[finalI].ButtonId = null;   // Remove Button ID
+                            SpecialArray[finalI] = null;
+                            timeButton.setVisibility(View.INVISIBLE);
+                            timeButton.setEnabled(false);
+                            OnScreenTime--;
+                        }
+                    }.start();
+                    SpecialArray[i] = new buttonDisappear(timeButton, temp);
+                    timeButton.setOnClickListener(new View.OnClickListener() {
+                        public void onClick(View v) {
+                            addTime = false;                              // Stop more time buttons from popping up
+                            playSpecial(tapTimeAdd);                      // Play time up sound
+                            SpecialArray[finalI].TimerId.cancel();        // Cancel it's disappear Timer
+                            SpecialArray[finalI].ButtonId = null;         // Remove Button ID
+                            SpecialArray[finalI] = null;                  // Remove from array
+                            v.setVisibility(View.INVISIBLE);              // Make Swirl disappear when clicked
+                            v.setEnabled(false);                          // Disable button
+                            SwirlEngine.cancel();                         // Cancel old Timers
+                            Updater.cancel();
+                            TimeCountdown.cancel();
+                            Current_Time += 5000;                         // Add 5 seconds to time
+                            GameTimers(Current_Time);                     // Update Timers
+                            Time_Pressed++;
+                            OnScreenTime--;                               // Remove 5 seconds from on-screen clock
+                            Extra_Time_Counter++;                         // Add one to counter (max amount = 4)
+                        }
+                    });
+                }//end 'if'
             } else if (addTime == false) {
                 for(i = 0; i < 10; i++) {        // Find empty spot in GoodArray
                     if(GoodArray[i] == null){break;}
