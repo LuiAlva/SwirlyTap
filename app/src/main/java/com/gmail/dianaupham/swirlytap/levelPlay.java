@@ -1,6 +1,4 @@
 package com.gmail.dianaupham.swirlytap;
-
-
 import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -16,14 +14,18 @@ import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
-
 import com.example.spencer.swirlytap.R;
-
-import java.sql.Time;
 import java.util.Random;
+import android.app.Activity;
+import android.app.ProgressDialog;
+import android.os.AsyncTask;
+import android.os.Bundle;
 
 public class levelPlay extends Activity implements View.OnClickListener
 {
+    //A ProgressDialog object
+    private ProgressDialog progressDialog;
+
     private static final int NUM_ROWS = 6; //instantiated size of grid
     private static final int NUM_COLS = 4;
     String[][] luckArray1 = new String[NUM_ROWS][NUM_COLS]; //instantiate all luck arrays
@@ -49,15 +51,13 @@ public class levelPlay extends Activity implements View.OnClickListener
     ImageButton lifeTwo;
     ImageButton lifeThree;
     TextView leveldisplay;
-
-
-//    TextView mTextField = (TextView) findViewById(R.id.displayLives);
-
+    TextView scoredisplay;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+
         requestWindowFeature(Window.FEATURE_NO_TITLE); // Removes Title Bar
         setContentView(R.layout.level_play); //show res/layout/activity_single_player.xml
 
@@ -70,9 +70,89 @@ public class levelPlay extends Activity implements View.OnClickListener
         setLives(lives);//start game with 3 lives displayed as hearts on screen
         populateButtons(); //add buttons to grid
         populateLuckArrays(); //create all luck arrays prior to game starting
-        goToLevel(1); //start game at level 1
-    }
+        new LoadViewTask().execute();
 
+    }
+    //To use the AsyncTask, it must be subclassed
+    private class LoadViewTask extends AsyncTask<Void, Integer, Void>
+    {
+        //Before running code in separate thread
+        @Override
+        protected void onPreExecute()
+        {
+            //Create a new progress dialog
+            progressDialog = new ProgressDialog(levelPlay.this);
+            //Set the progress dialog to display a horizontal progress bar
+            progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+            //Set the dialog title to 'Loading...'
+            progressDialog.setTitle("Loading...");
+            //Set the dialog message to 'Loading application View, please wait...'
+            progressDialog.setMessage("Loading application View, please wait...");
+            //This dialog can't be canceled by pressing the back key
+            progressDialog.setCancelable(false);
+            //This dialog isn't indeterminate
+            progressDialog.setIndeterminate(false);
+            //The maximum number of items is 100
+            progressDialog.setMax(100);
+            //Set the current progress to zero
+            progressDialog.setProgress(0);
+            //Display the progress dialog
+            progressDialog.show();
+        }
+        //The code to be executed in a background thread.
+        @Override
+        protected Void doInBackground(Void... params)
+        {
+            /* This is just a code that delays the thread execution 4 times,
+             * during 850 milliseconds and updates the current progress. This
+             * is where the code that is going to be executed on a background
+             * thread must be placed.
+             */
+            try
+            {
+                //Get the current thread's token
+                synchronized (this)
+                {
+                    //Initialize an integer (that will act as a counter) to zero
+                    int counter = 0;
+                    //While the counter is smaller than four
+                    while(counter <= 4)
+                    {
+                        //Wait 850 milliseconds
+                        this.wait(850);
+                        //Increment the counter
+                        counter++;
+                        //Set the current progress.
+                        //This value is going to be passed to the onProgressUpdate() method.
+                        publishProgress(counter*25);
+                    }
+                }
+            }
+            catch (InterruptedException e)
+            {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        //Update the progress
+        @Override
+        protected void onProgressUpdate(Integer... values)
+        {
+            //set the current progress of the progress dialog
+            progressDialog.setProgress(values[0]);
+        }
+
+        //after executing the code in the thread
+        @Override
+        protected void onPostExecute(Void result)
+        {
+            //close the progress dialog
+            progressDialog.dismiss();
+            //initialize the View
+            goToLevel(1); //start game at level 1
+        }
+    }
     private void populateButtons() //creating grid of buttons. These buttons are initialized as disabled and invisible
     {
         TableLayout table = (TableLayout)findViewById(R.id.tableForButtons); //make new table
@@ -113,21 +193,23 @@ public class levelPlay extends Activity implements View.OnClickListener
         {
             ///////////////////////////////LEVEL ONE////////////////////////////////////////////
             case 1:
-                if(tempLevel < level)
+                if(tempLevel < level)//if this is the first time the level has been called then do the below functions.
                 {
+
                     tempLevel = level;
                     llayout.setBackgroundResource(R.drawable.levelone);
                     //call function that displays level
                     displayLevel(level);
                     Game_Speed = 1000; gameTimer(60000);
                 }
-                displayButton(1);
+                displayButton(1);  //display button from luckarray 1
                 break;
             ///////////////////////////////LEVEL TWO////////////////////////////////////////////
             case 2:
                 level = 2;
                 if(tempLevel < level)
                 {
+
                     tempLevel = level;
                     llayout.setBackgroundResource(R.drawable.leveltwo);
                     displayLevel(level);//display level animation
@@ -164,10 +246,14 @@ public class levelPlay extends Activity implements View.OnClickListener
                    SwirlEngine.cancel();                   // cancel the old timer with the old speed
                    SwirlEngine = new CountDownTimer(Current_Time, Game_Speed) { // start new timer with changed speed
                         @Override
-                        public void onTick(long millisUntilFinished) {
-                            if (millisUntilFinished / 30 == 0) {
+                        public void onTick(long millisUntilFinished)
+                        {
+                            if (millisUntilFinished / 30 == 0)
+                            {
                                 onFinish();
-                            } else {
+                            }
+                            else
+                            {
                                 levelUpdate();
                             }
                         }
@@ -267,6 +353,35 @@ public class levelPlay extends Activity implements View.OnClickListener
 
                 displayButton(4);
                 break;
+            ///////////////////////////LEVEL 7////////////////////////////////////////
+            case 7:
+                level = 7;
+                if(tempLevel < level)
+                {
+                    llayout.setBackgroundResource(R.drawable.levelseven);
+                    displayLevel(level);//display the level animation
+                    tempLevel = level;
+                    Game_Speed = 1000;
+                    SwirlEngine.cancel();                   // cancel the old timer with the old speed
+                    SwirlEngine = new CountDownTimer(Current_Time, Game_Speed) { // start new timer with changed speed
+                        @Override
+                        public void onTick(long millisUntilFinished) {
+                            if (millisUntilFinished / 30 == 0) {
+                                onFinish();
+                            } else {
+                                levelUpdate();
+                            }
+                        }
+                        @Override
+                        public void onFinish() {
+                            levelUpdate();
+                            SwirlEngine.start();
+                        }
+                    }.start();
+
+                }
+                displayButton(4);
+                break;
             //go to infinite level in which will only end if user loses all 3 lives
             //introduce death swirl..loses all 3 lives if clicked
 
@@ -309,10 +424,18 @@ public class levelPlay extends Activity implements View.OnClickListener
                     public void onClick(View v) {
 
                         {
-                            v.setVisibility(View.INVISIBLE);         // Make Swirl disappear when clicked
+                            //leveldisplay.setVisibility(View.VISIBLE);
                             v.setEnabled(false);                     // Disable button
+                            v.setBackgroundResource(R.drawable.plusone); //change to +1 and make dis
+                            AlphaAnimation anim = new AlphaAnimation(1.0f, 0.0f);//fade out the text
+                            anim.setDuration(500);
+                            v.startAnimation(anim);
+                            v.setVisibility(View.INVISIBLE);         // Make Swirl disappear when clicked
                             score++;                                 // Add one to score
                             goodCount--; //take from number of good swirls on screen
+
+
+
                         }
                     }
                 });
@@ -348,10 +471,14 @@ public class levelPlay extends Activity implements View.OnClickListener
                     {
 
                         {
-                            v.setVisibility(View.INVISIBLE);         // Make Swirl disappear when clicked
                             v.setEnabled(false);                     // Disable button
+                            v.setBackgroundResource(R.drawable.plusone); //change to +1 and make dis
+                            AlphaAnimation anim = new AlphaAnimation(1.0f, 0.0f);//fade out the text
+                            anim.setDuration(500);
+                            v.startAnimation(anim);
+                            v.setVisibility(View.INVISIBLE);         // Make Swirl disappear when clicked
                             score++;                                 // Add one to score
-                            if(goodCount > 0)
+                            if(goodCount > 0) //used to count number of good buttons currently on screen
                                 goodCount--;
                         }
                     }
@@ -422,8 +549,12 @@ public class levelPlay extends Activity implements View.OnClickListener
                     {
 
                         {
-                            v.setVisibility(View.INVISIBLE);         // Make Swirl disappear when clicked
                             v.setEnabled(false);                     // Disable button
+                            v.setBackgroundResource(R.drawable.plusone); //change to +1 and make dis
+                            AlphaAnimation anim = new AlphaAnimation(1.0f, 0.0f);//fade out the text
+                            anim.setDuration(500);
+                            v.startAnimation(anim);
+                            v.setVisibility(View.INVISIBLE);         // Make Swirl disappear when clicked
                             score++;                                 // Add one to score
                             if(goodCount > 0)
                                 goodCount--;
@@ -493,8 +624,13 @@ public class levelPlay extends Activity implements View.OnClickListener
                     {
 
                         {
-                            v.setVisibility(View.INVISIBLE);         // Make Swirl disappear when clicked
                             v.setEnabled(false);                     // Disable button
+                            v.setBackgroundResource(R.drawable.plustwo); //change to +1 and make dis
+                            AlphaAnimation anim = new AlphaAnimation(1.0f, 0.0f);//fade out the text
+                            anim.setDuration(500);
+                            v.startAnimation(anim);
+                            v.setVisibility(View.INVISIBLE);         // Make Swirl disappear when clicked
+                           // v.setEnabled(false);                     // Disable button
                             score+=2;                                 // Add one to score
                             if(goodCount > 0)
                                 goodCount-=2;
@@ -566,8 +702,13 @@ public class levelPlay extends Activity implements View.OnClickListener
                     {
 
                         {
-                            v.setVisibility(View.INVISIBLE);         // Make Swirl disappear when clicked
                             v.setEnabled(false);                     // Disable button
+                            v.setBackgroundResource(R.drawable.plustwo); //change to +1 and make dis
+                            AlphaAnimation anim = new AlphaAnimation(1.0f, 0.0f);//fade out the text
+                            anim.setDuration(500);
+                            v.startAnimation(anim);
+                            v.setVisibility(View.INVISIBLE);         // Make Swirl disappear when clicked
+                           // v.setEnabled(false);                     // Disable button
                             score+=2;                                 // Add one to score
                             if(goodCount > 0)
                                 goodCount-=2;
@@ -673,8 +814,13 @@ public class levelPlay extends Activity implements View.OnClickListener
                     {
 
                         {
-                            v.setVisibility(View.INVISIBLE);         // Make Swirl disappear when clicked
                             v.setEnabled(false);                     // Disable button
+                            v.setBackgroundResource(R.drawable.plusone); //change to +1 and make dis
+                            AlphaAnimation anim = new AlphaAnimation(1.0f, 0.0f);//fade out the text
+                            anim.setDuration(500);
+                            v.startAnimation(anim);
+                            v.setVisibility(View.INVISIBLE);         // Make Swirl disappear when clicked
+                            //v.setEnabled(false);                     // Disable button
                             score++;                                 // Add one to score
                             if(goodCount > 0)
                                 goodCount--;
@@ -766,7 +912,8 @@ public class levelPlay extends Activity implements View.OnClickListener
         else if (score > 24 && score < 45) goToLevel(3);
         else if (score > 44 && score < 75) goToLevel(4);
         else if (score > 74 && score < 115) goToLevel(5);
-        else if (score > 114) goToLevel(6);
+        else if (score > 114 && score < 160) goToLevel(6);
+        else if (score > 159 )goToLevel(7);
     }
 
     public void populateLuckArrays()
@@ -822,5 +969,6 @@ public class levelPlay extends Activity implements View.OnClickListener
         anim.setDuration(2000);
         leveldisplay.startAnimation(anim);
     }
+   
 }
 
