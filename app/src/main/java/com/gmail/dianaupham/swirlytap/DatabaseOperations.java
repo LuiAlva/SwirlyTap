@@ -43,7 +43,7 @@ public class DatabaseOperations extends SQLiteOpenHelper {
         SQ.insert(TableData.TableInfo.TABLE_NAME, null, cv);
         Log.d("Database operations", "Something inserted");
     }
-    public Cursor getInformation(DatabaseOperations db1 )
+    public Cursor getInformation(DatabaseOperations db1)
     {
         SQLiteDatabase sq = db1.getReadableDatabase();
         String[] columns = {TableData.TableInfo.USER_NAME, TableData.TableInfo.USER_PASS};
