@@ -969,6 +969,6 @@ public class levelPlay extends Activity implements View.OnClickListener
         anim.setDuration(2000);
         leveldisplay.startAnimation(anim);
     }
-   
+
 }
 
