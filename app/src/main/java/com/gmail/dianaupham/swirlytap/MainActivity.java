@@ -8,17 +8,15 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+
 import com.crashlytics.android.Crashlytics;
 import com.example.spencer.swirlytap.R;
-import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.games.Games;
 import com.twitter.sdk.android.Twitter;
 import com.twitter.sdk.android.core.TwitterAuthConfig;
 import com.twitter.sdk.android.tweetcomposer.TweetComposer;
+
 import io.fabric.sdk.android.Fabric;
-import com.google.android.gms.*;
-import com.google.example.games.basegameutils.BaseGameUtils;
 
 public class MainActivity extends ActionBarActivity implements View.OnClickListener/*,
         GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener*/ {
@@ -83,7 +81,8 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         buttonLevel.setOnClickListener(this);
         buttonLogIn = (Button)findViewById(R.id.LogIn);
         buttonLogIn.setOnClickListener(this); //sets an onClickListener on buttonHighScore
-        mediaPlayer.isLooping();
+        mediaPlayer.setLooping(true);
+        //if(!mediaPlayer.isPlaying()) { mediaPlayer.start(); }
     }
     private void singlePlayerClick()
     {
@@ -134,7 +133,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         super.onResume();
         mediaPlayer = MediaPlayer.create(this, R.raw.title_song); //get song
         mediaPlayer.setLooping(true);    //make background song loop
-        mediaPlayer.start();
+        if (!mediaPlayer.isPlaying()) { mediaPlayer.start(); }
     }
 
     protected void onPause() {
