@@ -10,7 +10,7 @@ import android.util.Log;
 
 public class DatabaseOperations extends SQLiteOpenHelper {
     public static final int database_version = 1;
-    public String CREATE_QUERY = "CREATE TABLE" + TableData.TableInfo.TABLE_NAME+"("+TableData.TableInfo.USER_NAME+" TEXT,"+TableData.TableInfo.USER_PASS+"TEXT );";
+    public String CREATE_QUERY = "CREATE TABLE " + TableData.TableInfo.TABLE_NAME + "("+TableData.TableInfo.USER_NAME + " TEXT,"+TableData.TableInfo.USER_PASS +" TEXT );";
     private DatabaseOperations db;
 
     public DatabaseOperations(Context context)
@@ -43,7 +43,7 @@ public class DatabaseOperations extends SQLiteOpenHelper {
         SQ.insert(TableData.TableInfo.TABLE_NAME, null, cv);
         Log.d("Database operations", "Something inserted");
     }
-    public Cursor getInformation(DatabaseOperations db1 )
+    public Cursor getInformation(DatabaseOperations db1)
     {
         SQLiteDatabase sq = db1.getReadableDatabase();
         String[] columns = {TableData.TableInfo.USER_NAME, TableData.TableInfo.USER_PASS};

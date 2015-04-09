@@ -9,6 +9,7 @@ import android.widget.Toast;
 
 import com.example.spencer.swirlytap.R;
 
+
 public class RegisterActivity extends ActionBarActivity
 {
     EditText  USER_NAME, USER_PASS, CON_PASS;
@@ -47,6 +48,8 @@ public class RegisterActivity extends ActionBarActivity
                         database.InsertInfo(database, user_name, user_pass);
                         Toast.makeText(getBaseContext(), "You have Successfully registered!",Toast.LENGTH_LONG).show();
                         finish();
+
+
 
 
                     }
