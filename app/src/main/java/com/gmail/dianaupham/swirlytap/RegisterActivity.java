@@ -50,6 +50,8 @@ public class RegisterActivity extends ActionBarActivity
                         finish();
 
 
+
+
                     }
 
             }
