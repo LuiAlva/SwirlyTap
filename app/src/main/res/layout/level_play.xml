@@ -4,24 +4,20 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:id="@+id/layout">
-
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_column="0">
-
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent">
-
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="#6f000000"
                 android:layout_gravity="center_horizontal">
-
                 <ImageButton
                     android:layout_width="40sp"
                     android:layout_height="60sp"
@@ -30,7 +26,6 @@
                     android:id="@+id/lifeone"
                     android:layout_alignBottom="@+id/imageButton"
                     android:layout_alignParentTop="true" />
-
                 <ImageButton
                     android:layout_width="40sp"
                     android:layout_height="60sp"
@@ -40,7 +35,6 @@
                     android:layout_alignParentTop="true"
                     android:layout_toRightOf="@+id/lifeone"
                     android:layout_alignBottom="@+id/lifeone" />
-
                 <ImageButton
                     android:layout_width="40sp"
                     android:layout_height="60sp"
@@ -50,7 +44,6 @@
                     android:layout_alignParentTop="true"
                     android:layout_toRightOf="@+id/lifetwo"
                     android:layout_alignBottom="@+id/lifetwo" />
-
                 <TextView
                     android:text="@string/initial_Score"
                     android:id="@+id/displayScore"
@@ -63,7 +56,6 @@
                     android:layout_centerHorizontal="true"
                     android:gravity="center"
                     android:background="@drawable/score_frame" />
-
                 <ImageButton
                     android:src="@drawable/pause"
                     android:id="@+id/imageButton"
@@ -76,14 +68,12 @@
                     android:layout_alignParentTop="true"
                     android:layout_alignParentRight="true"
                     android:layout_alignParentEnd="true" />
-
                 <ImageView
                     android:id="@+id/imageView3"
                     android:layout_width="match_parent"
                     android:layout_height="5sp"
                     android:layout_below="@+id/displayScore"
                     android:layout_centerHorizontal="true" />
-
                 <TableLayout
                     android:id="@+id/tableForButtons"
                     android:layout_width="match_parent"
@@ -92,13 +82,10 @@
                     android:layout_below="@+id/imageView3"
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true">
-
                     <TableRow
                         android:layout_width="fill_parent"
                         android:layout_height="fill_parent">
-
                     </TableRow>
-
                     <TextView
                         android:layout_width="200dp"
                         android:layout_height="50dp"
@@ -109,22 +96,16 @@
                         android:background="@drawable/levelbackground"
                         android:textAlignment="center"
                         android:textIsSelectable="false" />
-
                     <TableRow
                         android:layout_width="fill_parent"
                         android:layout_height="fill_parent">
-
                     </TableRow>
-
                     <TableRow
                         android:layout_width="fill_parent"
                         android:layout_height="fill_parent">
-
                     </TableRow>
                 </TableLayout>
-
             </RelativeLayout>
         </LinearLayout>
     </LinearLayout>
-
 </LinearLayout>

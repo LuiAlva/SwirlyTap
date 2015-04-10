@@ -402,43 +402,7 @@ public class levelPlay extends Activity implements View.OnClickListener
             if (luckArray1[randRow][randCol] == "good") //GOOD BUTTON +1 POINT IF CLICKED
             {
 
-                final Button goodButton = buttons[randRow][randCol];     //Button in this location
-                goodCount++; //add to number of good swirls on screen
-                goodButton.setBackgroundResource(R.drawable.goodswirl); //Set image to goodswirl
-                goodButton.setEnabled(true);                            //Enable Swirl
-                goodButton.setVisibility(View.VISIBLE);                 //Make Swirl Visible
-                buttonRunnable = new Runnable() { //what will be called if button has not been clicked
-                    public void run() {
-
-                        goodButton.setVisibility(View.INVISIBLE);
-                        goodButton.setEnabled(false);
-                        if(goodCount > 0)
-                            goodCount--;
-
-                    }
-                };
-                if (goodButton.isEnabled() == true) {
-                    buttonHandler.postDelayed(buttonRunnable, 1700); //will disappear after 2 seconds
-                }
-                goodButton.setOnClickListener(new View.OnClickListener() {
-                    public void onClick(View v) {
-
-                        {
-                            //leveldisplay.setVisibility(View.VISIBLE);
-                            v.setEnabled(false);                     // Disable button
-                            v.setBackgroundResource(R.drawable.plusone); //change to +1 and make dis
-                            AlphaAnimation anim = new AlphaAnimation(1.0f, 0.0f);//fade out the text
-                            anim.setDuration(500);
-                            v.startAnimation(anim);
-                            v.setVisibility(View.INVISIBLE);         // Make Swirl disappear when clicked
-                            score++;                                 // Add one to score
-                            goodCount--; //take from number of good swirls on screen
-
-
-
-                        }
-                    }
-                });
+                displayGoodSwirl();
 
             }
         }
@@ -446,78 +410,12 @@ public class levelPlay extends Activity implements View.OnClickListener
         {
             if(luckArray2[randRow][randCol]=="good") //GOOD BUTTON +1 POINT IF CLICKED
             {
-
-                final Button goodButton = buttons[randRow][randCol];     //Button in this location
-                goodCount++;
-                goodButton.setBackgroundResource(R.drawable.goodswirl); //Set image to goodswirl
-                goodButton.setEnabled(true);                            //Enable Swirl
-                goodButton.setVisibility(View.VISIBLE);                 //Make Swirl Visible
-                buttonRunnable = new Runnable() { //what will be called if button has not been clicked
-                    public void run()
-                    {
-
-                        goodButton.setVisibility(View.INVISIBLE);
-                        goodButton.setEnabled(false);
-                        if(goodCount > 0)
-                            goodCount--;
-
-                    }
-                };
-                if(goodButton.isEnabled() == true) {
-                    buttonHandler.postDelayed(buttonRunnable, 1700); //will disappear after 2 seconds
-                }
-                goodButton.setOnClickListener(new View.OnClickListener() {
-                    public void onClick(View v)
-                    {
-
-                        {
-                            v.setEnabled(false);                     // Disable button
-                            v.setBackgroundResource(R.drawable.plusone); //change to +1 and make dis
-                            AlphaAnimation anim = new AlphaAnimation(1.0f, 0.0f);//fade out the text
-                            anim.setDuration(500);
-                            v.startAnimation(anim);
-                            v.setVisibility(View.INVISIBLE);         // Make Swirl disappear when clicked
-                            score++;                                 // Add one to score
-                            if(goodCount > 0) //used to count number of good buttons currently on screen
-                                goodCount--;
-                        }
-                    }
-                });
-
-
+                displayGoodSwirl();
                 //set 1 second timer... if timer reached then make button disappear
             }
             else if(luckArray2[randRow][randCol] == "bad")
             {
-                final Button badButton = buttons[randRow][randCol];     //Button in this location
-                badButton.setBackgroundResource(R.drawable.badswirl); //Set image to goodswirl
-                badButton.setEnabled(true);                            //Enable Swirl
-                badButton.setVisibility(View.VISIBLE);                 //Make Swirl Visible
-                buttonRunnable = new Runnable() { //what will be called if button has not been clicked
-                    public void run()
-                    {
-
-                        badButton.setVisibility(View.INVISIBLE);
-                        badButton.setEnabled(false);
-
-                    }
-                };
-                if(badButton.isEnabled() == true) {
-                    buttonHandler.postDelayed(buttonRunnable, 1700); //will disappear after 2 seconds
-                }
-                badButton.setOnClickListener(new View.OnClickListener() {
-                    public void onClick(View v)
-                    {
-
-                        {
-                            v.setVisibility(View.INVISIBLE);         // Make Swirl disappear when clicked
-                            v.setEnabled(false);                     // Disable button
-                            score -= 2;                                 // Add one to score
-                            lives -= 1;
-                            setLives(lives);
-                        }
-                    }
-                });
+                displayBadSwirl();
             }
         }
                 else if(luckArrayType == 3) //DISPLAY ALL BUTTONS FOR LUCKARRAY 3
@@ -525,119 +423,17 @@ public class levelPlay extends Activity implements View.OnClickListener
             if(luckArray3[randRow][randCol]=="good") //GOOD BUTTON +1 POINT IF CLICKED
             {
 
-                final Button goodButton = buttons[randRow][randCol];     //Button in this location
-                goodCount++;
-                goodButton.setBackgroundResource(R.drawable.goodswirl); //Set image to goodswirl
-                goodButton.setEnabled(true);                            //Enable Swirl
-                goodButton.setVisibility(View.VISIBLE);                 //Make Swirl Visible
-                buttonRunnable = new Runnable() { //what will be called if button has not been clicked
-                    public void run()
-                    {
-
-                        goodButton.setVisibility(View.INVISIBLE);
-                        goodButton.setEnabled(false);
-                        if(goodCount > 0)
-                            goodCount--;
-
-                    }
-                };
-                if(goodButton.isEnabled() == true) {
-                    buttonHandler.postDelayed(buttonRunnable, 1700); //will disappear after 2 seconds
-                }
-                goodButton.setOnClickListener(new View.OnClickListener() {
-                    public void onClick(View v)
-                    {
-
-                        {
-                            v.setEnabled(false);                     // Disable button
-                            v.setBackgroundResource(R.drawable.plusone); //change to +1 and make dis
-                            AlphaAnimation anim = new AlphaAnimation(1.0f, 0.0f);//fade out the text
-                            anim.setDuration(500);
-                            v.startAnimation(anim);
-                            v.setVisibility(View.INVISIBLE);         // Make Swirl disappear when clicked
-                            score++;                                 // Add one to score
-                            if(goodCount > 0)
-                                goodCount--;
-                        }
-                    }
-                });
-
+               displayGoodSwirl();
 
                 //set 1 second timer... if timer reached then make button disappear
             }
             else if(luckArray3[randRow][randCol] == "bad")
             {
-                final Button badButton = buttons[randRow][randCol];     //Button in this location
-                badButton.setBackgroundResource(R.drawable.badswirl); //Set image to goodswirl
-                badButton.setEnabled(true);                            //Enable Swirl
-                badButton.setVisibility(View.VISIBLE);                 //Make Swirl Visible
-                buttonRunnable = new Runnable() { //what will be called if button has not been clicked
-                    public void run()
-                    {
-
-                        badButton.setVisibility(View.INVISIBLE);
-                        badButton.setEnabled(false);
-
-                    }
-                };
-                if(badButton.isEnabled() == true) {
-                    buttonHandler.postDelayed(buttonRunnable, 1700); //will disappear after 2 seconds
-                }
-                badButton.setOnClickListener(new View.OnClickListener() {
-                    public void onClick(View v)
-                    {
-
-                        {
-                            v.setVisibility(View.INVISIBLE);         // Make Swirl disappear when clicked
-                            v.setEnabled(false);                     // Disable button
-                            score -= 2;                                 // Add one to score
-                            lives -= 1;
-                            setLives(lives);
-                        }
-                    }
-                });
-
+               displayBadSwirl();
             }
             else if(luckArray3[randRow][randCol] == "twicePoints")
             {
-                final Button twiceButton = buttons[randRow][randCol];     //Button in this location
-                goodCount+=2;
-                twiceButton.setBackgroundResource(R.drawable.twiceswirl); //Set image to goodswirl
-                twiceButton.setEnabled(true);                            //Enable Swirl
-                twiceButton.setVisibility(View.VISIBLE);                 //Make Swirl Visible
-                buttonRunnable = new Runnable() { //what will be called if button has not been clicked
-                    public void run()
-                    {
-
-                        twiceButton.setVisibility(View.INVISIBLE);
-                        twiceButton.setEnabled(false);
-                        if(goodCount > 0)
-                            goodCount-=2;
-
-                    }
-                };
-                if(twiceButton.isEnabled() == true) {
-                    buttonHandler.postDelayed(buttonRunnable, 1600); //will disappear after 2 seconds
-                }
-                twiceButton.setOnClickListener(new View.OnClickListener() {
-                    public void onClick(View v)
-                    {
-
-                        {
-                            v.setEnabled(false);                     // Disable button
-                            v.setBackgroundResource(R.drawable.plustwo); //change to +1 and make dis
-                            AlphaAnimation anim = new AlphaAnimation(1.0f, 0.0f);//fade out the text
-                            anim.setDuration(500);
-                            v.startAnimation(anim);
-                            v.setVisibility(View.INVISIBLE);         // Make Swirl disappear when clicked
-                           // v.setEnabled(false);                     // Disable button
-                            score+=2;                                 // Add one to score
-                            if(goodCount > 0)
-                                goodCount-=2;
-                            // scoreUpdate();
-                        }
-                    }
-                });
+               displayTwiceSwirl();
             }
         }
         else if(luckArrayType == 4) //DISPLAY ALL BUTTONS FOR LUCKARRAY 3
@@ -645,77 +441,11 @@ public class levelPlay extends Activity implements View.OnClickListener
 
             if(luckArray4[randRow][randCol] == "bad")
             {
-                final Button badButton = buttons[randRow][randCol];     //Button in this location
-                badButton.setBackgroundResource(R.drawable.badswirl); //Set image to goodswirl
-                badButton.setEnabled(true);                            //Enable Swirl
-                badButton.setVisibility(View.VISIBLE);                 //Make Swirl Visible
-                buttonRunnable = new Runnable() { //what will be called if button has not been clicked
-                    public void run()
-                    {
-
-                        badButton.setVisibility(View.INVISIBLE);
-                        badButton.setEnabled(false);
-
-                    }
-                };
-                if(badButton.isEnabled() == true) {
-                    buttonHandler.postDelayed(buttonRunnable, 1700); //will disappear after 2 seconds
-                }
-                badButton.setOnClickListener(new View.OnClickListener() {
-                    public void onClick(View v)
-                    {
-
-                        {
-                            v.setVisibility(View.INVISIBLE);         // Make Swirl disappear when clicked
-                            v.setEnabled(false);                     // Disable button
-                            score -= 2;                                 // Add one to score
-                            lives -= 1;
-                            setLives(lives);
-                        }
-                    }
-                });
-
+               displayBadSwirl();
             }
             else if(luckArray4[randRow][randCol] == "twicePoints")
             {
-                final Button twiceButton = buttons[randRow][randCol];     //Button in this location
-                goodCount+=2;
-                twiceButton.setBackgroundResource(R.drawable.twiceswirl); //Set image to goodswirl
-                twiceButton.setEnabled(true);                            //Enable Swirl
-                twiceButton.setVisibility(View.VISIBLE);                 //Make Swirl Visible
-                buttonRunnable = new Runnable() { //what will be called if button has not been clicked
-                    public void run()
-                    {
-
-                        twiceButton.setVisibility(View.INVISIBLE);
-                        twiceButton.setEnabled(false);
-                        if(goodCount > 0)
-                            goodCount-=2;
-
-                    }
-                };
-                if(twiceButton.isEnabled() == true) {
-                    buttonHandler.postDelayed(buttonRunnable, 1600); //will disappear after 2 seconds
-                }
-                twiceButton.setOnClickListener(new View.OnClickListener() {
-                    public void onClick(View v)
-                    {
-
-                        {
-                            v.setEnabled(false);                     // Disable button
-                            v.setBackgroundResource(R.drawable.plustwo); //change to +1 and make dis
-                            AlphaAnimation anim = new AlphaAnimation(1.0f, 0.0f);//fade out the text
-                            anim.setDuration(500);
-                            v.startAnimation(anim);
-                            v.setVisibility(View.INVISIBLE);         // Make Swirl disappear when clicked
-                           // v.setEnabled(false);                     // Disable button
-                            score+=2;                                 // Add one to score
-                            if(goodCount > 0)
-                                goodCount-=2;
-                            // scoreUpdate();
-                        }
-                    }
-                });
+               displayTwiceSwirl();
             }
             else if(luckArray4[randRow][randCol] == "lightning" && lightningGiven == false)
             {
@@ -815,7 +545,7 @@ public class levelPlay extends Activity implements View.OnClickListener
 
                         {
                             v.setEnabled(false);                     // Disable button
-                            v.setBackgroundResource(R.drawable.plusone); //change to +1 and make dis
+                            v.setBackgroundResource(R.drawable.goodswirl_break); //change to +1 and make dis
                             AlphaAnimation anim = new AlphaAnimation(1.0f, 0.0f);//fade out the text
                             anim.setDuration(500);
                             v.startAnimation(anim);
@@ -968,6 +698,146 @@ public class levelPlay extends Activity implements View.OnClickListener
         AlphaAnimation anim = new AlphaAnimation(1.0f, 0.0f);//fade out the text
         anim.setDuration(2000);
         leveldisplay.startAnimation(anim);
+    }
+
+
+    public void displayGoodSwirl()
+    {
+        final Runnable buttonRunnable;
+        final Handler buttonHandler = new Handler();
+        Random r = new Random(System.currentTimeMillis()); //randomly select location in luck array
+        int randRow = r.nextInt(NUM_ROWS);
+        int randCol = r.nextInt(NUM_COLS);
+
+        final Button goodButton = buttons[randRow][randCol];     //Button in this location
+        goodCount++; //add to number of good swirls on screen
+        goodButton.setBackgroundResource(R.drawable.goodswirl); //Set image to goodswirl
+        goodButton.setEnabled(true);                            //Enable Swirl
+        goodButton.setVisibility(View.VISIBLE);                 //Make Swirl Visible
+        buttonRunnable = new Runnable() { //what will be called if button has not been clicked
+            public void run() {
+
+                goodButton.setVisibility(View.INVISIBLE);
+                goodButton.setEnabled(false);
+                if(goodCount > 0)
+                    goodCount--;
+
+            }
+        };
+        if (goodButton.isEnabled() == true) {
+            buttonHandler.postDelayed(buttonRunnable, 1700); //will disappear after 2 seconds
+        }
+        goodButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+
+                {
+                    //leveldisplay.setVisibility(View.VISIBLE);
+                    v.setEnabled(false);                     // Disable button
+                    v.setBackgroundResource(R.drawable.goodswirl_break); //change to +1 and make dis
+                    AlphaAnimation anim = new AlphaAnimation(1.0f, 0.0f);//fade out the text
+                    anim.setDuration(300);
+                    v.startAnimation(anim);
+                    v.setVisibility(View.INVISIBLE);         // Make Swirl disappear when clicked
+                    score++;                                 // Add one to score
+                    goodCount--; //take from number of good swirls on screen
+                }
+            }
+        });
+    }
+
+    public void displayTwiceSwirl()
+    {
+        final Runnable buttonRunnable;
+        final Handler buttonHandler = new Handler();
+        Random r = new Random(System.currentTimeMillis()); //randomly select location in luck array
+        int randRow = r.nextInt(NUM_ROWS);
+        int randCol = r.nextInt(NUM_COLS);
+
+        final Button twiceButton = buttons[randRow][randCol];     //Button in this location
+        goodCount+=2;
+        twiceButton.setBackgroundResource(R.drawable.twiceswirl); //Set image to goodswirl
+        twiceButton.setEnabled(true);                            //Enable Swirl
+        twiceButton.setVisibility(View.VISIBLE);                 //Make Swirl Visible
+        buttonRunnable = new Runnable() { //what will be called if button has not been clicked
+            public void run()
+            {
+
+                twiceButton.setVisibility(View.INVISIBLE);
+                twiceButton.setEnabled(false);
+                if(goodCount > 0)
+                    goodCount-=2;
+
+            }
+        };
+        if(twiceButton.isEnabled() == true) {
+            buttonHandler.postDelayed(buttonRunnable, 1600); //will disappear after 2 seconds
+        }
+        twiceButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v)
+            {
+
+                {
+
+                    v.setEnabled(false);                     // Disable button
+                    v.setBackgroundResource(R.drawable.twiceswirl_break); //change to +1 and make dis
+                    AlphaAnimation anim = new AlphaAnimation(1.0f, 0.0f);//fade out the text
+                    anim.setDuration(300);
+                    v.startAnimation(anim);
+                    v.setVisibility(View.INVISIBLE);         // Make Swirl disappear when clicked
+                    // v.setEnabled(false);                     // Disable button
+                    score+=2;                                 // Add one to score
+                    if(goodCount > 0)
+                        goodCount-=2;
+                    // scoreUpdate();
+                }
+            }
+        });
+
+    }
+
+    public void displayBadSwirl()
+    {
+        final Runnable buttonRunnable;
+        final Handler buttonHandler = new Handler();
+        Random r = new Random(System.currentTimeMillis()); //randomly select location in luck array
+        int randRow = r.nextInt(NUM_ROWS);
+        int randCol = r.nextInt(NUM_COLS);
+
+        final Button badButton = buttons[randRow][randCol];     //Button in this location
+        badButton.setBackgroundResource(R.drawable.badswirl); //Set image to goodswirl
+        badButton.setEnabled(true);                            //Enable Swirl
+        badButton.setVisibility(View.VISIBLE);                 //Make Swirl Visible
+        buttonRunnable = new Runnable() { //what will be called if button has not been clicked
+            public void run()
+            {
+
+                badButton.setVisibility(View.INVISIBLE);
+                badButton.setEnabled(false);
+
+            }
+        };
+        if(badButton.isEnabled() == true) {
+            buttonHandler.postDelayed(buttonRunnable, 1700); //will disappear after 2 seconds
+        }
+        badButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v)
+            {
+
+                {
+                    v.setEnabled(false);                     // Disable button
+                    v.setBackgroundResource(R.drawable.badswirl_break); //change to +1 and make dis
+                    AlphaAnimation anim = new AlphaAnimation(1.0f, 0.0f);//fade out the text
+                    anim.setDuration(500);
+                    v.startAnimation(anim);
+                    v.setVisibility(View.INVISIBLE);         // Make Swirl disappear when clicked
+                    v.setEnabled(false);                     // Disable button
+                    score -= 2;                                 // Add one to score
+                    lives -= 1;
+                    setLives(lives);
+                }
+            }
+        });
+
     }
 
 }
