@@ -30,13 +30,13 @@
         android:layout_below="@+id/LogIn"
         android:layout_alignLeft="@+id/LogIn"
         android:layout_alignStart="@+id/LogIn"
-        android:layout_alignRight="@+id/LogIn"
-        android:layout_alignEnd="@+id/LogIn"
         android:textSize="30sp"
         android:focusable="true"
         android:focusableInTouchMode="true"
         android:clickable="true"
-        android:enabled="true" />
+        android:enabled="true"
+        android:layout_alignRight="@+id/Delete"
+        android:layout_alignEnd="@+id/Delete" />
 
     <Button
         android:layout_width="170sp"
@@ -55,14 +55,28 @@
         android:layout_height="65sp"
         android:text="@string/DeleteUserInfo"
         android:id="@+id/Delete"
-        android:layout_below="@+id/UpDate"
-        android:layout_alignLeft="@+id/UpDate"
-        android:layout_alignStart="@+id/UpDate"
         android:textSize="23sp"
         android:clickable="true"
         android:enabled="true"
         android:focusableInTouchMode="true"
-        android:focusable="true" />
+        android:focusable="true"
+        android:layout_below="@+id/UpDate"
+        android:layout_alignLeft="@+id/Users"
+        android:layout_alignStart="@+id/Users" />
+
+    <Button
+        android:layout_width="170sp"
+        android:layout_height="65sp"
+        android:text="@string/users1"
+        android:id="@+id/Users"
+        android:textSize="23sp"
+        android:layout_below="@+id/Delete"
+        android:layout_alignLeft="@+id/LogIn"
+        android:layout_alignStart="@+id/LogIn"
+        android:focusableInTouchMode="true"
+        android:focusable="true"
+        android:clickable="true"
+        android:enabled="true" />
 
 
 </RelativeLayout>

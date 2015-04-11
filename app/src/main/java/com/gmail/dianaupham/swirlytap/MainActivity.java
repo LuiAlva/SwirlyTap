@@ -102,7 +102,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         finish();
     }
     private void LogInClick() {   //LogIn method
-        Intent login = new Intent(MainActivity.this, mySQLActivity.class);
+        Intent login = new Intent(MainActivity.this, DatabaseTableActivity.class);
         startActivity(login);
         finish();
     }
