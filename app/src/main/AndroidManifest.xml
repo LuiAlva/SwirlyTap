@@ -37,18 +37,25 @@
             android:theme="@style/FullscreenTheme" >
         </activity>
         <activity
+                android:name="com.gmail.dianaupham.swirlytap.DatabaseMainActivity"
+                android:label="DatabaseActiviy"
+                 android:screenOrientation="portrait"></activity>
+
+        <activity
             android:name="com.gmail.dianaupham.swirlytap.PlayAgain"
             android:label="@string/title_activity_single_player"
             android:screenOrientation="portrait" >
         </activity>
-        <activity
-            android:name="com.gmail.dianaupham.swirlytap.mySQLActivity"
-            android:label="@string/title_activity_my_sql" >
-        </activity>
-        <activity
-            android:name= "com.gmail.dianaupham.swirlytap.RegisterActivity"
-            android:label="RegisterActivity">
-            </activity>
+        <activity android:name="com.gmail.dianaupham.swirlytap.Register"
+                    android:label="Register"
+                    android:screenOrientation="portrait">
+
+             </activity>
+        <activity android:name="com.gmail.dianaupham.swirlytap.Login"
+                    android:label="Login"
+                    android:screenOrientation="portrait">
+
+                    </activity>
 
         <meta-data
             android:name="com.crashlytics.ApiKey"

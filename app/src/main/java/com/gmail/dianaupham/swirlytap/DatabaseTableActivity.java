@@ -9,11 +9,12 @@ import android.database.sqlite.SQLiteDatabase;
 
 public class DatabaseTableActivity extends SQLiteOpenHelper {
     public static final String DATABASE_NAME = "SwirlyTapDatabase.db";
-    public static final String GAME_TABLE_NAME = "HIGH SCORE LEADER BOARD";
+    public static final String GAME_TABLE_NAME = "HIGHSCORELEADERBOARD";
     public static final String GAME_COLUMN_ID = "ID";
     public static final String GAME_COLUMN_USERNAME = "USERNAME";
     public static final String GAME_COLUMN_PASSWORD = "PASSWORD";
     public static final String GAME_COLUMN_SCORE = "SCORE";
+    public static final String GAME_COLUMN_LOGIN = "LOGGEDIN";
 
 
     public DatabaseTableActivity(Context ctx) {
@@ -22,8 +23,8 @@ public class DatabaseTableActivity extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("Create Table " +
-                        "(ID integer key, Username text, Password text, Score integer value)"
+        db.execSQL("Create Table HIGHSCORELEADERBOARD " +
+                        "(ID integer primary key, Username text, Password text, Score integer,LOGGEDIN integer)"
 
         );
 
@@ -31,64 +32,102 @@ public class DatabaseTableActivity extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion)
     {
-        db.execSQL("DROP DATABASE TABLE IF EXISTS HIGH SCORE LEADER BOARD ");
-        onCreate(db);
-
+        if(newVersion > oldVersion)
+        {
+            db.execSQL("DROP DATABASE TABLE IF EXISTS HIGHSCORELEADERBOARD ");
+            onCreate(db);
+        }
     }
 
-    public boolean InsertInfo(String USER_NAME, String PASS_WORD,int SCORE)
+    public void setlogin(String USER_NAME, String PASS_WORD, int FLAG)
+    {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues ctv = new ContentValues();
+        if(FLAG == 1)
+        {
+            ctv.put(GAME_COLUMN_LOGIN,1);
+            String[] args = new String[]{USER_NAME,PASS_WORD};
+            db.update(DATABASE_NAME,ctv, "USERNAME=? AND PASSWORD=?", args);
+
+        }
+        else
+        {
+            ctv.put(GAME_COLUMN_LOGIN, 0);
+            String[] args = new String []{USER_NAME, PASS_WORD};
+            db.update(DATABASE_NAME,ctv,"USERNAME=? AND PASSWORD=?", args);
+        }
+    }
+
+    public boolean Login(String USER_NAME, String PASS_WORD)
+    {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res = db.rawQuery("select * from HIGHSCORELEADERBOARD where USERNAME='" + USER_NAME + "'" +
+                                    " AND PASSWORD='" + PASS_WORD + "'", null);
+        if(res.getCount()< 1 || res.getCount() > 1)
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
+    }
+
+    public boolean InsertInfo(String USER_NAME, String PASS_WORD)
     {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues ctv = new ContentValues();
 
         ctv.put("USERNAME", USER_NAME);
         ctv.put("PASSWORD", PASS_WORD);
-        ctv.put("SCORE", SCORE);
+       // ctv.put("SCORE", SCORE);
 
-        db.insert("HIGH SCORE LEADER BOARD", null, ctv);
+        db.insert("HIGHSCORELEADERBOARD", null, ctv);
         return true;
 
     }
     public Cursor getData(int id)
     {
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor res = db.rawQuery( "select * from HIGH SCORE LEADER BOARD where ID="+id+"", null);
+        Cursor res = db.rawQuery( "select * from HIGHSCORELEADERBOARD where ID="+id+"", null);
         return res;
 
 
     }
 
-    public int NumRows()
+/*    public int NumRows()
     {
         SQLiteDatabase db = this.getReadableDatabase();
         int numRows = (int) DatabaseUtils.queryNumEntries(db,GAME_TABLE_NAME );
         return numRows;
 
     }
+   */
     public boolean updateInfo( Integer id, String USER_NAME, String PASS_WORD, int SCORE)
     {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues ctv = new ContentValues();
-        ctv.put("USERNAME",USER_NAME);
-        ctv.put("PASSWORD",PASS_WORD );
+
         ctv.put("SCORE", SCORE);
-        db.update("HIGH SCORE LEADER BOARD", ctv, "id = ? ", new String[] { Integer.toString(id)});
+        String[] args = new String[]{USER_NAME,PASS_WORD};
+        db.update("HIGHSCORELEADERBOARD", ctv, "USERNAME=? AND PASSWORD=?",args); //new String[] { Integer.toString(id)});
         return true;
 
     }
-    public Integer deleteInfo (Integer id)
+    public Integer deleteInfo (String USER_NAME, String PASS_WORD)
     {
         SQLiteDatabase db = this.getWritableDatabase();
-        return db.delete("HIGH SCORE LEADER BOARD",
-                "id = ? ",
-                new String[] { Integer.toString(id) });
+        String[] args = new String[]{USER_NAME,PASS_WORD};
+        return db.delete("HIGHSCORELEADERBOARD",
+                "USERNAME=? AND PASSWORD=?",args);
+                //new String[] { Integer.toString(id) });
     }
     public ArrayList getAllInfo()
     {
         ArrayList array_list = new ArrayList();
         //hp = new HashMap();
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor res =  db.rawQuery( "select * from HIGH SCORE LEADER BOARD", null );
+        Cursor res =  db.rawQuery( "select * from HIGHSCORELEADERBOARD", null );
         res.moveToFirst();
         while(res.isAfterLast() == false){
             array_list.add(res.getString(res.getColumnIndex(GAME_COLUMN_USERNAME)));
