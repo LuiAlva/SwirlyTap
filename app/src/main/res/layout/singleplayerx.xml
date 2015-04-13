@@ -28,7 +28,7 @@
 
                 <TextView
                     android:text="@string/time"
-                    android:id="@+id/textView"
+                    android:id="@+id/ScoreView"
                     android:layout_width="80sp"
                     android:layout_height="wrap_content"
                     android:textColor="#ff3ad7ff"
@@ -48,11 +48,11 @@
                     android:textSize="30sp"
                     android:textIsSelectable="true"
                     android:gravity="center|top"
-                    android:layout_below="@+id/textView"
+                    android:layout_below="@+id/ScoreView"
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true"
-                    android:layout_alignRight="@+id/textView"
-                    android:layout_alignEnd="@+id/textView" />
+                    android:layout_alignRight="@+id/ScoreView"
+                    android:layout_alignEnd="@+id/ScoreView" />
 
                 <TextView
                     android:text="@string/initial_Score"

@@ -1,6 +1,8 @@
 package com.gmail.dianaupham.swirlytap;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -30,6 +32,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     Button buttonLevel;
     Button buttonLogIn;
     MediaPlayer mediaPlayer; //for music
+    public static final String PREFS_NAME = "PREFS_FILE";
 
     private static final boolean AUTO_HIDE = true;          // Auto hide UI (ActionBar)
     private static final int AUTO_HIDE_DELAY_MILLIS = 2000; // Hide system UI after 2000 milliseconds
@@ -82,6 +85,18 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         buttonLogIn = (Button)findViewById(R.id.LogIn);
         buttonLogIn.setOnClickListener(this); //sets an onClickListener on buttonHighScore
         mediaPlayer.setLooping(true);
+        SharedPreferences prefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+        boolean firstTime = prefs.getBoolean("FirstTimeSetup", true);
+        if (firstTime) {
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putBoolean("FirstTimeSetup", false);
+            editor.putInt("HighScore1", 0);
+            editor.putInt("HighScore2", 0);
+            editor.putInt("HighScore3", 0);
+            editor.putInt("HighScore4", 0);
+            editor.putInt("HighScore5", 0);
+            editor.commit();
+        }
         //if(!mediaPlayer.isPlaying()) { mediaPlayer.start(); }
     }
     private void singlePlayerClick()

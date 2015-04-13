@@ -3,6 +3,7 @@ package com.gmail.dianaupham.swirlytap;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
@@ -32,6 +33,7 @@ import java.util.Random;
 
 public class SinglePlayer extends Activity implements View.OnClickListener {
     int Score = 0; //this is total score
+    public static final String PREFS_NAME = "PREFS_FILE"; // Name of preference file
     boolean addTime = false;    //Allows Time button to appear
     boolean paused = false;
     boolean Countdown_active = false; //DisablePause
@@ -929,7 +931,7 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
             e.printStackTrace();
         }
         //Wait x seconds before going to results screen
-        new CountDownTimer(3000,1000) {
+        new CountDownTimer(3000,3000) {
             int i = 0;
             public void onTick(long millisUntilFinished)
             {
@@ -960,6 +962,36 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
 
             @Override
             public void onFinish() {
+                SharedPreferences prefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+                if( prefs.getInt("HighScore1", 0) < Score ) {                       // HighScore 1
+                    SharedPreferences.Editor editor = prefs.edit();
+                    editor.putInt("HighScore1", Score);
+                    editor.commit();
+                } else {
+                    if (prefs.getInt("HighScore2", 0) < Score) {                    // HighScore 2
+                        SharedPreferences.Editor editor = prefs.edit();
+                        editor.putInt("HighScore2", Score);
+                        editor.commit();
+                    } else {
+                        if (prefs.getInt("HighScore3", 0) < Score) {                // HighScore 3
+                            SharedPreferences.Editor editor = prefs.edit();
+                            editor.putInt("HighScore3", Score);
+                            editor.commit();
+                        } else {
+                            if (prefs.getInt("HighScore4", 0) < Score) {            // HighScore 4
+                                SharedPreferences.Editor editor = prefs.edit();
+                                editor.putInt("HighScore4", Score);
+                                editor.commit();
+                            } else {
+                                if (prefs.getInt("HighScore5", 0) < Score) {        // HighScore 5
+                                    SharedPreferences.Editor editor = prefs.edit();
+                                    editor.putInt("HighScore5", Score);
+                                    editor.commit();
+                                }
+                            }
+                        }
+                    }
+                }
                 //* End the Game*\\
                 popupWindow.dismiss();                                                //Dismiss Time's up popup
                 gameBG.stop();                                                        //stop song
@@ -972,6 +1004,7 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
                 startActivity(intentAgain);                                           //go to PlayAgain activity/menu
                 finish();
             }
+
         }.start();
     }
 

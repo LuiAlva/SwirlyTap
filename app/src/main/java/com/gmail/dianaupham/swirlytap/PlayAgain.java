@@ -1,6 +1,8 @@
 package com.gmail.dianaupham.swirlytap;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.media.MediaPlayer;
@@ -32,6 +34,8 @@ public class PlayAgain extends ActionBarActivity implements View.OnClickListener
     Button buttonShare;     //create type button for 'Share'
     Button buttonHighScore; //create type button for 'High Score'
     MediaPlayer mediaPlayer;// For sounds
+    int HighScore;          // For HighScore
+    public static final String PREFS_NAME = "PREFS_FILE";  // Name of Preference file
 
     private static final boolean AUTO_HIDE = true;          // Auto hide UI (ActionBar)
     private static final int AUTO_HIDE_DELAY_MILLIS = 1000; // Hide system UI after 1000 milliseconds
@@ -48,6 +52,9 @@ public class PlayAgain extends ActionBarActivity implements View.OnClickListener
         setContentView(R.layout.activity_play_again);
         getSupportActionBar().hide();
         mediaPlayer = MediaPlayer.create(this, R.raw.game_success); //get success sound
+        // Get HighScore
+        SharedPreferences prefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+        HighScore = prefs.getInt("HighScore1", 0);
 
         Intent game = getIntent(); // Grab the the intent of game that ended
         int score = game.getIntExtra("score", 0); //Grab score from game
@@ -55,8 +62,10 @@ public class PlayAgain extends ActionBarActivity implements View.OnClickListener
         int BadSwirls = game.getIntExtra("BadSwirls", 0);
         int Good2Swirls = game.getIntExtra("Good2Swirls", 0);
         int TimeSwirls = game.getIntExtra("TimeSwirls", 0);
-        TextView Score= (TextView) findViewById(R.id.textView);
+        TextView Score= (TextView) findViewById(R.id.ScoreView);
         Score.setText("" + score + " points!");   //Set text to show score
+        TextView BEST_SCORE= (TextView) findViewById(R.id.BestScore);
+        BEST_SCORE.setText("Best: " + HighScore);   //Set text to show score
         TextView GoodCount= (TextView) findViewById(R.id.Good_Swirl_Counter);
         GoodCount.setText(""+ GoodSwirls);   //Set text to show score
         TextView BadCount= (TextView) findViewById(R.id.Bad_Swirl_Counter);
