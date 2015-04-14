@@ -4,6 +4,18 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:id="@+id/layout">
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:scaleType="fitXY"
+        android:background="#00ffffff"
+        android:id="@+id/imageButton2"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/lifetwo"
+        android:layout_alignBottom="@+id/lifetwo"
+        android:layout_gravity="right" />
+
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="fill_parent"
@@ -46,7 +58,7 @@
                     android:layout_alignBottom="@+id/lifetwo" />
                 <TextView
                     android:text="@string/initial_Score"
-                    android:id="@+id/displayScore"
+                    android:id="@+id/scoreAnimation"
                     android:layout_width="100sp"
                     android:layout_height="78dp"
                     android:scaleType="center"
@@ -72,7 +84,7 @@
                     android:id="@+id/imageView3"
                     android:layout_width="match_parent"
                     android:layout_height="5sp"
-                    android:layout_below="@+id/displayScore"
+                    android:layout_below="@+id/scoreAnimation"
                     android:layout_centerHorizontal="true" />
                 <TableLayout
                     android:id="@+id/tableForButtons"
@@ -105,6 +117,17 @@
                         android:layout_height="fill_parent">
                     </TableRow>
                 </TableLayout>
+
+                <ImageButton
+                    android:layout_width="40sp"
+                    android:layout_height="60sp"
+                    android:scaleType="fitXY"
+                    android:background="#00ffffff"
+                    android:id="@+id/scoreanimation"
+                    android:layout_alignParentTop="true"
+                    android:layout_toRightOf="@+id/scoreAnimation"
+                    android:layout_toEndOf="@+id/scoreAnimation" />
+
             </RelativeLayout>
         </LinearLayout>
     </LinearLayout>
