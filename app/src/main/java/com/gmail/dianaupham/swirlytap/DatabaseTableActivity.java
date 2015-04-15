@@ -47,14 +47,14 @@ public class DatabaseTableActivity extends SQLiteOpenHelper {
         {
             ctv.put(GAME_COLUMN_LOGIN,1);
             String[] args = new String[]{USER_NAME,PASS_WORD};
-            db.update(DATABASE_NAME,ctv, "USERNAME=? AND PASSWORD=?", args);
+            db.update(GAME_TABLE_NAME,ctv, "USERNAME=? AND PASSWORD=?", args);
 
         }
         else
         {
             ctv.put(GAME_COLUMN_LOGIN, 0);
             String[] args = new String []{USER_NAME, PASS_WORD};
-            db.update(DATABASE_NAME,ctv,"USERNAME=? AND PASSWORD=?", args);
+            db.update(GAME_TABLE_NAME,ctv,"USERNAME=? AND PASSWORD=?", args);
         }
     }
 
@@ -125,7 +125,6 @@ public class DatabaseTableActivity extends SQLiteOpenHelper {
     public ArrayList getAllInfo()
     {
         ArrayList array_list = new ArrayList();
-        //hp = new HashMap();
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor res =  db.rawQuery( "select * from HIGHSCORELEADERBOARD", null );
         res.moveToFirst();

@@ -34,12 +34,12 @@ public class Login extends Activity
                     {
                         myTable.setlogin(USER_NAME.getText().toString(),PASS_WORD.getText().toString(),1);
                         Toast.makeText(getApplicationContext(), "SUCCESS", Toast.LENGTH_SHORT).show();
-                        /*Intent intent = new Intent(getApplicationContext(), DatabaseMainActivity.class);
+                        Intent i = new Intent(getApplicationContext(), DatabaseMainActivity.class);
                         Bundle bundle = new Bundle();
                         bundle.putString("USERNAME",USER_NAME.getText().toString());
                         bundle.putString("PASSWORD", PASS_WORD.getText().toString());
-                        intent.putExtras(bundle);
-                        startActivity(intent);*/
+                        i.putExtras(bundle);
+                        startActivity(i);
 
                     }
                     else
