@@ -65,4 +65,6 @@
     <string name="users">All Users</string>
     <string name="users1">All Users</string>
 
+    <string name="title_activity_high_score">HighScoreActivity</string>
+
 </resources>
