@@ -70,4 +70,6 @@
     <string name="updateButton">sp</string>
     <string name="buttonsubmit">Submit</string>
 
+    <string name="title_activity_high_score">HighScoreActivity</string>
+
 </resources>
