@@ -64,5 +64,10 @@
     <string name="allUsers">New Button</string>
     <string name="users">All Users</string>
     <string name="users1">All Users</string>
+    <string name="username2">Name</string>
+    <string name="editpass2">Enter New Password</string>
+    <string name="editnewuser2">Enter New Username</string>
+    <string name="updateButton">sp</string>
+    <string name="buttonsubmit">Submit</string>
 
 </resources>

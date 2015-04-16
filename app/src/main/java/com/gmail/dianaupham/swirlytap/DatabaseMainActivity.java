@@ -25,6 +25,8 @@ public class DatabaseMainActivity extends Activity
     private Button buttonLogin,buttonRegister,buttonUpdate,buttonDelete,buttonAllUsers;
 
     DatabaseTableActivity myTable;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
