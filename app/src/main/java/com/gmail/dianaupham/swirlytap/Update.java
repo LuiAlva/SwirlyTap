@@ -12,7 +12,7 @@ import com.example.spencer.swirlytap.R;
 
 public class Update extends Activity
 {
-    private DatabaseTableActivity myTable;
+  /*  private DatabaseTableActivity myTable;
     EditText NEW_USER;
     EditText NEW_PASS;
     Button bsubmit;
@@ -20,25 +20,25 @@ public class Update extends Activity
     @Override
     protected void OnCreate(Bundle savedInstanceState)
     {
-        super.onCreate(savedInstanceState);
+       super.onCreate(savedInstanceState);
         setContentView(R.layout.update_layout);
         myTable = new DatabaseTableActivity(this);
         NEW_USER = (EditText)findViewById(R.id.username2);
         NEW_PASS = (EditText)findViewById(R.id.password2);
         bsubmit = (Button) findViewById(R.id.UpDateButton);
-        bsubmit.setOnClickListener(new View.OnClickListener() {
+       bsubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v)
             {
 
-                if(myTable.updateInfo(id,NEW_USER.getText().toString(),NEW_PASS.getText().toString(),score) )
-                {
+               if(myTable.updateInfo(int id,NEW_USER.getText().toString(),NEW_PASS.getText().toString(),int score))
+               {
 
                 }
 
 
-            }
-        });
+           }
+       });
 
 
 
@@ -46,5 +46,5 @@ public class Update extends Activity
 
     }
 
-
+*/
 }
