@@ -32,7 +32,11 @@ import java.io.IOException;
 import java.util.Random;
 
 public class SinglePlayer extends Activity implements View.OnClickListener {
-    int Score = 0; //this is total score
+    int Score = 0;          //this is total score
+    int ScorePass = 0;      //for passing the old HighScores
+    String NamePass = "";   //For passing the name in HighScores
+    String NAME = "";       // For Player Name for CompareScores()
+    int SCORE = 0;          // For Score for CompareScores()
     public static final String PREFS_NAME = "PREFS_FILE"; // Name of preference file
     boolean addTime = false;    //Allows Time button to appear
     boolean paused = false;
@@ -962,36 +966,7 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
 
             @Override
             public void onFinish() {
-                SharedPreferences prefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
-                if( prefs.getInt("HighScore1", 0) < Score ) {                       // HighScore 1
-                    SharedPreferences.Editor editor = prefs.edit();
-                    editor.putInt("HighScore1", Score);
-                    editor.commit();
-                } else {
-                    if (prefs.getInt("HighScore2", 0) < Score) {                    // HighScore 2
-                        SharedPreferences.Editor editor = prefs.edit();
-                        editor.putInt("HighScore2", Score);
-                        editor.commit();
-                    } else {
-                        if (prefs.getInt("HighScore3", 0) < Score) {                // HighScore 3
-                            SharedPreferences.Editor editor = prefs.edit();
-                            editor.putInt("HighScore3", Score);
-                            editor.commit();
-                        } else {
-                            if (prefs.getInt("HighScore4", 0) < Score) {            // HighScore 4
-                                SharedPreferences.Editor editor = prefs.edit();
-                                editor.putInt("HighScore4", Score);
-                                editor.commit();
-                            } else {
-                                if (prefs.getInt("HighScore5", 0) < Score) {        // HighScore 5
-                                    SharedPreferences.Editor editor = prefs.edit();
-                                    editor.putInt("HighScore5", Score);
-                                    editor.commit();
-                                }
-                            }
-                        }
-                    }
-                }
+                CompareScore();
                 //* End the Game*\\
                 popupWindow.dismiss();                                                //Dismiss Time's up popup
                 gameBG.stop();                                                        //stop song
@@ -1006,6 +981,113 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
             }
 
         }.start();
+    }
+
+    public void CompareScore() {
+        SharedPreferences prefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor;
+        NAME = prefs.getString("PlayerName", "Player");
+        SCORE = Score;
+        if( prefs.getInt("HighScore1", 0) < SCORE ) {                       // HighScore 1
+            editor = prefs.edit();
+            ScorePass = prefs.getInt("HighScore1", 0);
+            NamePass = prefs.getString("HighName1", "Player");
+            editor.putInt("HighScore1", SCORE);
+            editor.putString("PlayerName", NAME);
+            SCORE = ScorePass;
+            NAME = NamePass;
+            editor.commit();
+        }
+        if( prefs.getInt("HighScore2", 0) < SCORE ) {                       // HighScore 1
+            editor = prefs.edit();
+            ScorePass = prefs.getInt("HighScore2", 0);
+            NamePass = prefs.getString("HighName2", "Player");
+            editor.putInt("HighScore2", SCORE);
+            editor.putString("PlayerName", NAME);
+            SCORE = ScorePass;
+            NAME = NamePass;
+            editor.commit();
+        }
+        if( prefs.getInt("HighScore3", 0) < SCORE ) {                       // HighScore 1
+            editor = prefs.edit();
+            ScorePass = prefs.getInt("HighScore3", 0);
+            NamePass = prefs.getString("HighName3", "Player");
+            editor.putInt("HighScore3", SCORE);
+            editor.putString("PlayerName", NAME);
+            SCORE = ScorePass;
+            NAME = NamePass;
+            editor.commit();
+        }
+        if( prefs.getInt("HighScore4", 0) < SCORE ) {                       // HighScore 1
+            editor = prefs.edit();
+            ScorePass = prefs.getInt("HighScore4", 0);
+            NamePass = prefs.getString("HighName4", "Player");
+            editor.putInt("HighScore4", SCORE);
+            editor.putString("PlayerName", NAME);
+            SCORE = ScorePass;
+            NAME = NamePass;
+            editor.commit();
+        }
+        if( prefs.getInt("HighScore5", 0) < SCORE ) {                       // HighScore 1
+            editor = prefs.edit();
+            ScorePass = prefs.getInt("HighScore5", 0);
+            NamePass = prefs.getString("HighName5", "Player");
+            editor.putInt("HighScore5", SCORE);
+            editor.putString("PlayerName", NAME);
+            SCORE = ScorePass;
+            NAME = NamePass;
+            editor.commit();
+        }
+        if( prefs.getInt("HighScore6", 0) < SCORE ) {                       // HighScore 1
+            editor = prefs.edit();
+            ScorePass = prefs.getInt("HighScore6", 0);
+            NamePass = prefs.getString("HighName6", "Player");
+            editor.putInt("HighScore6", SCORE);
+            editor.putString("PlayerName", NAME);
+            SCORE = ScorePass;
+            NAME = NamePass;
+            editor.commit();
+        }
+        if( prefs.getInt("HighScore7", 0) < SCORE ) {                       // HighScore 1
+            editor = prefs.edit();
+            ScorePass = prefs.getInt("HighScore7", 0);
+            NamePass = prefs.getString("HighName7", "Player");
+            editor.putInt("HighScore7", SCORE);
+            editor.putString("PlayerName", NAME);
+            SCORE = ScorePass;
+            NAME = NamePass;
+            editor.commit();
+        }
+        if( prefs.getInt("HighScore8", 0) < SCORE ) {                       // HighScore 1
+            editor = prefs.edit();
+            ScorePass = prefs.getInt("HighScore8", 0);
+            NamePass = prefs.getString("HighName8", "Player");
+            editor.putInt("HighScore8", Score);
+            editor.putString("PlayerName", NAME);
+            SCORE = ScorePass;
+            NAME = NamePass;
+            editor.commit();
+        }
+        if( prefs.getInt("HighScore9", 0) < SCORE ) {                       // HighScore 1
+            editor = prefs.edit();
+            ScorePass = prefs.getInt("HighScore9", 0);
+            NamePass = prefs.getString("HighName9", "Player");
+            editor.putInt("HighScore9", Score);
+            editor.putString("PlayerName", NAME);
+            SCORE = ScorePass;
+            NAME = NamePass;
+            editor.commit();
+        }
+        if( prefs.getInt("HighScore10", 0) < SCORE ) {                       // HighScore 1
+            editor = prefs.edit();
+            ScorePass = prefs.getInt("HighScore10", 0);
+            NamePass = prefs.getString("HighName10", "Player");
+            editor.putInt("HighScore10", SCORE);
+            editor.putString("PlayerName", NAME);
+            SCORE = ScorePass;
+            NAME = NamePass;
+            editor.commit();
+        }
     }
 
     // Game Start and Game Over(end) ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

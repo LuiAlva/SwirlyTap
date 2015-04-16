@@ -95,6 +95,22 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
             editor.putInt("HighScore3", 0);
             editor.putInt("HighScore4", 0);
             editor.putInt("HighScore5", 0);
+            editor.putInt("HighScore6", 0);
+            editor.putInt("HighScore7", 0);
+            editor.putInt("HighScore8", 0);
+            editor.putInt("HighScore9", 0);
+            editor.putInt("HighScore10", 0);
+            editor.putString("HighName1", "???");
+            editor.putString("HighName2", "???");
+            editor.putString("HighName3", "???");
+            editor.putString("HighName4", "???");
+            editor.putString("HighName5", "???");
+            editor.putString("HighName6", "???");
+            editor.putString("HighName7", "???");
+            editor.putString("HighName8", "???");
+            editor.putString("HighName9", "???");
+            editor.putString("HighName10", "???");
+            editor.putString("PlayerName", "You");
             editor.commit();
         }
         //if(!mediaPlayer.isPlaying()) { mediaPlayer.start(); }

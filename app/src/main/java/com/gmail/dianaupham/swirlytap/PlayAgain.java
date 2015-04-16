@@ -82,6 +82,8 @@ public class PlayAgain extends ActionBarActivity implements View.OnClickListener
         buttonHome.setOnClickListener(this);      //sets an onClickListener on buttonHome
         buttonShare = (Button)findViewById(R.id.Share);
         buttonShare.setOnClickListener(this);     //sets an onClickListener on buttonShare
+        buttonHighScore = (Button)findViewById(R.id.HighScore);
+        buttonHighScore.setOnClickListener(this);     //sets an onClickListener on buttonHighScore
 
         Fabric.with(this, new TweetComposer());
         mediaPlayer.start(); //start success sound
@@ -147,6 +149,12 @@ public class PlayAgain extends ActionBarActivity implements View.OnClickListener
         finish();
     }
 
+    private void HighScoreClick()
+    {   //start single player activity once "Play Again" button clicked
+        Intent intentAgain2 = new Intent(PlayAgain.this, HighScoreActivity.class);
+        startActivity(intentAgain2);//goes to HighScore activity
+    }
+
     public void onClick(View v)
     {//when "Play Again" button is clicked on the Play Again activity menu
         switch(v.getId())
@@ -156,6 +164,9 @@ public class PlayAgain extends ActionBarActivity implements View.OnClickListener
                 break;
             case R.id.returnHome: //if "Home" is clicked
                 HomeClick();      //return to Home screen (MainActivity)
+                break;
+            case R.id.HighScore: //if "HighScore" is clicked
+                HighScoreClick();      // Go to high score activity (HighScoreActivity)
                 break;
             case R.id.Share:      //if "Share" is clicked
                 final ViewGroup viewGroup = (ViewGroup) ((ViewGroup) this
