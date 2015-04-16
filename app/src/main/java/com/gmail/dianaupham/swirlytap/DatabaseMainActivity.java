@@ -22,7 +22,7 @@ public class DatabaseMainActivity extends Activity
 {
     //public final static String MESS_AGE = "MESSAGE IN A BOTTLE";
    // private ListView ListObj;
-    private Button buttonLogin,buttonRegister,buttonUpdate,buttonDelete,buttonAllUsers;
+    private Button buttonUpdate,buttonDelete,buttonAllUsers,buttonGame;
 
     DatabaseTableActivity myTable;
 
@@ -31,7 +31,7 @@ public class DatabaseMainActivity extends Activity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_sql);
-        buttonLogin = (Button) findViewById(R.id.LogIn);
+        /*buttonLogin = (Button) findViewById(R.id.LogIn);
         buttonLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v)
@@ -40,7 +40,7 @@ public class DatabaseMainActivity extends Activity
                 startActivity(i);
             }
         });
-        buttonRegister = (Button) findViewById(R.id.Register);
+        buttonRegister = (Button) findViewById(R.id.register);
         buttonRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v)
@@ -49,7 +49,7 @@ public class DatabaseMainActivity extends Activity
                 startActivity(i);
 
             }
-        });
+        });*/
         buttonUpdate = (Button) findViewById(R.id.UpDate);
         buttonUpdate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -68,6 +68,17 @@ public class DatabaseMainActivity extends Activity
         buttonAllUsers.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+            }
+        });
+        buttonGame = (Button) findViewById(R.id.starts_game);
+        buttonGame.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                Intent i = new Intent(getApplicationContext(),MainActivity.class);
+                startActivity(i);
 
             }
         });

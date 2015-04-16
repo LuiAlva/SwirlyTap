@@ -11,44 +11,14 @@
     <Button
         android:layout_width="170sp"
         android:layout_height="65sp"
-        android:text="@string/LogIn"
-        android:id="@+id/LogIn"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="59dp"
-        android:textSize="35sp"
-        android:layout_centerHorizontal="true"
-        android:clickable="true"
-        android:focusableInTouchMode="true"
-        android:focusable="true"
-        android:enabled="true" />
-
-    <Button
-        android:layout_width="170sp"
-        android:layout_height="65sp"
-        android:text="@string/Confirm"
-        android:id="@+id/Register"
-        android:layout_below="@+id/LogIn"
-        android:layout_alignLeft="@+id/LogIn"
-        android:layout_alignStart="@+id/LogIn"
-        android:textSize="30sp"
-        android:focusable="true"
-        android:focusableInTouchMode="true"
-        android:clickable="true"
-        android:enabled="true"
-        android:layout_alignRight="@+id/Delete"
-        android:layout_alignEnd="@+id/Delete" />
-
-    <Button
-        android:layout_width="170sp"
-        android:layout_height="65sp"
         android:text="@string/UpdateUserInfo"
         android:id="@+id/UpDate"
-        android:layout_below="@+id/Register"
-        android:layout_alignLeft="@+id/Register"
-        android:layout_alignStart="@+id/Register"
         android:textSize="30sp"
         android:clickable="true"
-        android:enabled="true" />
+        android:enabled="true"
+        android:layout_above="@+id/Delete"
+        android:layout_alignLeft="@+id/Delete"
+        android:layout_alignStart="@+id/Delete" />
 
     <Button
         android:layout_width="170sp"
@@ -60,7 +30,7 @@
         android:enabled="true"
         android:focusableInTouchMode="true"
         android:focusable="true"
-        android:layout_below="@+id/UpDate"
+        android:layout_above="@+id/Users"
         android:layout_alignLeft="@+id/Users"
         android:layout_alignStart="@+id/Users" />
 
@@ -70,13 +40,24 @@
         android:text="@string/users1"
         android:id="@+id/Users"
         android:textSize="23sp"
-        android:layout_below="@+id/Delete"
-        android:layout_alignLeft="@+id/LogIn"
-        android:layout_alignStart="@+id/LogIn"
         android:focusableInTouchMode="true"
         android:focusable="true"
         android:clickable="true"
-        android:enabled="true" />
+        android:enabled="true"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:layout_width="170sp"
+        android:layout_height="65sp"
+        android:text="@string/play"
+        android:id="@+id/starts_game"
+        android:layout_below="@+id/Users"
+        android:layout_alignLeft="@+id/Users"
+        android:layout_alignStart="@+id/Users"
+        android:layout_alignRight="@+id/Users"
+        android:layout_alignEnd="@+id/Users"
+        android:textSize="23sp" />
 
 
 </RelativeLayout>

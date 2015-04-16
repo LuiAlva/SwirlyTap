@@ -71,5 +71,11 @@
     <string name="buttonsubmit">Submit</string>
 
     <string name="title_activity_high_score">HighScoreActivity</string>
+    <string name="login1">Login</string>
+    <string name="register1">Register</string>
+    <string name="startgame">New Button</string>
+    <string name="startgame1">Start Game</string>
+    <string name="playGame">PLAY</string>
+    <string name="play">PLAY</string>
 
 </resources>
