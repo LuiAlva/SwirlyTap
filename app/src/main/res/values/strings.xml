@@ -39,7 +39,7 @@
     <string name="UpdateUserInfo">Update</string>
     <string name="DeleteUserInfo">Delete User</string>
     <string name="lives">Lives:</string>
-    <string name="Login">Lets Get Started!</string>
+    <string name="Login">Profile</string>
     <string name="TimeMode">Time Mode</string>
     <string name="LevelMode">Level Mode</string>
     <string name="TitleImage">Title: SwirlyTap</string>
@@ -77,5 +77,6 @@
     <string name="startgame1">Start Game</string>
     <string name="playGame">PLAY</string>
     <string name="play">PLAY</string>
+    <string name="LoginMessage">Login to compare your scores with other players online!</string>
 
 </resources>

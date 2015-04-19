@@ -67,7 +67,7 @@
             android:id="@+id/LogIn"
             android:layout_width="match_parent"
             android:layout_height="60sp"
-            android:textSize="14sp"
+            android:textSize="22sp"
             android:background="@drawable/button_bg"
             android:layout_gravity="center"
             android:textColor="#ffffffff"
@@ -87,5 +87,16 @@
             android:layout_column="0"
             android:layout_gravity="center" />
     </GridLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="             "
+        android:id="@+id/LoginMessage"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        android:textColor="#ff000000" />
 
 </RelativeLayout>

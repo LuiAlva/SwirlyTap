@@ -5,11 +5,18 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.support.v7.app.ActionBarActivity;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.PopupWindow;
+import android.widget.TextView;
 
 import com.crashlytics.android.Crashlytics;
 import com.example.spencer.swirlytap.R;
@@ -31,7 +38,10 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     Button buttonPlayAgainTest; //create type button for PlayAgainTest
     Button buttonLevel;
     Button buttonLogIn;
+    Button LOG_IN, REG, NoThanks;      // For Login screen
+    CheckBox StopLogin;
     MediaPlayer mediaPlayer; //for music
+    PopupWindow popupWindow;
     public static final String PREFS_NAME = "PREFS_FILE";
 
     private static final boolean AUTO_HIDE = true;          // Auto hide UI (ActionBar)
@@ -112,9 +122,41 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
             editor.putString("HighName10", "???");
             editor.putString("PlayerName", "You");
             editor.commit();
+
         }
-        //if(!mediaPlayer.isPlaying()) { mediaPlayer.start(); }
+
+        // If not logged in send out login popup action
+        boolean NotLoggedIn = prefs.getBoolean("NotLoggedIn", true);
+        boolean AskLogin = prefs.getBoolean("AskLogin", true);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putBoolean("NotLoggedIn",NotLoggedIn);
+        editor.putBoolean("AskLogin", AskLogin);
+        editor.commit();
+        new CountDownTimer(400,400) {
+
+            public void onTick(long millisUntilFinished)
+            {
+                if (millisUntilFinished / 1000 == 0)
+                {
+                    onFinish();
+                }
+                else
+                {}
+            }
+            public void onFinish()
+            {
+                SharedPreferences prefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+                if(prefs.getBoolean("NotLoggedIn", true) && prefs.getBoolean("AskLogin", true) ) {
+                    LoginScreen();
+                }
+            }
+        }.start();
+
+        TextView login_message = (TextView)findViewById(R.id.LoginMessage);
+        if(prefs.getBoolean("NotLoggedIn", true)){ login_message.setText("Not logged in");}
+        else { login_message.setText("Logged in"); }
     }
+
     private void singlePlayerClick()
     {
         //start single player activity once singlePlayer button clicked
@@ -250,4 +292,58 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         Games.signOut(mGoogleApiClient);
     }
     */
+
+    // * For login screen +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++//
+    public void LoginScreen() {
+        try {
+            LayoutInflater inflater = (LayoutInflater) MainActivity.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            View layout = inflater.inflate(R.layout.login_screen_layout, (ViewGroup)findViewById(R.id.login_Layout));
+            popupWindow = new PopupWindow(layout, getWindow().getAttributes().width, getWindow().getAttributes().height, true);
+            popupWindow.setAnimationStyle(-1);
+            popupWindow.showAtLocation(layout, Gravity.CENTER, 0, 0);
+            LOG_IN = (Button)findViewById(R.id.login1);
+            REG = (Button)findViewById(R.id.register1);
+            NoThanks = (Button)findViewById(R.id.stop_asking);
+            LOG_IN.setOnClickListener(this);
+            REG.setOnClickListener(this);
+            NoThanks.setOnClickListener(this);
+            StopLogin = (CheckBox)findViewById(R.id.checkBox1);
+            StopLogin.setOnClickListener(this);
+        }catch(Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void register(View v) {
+        Intent i = new Intent(getApplicationContext(),Register.class);
+        startActivity(i);
+        popupWindow.dismiss();
+    }
+
+    public  void login(View v) {
+        Intent i = new Intent(getApplicationContext(), Login.class);
+        startActivity(i);
+        popupWindow.dismiss();
+    }
+
+    public  void no_thanks(View v) {
+        popupWindow.dismiss();
+    }
+
+    public  void stop_asking(View v) {
+        CheckBox StopLogin = (CheckBox) v.findViewById(R.id.checkBox1);
+        //StopLogin.toggle();
+        SharedPreferences prefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        if (StopLogin.isChecked() == true) {
+            editor.putBoolean("AskLogin", false);
+            editor.commit();
+        }
+        else {
+            editor.putBoolean("AskLogin", true);
+            editor.commit();
+        }
+    }
+
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++//
 }//end public class Main Activity

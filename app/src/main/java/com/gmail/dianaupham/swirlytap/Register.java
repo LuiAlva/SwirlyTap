@@ -36,7 +36,7 @@ public class Register extends Activity
                         && PASS_WORD.getText().toString().equals(CON_PASS.getText().toString()))
                 {
                     Toast.makeText(getApplicationContext(), "Registered", Toast.LENGTH_SHORT).show();
-                    Intent i = new Intent(getApplicationContext(),StartScreen.class);
+                    Intent i = new Intent(getApplicationContext(),LoginScreen.class);
                     startActivity(i);
                 }
 

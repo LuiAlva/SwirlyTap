@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/login_Layout"
+    android:background="#f6000000"
+    android:gravity="bottom">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <GridLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/button_layout"
+            android:background="#703a1348"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginLeft="5sp"
+            android:layout_marginRight="5sp"
+            android:layout_marginBottom="5sp">
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="70sp"
+                android:text="@string/login1"
+                android:id="@+id/login1"
+                android:layout_gravity="center_horizontal"
+                android:onClick="login"
+                android:enabled="true"
+                android:background="@drawable/button_bg"
+                android:textColor="#ffffffff"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="20sp"
+                android:layout_row="0"
+                android:layout_column="0"
+                android:layout_marginTop="20sp" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="70sp"
+                android:text="@string/register1"
+                android:id="@+id/register1"
+                android:layout_gravity="center_horizontal"
+                android:onClick="register"
+                android:enabled="true"
+                android:textSize="24dp"
+                android:textStyle="bold"
+                android:textColor="#ffffffff"
+                android:background="@drawable/button_bg"
+                android:layout_row="1"
+                android:layout_column="0"
+                android:layout_marginBottom="20sp" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="70sp"
+                android:text="No, thanks."
+                android:id="@+id/stop_asking"
+                android:layout_gravity="center_horizontal"
+                android:enabled="true"
+                android:onClick="no_thanks"
+                android:textStyle="bold"
+                android:textSize="24sp"
+                android:textColor="#ffffffff"
+                android:background="@drawable/button_bg"
+                android:layout_row="2"
+                android:layout_column="0"
+                android:layout_marginBottom="10sp" />
+
+            <FrameLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_row="3"
+                android:layout_column="0">
+
+                <CheckBox
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/checkBox1"
+                    android:textStyle="bold"
+                    android:textSize="14sp"
+                    android:textColor="#ffffffff"
+                    android:enabled="true"
+                    android:checked="false"
+                    android:onClick="stop_asking"
+                    android:layout_row="3"
+                    android:text="Don&apos;t ask me again"
+                    android:clickable="true"
+                    android:layout_column="0"
+                    android:singleLine="false"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:elegantTextHeight="false"
+                    android:focusable="false" />
+            </FrameLayout>
+        </GridLayout>
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_above="@+id/button_layout"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:background="#4e5eecff"
+            android:layout_marginTop="5sp"
+            android:layout_marginRight="5sp"
+            android:layout_marginLeft="5sp">
+
+            <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:gravity="center"
+                android:id="@+id/tableRow"
+                android:background="#aa000000">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Welcome!"
+                    android:id="@+id/Welcome_Text"
+                    android:textStyle="bold"
+                    android:textSize="45sp"
+                    android:textColor="#ffffffff"
+                    android:layout_marginBottom="10sp"
+                    android:layout_marginTop="30sp" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_below="@+id/tableRow"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:gravity="center">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/LoginMessage"
+                    android:id="@+id/textView19"
+                    android:textSize="18sp"
+                    android:textColor="#ffffffff"
+                    android:layout_margin="20sp"
+                    android:gravity="center" />
+            </TableRow>
+        </RelativeLayout>
+    </RelativeLayout>
+
+</LinearLayout>
