@@ -12,7 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
-import com.example.spencer.swirlytap.R;
+import com.gmail.dianaupham.swirlytap.swirlytap.R;
 import java.util.Random;
 
 import android.app.ProgressDialog;

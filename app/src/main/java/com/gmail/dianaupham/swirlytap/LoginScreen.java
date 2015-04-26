@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-import com.example.spencer.swirlytap.R;
+import com.gmail.dianaupham.swirlytap.swirlytap.R;
 
 public class LoginScreen extends Activity
 {

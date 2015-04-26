@@ -8,7 +8,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
 
-import com.example.spencer.swirlytap.R;
+import com.gmail.dianaupham.swirlytap.swirlytap.R;
 
 
 

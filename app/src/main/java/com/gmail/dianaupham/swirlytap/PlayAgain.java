@@ -19,7 +19,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.example.spencer.swirlytap.R;
+import com.gmail.dianaupham.swirlytap.swirlytap.R;
 import com.twitter.sdk.android.tweetcomposer.TweetComposer;
 
 import java.io.File;

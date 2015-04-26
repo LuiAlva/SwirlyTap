@@ -8,7 +8,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.spencer.swirlytap.R;
+import com.gmail.dianaupham.swirlytap.swirlytap.R;
 
 public class Login extends Activity
 {

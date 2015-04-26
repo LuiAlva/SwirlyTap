@@ -19,7 +19,7 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.crashlytics.android.Crashlytics;
-import com.example.spencer.swirlytap.R;
+import com.gmail.dianaupham.swirlytap.swirlytap.R;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.twitter.sdk.android.Twitter;
 import com.twitter.sdk.android.core.TwitterAuthConfig;
