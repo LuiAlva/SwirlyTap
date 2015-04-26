@@ -41,6 +41,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     Button LOG_IN, REG, NoThanks;      // For Login screen
     CheckBox StopLogin;
     MediaPlayer mediaPlayer; //for music
+    boolean NotLogged;
     PopupWindow popupWindow;
     public static final String PREFS_NAME = "PREFS_FILE";
 
@@ -100,7 +101,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         if (firstTime) {
             SharedPreferences.Editor editor = prefs.edit();
             editor.putBoolean("FirstTimeSetup", false);
-            editor.putInt("HighScore1", 0);
+            editor.putInt("HighScore1", 0);         // For Overall Local HighScores
             editor.putInt("HighScore2", 0);
             editor.putInt("HighScore3", 0);
             editor.putInt("HighScore4", 0);
@@ -110,17 +111,18 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
             editor.putInt("HighScore8", 0);
             editor.putInt("HighScore9", 0);
             editor.putInt("HighScore10", 0);
-            editor.putString("HighName1", "???");
-            editor.putString("HighName2", "???");
-            editor.putString("HighName3", "???");
-            editor.putString("HighName4", "???");
-            editor.putString("HighName5", "???");
-            editor.putString("HighName6", "???");
-            editor.putString("HighName7", "???");
-            editor.putString("HighName8", "???");
-            editor.putString("HighName9", "???");
-            editor.putString("HighName10", "???");
-            editor.putString("PlayerName", "You");
+            editor.putString("HighName1", "");
+            editor.putString("HighName2", "");
+            editor.putString("HighName3", "");
+            editor.putString("HighName4", "");
+            editor.putString("HighName5", "");
+            editor.putString("HighName6", "");
+            editor.putString("HighName7", "");
+            editor.putString("HighName8", "");
+            editor.putString("HighName9", "");
+            editor.putString("HighName10", "");
+            editor.putString("PlayerName", "Player");
+            editor.putInt("HighScore", 0);           // For player High Score
             editor.commit();
 
         }
@@ -132,7 +134,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         editor.putBoolean("NotLoggedIn",NotLoggedIn);
         editor.putBoolean("AskLogin", AskLogin);
         editor.commit();
-        new CountDownTimer(400,400) {
+        new CountDownTimer(800,800) {
 
             public void onTick(long millisUntilFinished)
             {
@@ -153,8 +155,9 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         }.start();
 
         TextView login_message = (TextView)findViewById(R.id.LoginMessage);
-        if(prefs.getBoolean("NotLoggedIn", true)){ login_message.setText("Not logged in");}
-        else { login_message.setText("Logged in"); }
+        NotLogged = prefs.getBoolean("NotLoggedIn", true);
+        if(NotLogged){ login_message.setText("Not logged in");}
+        else { login_message.setText("Welcome " + prefs.getString("PlayerName", "Player")); }
     }
 
     private void singlePlayerClick()
@@ -175,9 +178,17 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         finish();
     }
     private void LogInClick() {   //LogIn method
-        Intent login = new Intent(MainActivity.this, DatabaseMainActivity.class);
-        startActivity(login);
-        finish();
+        SharedPreferences prefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+        NotLogged = prefs.getBoolean("NotLoggedIn", true);
+        if( NotLogged ) {
+            Intent login = new Intent(MainActivity.this, LoginScreen.class);
+            startActivity(login);
+            finish();
+        } else {
+            Intent profile = new Intent(MainActivity.this, Profile.class);
+            startActivity(profile);
+            finish();
+        }
     }
     public void onClick(View v)
     {
@@ -308,6 +319,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
             REG.setOnClickListener(this);
             NoThanks.setOnClickListener(this);
             StopLogin = (CheckBox)findViewById(R.id.checkBox1);
+            StopLogin.setEnabled(true);
             StopLogin.setOnClickListener(this);
         }catch(Exception e) {
             e.printStackTrace();

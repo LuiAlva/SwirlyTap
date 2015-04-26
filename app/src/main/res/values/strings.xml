@@ -79,4 +79,6 @@
     <string name="play">PLAY</string>
     <string name="LoginMessage">Login to compare your scores with other players online!</string>
 
+    <string name="title_activity_profile">Profile</string>
+
 </resources>
