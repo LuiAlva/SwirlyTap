@@ -792,22 +792,22 @@ public class levelPlay extends Activity implements View.OnClickListener
                 {
                 //check if lightning bolt is true
                     //if lightning button has been hit and total buttons is less than total points available
-                    if(destroyGoodSwirls == true && swirlPointsLeft <= goodCount)
-                    {
-                        good.setEnabled(false);                     // Disable button
-                        good.setBackgroundResource(R.drawable.goodswirl_break); //change to +1 and make dis
-                        AlphaAnimation anim = new AlphaAnimation(1.0f, 0.0f);//fade out the text
-                        anim.setDuration(300);
-                        good.startAnimation(anim);
-                        good.setVisibility(View.INVISIBLE);         // Make Swirl disappear when clicked
-                        swirlPointsLeft++;
-                        //temp.cancel(); //cancel timer
-                    }
-                    else if(swirlPointsLeft >= goodCount)
-                    {
-                        destroyGoodSwirls = false;
-                        swirlPointsLeft = 0;
-                    }
+//                    if(destroyGoodSwirls == true && swirlPointsLeft <= goodCount)
+//                    {
+//                        good.setEnabled(false);                     // Disable button
+//                        good.setBackgroundResource(R.drawable.goodswirl_break); //change to +1 and make dis
+//                        AlphaAnimation anim = new AlphaAnimation(1.0f, 0.0f);//fade out the text
+//                        anim.setDuration(300);
+//                        good.startAnimation(anim);
+//                        good.setVisibility(View.INVISIBLE);         // Make Swirl disappear when clicked
+//                        swirlPointsLeft++;
+//                        //temp.cancel(); //cancel timer
+//                    }
+//                    else if(swirlPointsLeft >= goodCount)
+//                    {
+//                        destroyGoodSwirls = false;
+//                        swirlPointsLeft = 0;
+//                    }
                 }
             }
 
@@ -868,21 +868,21 @@ public class levelPlay extends Activity implements View.OnClickListener
                 else{
                     //checks if lightning bolt has been selected
                     //if it has then it destroys all shown green buttons and adds the total
-                    if(destroyGoodSwirls == true && swirlPointsLeft <= goodCount)
-                    {
-                        twice.setEnabled(false);                     // Disable button
-                        twice.setBackgroundResource(R.drawable.twiceswirl_break); //change to +1 and make dis
-                        AlphaAnimation anim = new AlphaAnimation(1.0f, 0.0f);//fade out the text
-                        anim.setDuration(300);
-                        twice.startAnimation(anim);
-                        twice.setVisibility(View.INVISIBLE);         // Make Swirl disappear when clicked
-                        swirlPointsLeft+=2;
-                    }
-                    else
-                    {
-                        destroyGoodSwirls = false;
-                        swirlPointsLeft = 0;
-                    }
+//                    if(destroyGoodSwirls == true && swirlPointsLeft <= goodCount)
+//                    {
+//                        twice.setEnabled(false);                     // Disable button
+//                        twice.setBackgroundResource(R.drawable.twiceswirl_break); //change to +1 and make dis
+//                        AlphaAnimation anim = new AlphaAnimation(1.0f, 0.0f);//fade out the text
+//                        anim.setDuration(300);
+//                        twice.startAnimation(anim);
+//                        twice.setVisibility(View.INVISIBLE);         // Make Swirl disappear when clicked
+//                        swirlPointsLeft+=2;
+//                    }
+//                    else
+//                    {
+//                        destroyGoodSwirls = false;
+//                        swirlPointsLeft = 0;
+//                    }
 
                 }
             }
