@@ -1,14 +1,16 @@
 package com.gmail.dianaupham.swirlytap;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.spencer.swirlytap.R;
+import com.gmail.dianaupham.swirlytap.swirlytap.R;
 
 public class Login extends Activity
 {
@@ -16,6 +18,7 @@ public class Login extends Activity
     EditText USER_NAME;
     EditText PASS_WORD;
     Button SUBMIT;
+    public static final String PREFS_NAME = "PREFS_FILE";
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -34,17 +37,23 @@ public class Login extends Activity
                     {
                         myTable.setlogin(USER_NAME.getText().toString(),PASS_WORD.getText().toString(),1);
                         Toast.makeText(getApplicationContext(), "SUCCESS", Toast.LENGTH_SHORT).show();
+                        SharedPreferences prefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor = prefs.edit();
+                        editor.putString("PlayerName", USER_NAME.getText().toString() );
+                        editor.putBoolean("NotLoggedIn", false);
+                        editor.commit();
                         Intent i = new Intent(getApplicationContext(), DatabaseMainActivity.class);
                         Bundle bundle = new Bundle();
                         bundle.putString("USERNAME",USER_NAME.getText().toString());
                         bundle.putString("PASSWORD", PASS_WORD.getText().toString());
                         i.putExtras(bundle);
                         startActivity(i);
+                        finish();
 
                     }
                     else
                     {
-                        Toast.makeText(getApplicationContext(), "Unsuccessful", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), "Incorrect Login - Try Again", Toast.LENGTH_LONG).show();
                     }
 
             }

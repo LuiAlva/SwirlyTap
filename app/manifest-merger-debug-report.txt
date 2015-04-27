@@ -113,7 +113,7 @@ ADDED from AndroidManifest.xml:31:9
 		ADDED from AndroidManifest.xml:33:13
 	android:name
 		ADDED from AndroidManifest.xml:32:13
-activity#com.example.spencer.swirlytap.PrettyScreen
+activity#com.gmail.dianaupham.swirlytap.swirlytap.PrettyScreen
 ADDED from AndroidManifest.xml:36:9
 	android:screenOrientation
 		ADDED from AndroidManifest.xml:39:13
@@ -121,7 +121,7 @@ ADDED from AndroidManifest.xml:36:9
 		ADDED from AndroidManifest.xml:38:13
 	android:name
 		ADDED from AndroidManifest.xml:37:13
-activity#com.example.spencer.swirlytap.PauseMenu
+activity#com.gmail.dianaupham.swirlytap.swirlytap.PauseMenu
 ADDED from AndroidManifest.xml:41:9
 	android:label
 		ADDED from AndroidManifest.xml:44:13
