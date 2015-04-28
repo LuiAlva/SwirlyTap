@@ -79,6 +79,11 @@
             android:label="StartScreen"
             android:screenOrientation="portrait">
         </activity>
+        <activity android:name="com.gmail.dianaupham.swirlytap.Update"
+            android:label="Update"
+            android:screenOrientation="portrait">
+
+            </activity>
     </application>
 
 </manifest>

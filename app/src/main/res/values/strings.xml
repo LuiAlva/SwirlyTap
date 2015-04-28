@@ -78,5 +78,10 @@
     <string name="playGame">PLAY</string>
     <string name="play">PLAY</string>
     <string name="LoginMessage">Login to compare your scores with other players online!</string>
+    <string name="confimpassword">Confirm New Password</string>
+    <string name="Updatesubmit">New Button</string>
+    <string name="submit1">SUBMIT</string>
+    <string name="newus">Enter Username</string>
+    <string name="newpa">Enter Password</string>
 
 </resources>

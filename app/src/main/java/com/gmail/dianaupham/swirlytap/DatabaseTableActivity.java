@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteDatabase;
+import android.provider.SyncStateContract;
 
 public class DatabaseTableActivity extends SQLiteOpenHelper {
     public static final String DATABASE_NAME = "SwirlyTapDatabase.db";
@@ -103,17 +104,42 @@ public class DatabaseTableActivity extends SQLiteOpenHelper {
 
     }
    */
-    public boolean updateInfo( Integer id, String USER_NAME, String PASS_WORD, int SCORE)
+    public int getScore(int id)
+    {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.query("HIGHSCORELEADERBOARD",new String[]{"SCORE"}," ID = ?",new String[]{String.valueOf(id)}, null, null, null, null);
+        if(cursor !=null)
+        {
+            cursor.moveToFirst();
+        }
+        int output = cursor.getInt(2);
+        return output;
+    }
+
+    public boolean updateScore(String USER_NAME, String PASS_WORD, int SCORE)
     {
         SQLiteDatabase db = this.getWritableDatabase();
+        int playerscore = getScore(SCORE);
+        int playerscoreInc = ++ playerscore;
+
         ContentValues ctv = new ContentValues();
+        ctv.put("SCORE", playerscoreInc);
+        db.update("HIGHSCORELEADERBOARD",ctv,"SCORE = ?",new String[] {String.valueOf(SCORE)});
+        db.close();
+
 
         ctv.put("SCORE", SCORE);
         String[] args = new String[]{USER_NAME,PASS_WORD};
         db.update("HIGHSCORELEADERBOARD", ctv, "USERNAME=? AND PASSWORD=?",args); //new String[] { Integer.toString(id)});
-        return true;
+     //   return true;
 
+        return false;
     }
+   /* public boolean editInfo(String USER_NAME, String PASS_WORD)
+    {
+        return true;
+    }
+    */
     public Integer deleteInfo (String USER_NAME, String PASS_WORD)
     {
         SQLiteDatabase db = this.getWritableDatabase();
