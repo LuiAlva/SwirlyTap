@@ -84,4 +84,6 @@
     <string name="newus">Enter Username</string>
     <string name="newpa">Enter Password</string>
 
+    <string name="title_activity_profile">Profile</string>
+
 </resources>

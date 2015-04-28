@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.spencer.swirlytap" >
+    package="com.gmail.dianaupham.swirlytap.swirlytap" >
 
     <uses-sdk
         android:minSdkVersion="4"
@@ -9,10 +9,10 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.VIBRATE" />
-
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"
-    android:maxSdkVersion="18" />
+    <uses-permission
+        android:name="android.permission.READ_EXTERNAL_STORAGE"
+        android:maxSdkVersion="18" />
 
     <application
         android:allowBackup="true"
@@ -27,6 +27,7 @@
             android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -72,12 +73,19 @@
             android:name="com.gmail.dianaupham.swirlytap.HighScoreActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_high_score"
+            android:screenOrientation="portrait"
             android:theme="@style/FullscreenTheme" >
         </activity>
         <activity
             android:name="com.gmail.dianaupham.swirlytap.LoginScreen"
             android:label="StartScreen"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.gmail.dianaupham.swirlytap.Profile"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/title_activity_profile"
+            android:theme="@style/FullscreenTheme" >
         </activity>
         <activity android:name="com.gmail.dianaupham.swirlytap.Update"
             android:label="Update"

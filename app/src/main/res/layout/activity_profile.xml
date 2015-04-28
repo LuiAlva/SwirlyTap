@@ -1,0 +1,144 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:background="#0099cc"
+    tools:context="com.gmail.dianaupham.swirlytap.Profile">
+
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_margin="5sp">
+
+        <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:id="@+id/tableRow2">
+
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Profile"
+                    android:id="@+id/ProfileTitle"
+                    android:textStyle="bold"
+                    android:textSize="40sp" />
+
+            </RelativeLayout>
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tableRow2"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:id="@+id/tableRow3">
+
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Username:"
+                    android:id="@+id/textView23"
+                    android:textStyle="bold"
+                    android:textSize="26sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="UserName"
+                    android:id="@+id/UserNameBox"
+                    android:textStyle="bold"
+                    android:textSize="30sp"
+                    android:layout_below="@+id/textView23"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true" />
+            </RelativeLayout>
+        </TableRow>
+
+        <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tableRow3"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:id="@+id/tableRow4">
+
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="High Score:"
+                    android:id="@+id/textView21"
+                    android:textStyle="bold"
+                    android:textSize="26sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="000"
+                    android:id="@+id/HighScoreBox"
+                    android:textStyle="bold"
+                    android:textSize="30sp"
+                    android:layout_below="@+id/textView21"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true" />
+            </RelativeLayout>
+        </TableRow>
+
+        <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tableRow4"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:gravity="center"
+            android:id="@+id/tableRow5">
+
+            <Button
+                android:layout_width="250sp"
+                android:layout_height="80sp"
+                android:text="Sign Out"
+                android:id="@+id/sign_out"
+                android:textStyle="bold"
+                android:textColor="#ffffffff"
+                android:textSize="28sp"
+                android:background="@drawable/button_bg"
+                android:layout_margin="10sp" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tableRow5"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:gravity="center">
+
+            <Button
+                android:layout_width="250sp"
+                android:layout_height="80sp"
+                android:text="Back"
+                android:id="@+id/Back"
+                android:textStyle="bold"
+                android:textSize="28sp"
+                android:textColor="#ffffffff"
+                android:background="@drawable/button_bg"
+                android:layout_margin="10sp" />
+        </TableRow>
+    </RelativeLayout>
+
+</RelativeLayout>
