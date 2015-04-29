@@ -5,130 +5,175 @@
     android:orientation="vertical"
     android:id="@+id/layout">
 
-    <ImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:scaleType="fitXY"
-        android:background="#00ffffff"
-        android:id="@+id/imageButton2"
-        android:layout_alignParentTop="true"
-        android:layout_toRightOf="@+id/lifetwo"
-        android:layout_alignBottom="@+id/lifetwo"
-        android:layout_gravity="right" />
-
-    <LinearLayout
+    <RelativeLayout
         android:orientation="horizontal"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_column="0">
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent">
-            <RelativeLayout
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#6f000000"
+            android:layout_gravity="center_horizontal"
+            android:id="@+id/top_menu">
+            <ImageButton
+                android:layout_width="40sp"
+                android:layout_height="60sp"
+                android:scaleType="fitXY"
+                android:background="#00ffffff"
+                android:id="@+id/lifeone"
+                android:layout_alignBottom="@+id/imageButton"
+                android:layout_alignParentTop="true" />
+            <ImageButton
+                android:layout_width="40sp"
+                android:layout_height="60sp"
+                android:scaleType="fitXY"
+                android:background="#00ffffff"
+                android:id="@+id/lifetwo"
+                android:layout_alignBottom="@+id/scoreanimation"
+                android:layout_toRightOf="@+id/lifeone"
+                android:layout_toEndOf="@+id/lifeone" />
+            <ImageButton
+                android:layout_width="40sp"
+                android:layout_height="60sp"
+                android:scaleType="fitXY"
+                android:background="#00ffffff"
+                android:id="@+id/lifethree"
+                android:layout_alignParentTop="true"
+                android:layout_toRightOf="@+id/lifetwo"
+                android:layout_alignBottom="@+id/lifetwo" />
+            <TextView
+                android:text="@string/initial_Score"
+                android:id="@+id/scoreAnimation"
+                android:layout_width="100sp"
+                android:layout_height="78dp"
+                android:scaleType="center"
+                android:textSize="50sp"
+                android:textColor="#ff4ed7e5"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:gravity="center"
+                android:background="@drawable/score_frame" />
+            <ImageButton
+                android:src="@drawable/pause"
+                android:id="@+id/imageButton"
+                android:layout_width="88sp"
+                android:layout_height="63sp"
+                android:scaleType="fitXY"
+                android:background="#00ffffff"
+                android:clickable="true"
+                android:cropToPadding="false"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true" />
+            <ImageView
+                android:id="@+id/imageView3"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="#6f000000"
-                android:layout_gravity="center_horizontal">
-                <ImageButton
-                    android:layout_width="40sp"
-                    android:layout_height="60sp"
-                    android:scaleType="fitXY"
-                    android:background="#00ffffff"
-                    android:id="@+id/lifeone"
-                    android:layout_alignBottom="@+id/imageButton"
-                    android:layout_alignParentTop="true" />
-                <ImageButton
-                    android:layout_width="40sp"
-                    android:layout_height="60sp"
-                    android:scaleType="fitXY"
-                    android:background="#00ffffff"
-                    android:id="@+id/lifetwo"
-                    android:layout_alignParentTop="true"
-                    android:layout_toRightOf="@+id/lifeone"
-                    android:layout_alignBottom="@+id/lifeone" />
-                <ImageButton
-                    android:layout_width="40sp"
-                    android:layout_height="60sp"
-                    android:scaleType="fitXY"
-                    android:background="#00ffffff"
-                    android:id="@+id/lifethree"
-                    android:layout_alignParentTop="true"
-                    android:layout_toRightOf="@+id/lifetwo"
-                    android:layout_alignBottom="@+id/lifetwo" />
+                android:layout_height="5sp"
+                android:layout_below="@+id/scoreAnimation"
+                android:layout_centerHorizontal="true" />
+
+            <ImageButton
+                android:layout_width="40sp"
+                android:layout_height="60sp"
+                android:scaleType="fitXY"
+                android:background="#00ffffff"
+                android:id="@+id/scoreanimation"
+                android:layout_alignParentTop="true"
+                android:layout_toRightOf="@+id/scoreAnimation"
+                android:layout_toEndOf="@+id/scoreAnimation" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/top_menu"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_above="@+id/relativeLayout">
+
+            <TableLayout
+                android:id="@+id/tableForButtons"
+                android:layout_width="match_parent"
+                android:layout_height="fill_parent"
+                android:orientation="horizontal"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true">
+
                 <TextView
-                    android:text="@string/initial_Score"
-                    android:id="@+id/scoreAnimation"
-                    android:layout_width="100sp"
-                    android:layout_height="78dp"
-                    android:scaleType="center"
-                    android:textSize="50sp"
-                    android:textColor="#ff4ed7e5"
-                    android:layout_alignParentTop="true"
-                    android:layout_centerHorizontal="true"
-                    android:gravity="center"
-                    android:background="@drawable/score_frame" />
-                <ImageButton
-                    android:src="@drawable/pause"
-                    android:id="@+id/imageButton"
-                    android:layout_width="88sp"
-                    android:layout_height="63sp"
-                    android:scaleType="fitXY"
-                    android:background="#00ffffff"
-                    android:clickable="true"
-                    android:cropToPadding="false"
-                    android:layout_alignParentTop="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_alignParentEnd="true" />
-                <ImageView
-                    android:id="@+id/imageView3"
-                    android:layout_width="match_parent"
-                    android:layout_height="5sp"
-                    android:layout_below="@+id/scoreAnimation"
-                    android:layout_centerHorizontal="true" />
-                <TableLayout
-                    android:id="@+id/tableForButtons"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal"
-                    android:layout_below="@+id/imageView3"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentStart="true">
-                    <TableRow
-                        android:layout_width="fill_parent"
-                        android:layout_height="fill_parent">
-                    </TableRow>
-                    <TextView
-                        android:layout_width="200dp"
-                        android:layout_height="50dp"
-                        android:textAppearance="?android:attr/textAppearanceLarge"
-                        android:text="Level 1"
-                        android:id="@+id/leveldisplay"
-                        android:layout_column="16"
-                        android:background="@drawable/levelbackground"
-                        android:textAlignment="center"
-                        android:textIsSelectable="false" />
-                    <TableRow
-                        android:layout_width="fill_parent"
-                        android:layout_height="fill_parent">
-                    </TableRow>
-                    <TableRow
-                        android:layout_width="fill_parent"
-                        android:layout_height="fill_parent">
-                    </TableRow>
-                </TableLayout>
+                    android:layout_width="200dp"
+                    android:layout_height="50dp"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="Level 1"
+                    android:id="@+id/leveldisplay"
+                    android:layout_column="16"
+                    android:background="@drawable/levelbackground"
+                    android:textAlignment="center"
+                    android:textIsSelectable="false" />
+            </TableLayout>
 
-                <ImageButton
-                    android:layout_width="40sp"
-                    android:layout_height="60sp"
-                    android:scaleType="fitXY"
-                    android:background="#00ffffff"
-                    android:id="@+id/scoreanimation"
-                    android:layout_alignParentTop="true"
-                    android:layout_toRightOf="@+id/scoreAnimation"
-                    android:layout_toEndOf="@+id/scoreAnimation" />
+        </RelativeLayout>
 
-            </RelativeLayout>
-        </LinearLayout>
-    </LinearLayout>
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:id="@+id/relativeLayout"
+            android:background="#6f000000">
+
+            <ImageButton
+                android:layout_width="30sp"
+                android:layout_height="30sp"
+                android:id="@+id/missedone"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true" />
+
+            <ImageButton
+                android:layout_width="30sp"
+                android:layout_height="30sp"
+                android:id="@+id/missedtwo"
+                android:layout_alignParentTop="true"
+                android:layout_toLeftOf="@+id/missedone"
+                android:layout_toStartOf="@+id/missedone" />
+
+            <ImageButton
+                android:layout_width="30sp"
+                android:layout_height="30sp"
+                android:id="@+id/missedthree"
+                android:layout_alignParentTop="true"
+                android:layout_toLeftOf="@+id/missedtwo"
+                android:layout_toStartOf="@+id/missedtwo" />
+
+            <ImageButton
+                android:layout_width="30sp"
+                android:layout_height="30sp"
+                android:id="@+id/missedfour"
+                android:layout_alignParentTop="true"
+                android:layout_toLeftOf="@+id/missedthree"
+                android:layout_toStartOf="@+id/missedthree" />
+
+            <ImageButton
+                android:layout_width="30sp"
+                android:layout_height="30sp"
+                android:id="@+id/missedfive"
+                android:layout_alignParentTop="true"
+                android:layout_toLeftOf="@+id/missedfour"
+                android:layout_toStartOf="@+id/missedfour" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Level: "
+                android:id="@+id/level"
+                android:layout_centerVertical="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
+        </RelativeLayout>
+
+    </RelativeLayout>
 </LinearLayout>
