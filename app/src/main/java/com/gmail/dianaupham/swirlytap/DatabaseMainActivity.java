@@ -47,7 +47,11 @@ public class DatabaseMainActivity extends Activity
         buttonUpdate = (Button) findViewById(R.id.UpDate);
         buttonUpdate.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v)
+            {
+                Intent i = new Intent(getApplicationContext(),Update.class);
+                startActivity(i);
+
 
             }
         });

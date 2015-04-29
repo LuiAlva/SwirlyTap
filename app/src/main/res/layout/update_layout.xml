@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:weightSum="1">
 
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="textPersonName"
-        android:hint= "@string/editnewuser2"
+        android:hint= "@string/newus"
         android:ems="10"
         android:id="@+id/username2"
         android:layout_gravity="right"
@@ -17,7 +18,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="textPassword"
-        android:hint = "@string/editpass2"
+        android:hint = "@string/newpa"
         android:ems="10"
         android:id="@+id/password2"
         android:layout_gravity="right"
@@ -26,8 +27,7 @@
     <Button
         android:layout_width="195sp"
         android:layout_height="75sp"
-        android:text="@string/buttonsubmit"
-        android:id="@+id/UpDateButton"
-        android:layout_gravity="center_horizontal"
-        android:textSize="25sp" />
+        android:hint="@string/submit1"
+        android:id="@+id/button3" />
+
 </LinearLayout>
