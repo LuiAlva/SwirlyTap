@@ -87,11 +87,15 @@
             android:label="@string/title_activity_profile"
             android:theme="@style/FullscreenTheme" >
         </activity>
-        <activity android:name="com.gmail.dianaupham.swirlytap.Update"
+        <activity
+            android:name="com.gmail.dianaupham.swirlytap.Update"
             android:label="Update"
-            android:screenOrientation="portrait">
-
-            </activity>
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.gmail.dianaupham.swirlytap.PlayAgain_Level"
+            android:label="@string/title_activity_play_again__level" >
+        </activity>
     </application>
 
 </manifest>

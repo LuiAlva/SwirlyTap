@@ -25,20 +25,14 @@ import java.util.ArrayList;
 import java.util.List;
 import io.fabric.sdk.android.Fabric;
 
-public class PlayAgain extends ActionBarActivity implements View.OnClickListener  {
-    Button buttonAgain;     //create type button for 'Play Again'
-    Button buttonHome;      //create type button for 'Home'
-    Button buttonShare;     //create type button for 'Share'
-    Button buttonHighScore; //create type button for 'High Score'
+public class PlayAgain_Level extends ActionBarActivity implements View.OnClickListener  {
+    Button buttonAgainLevel;     //create type button for 'Play Again'
+    Button buttonHomeLevel;      //create type button for 'Home'
+    Button buttonShareLevel;     //create type button for 'Share'
+    Button buttonHighScoreLevel; //create type button for 'High Score'
     MediaPlayer mediaPlayer;// For sounds
     int HighScore;          // For HighScore
     public static final String PREFS_NAME = "PREFS_FILE";  // Name of Preference file
-
-    private static final boolean AUTO_HIDE = true;          // Auto hide UI (ActionBar)
-    private static final int AUTO_HIDE_DELAY_MILLIS = 1000; // Hide system UI after 1000 milliseconds
-    private static final boolean TOGGLE_ON_CLICK = true;    // If UI is clicked show it
-    private static final int HIDER_FLAGS = 0;   // The flags to pass to {@link com.gmail.dianaupham.swirlytap.SystemUiHider#getInstance}.
-    private SystemUiHider mSystemUiHider;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -46,72 +40,41 @@ public class PlayAgain extends ActionBarActivity implements View.OnClickListener
         getWindow().requestFeature(Window.FEATURE_ACTION_BAR);   //Hides the action and title bars!
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_play_again);
+        setContentView(R.layout.activity_play_again__level);
         getSupportActionBar().hide();
         mediaPlayer = MediaPlayer.create(this, R.raw.game_success); //get success sound
         // Get HighScore
-        SharedPreferences prefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
-        HighScore = prefs.getInt("HighScore1", 0);
 
         Intent game = getIntent(); // Grab the the intent of game that ended
         int score = game.getIntExtra("score", 0); //Grab score from game
-        int GoodSwirls = game.getIntExtra("GoodSwirls", 0);
-        int BadSwirls = game.getIntExtra("BadSwirls", 0);
-        int Good2Swirls = game.getIntExtra("Good2Swirls", 0);
-        int TimeSwirls = game.getIntExtra("TimeSwirls", 0);
-        TextView Score= (TextView) findViewById(R.id.ScoreView);
+        TextView Score= (TextView) findViewById(R.id.ScoreViewLevel);
         Score.setText("" + score + " points!");   //Set text to show score
-        TextView BEST_SCORE= (TextView) findViewById(R.id.BestScore);
-        BEST_SCORE.setText("Best: " + HighScore);   //Set text to show score
-        TextView GoodCount= (TextView) findViewById(R.id.Good_Swirl_Counter);
-        GoodCount.setText(""+ GoodSwirls);   //Set text to show score
-        TextView BadCount= (TextView) findViewById(R.id.Bad_Swirl_Counter);
-        BadCount.setText(""+ BadSwirls);   //Set text to show score
-        TextView Good2Counter= (TextView) findViewById(R.id.Good2_Swirl_Counter);
-        Good2Counter.setText(""+ Good2Swirls);   //Set text to show score
-        TextView TimeCounter= (TextView) findViewById(R.id.Time_Swirl_Counter);
-        TimeCounter.setText(""+ TimeSwirls);   //Set text to show score
 
+        buttonAgainLevel = (Button)findViewById(R.id.PlayAgainLevel);
+        buttonAgainLevel.setOnClickListener(this);     //sets an onClickListener on buttonAgain
+        buttonHomeLevel = (Button)findViewById(R.id.returnHomeLevel);
+        buttonHomeLevel.setOnClickListener(this);      //sets an onClickListener on buttonHome
+        buttonShareLevel = (Button)findViewById(R.id.ShareLevel);
+        buttonShareLevel.setOnClickListener(this);     //sets an onClickListener on buttonShare
+        buttonHighScoreLevel = (Button)findViewById(R.id.HighScoreLevel);
+        buttonHighScoreLevel.setOnClickListener(this);     //sets an onClickListener on buttonHighScore
 
-        buttonAgain = (Button)findViewById(R.id.PlayAgain);
-        buttonAgain.setOnClickListener(this);     //sets an onClickListener on buttonAgain
-        buttonHome = (Button)findViewById(R.id.returnHome);
-        buttonHome.setOnClickListener(this);      //sets an onClickListener on buttonHome
-        buttonShare = (Button)findViewById(R.id.Share);
-        buttonShare.setOnClickListener(this);     //sets an onClickListener on buttonShare
-        buttonHighScore = (Button)findViewById(R.id.HighScore);
-        buttonHighScore.setOnClickListener(this);     //sets an onClickListener on buttonHighScore
-
-        Fabric.with(this, new TweetComposer());
         mediaPlayer.start(); //start success sound
     }//end 'onCreate'
 
-    private void PlayAgainClick()
-    {   //start single player activity once "Play Again" button clicked
-        Intent intentAgain2 = new Intent(PlayAgain.this, SinglePlayer.class);
-        startActivity(intentAgain2);//goes to singlePlayer activity
+    private void PlayAgainLevelClick()
+    {   //start Level Play activity once "Play Again" button clicked
+        Intent intentAgain2 = new Intent(PlayAgain_Level.this, levelPlay.class);
+        startActivity(intentAgain2);//goes to Level Play activity
         finish();
     }
     private void HomeClick()
     {   //go back to MainActivity (Home) once "Home" button clicked
-        Intent intentReturnHome = new Intent(PlayAgain.this, MainActivity.class);
+        Intent intentReturnHome = new Intent(PlayAgain_Level.this, MainActivity.class);
         startActivity(intentReturnHome);//returns to Home screen
         finish();
     }
-    private void ShareClick2()
-    {   //use Implicit Intent to share promotional text/image of application
-        Uri imageUri = Uri.parse("android.resource://" + getPackageName()
-                + "/drawable/" + "goodswirl.png");                  //temp. use goodswirl
-        Intent shareIntent = new Intent(Intent.ACTION_SEND); //allows delivery of image and text
-        shareIntent.setType("*/*");                                 //send any generic data
-        shareIntent.putExtra(Intent.EXTRA_TEXT, "SwirlyTap :)");    //text shared: "@SwirlyTap :)"
-        String fileTemp = "file://" + Environment.getExternalStorageDirectory()
-                + File.separator + "goodswirl.png";
-        shareIntent.putExtra(Intent.EXTRA_STREAM, Uri.parse(fileTemp));
-        //shareIntent.putExtra(Intent.EXTRA_STREAM, imageUri);        //includes image
-        //shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);//read URI
-        startActivity(Intent.createChooser(shareIntent, getResources().getString(R.string.share)));  //choose sharing app
-    }
+
     public void ShareClick(View view){
         //sharing implementation
         List<Intent> targetedShareIntents = new ArrayList<Intent>();
@@ -147,25 +110,23 @@ public class PlayAgain extends ActionBarActivity implements View.OnClickListener
     }
 
     private void HighScoreClick()
-    {   //start single player activity once "Play Again" button clicked
-        Intent intentAgain2 = new Intent(PlayAgain.this, HighScoreActivity.class);
-        startActivity(intentAgain2);//goes to HighScore activity
+    {   //start HighScore activity once "Play Again" button clicked
     }
 
     public void onClick(View v)
     {//when "Play Again" button is clicked on the Play Again activity menu
         switch(v.getId())
         {
-            case R.id.PlayAgain:  //if "Play Again" is clicked
-                PlayAgainClick(); //re-start Single Player
+            case R.id.PlayAgainLevel:  //if "Play Again" is clicked
+                PlayAgainLevelClick(); //re-start Level Play
                 break;
-            case R.id.returnHome: //if "Home" is clicked
+            case R.id.returnHomeLevel: //if "Home" is clicked
                 HomeClick();      //return to Home screen (MainActivity)
                 break;
-            case R.id.HighScore: //if "HighScore" is clicked
+            case R.id.HighScoreLevel: //if "HighScore" is clicked
                 HighScoreClick();      // Go to high score activity (HighScoreActivity)
                 break;
-            case R.id.Share:      //if "Share" is clicked
+            case R.id.ShareLevel:      //if "Share" is clicked
                 final ViewGroup viewGroup = (ViewGroup) ((ViewGroup) this
                         .findViewById(android.R.id.content)).getChildAt(0);     //set view
                 ShareClick(viewGroup);//share text+URL and image
@@ -190,11 +151,5 @@ public class PlayAgain extends ActionBarActivity implements View.OnClickListener
     public void onBackPressed() {
         HomeClick();      //return to Home screen (MainActivity)
     }
-
-////    TweetComposer.Builder builder = new TweetComposer.Builder(this)
-////            .text("just setting up my Fabric.")
-//            .image(R.drawable.goodswirl);
-////            .image(Uri.parse(new File("/drawable/goodswirl.png").toString()));
-//    builder.show();
 
 }//end public class PlayAgain

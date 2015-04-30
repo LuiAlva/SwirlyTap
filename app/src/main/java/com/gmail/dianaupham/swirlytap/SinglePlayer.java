@@ -972,7 +972,7 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
                 gameBG.stop();                                                        //stop song
                 Intent intentAgain = new Intent(SinglePlayer.this, PlayAgain.class);  //create intent (to go to PlayAgain menu)
                 intentAgain.putExtra("score", Score);                                 //Send variable Score (score) to new intent (PlayAgain)
-                intentAgain.putExtra("GoodSwirls", Good_Pressed);                     //
+                intentAgain.putExtra("GoodSwirls", Good_Pressed);                     //Send number of GoodSwirls clicked
                 intentAgain.putExtra("BadSwirls", Bad_Pressed);
                 intentAgain.putExtra("Good2Swirls", Good2_Pressed);
                 intentAgain.putExtra("TimeSwirls", Time_Pressed);
@@ -1003,7 +1003,7 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
             NAME = NamePass;
             editor.commit();
         }
-        if( prefs.getInt("HighScore2", 0) < SCORE ) {                       // HighScore 1
+        if( prefs.getInt("HighScore2", 0) < SCORE ) {                       // HighScore 2
             editor = prefs.edit();
             ScorePass = prefs.getInt("HighScore2", 0);
             NamePass = prefs.getString("HighName2", "Player");
@@ -1013,7 +1013,7 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
             NAME = NamePass;
             editor.commit();
         }
-        if( prefs.getInt("HighScore3", 0) < SCORE ) {                       // HighScore 1
+        if( prefs.getInt("HighScore3", 0) < SCORE ) {                       // HighScore 3
             editor = prefs.edit();
             ScorePass = prefs.getInt("HighScore3", 0);
             NamePass = prefs.getString("HighName3", "Player");
@@ -1023,7 +1023,7 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
             NAME = NamePass;
             editor.commit();
         }
-        if( prefs.getInt("HighScore4", 0) < SCORE ) {                       // HighScore 1
+        if( prefs.getInt("HighScore4", 0) < SCORE ) {                       // HighScore 4
             editor = prefs.edit();
             ScorePass = prefs.getInt("HighScore4", 0);
             NamePass = prefs.getString("HighName4", "Player");
@@ -1033,7 +1033,7 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
             NAME = NamePass;
             editor.commit();
         }
-        if( prefs.getInt("HighScore5", 0) < SCORE ) {                       // HighScore 1
+        if( prefs.getInt("HighScore5", 0) < SCORE ) {                       // HighScore 5
             editor = prefs.edit();
             ScorePass = prefs.getInt("HighScore5", 0);
             NamePass = prefs.getString("HighName5", "Player");
@@ -1043,7 +1043,7 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
             NAME = NamePass;
             editor.commit();
         }
-        if( prefs.getInt("HighScore6", 0) < SCORE ) {                       // HighScore 1
+        if( prefs.getInt("HighScore6", 0) < SCORE ) {                       // HighScore 6
             editor = prefs.edit();
             ScorePass = prefs.getInt("HighScore6", 0);
             NamePass = prefs.getString("HighName6", "Player");
@@ -1053,7 +1053,7 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
             NAME = NamePass;
             editor.commit();
         }
-        if( prefs.getInt("HighScore7", 0) < SCORE ) {                       // HighScore 1
+        if( prefs.getInt("HighScore7", 0) < SCORE ) {                       // HighScore 7
             editor = prefs.edit();
             ScorePass = prefs.getInt("HighScore7", 0);
             NamePass = prefs.getString("HighName7", "Player");
@@ -1063,7 +1063,7 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
             NAME = NamePass;
             editor.commit();
         }
-        if( prefs.getInt("HighScore8", 0) < SCORE ) {                       // HighScore 1
+        if( prefs.getInt("HighScore8", 0) < SCORE ) {                       // HighScore 8
             editor = prefs.edit();
             ScorePass = prefs.getInt("HighScore8", 0);
             NamePass = prefs.getString("HighName8", "Player");
@@ -1073,7 +1073,7 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
             NAME = NamePass;
             editor.commit();
         }
-        if( prefs.getInt("HighScore9", 0) < SCORE ) {                       // HighScore 1
+        if( prefs.getInt("HighScore9", 0) < SCORE ) {                       // HighScore 9
             editor = prefs.edit();
             ScorePass = prefs.getInt("HighScore9", 0);
             NamePass = prefs.getString("HighName9", "Player");
@@ -1083,7 +1083,7 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
             NAME = NamePass;
             editor.commit();
         }
-        if( prefs.getInt("HighScore10", 0) < SCORE ) {                       // HighScore 1
+        if( prefs.getInt("HighScore10", 0) < SCORE ) {                       // HighScore 10
             editor = prefs.edit();
             ScorePass = prefs.getInt("HighScore10", 0);
             NamePass = prefs.getString("HighName10", "Player");

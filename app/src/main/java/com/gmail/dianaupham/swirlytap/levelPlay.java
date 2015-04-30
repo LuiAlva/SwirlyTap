@@ -1228,18 +1228,15 @@ public class levelPlay extends Activity implements View.OnClickListener
                 lifeOne.setBackgroundResource(R.drawable.grey);
                 lifeTwo.setBackgroundResource(R.drawable.grey);
                 lifeThree.setBackgroundResource(R.drawable.grey);
-                Intent intentAgain = new Intent(levelPlay.this, PlayAgain.class);  //create intent (to go to PlayAgain menu)
-                intentAgain.putExtra("score", score);
-                startActivity(intentAgain);                                           //go to PlayAgain activity/menu
+                Intent intentAgainLevel = new Intent(levelPlay.this, PlayAgain_Level.class);  //create intent (to go to PlayAgain_Level menu)
+                intentAgainLevel.putExtra("score", score);
+                startActivity(intentAgainLevel);                                           //go to PlayAgain_Level activity/menu
                 finish();
                 break;
         }
     }
     public void setMissed(int numMissed)
     {
-
-
-
         switch(numMissed)
         {
             case 5:
@@ -1551,16 +1548,13 @@ public class levelPlay extends Activity implements View.OnClickListener
 
             @Override
             public void onFinish() {
-
                 badButton.setVisibility(View.INVISIBLE);
                 badButton.setEnabled(false);
-
             }
         }.start();
         badButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v)
             {
-
                 {
                     temp.cancel();
                     v.setEnabled(false);                     // Disable button

@@ -85,5 +85,6 @@
     <string name="newpa">Enter Password</string>
 
     <string name="title_activity_profile">Profile</string>
+    <string name="title_activity_play_again__level">PlayAgain_Level</string>
 
 </resources>
