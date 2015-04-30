@@ -1,0 +1,163 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context="com.gmail.dianaupham.swirlytap.PlayAgain_Level"
+    android:background="@drawable/game_end_bg"
+    android:orientation="horizontal">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:weightSum="1"
+        android:layout_gravity="center">
+
+        <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="250sp"
+            android:layout_gravity="center"
+            android:gravity="center">
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:background="@drawable/results_window"
+                android:layout_marginTop="10sp"
+                android:layout_marginLeft="10sp"
+                android:layout_marginRight="10sp">
+
+                <ImageView
+                    android:src="@drawable/congratulations"
+                    android:id="@+id/imageView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="@string/congratulations"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginLeft="25sp"
+                    android:layout_marginRight="25sp"
+                    android:layout_marginTop="5sp" />
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/imageView"
+                    android:layout_alignRight="@+id/imageView"
+                    android:layout_alignLeft="@+id/imageView"
+                    android:gravity="center"
+                    android:id="@+id/linearLayout"
+                    android:layout_centerInParent="true">
+
+                    <TextView
+                        android:text="@string/temp_you_scored"
+                        android:id="@+id/ScoreViewLevel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="25sp"
+                        android:textColor="#ff90fdff"
+                        android:layout_below="@+id/imageView"
+                        android:layout_centerHorizontal="true"
+                        android:textStyle="bold"
+                        android:layout_marginBottom="4sp"
+                        android:gravity="center" />
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="fill_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:gravity="center">
+
+                <GridLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    android:paddingRight="10dp"
+                    android:paddingLeft="10dp"
+                    android:orientation="vertical"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="10sp"
+                    android:layout_marginRight="10sp">
+
+                    <Button
+                        android:text="@string/action_home"
+                        android:id="@+id/returnHomeLevel"
+                        android:layout_width="match_parent"
+                        android:layout_height="50sp"
+                        android:layout_marginLeft="10sp"
+                        android:layout_marginRight="10sp"
+                        android:textSize="20sp"
+                        android:textColor="#ffffffff"
+                        android:background="@drawable/button_bg"
+                        android:layout_marginBottom="5sp" />
+
+                    <Button
+                        android:text="@string/share"
+                        android:id="@+id/ShareLevel"
+                        android:layout_width="match_parent"
+                        android:layout_height="50sp"
+                        android:paddingRight="15dp"
+                        android:paddingLeft="15dp"
+                        android:layout_marginLeft="10sp"
+                        android:layout_marginRight="10sp"
+                        android:textSize="20sp"
+                        android:textColor="#ffffffff"
+                        android:background="@drawable/button_bg"
+                        android:layout_marginBottom="5sp" />
+
+                    <Button
+                        android:text="@string/High_Score"
+                        android:id="@+id/HighScoreLevel"
+                        android:layout_width="match_parent"
+                        android:layout_height="50sp"
+                        android:paddingRight="15dp"
+                        android:paddingLeft="15dp"
+                        android:layout_marginLeft="10sp"
+                        android:layout_marginRight="10sp"
+                        android:textSize="17sp"
+                        android:textColor="#ffffffff"
+                        android:background="@drawable/button_bg"
+                        android:enabled="true"
+                        android:focusableInTouchMode="true"
+                        android:clickable="true"
+                        android:layout_marginBottom="5sp" />
+
+                    <Button
+                        android:text="@string/play_again"
+                        android:id="@+id/PlayAgainLevel"
+                        android:layout_width="match_parent"
+                        android:layout_height="50sp"
+                        android:paddingRight="15dp"
+                        android:paddingLeft="15dp"
+                        android:layout_marginLeft="10sp"
+                        android:layout_marginRight="10sp"
+                        android:textSize="18sp"
+                        android:textColor="#ffffffff"
+                        android:background="@drawable/button_bg"
+                        android:gravity="center" />
+
+                </GridLayout>
+
+            </LinearLayout>
+
+        </TableRow>
+    </LinearLayout>
+
+</LinearLayout>
