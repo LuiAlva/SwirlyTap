@@ -342,10 +342,10 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
             goodButton.setEnabled(true);                            //Enable Swirl
             goodButton.setVisibility(View.VISIBLE);                 //Make Swirl Visible
             final int finalI = i;
-            CountDownTimer temp = new CountDownTimer(700,700) { // Set timer for disappearance
+            CountDownTimer temp = new CountDownTimer(1000,1000) { // Set timer for disappearance
             public void onTick(long millisUntilFinished)
             {
-                if (millisUntilFinished / 700 == 0)
+                if (millisUntilFinished / 1000 == 0)
                 {
                     onFinish();
                 }
@@ -400,10 +400,10 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
         badButton.setEnabled(true);                            //Enable Swirl
         badButton.setVisibility(View.VISIBLE);                 //Make Swirl Visible
         final int finalI = i;
-        CountDownTimer temp = new CountDownTimer(700,700) { // Set timer for disappearance
+        CountDownTimer temp = new CountDownTimer(1100,1100) { // Set timer for disappearance
             public void onTick(long millisUntilFinished)
             {
-                if (millisUntilFinished / 700 == 0)
+                if (millisUntilFinished / 1100 == 0)
                 {
                     onFinish();
                 }
@@ -452,10 +452,10 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
         twiceButton.setEnabled(true);                            //Enable Swirl
         twiceButton.setVisibility(View.VISIBLE);                 //Make Swirl Visible
         final int finalI = i;
-        CountDownTimer temp = new CountDownTimer(700,700) { // Set timer for disappearance
+        CountDownTimer temp = new CountDownTimer(1000,1000) { // Set timer for disappearance
             public void onTick(long millisUntilFinished)
             {
-                if (millisUntilFinished / 700 == 0)
+                if (millisUntilFinished / 1000 == 0)
                 {
                     onFinish();
                 }
@@ -513,9 +513,9 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
                     timeButton.setEnabled(true);                            //Enable Swirl
                     timeButton.setVisibility(View.VISIBLE);                 //Make Swirl Visible
                     final int finalI = i;
-                    CountDownTimer temp = new CountDownTimer(900, 900) { // Set timer for disappearance
+                    CountDownTimer temp = new CountDownTimer(1000, 1000) { // Set timer for disappearance
                         public void onTick(long millisUntilFinished) {
-                            if (millisUntilFinished / 900 == 0) {
+                            if (millisUntilFinished / 1000 == 0) {
                                 onFinish();
                             } else {
                             }
@@ -565,10 +565,10 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
                 goodButton.setEnabled(true);                            //Enable Swirl
                 goodButton.setVisibility(View.VISIBLE);                 //Make Swirl Visible
                 final int finalI = i;
-                CountDownTimer temp = new CountDownTimer(700,700) { // Set timer for disappearance
+                CountDownTimer temp = new CountDownTimer(1000,1000) { // Set timer for disappearance
                     public void onTick(long millisUntilFinished)
                     {
-                        if (millisUntilFinished / 700 == 0)
+                        if (millisUntilFinished / 1000 == 0)
                         {
                             onFinish();
                         }

@@ -2,6 +2,13 @@ package com.gmail.dianaupham.swirlytap;
 
 
 import android.app.Activity;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
+
+import com.gmail.dianaupham.swirlytap.swirlytap.R;
 
 public class Update extends Activity
 {
