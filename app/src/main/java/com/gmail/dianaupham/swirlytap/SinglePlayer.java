@@ -759,7 +759,6 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
         }
     }
     //Sound Players ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
     public void onClick(View v)
     {
         switch(v.getId()) {
@@ -773,7 +772,6 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
     }
 
     //Pause Menu Options +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
     public void PauseActivate() {
         if(!paused) {
             gameBG.pause();                      // Pause the game music
