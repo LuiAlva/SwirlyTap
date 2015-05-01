@@ -46,7 +46,7 @@
             <TextView
                 android:text="@string/initial_Score"
                 android:id="@+id/scoreAnimation"
-                android:layout_width="100sp"
+                android:layout_width="120sp"
                 android:layout_height="78dp"
                 android:scaleType="center"
                 android:textSize="50sp"
@@ -54,7 +54,9 @@
                 android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true"
                 android:gravity="center"
-                android:background="@drawable/score_frame" />
+                android:background="@drawable/score_frame"
+                android:elegantTextHeight="false"
+                android:textIsSelectable="false" />
             <ImageButton
                 android:src="@drawable/pause"
                 android:id="@+id/imageButton"

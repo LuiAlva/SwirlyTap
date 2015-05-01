@@ -24,31 +24,37 @@ public class levelPlay extends Activity implements View.OnClickListener
     //A ProgressDialog object
     private ProgressDialog progressDialog;
 
-    private static final int NUM_ROWS = 6; //instantiated size of grid
+    private static final int NUM_ROWS = 6;      //instantiated size of grid
     private static final int NUM_COLS = 4;
-    String[][] luckArray1 = new String[NUM_ROWS][NUM_COLS]; //instantiate all luck arrays
+    /*+++++++++++++++Instantiate all luck arrays++++++++++++++++*/
+    String[][] luckArray1 = new String[NUM_ROWS][NUM_COLS];
     String[][] luckArray2 = new String[NUM_ROWS][NUM_COLS];
     String[][] luckArray3 = new String[NUM_ROWS][NUM_COLS];
     String[][] luckArray4 = new String[NUM_ROWS][NUM_COLS];
-    Button buttons[][] = new Button[NUM_ROWS][NUM_COLS];   //created total number of grid buttons
-    int lives = 3; //number of lives that player has at start of game
-    int score = 0; //initiating score
-    int level = 1; //start at level 1
+    String[][] luckArray5 = new String[NUM_ROWS][NUM_COLS];
+    /*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
+    Button buttons[][] = new Button[NUM_ROWS][NUM_COLS];        //created total number of grid buttons
+    /*++++++++++++++++counters, scores, levels+++++++++++++++++++*/
+    int lives = 3;      //number of lives that player has at start of game
+    int score = 0;      //initiating score
+    int level = 1;      //start at level 1
     int missedSwirls = 0;
     int luckCount = 0;
-    int tempLevel = 0; //set temp level to 0
+    int tempLevel = 0;      //set temp level to 0
     int lightningCount = 0;
     int doubleCount = 0;
     boolean doublePoints = false;
     int lifeCount = 0;
-    boolean heartGiven = false; //used to limit the number of times the player recieves perks
+    boolean heartGiven = false;     //used to limit the number of times the player recieves perks
     boolean destroyGoodSwirls = false;
-    int swirlPointsLeft = 0; //to determine if all swirls have been destroyed on screen
-    int Current_Time = 61000;    //Current in-game time
-    int Game_Speed = 400;        //Speed of the game
+    int swirlPointsLeft = 0;        //to determine if all swirls have been destroyed on screen
+    int Current_Time = 61000;       //Current in-game time
+    int Game_Speed = 400;           //Speed of the game
     int randCell;
     int goodCount = 0; //initialize score of lightning count. This will increase as good buttons appear on screen and decrease as good
     //buttons leave the screen. When a player taps the lightning bolt it will get all good swirls and 2x swirls
+    /*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
+    /*++++++++++++++++++++++++++++++++Initializing buttons, images, timers, button arrays+++++++++++++++++++++++++++++++*/
     LinearLayout llayout; //set it up after declaration
     CountDownTimer SwirlEngine;
     CountDownTimer Updater;
@@ -66,15 +72,17 @@ public class levelPlay extends Activity implements View.OnClickListener
     TextView scoredisplay;
     Runnable buttonRunnable;
     Handler buttonHandler = new Handler();
-
+    buttonDisappear[] GoodArray = new buttonDisappear[20];
+    buttonDisappear[] BadArray = new buttonDisappear[20];
+    buttonDisappear[] SpecialArray = new buttonDisappear[20];
+    /*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-
         requestWindowFeature(Window.FEATURE_NO_TITLE); // Removes Title Bar
         setContentView(R.layout.level_play); //show res/layout/activity_single_player.xml
-
+        /*Swirls displayed at the bottom of the screen that depict how many missed swirls user has*/
         llayout = (LinearLayout)findViewById(R.id.layout);
         lifeOne = (ImageButton)findViewById(R.id.lifeone);
         lifeTwo = (ImageButton)findViewById(R.id.lifetwo);
@@ -91,10 +99,26 @@ public class levelPlay extends Activity implements View.OnClickListener
         leveldisplay.setVisibility(View.INVISIBLE);//start invisible and make visible for 2 seconds at beginning of each level
         setLives(lives);//start game with 3 lives displayed as hearts on screen
         setMissed(missedSwirls);
-
+        //set all button arrays to null when game started
+        for(int i = 0; i < 20; i++){
+            GoodArray[i] = null;
+            BadArray[i] = null;
+            SpecialArray[i] = null;
+        }
+      //  gameTimer(60000);
         new LoadViewTask().execute();
 
     }
+    class buttonDisappear
+    {
+        public Button ButtonId;
+        CountDownTimer TimerId;
+        public buttonDisappear(Button button, CountDownTimer timer){
+            ButtonId = button;
+            TimerId = timer;
+        }
+    }
+
     //To use the AsyncTask, it must be subclassed
     private class LoadViewTask extends AsyncTask<Void, Integer, Void>
     {
@@ -216,8 +240,8 @@ public class levelPlay extends Activity implements View.OnClickListener
         //depending on level do certain things
         switch(lvl)
         {
-            ///////////////////////////////LEVEL ONE////////////////////////////////////////////
-            ///////////////////////////////////////////////////////////////////////////////////
+            /*++++++++++++++++++++++++++++++++++++LEVEL 1++++++++++++++++++++++++++++++++++++++++++++*/
+            /*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
             case 1:
                 if(tempLevel < level)//if this is the first time the level has been called then do the below functions.
                 {
@@ -227,14 +251,30 @@ public class levelPlay extends Activity implements View.OnClickListener
                     else llayout.setBackgroundResource(R.drawable.levelone);
                     //call function that displays level
                     displayLevel(level);
-                    Game_Speed = 1500; gameTimer(60000);
+                    Game_Speed = 1500; //gameTimer(60000);
+                    SwirlEngine = new CountDownTimer(Current_Time, Game_Speed)
+                    { // start new timer with changed speed
+                        @Override
+                        public void onTick(long millisUntilFinished) {
+                            if (millisUntilFinished / 30 == 0) {
+                                onFinish();
+                            } else {
+                                levelUpdate();
+                            }
+                        }
+                        @Override
+                        public void onFinish() {
+                            levelUpdate();
+                            SwirlEngine.start();
+                        }
+                    }.start();
                 }
                 //after every 20 buttons displayed, re declare luck arrays...make more random
 
                 displayButton(1);  //display button from luckarray 1
                 break;
-            ///////////////////////////////LEVEL TWO////////////////////////////////////////////
-            ///////////////////////////////////////////////////////////////////////////////////
+           /*++++++++++++++++++++++++++++++++++++LEVEL 2++++++++++++++++++++++++++++++++++++++++++++*/
+            /*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
             case 2:
                 level = 2;
                 if(tempLevel < level)
@@ -244,8 +284,10 @@ public class levelPlay extends Activity implements View.OnClickListener
                     llayout.setBackgroundResource(R.drawable.leveltwo);
                     displayLevel(level);//display level animation
                     Game_Speed = 1200; //ramp up game speed
+                   // gameTimer(60000);
                     SwirlEngine.cancel();                   // cancel the old timer with the old speed
-                    SwirlEngine = new CountDownTimer(Current_Time, Game_Speed) { // start new timer with changed speed
+                    SwirlEngine = new CountDownTimer(Current_Time, Game_Speed)
+                    { // start new timer with changed speed
                         @Override
                         public void onTick(long millisUntilFinished) {
                             if (millisUntilFinished / 30 == 0) {
@@ -271,8 +313,8 @@ public class levelPlay extends Activity implements View.OnClickListener
                     luckCount++;
                 displayButton(2); //using the second luck array
                 break;
-            ///////////////////////////////LEVEL THREE////////////////////////////////////////////
-            /////////////////////////////////////////////////////////////////////////////////////
+             /*++++++++++++++++++++++++++++++++++++LEVEL 3++++++++++++++++++++++++++++++++++++++++++++*/
+            /*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
             case 3:
                 level = 3;
                 if(tempLevel < level)
@@ -282,6 +324,7 @@ public class levelPlay extends Activity implements View.OnClickListener
                    llayout.setBackgroundResource(R.drawable.levelthree);
                    displayLevel(level); //display the level animation
                    Game_Speed = 1150;
+                  // gameTimer(60000);
                    SwirlEngine.cancel();                   // cancel the old timer with the old speed
                    SwirlEngine = new CountDownTimer(Current_Time, Game_Speed) { // start new timer with changed speed
                         @Override
@@ -313,8 +356,8 @@ public class levelPlay extends Activity implements View.OnClickListener
                     luckCount++;
                 displayButton(2);
                 break;
-            ///////////////////////////////LEVEL FOUR////////////////////////////////////////////
-            ////////////////////////////////////////////////////////////////////////////////////
+             /*++++++++++++++++++++++++++++++++++++LEVEL 4++++++++++++++++++++++++++++++++++++++++++++*/
+            /*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
             case 4:
                 level = 4;
                 if(tempLevel < level)
@@ -324,6 +367,7 @@ public class levelPlay extends Activity implements View.OnClickListener
                     llayout.setBackgroundResource(R.drawable.levelfour);
                     displayLevel(level);//display the level animation
                     Game_Speed = 1050; //ramp up the speed of the game
+                    //gameTimer(60000);
                     SwirlEngine.cancel();                   // cancel the old timer with the old speed
                     SwirlEngine = new CountDownTimer(Current_Time, Game_Speed) { // start new timer with changed speed
                         @Override
@@ -351,8 +395,8 @@ public class levelPlay extends Activity implements View.OnClickListener
                     luckCount++;
                 displayButton(3);
                 break;
-            ///////////////////////////////LEVEL FIVE////////////////////////////////////////////
-            ////////////////////////////////////////////////////////////////////////////////////
+           /*++++++++++++++++++++++++++++++++++++LEVEL 5++++++++++++++++++++++++++++++++++++++++++++*/
+           /*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
             case 5:
                 level = 5;
                 if(tempLevel < level)
@@ -363,6 +407,7 @@ public class levelPlay extends Activity implements View.OnClickListener
                     displayLevel(level);//display the level animation
                     tempLevel = level;
                     Game_Speed = 900;
+                   // gameTimer(60000);
                     SwirlEngine.cancel();                   // cancel the old timer with the old speed
                     SwirlEngine = new CountDownTimer(Current_Time, Game_Speed) { // start new timer with changed speed
                         @Override
@@ -391,8 +436,8 @@ public class levelPlay extends Activity implements View.OnClickListener
                     luckCount++;
                 displayButton(3);
                 break;
-            ///////////////////////////////LEVEL SIX////////////////////////////////////////////
-            ///////////////////////////////////////////////////////////////////////////////////
+             /*++++++++++++++++++++++++++++++++++++LEVEL 6++++++++++++++++++++++++++++++++++++++++++++*/
+            /*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
             case 6:
                 level = 6;
                 if(tempLevel < level)
@@ -403,6 +448,7 @@ public class levelPlay extends Activity implements View.OnClickListener
                     displayLevel(level);//display the level animation
                     tempLevel = level;
                     Game_Speed = 850;
+                    //gameTimer(60000);
                     SwirlEngine.cancel();                   // cancel the old timer with the old speed
                     SwirlEngine = new CountDownTimer(Current_Time, Game_Speed) { // start new timer with changed speed
                         @Override
@@ -431,8 +477,8 @@ public class levelPlay extends Activity implements View.OnClickListener
                     luckCount++;
                 displayButton(3);
                 break;
-            //////////////////////////////////////LEVEL SEVEN///////////////////////////////////
-            ///////////////////////////////////////////////////////////////////////////////////
+            /*++++++++++++++++++++++++++++++++++++LEVEL 7++++++++++++++++++++++++++++++++++++++++++++*/
+            /*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
             case 7:
                 level = 7;
                 if(tempLevel < level)
@@ -443,6 +489,7 @@ public class levelPlay extends Activity implements View.OnClickListener
                     displayLevel(level);//display the level animation
                     tempLevel = level;
                     Game_Speed = 800;
+                    //gameTimer(60000);
                     SwirlEngine.cancel();                   // cancel the old timer with the old speed
                     SwirlEngine = new CountDownTimer(Current_Time, Game_Speed) { // start new timer with changed speed
                         @Override
@@ -473,8 +520,8 @@ public class levelPlay extends Activity implements View.OnClickListener
                     luckCount++;
                 displayButton(4);
                 break;
-            ///////////////////////////////////LEVEL 8/////////////////////////////////////////
-            //////////////////////////////////////////////////////////////////////////////////
+             /*++++++++++++++++++++++++++++++++++++LEVEL 8++++++++++++++++++++++++++++++++++++++++++++*/
+            /*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
             case 8:
                 level = 8;
                 if(tempLevel < level)
@@ -484,6 +531,7 @@ public class levelPlay extends Activity implements View.OnClickListener
                     displayLevel(level);//display the level animation
                     tempLevel = level;
                     Game_Speed = 750;
+                    //gameTimer(60000);
                     SwirlEngine.cancel();                   // cancel the old timer with the old speed
                     SwirlEngine = new CountDownTimer(Current_Time, Game_Speed) { // start new timer with changed speed
                         @Override
@@ -514,8 +562,8 @@ public class levelPlay extends Activity implements View.OnClickListener
                     luckCount++;
                 displayButton(4);
                 break;
-            ////////////////////////////////LEVEL 9////////////////////////////////////////
-            ///////////////////////////////////////////////////////////////////////////////
+             /*++++++++++++++++++++++++++++++++++++LEVEL 9++++++++++++++++++++++++++++++++++++++++++++*/
+            /*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
             case 9:
                 level = 9;
                 if(tempLevel < level)
@@ -525,6 +573,7 @@ public class levelPlay extends Activity implements View.OnClickListener
                     displayLevel(level);//display the level animation
                     tempLevel = level;
                     Game_Speed = 700;
+                    //gameTimer(60000);
                     SwirlEngine.cancel();                   // cancel the old timer with the old speed
                     SwirlEngine = new CountDownTimer(Current_Time, Game_Speed) { // start new timer with changed speed
                         @Override
@@ -555,8 +604,8 @@ public class levelPlay extends Activity implements View.OnClickListener
                     luckCount++;
                 displayButton(4);
                 break;
-            //////////////////////////////LEVEL 10/////////////////////////////////
-            ///////////////////////////////////////////////////////////////////////
+             /*++++++++++++++++++++++++++++++++++++LEVEL 10++++++++++++++++++++++++++++++++++++++++++++*/
+            /*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
             case 10:
                 level = 10;
                 if(tempLevel < level)
@@ -566,6 +615,7 @@ public class levelPlay extends Activity implements View.OnClickListener
                     displayLevel(level);//display the level animation
                     tempLevel = level;
                     Game_Speed = 650;
+                    //gameTimer(60000);
                     SwirlEngine.cancel();                   // cancel the old timer with the old speed
                     SwirlEngine = new CountDownTimer(Current_Time, Game_Speed) { // start new timer with changed speed
                         @Override
@@ -596,8 +646,8 @@ public class levelPlay extends Activity implements View.OnClickListener
                     luckCount++;
                 displayButton(4);
                 break;
-            ///////////////////////////////////////LEVEL 11//////////////////////////////
-            /////////////////////////////////////////////////////////////////////////////
+             /*++++++++++++++++++++++++++++++++++++LEVEL 11++++++++++++++++++++++++++++++++++++++++++++*/
+            /*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
             case 11:
                 level = 11;
                 if(tempLevel < level)
@@ -607,6 +657,7 @@ public class levelPlay extends Activity implements View.OnClickListener
                     displayLevel(level);//display the level animation
                     tempLevel = level;
                     Game_Speed = 625;
+                    //gameTimer(60000);
                     SwirlEngine.cancel();                   // cancel the old timer with the old speed
                     SwirlEngine = new CountDownTimer(Current_Time, Game_Speed) { // start new timer with changed speed
                         @Override
@@ -637,8 +688,8 @@ public class levelPlay extends Activity implements View.OnClickListener
                     luckCount++;
                 displayButton(4);
                 break;
-            /////////////////////////////////////LEVEL 12/////////////////////////////////////
-            //////////////////////////////////////////////////////////////////////////////////
+            /*++++++++++++++++++++++++++++++++++++LEVEL 12++++++++++++++++++++++++++++++++++++++++++++*/
+            /*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
             case 12:
                 level = 12;
                 if(tempLevel < level)
@@ -648,6 +699,7 @@ public class levelPlay extends Activity implements View.OnClickListener
                     displayLevel(level);//display the level animation
                     tempLevel = level;
                     Game_Speed = 600;
+                    //gameTimer(60000);
                     SwirlEngine.cancel();                   // cancel the old timer with the old speed
                     SwirlEngine = new CountDownTimer(Current_Time, Game_Speed) { // start new timer with changed speed
                         @Override
@@ -678,8 +730,8 @@ public class levelPlay extends Activity implements View.OnClickListener
                     luckCount++;
                 displayButton(4);
                 break;
-            ///////////////////////////////////////////////LEVEL 13////////////////////////////////////////
-            ///////////////////////////////////////////////////////////////////////////////////////////////
+            /*++++++++++++++++++++++++++++++++++++LEVEL 13++++++++++++++++++++++++++++++++++++++++++++*/
+            /*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
             case 13:
                 level = 13;
                 if(tempLevel < level)
@@ -689,6 +741,7 @@ public class levelPlay extends Activity implements View.OnClickListener
                     displayLevel(level);//display the level animation
                     tempLevel = level;
                     Game_Speed = 575;
+                   // gameTimer(60000);
                     SwirlEngine.cancel();                   // cancel the old timer with the old speed
                     SwirlEngine = new CountDownTimer(Current_Time, Game_Speed) { // start new timer with changed speed
                         @Override
@@ -719,8 +772,8 @@ public class levelPlay extends Activity implements View.OnClickListener
                     luckCount++;
                 displayButton(4);
                 break;
-            //////////////////////////////////////LEVEL 14////////////////////////////////////
-            /////////////////////////////////////////////////////////////////////////////////
+           /*++++++++++++++++++++++++++++++++++++LEVEL 14++++++++++++++++++++++++++++++++++++++++++++*/
+           /*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
             case 14:
                 level = 14;
                 if(tempLevel < level)
@@ -730,6 +783,7 @@ public class levelPlay extends Activity implements View.OnClickListener
                     displayLevel(level);//display the level animation
                     tempLevel = level;
                     Game_Speed = 550;
+                  //  gameTimer(60000);
                     SwirlEngine.cancel();                   // cancel the old timer with the old speed
                     SwirlEngine = new CountDownTimer(Current_Time, Game_Speed) { // start new timer with changed speed
                         @Override
@@ -758,10 +812,10 @@ public class levelPlay extends Activity implements View.OnClickListener
                 }
                 else
                     luckCount++;
-                displayButton(4);
+                displayButton(5);
                 break;
-            ///////////////////////////////////////LEVEL 15/////////////////////////////////////
-            ///////////////////////////////////////////////////////////////////////////////////
+             /*++++++++++++++++++++++++++++++++++++LEVEL 15++++++++++++++++++++++++++++++++++++++++++++*/
+            /*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
             case 15:
                 level = 15;
                 if(tempLevel < level)
@@ -771,6 +825,7 @@ public class levelPlay extends Activity implements View.OnClickListener
                     displayLevel(level);//display the level animation
                     tempLevel = level;
                     Game_Speed = 525;
+                   // gameTimer(60000);
                     SwirlEngine.cancel();                   // cancel the old timer with the old speed
                     SwirlEngine = new CountDownTimer(Current_Time, Game_Speed) { // start new timer with changed speed
                         @Override
@@ -799,10 +854,10 @@ public class levelPlay extends Activity implements View.OnClickListener
                 }
                 else
                     luckCount++;
-                displayButton(4);
+                displayButton(5);
                 break;
-            ///////////////////////////////////LEVEL 16/////////////////////////////////////
-            ////////////////////////////////////////////////////////////////////////////////
+            /*++++++++++++++++++++++++++++++++++++LEVEL 16++++++++++++++++++++++++++++++++++++++++++++*/
+            /*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
             case 16:
                 level = 16;
                 if(tempLevel < level)
@@ -812,6 +867,7 @@ public class levelPlay extends Activity implements View.OnClickListener
                     displayLevel(level);//display the level animation
                     tempLevel = level;
                     Game_Speed = 500;
+                   // gameTimer(60000);
                     SwirlEngine.cancel();                   // cancel the old timer with the old speed
                     SwirlEngine = new CountDownTimer(Current_Time, Game_Speed) { // start new timer with changed speed
                         @Override
@@ -840,10 +896,10 @@ public class levelPlay extends Activity implements View.OnClickListener
                 }
                 else
                     luckCount++;
-                displayButton(4);
+                displayButton(5);
                 break;
-            ///////////////////////////////////LEVEL 17/////////////////////////////////////
-            ////////////////////////////////////////////////////////////////////////////////
+            /*++++++++++++++++++++++++++++++++++++LEVEL 17++++++++++++++++++++++++++++++++++++++++++++*/
+            /*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
             case 17:
                 level = 17;
                 if(tempLevel < level)
@@ -853,6 +909,7 @@ public class levelPlay extends Activity implements View.OnClickListener
                     displayLevel(level);//display the level animation
                     tempLevel = level;
                     Game_Speed = 475;
+                   // gameTimer(60000);
                     SwirlEngine.cancel();                   // cancel the old timer with the old speed
                     SwirlEngine = new CountDownTimer(Current_Time, Game_Speed) { // start new timer with changed speed
                         @Override
@@ -881,10 +938,10 @@ public class levelPlay extends Activity implements View.OnClickListener
                 }
                 else
                     luckCount++;
-                displayButton(4);
+                displayButton(5);
                 break;
-            /////////////////////////////////LEVEL 18///////////////////////////////////
-            ////////////////////////////////////////////////////////////////////////////
+            /*++++++++++++++++++++++++++++++++++++LEVEL 18++++++++++++++++++++++++++++++++++++++++++++*/
+            /*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
             case 18:
                 level = 18;
                 if(tempLevel < level)
@@ -894,6 +951,7 @@ public class levelPlay extends Activity implements View.OnClickListener
                     displayLevel(level);//display the level animation
                     tempLevel = level;
                     Game_Speed = 450;
+                  //  gameTimer(60000);
                     SwirlEngine.cancel();                   // cancel the old timer with the old speed
                     SwirlEngine = new CountDownTimer(Current_Time, Game_Speed) { // start new timer with changed speed
                         @Override
@@ -922,10 +980,10 @@ public class levelPlay extends Activity implements View.OnClickListener
                 }
                 else
                     luckCount++;
-                displayButton(4);
+                displayButton(5);
                 break;
-            //////////////////////////////////////LEVEL 19//////////////////////////////////////
-            ////////////////////////////////////////////////////////////////////////////////////
+            /*++++++++++++++++++++++++++++++++++++LEVEL 19++++++++++++++++++++++++++++++++++++++++++++*/
+            /*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
             case 19:
                 level = 19;
                 if(tempLevel < level)
@@ -935,6 +993,7 @@ public class levelPlay extends Activity implements View.OnClickListener
                     displayLevel(level);//display the level animation
                     tempLevel = level;
                     Game_Speed = 425;
+                   // gameTimer(60000);
                     SwirlEngine.cancel();                   // cancel the old timer with the old speed
                     SwirlEngine = new CountDownTimer(Current_Time, Game_Speed) { // start new timer with changed speed
                         @Override
@@ -963,10 +1022,10 @@ public class levelPlay extends Activity implements View.OnClickListener
                 }
                 else
                     luckCount++;
-                displayButton(4);
+                displayButton(5);
                 break;
-            //////////////////////////////////////LEVEL 20////////////////////////////////////////
-            //////////////////////////////////////////////////////////////////////////////////////
+            /*++++++++++++++++++++++++++++++++++++LEVEL 20++++++++++++++++++++++++++++++++++++++++++++*/
+            /*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
             case 20:
                 level = 20;
                 if(tempLevel < level)
@@ -976,6 +1035,7 @@ public class levelPlay extends Activity implements View.OnClickListener
                     displayLevel(level);//display the level animation
                     tempLevel = level;
                     Game_Speed = 400;
+                    //gameTimer(60000);
                     SwirlEngine.cancel();                   // cancel the old timer with the old speed
                     SwirlEngine = new CountDownTimer(Current_Time, Game_Speed) { // start new timer with changed speed
                         @Override
@@ -1004,10 +1064,10 @@ public class levelPlay extends Activity implements View.OnClickListener
                 }
                 else
                     luckCount++;
-                displayButton(4);
+                displayButton(5);
                 break;
-            /////////////////////////////////////LEVEL INFINITE/////////////////////////////////////
-            ////////////////////////////////////////////////////////////////////////////////////////
+            /*++++++++++++++++++++++++++++++++++++LEVEL INFINITE++++++++++++++++++++++++++++++++++++++++++++*/
+            /*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
             case 21:
                 level = 21;
                 if(tempLevel < level)
@@ -1017,6 +1077,7 @@ public class levelPlay extends Activity implements View.OnClickListener
                     displayLevel(level);//display the level animation
                     tempLevel = level;
                     Game_Speed = 375;
+                   // gameTimer(60000);
                     SwirlEngine.cancel();                   // cancel the old timer with the old speed
                     SwirlEngine = new CountDownTimer(Current_Time, Game_Speed) { // start new timer with changed speed
                         @Override
@@ -1045,7 +1106,7 @@ public class levelPlay extends Activity implements View.OnClickListener
                 }
                 else
                     luckCount++;
-                displayButton(4);
+                displayButton(5);
                 break;
             //go to infinite level in which will only end if user loses all 3 lives
             //introduce death swirl..loses all 3 lives if clicked
@@ -1055,78 +1116,189 @@ public class levelPlay extends Activity implements View.OnClickListener
 
     public void displayButton(int luckArrayType) //will call when button needs to be displayed
     {
-
+        int i;
         final Runnable buttonRunnable;
         final Handler buttonHandler = new Handler();
         Random r = new Random(System.currentTimeMillis()); //randomly select location in luck array
         int randRow = r.nextInt(NUM_ROWS);
         int randCol = r.nextInt(NUM_COLS);
-
+        /*+++++++++++++++++++++++++++++++++++++++++LUCK ARRAY 1++++++++++++++++++++++++++++++++++++*/
         if(luckArrayType == 1) //DISPLAY ALL BUTTONS FOR LUCKARRAY 1
         {
             if (luckArray1[randRow][randCol] == "good") //GOOD BUTTON +1 POINT IF CLICKED
             {
 
-
+                for(i = 0; i < 20; i++)
+                {        // Find empty spot in GoodArray
+                    if(GoodArray[i] == null){break;}
+                    if(i == 19) {i = 0;}
+                }
                 final Button goodButton = buttons[randRow][randCol];     //Button in this location
-                displayGoodSwirl(goodButton);
+                displayGoodSwirl(goodButton, i);
 
             }
         }
+        /*+++++++++++++++++++++++++++++++++++++++LUCK ARRAY 2++++++++++++++++++++++++++++++++++++++*/
         else if(luckArrayType == 2) //DISPLAY ALL BUTTONS FOR LUCKARRAY 2
         {
             if(luckArray2[randRow][randCol]=="good") //GOOD BUTTON +1 POINT IF CLICKED
             {
+                for(i = 0; i < 20; i++)
+                {        // Find empty spot in GoodArray
+                    if(GoodArray[i] == null){break;}
+                    if(i == 19) {i = 0;}
+                }
                 final Button goodButton = buttons[randRow][randCol];     //Button in this location
-                displayGoodSwirl(goodButton);
+                displayGoodSwirl(goodButton, i);
                 //set 1 second timer... if timer reached then make button disappear
             }
             else if(luckArray2[randRow][randCol] == "bad")
             {
-                displayBadSwirl();
+                for(i = 0; i < 20; i++) {        // Find empty spot in BadArray
+                    if(BadArray[i] == null){break;}
+                    if(i == 19) {i = 0;}
+                }
+                Button badButton = buttons[randRow][randCol];     //Button in this location
+                displayBadSwirl(badButton, i);
             }
         }
-                else if(luckArrayType == 3) //DISPLAY ALL BUTTONS FOR LUCKARRAY 3
+        /*++++++++++++++++++++++++++++++++LUCK ARRAY 3++++++++++++++++++++++++++++++++++++++++++++++++*/
+        else if(luckArrayType == 3)
         {
             if(luckArray3[randRow][randCol]=="good") //GOOD BUTTON +1 POINT IF CLICKED
             {
+                for(i = 0; i < 20; i++)
+                {        // Find empty spot in GoodArray
+                    if(GoodArray[i] == null){break;}
+                    if(i == 19) {i = 0;}
+                }
                Button goodButton = buttons[randRow][randCol];     //Button in this location
-               displayGoodSwirl(goodButton);
+               displayGoodSwirl(goodButton, i);
 
                 //set 1 second timer... if timer reached then make button disappear
             }
             else if(luckArray3[randRow][randCol] == "bad")
             {
-               displayBadSwirl();
+                for(i = 0; i < 20; i++) {        // Find empty spot in BadArray
+                    if(BadArray[i] == null){break;}
+                    if(i == 19) {i = 0;}
+                }
+                Button badButton = buttons[randRow][randCol];     //Button in this location
+                displayBadSwirl(badButton, i);
             }
             else if(luckArray3[randRow][randCol] == "twicePoints")
             {
+                for(i = 0; i < 20; i++)
+                {        // Find empty spot in SpecialArray
+                    if(SpecialArray[i] == null){break;}
+                    if(i == 19) {i = 0;}
+                }
                Button twiceButton = buttons[randRow][randCol];     //Button in this location
-               displayTwiceSwirl(twiceButton);
+               displayTwiceSwirl(twiceButton, i);
             }
         }
+        /*+++++++++++++++++++++++++++++++++++++LUCK ARRAY 4++++++++++++++++++++++++++++++++++++++++*/
         else if(luckArrayType == 4) //DISPLAY ALL BUTTONS FOR LUCKARRAY 3
         {
 
             if(luckArray4[randRow][randCol] == "bad")
             {
-               displayBadSwirl();
+                for(i = 0; i < 20; i++) {        // Find empty spot in BadArray
+                    if(BadArray[i] == null){break;}
+                    if(i == 19) {i = 0;}
+                }
+                Button badButton = buttons[randRow][randCol];     //Button in this location
+                displayBadSwirl(badButton, i);
             }
             else if(luckArray4[randRow][randCol] == "twicePoints")
             {
+                for(i = 0; i < 20; i++)
+                {        // Find empty spot in SpecialArray
+                    if(SpecialArray[i] == null){break;}
+                    if(i == 19) {i = 0;}
+                }
                Button twiceButton = buttons[randRow][randCol];     //Button in this location
-               displayTwiceSwirl(twiceButton);
+               displayTwiceSwirl(twiceButton, i);
             }
             else if(luckArray4[randRow][randCol] == "doublePoints")
             {
+                for(i = 0; i < 20; i++)
+                {        // Find empty spot in SpecialArray
+                    if(SpecialArray[i] == null){break;}
+                    if(i == 19) {i = 0;}
+                }
+                Button doubleButton = buttons[randRow][randCol];     //Button in this location
                 //final Button goodButton = buttons[randRow][randCol];     //Button in this location
-                displayDoublePoints();
+                displayDoublePoints(doubleButton, i);
             }
 
             else //GOOD BUTTON +1 POINT IF CLICKED
             {
+                for(i = 0; i < 20; i++)
+                {        // Find empty spot in GoodArray
+                    if(GoodArray[i] == null){break;}
+                    if(i == 19) {i = 0;}
+                }
                 Button goodButton = buttons[randRow][randCol];     //Button in this location
-                displayGoodSwirl(goodButton);
+                displayGoodSwirl(goodButton, i);
+
+                //set 1 second timer... if timer reached then make button disappear
+            }
+        }
+        else if(luckArrayType == 5)
+        {
+            if(luckArray5[randRow][randCol] == "bad")
+            {
+                for(i = 0; i < 20; i++) {        // Find empty spot in BadArray
+                    if(BadArray[i] == null){break;}
+                    if(i == 19) {i = 0;}
+                }
+                Button badButton = buttons[randRow][randCol];     //Button in this location
+                displayBadSwirl(badButton, i);
+            }
+            else if(luckArray5[randRow][randCol] == "twicePoints")
+            {
+                for(i = 0; i < 20; i++)
+                {        // Find empty spot in SpecialArray
+                    if(SpecialArray[i] == null){break;}
+                    if(i == 19) {i = 0;}
+                }
+                Button twiceButton = buttons[randRow][randCol];     //Button in this location
+                displayTwiceSwirl(twiceButton, i);
+            }
+            else if(luckArray5[randRow][randCol] == "doublePoints")
+            {
+                for(i = 0; i < 20; i++)
+                {        // Find empty spot in SpecialArray
+                    if(SpecialArray[i] == null){break;}
+                    if(i == 19) {i = 0;}
+                }
+                Button doubleButton = buttons[randRow][randCol];     //Button in this location
+                //final Button goodButton = buttons[randRow][randCol];     //Button in this location
+                displayDoublePoints(doubleButton, i);
+            }
+            else if(luckArray5[randRow][randCol] == "addLife")
+            {
+                for(i = 0; i < 20; i++)
+                {        // Find empty spot in SpecialArray
+                    if(SpecialArray[i] == null){break;}
+                    if(i == 19) {i = 0;}
+                }
+                Button lifeButton = buttons[randRow][randCol];     //Button in this location
+                //final Button goodButton = buttons[randRow][randCol];     //Button in this location
+                displayAddLife(lifeButton, i);
+
+            }
+
+            else //GOOD BUTTON +1 POINT IF CLICKED
+            {
+                for(i = 0; i < 20; i++)
+                {        // Find empty spot in GoodArray
+                    if(GoodArray[i] == null){break;}
+                    if(i == 19) {i = 0;}
+                }
+                Button goodButton = buttons[randRow][randCol];     //Button in this location
+                displayGoodSwirl(goodButton, i);
 
                 //set 1 second timer... if timer reached then make button disappear
             }
@@ -1200,7 +1372,9 @@ public class levelPlay extends Activity implements View.OnClickListener
                 lifeOne.setBackgroundResource(R.drawable.grey);
                 lifeTwo.setBackgroundResource(R.drawable.grey);
                 lifeThree.setBackgroundResource(R.drawable.grey);
-                Intent intentAgain = new Intent(levelPlay.this, PlayAgain.class);  //create intent (to go to PlayAgain menu)
+
+                DestroySwirls();            //destroy all swirls in array
+                Intent intentAgain = new Intent(levelPlay.this, PlayAgain_Level.class);  //create intent (to go to PlayAgain menu)
                 intentAgain.putExtra("score", score);
                 startActivity(intentAgain);                                           //go to PlayAgain activity/menu
                 finish();
@@ -1209,9 +1383,6 @@ public class levelPlay extends Activity implements View.OnClickListener
     }
     public void setMissed(int numMissed)
     {
-
-
-
         switch(numMissed)
         {
             case 5:
@@ -1294,15 +1465,15 @@ public class levelPlay extends Activity implements View.OnClickListener
             for(int col = 0; col<NUM_COLS; col++)
             {
 
-                //////////////////////FIRST LUCK ARRAY///////////////////////////////////
+                /*+++++++++++++++++++++++++++++++FIRST LUCK ARRAY++++++++++++++++++++++++++++++++++*/
                 luckArray1[row][col] = "good"; //all items in luckArray1 are good buttons
-                /////////////////////SECOND LUCK ARRAY///////////////////////////////////
+                /*+++++++++++++++++++++++++++++++SECOND LUCK ARRAY++++++++++++++++++++++++++++++++++*/
                 randCell = rand.nextInt(NUM_ROWS*NUM_COLS); //random selection of numbers
                 if(randCell%5 ==0) //items in luck array 2 are both good and bad buttons
                     luckArray2[row][col] = "bad"; //place bad button in array
                 else
                     luckArray2[row][col] = "good"; //much higher chance to receive good button
-                /////////////////////THIRD LUCK ARRAY//////////////////////////////////////
+                /*+++++++++++++++++++++++++++++++THIRD LUCK ARRAY++++++++++++++++++++++++++++++++++*/
                 randCell = rand.nextInt(NUM_ROWS*NUM_COLS); //items in luck array 3 are good, bad, and double point buttons
                 if(randCell%5 ==0) //much less chance to receive bad button
                     luckArray3[row][col] = "bad"; //place bad button in array
@@ -1310,7 +1481,7 @@ public class levelPlay extends Activity implements View.OnClickListener
                     luckArray3[row][col] = "twicePoints";
                 else
                     luckArray3[row][col] = "good"; //much higher chance to receive good button
-                /////////////////////FOURTH LUCK ARRAY/////////////////////////////////////
+                /*+++++++++++++++++++++++++++++++FOURTH LUCK ARRAY++++++++++++++++++++++++++++++++++*/
                 randCell=rand.nextInt(NUM_ROWS*NUM_COLS);
                 if(randCell == 22)
                     luckArray4[row][col] = "doublePoints";
@@ -1320,7 +1491,18 @@ public class levelPlay extends Activity implements View.OnClickListener
                     luckArray4[row][col] = "twicePoints";
                 else
                     luckArray4[row][col] = "good"; //much higher chance to receive good button
-                /////////////////////FIFTH LUCK ARRAY//////////////////////////////////////
+                /*+++++++++++++++++++++++++++++++FIFTH LUCK ARRAY++++++++++++++++++++++++++++++++++*/
+                randCell=rand.nextInt(NUM_ROWS*NUM_COLS);
+                if(randCell == 22)
+                    luckArray5[row][col] = "doublePoints";
+                else if(randCell == 23)
+                    luckArray5[row][col] = "addLife";
+                else if(randCell%5 ==0) //much less chance to receive bad button
+                    luckArray5[row][col] = "bad"; //place bad button in array
+                else if(randCell%8 == 0)
+                    luckArray5[row][col] = "twicePoints";
+                else
+                    luckArray5[row][col] = "good"; //much higher chance to receive good button
 
             }
         }
@@ -1336,13 +1518,14 @@ public class levelPlay extends Activity implements View.OnClickListener
     }
 
 
-    public void displayGoodSwirl(final Button good)
+    public void displayGoodSwirl(final Button good, int i)
     {
 
         goodCount++; //add to number of good swirls on screen
         good.setBackgroundResource(R.drawable.goodswirl); //Set image to goodswirl
         good.setEnabled(true);                            //Enable Swirl
         good.setVisibility(View.VISIBLE);                 //Make Swirl Visible
+        final int finalI = i;
         final CountDownTimer temp = new CountDownTimer(1700,1700) { // Set timer for disappearance
             public void onTick(long millisUntilFinished)
             {
@@ -1352,24 +1535,7 @@ public class levelPlay extends Activity implements View.OnClickListener
                 }
                 else
                 {
-                //check if lightning bolt is true
-                    //if lightning button has been hit and total buttons is less than total points available
-//                    if(destroyGoodSwirls == true && swirlPointsLeft <= goodCount)
-//                    {
-//                        good.setEnabled(false);                     // Disable button
-//                        good.setBackgroundResource(R.drawable.goodswirl_break); //change to +1 and make dis
-//                        AlphaAnimation anim = new AlphaAnimation(1.0f, 0.0f);//fade out the text
-//                        anim.setDuration(300);
-//                        good.startAnimation(anim);
-//                        good.setVisibility(View.INVISIBLE);         // Make Swirl disappear when clicked
-//                        swirlPointsLeft++;
-//                        //temp.cancel(); //cancel timer
-//                    }
-//                    else if(swirlPointsLeft >= goodCount)
-//                    {
-//                        destroyGoodSwirls = false;
-//                        swirlPointsLeft = 0;
-//                    }
+
                 }
             }
 
@@ -1378,8 +1544,10 @@ public class levelPlay extends Activity implements View.OnClickListener
 //                AlphaAnimation anim3 = new AlphaAnimation(1.0f, 0.0f);//fade out the text
 //                anim3.setDuration(200);
 //                good.startAnimation(anim3);
+                GoodArray[finalI].ButtonId = null;       // Remove Button ID
+                GoodArray[finalI] = null;
                 missedSwirls++;
-                setMissed(missedSwirls);
+                setMissed(missedSwirls);        //count off if swirl disappeared
                 good.setVisibility(View.INVISIBLE);
                 good.setEnabled(false);
                 if(goodCount > 0)
@@ -1387,14 +1555,14 @@ public class levelPlay extends Activity implements View.OnClickListener
 
             }
         }.start();
-
+        GoodArray[i] =  new buttonDisappear(good, temp);
         good.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
                 {
                     //leveldisplay.setVisibility(View.VISIBLE);
                     //add a plus one animation by score
-                    temp.cancel(); //cancel timer
+
                     if(doublePoints == true)
                     {
                         score+=2;
@@ -1413,6 +1581,9 @@ public class levelPlay extends Activity implements View.OnClickListener
                         showscoreanim.startAnimation(anim2); //start animation
                         showscoreanim.setVisibility(View.INVISIBLE);
                     }
+                    GoodArray[finalI].TimerId.cancel();      // Cancel it's disappear Timer
+                    GoodArray[finalI].ButtonId = null;       // Remove Button ID
+                    GoodArray[finalI] = null;                // Remove from array
                     v.setEnabled(false);                     // Disable button
                     v.setBackgroundResource(R.drawable.goodswirl_break); //change to +1 and make dis
                     AlphaAnimation anim = new AlphaAnimation(1.0f, 0.0f);//fade out the text
@@ -1428,7 +1599,7 @@ public class levelPlay extends Activity implements View.OnClickListener
         });
     }
 
-    public void displayTwiceSwirl(final Button twice)
+    public void displayTwiceSwirl(final Button twice, int i)
     {
 
 
@@ -1436,6 +1607,7 @@ public class levelPlay extends Activity implements View.OnClickListener
         twice.setBackgroundResource(R.drawable.twiceswirl); //Set image to goodswirl
         twice.setEnabled(true);                            //Enable Swirl
         twice.setVisibility(View.VISIBLE);                 //Make Swirl Visible
+        final int finalI = i;
         final CountDownTimer temp = new CountDownTimer(1700,1700) { // Set timer for disappearance
             public void onTick(long millisUntilFinished)
             {
@@ -1443,24 +1615,9 @@ public class levelPlay extends Activity implements View.OnClickListener
                 {
                     onFinish();
                 }
-                else{
-                    //checks if lightning bolt has been selected
-                    //if it has then it destroys all shown green buttons and adds the total
-//                    if(destroyGoodSwirls == true && swirlPointsLeft <= goodCount)
-//                    {
-//                        twice.setEnabled(false);                     // Disable button
-//                        twice.setBackgroundResource(R.drawable.twiceswirl_break); //change to +1 and make dis
-//                        AlphaAnimation anim = new AlphaAnimation(1.0f, 0.0f);//fade out the text
-//                        anim.setDuration(300);
-//                        twice.startAnimation(anim);
-//                        twice.setVisibility(View.INVISIBLE);         // Make Swirl disappear when clicked
-//                        swirlPointsLeft+=2;
-//                    }
-//                    else
-//                    {
-//                        destroyGoodSwirls = false;
-//                        swirlPointsLeft = 0;
-//                    }
+                else
+                {
+
 
                 }
             }
@@ -1470,6 +1627,8 @@ public class levelPlay extends Activity implements View.OnClickListener
 //                AlphaAnimation anim4 = new AlphaAnimation(1.0f, 0.0f);//fade out the text
 //                anim4.setDuration(200);
 //                twice.startAnimation(anim4);
+                SpecialArray[finalI].ButtonId = null;       // Remove Button ID
+                SpecialArray[finalI] = null;
                 twice.setVisibility(View.INVISIBLE);
                 twice.setEnabled(false);
                 if(goodCount > 0)
@@ -1477,12 +1636,13 @@ public class levelPlay extends Activity implements View.OnClickListener
 
             }
         }.start();
+        SpecialArray[i] =  new buttonDisappear(twice, temp);
         twice.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v)
             {
 
                 {
-                    temp.cancel();
+
                     if(doublePoints == true)
                     {
                         score+=4;
@@ -1504,8 +1664,9 @@ public class levelPlay extends Activity implements View.OnClickListener
                     //leveldisplay.setVisibility(View.VISIBLE);
                     //add a plus one animation by score
 
-
-
+                    SpecialArray[finalI].TimerId.cancel();      // Cancel it's disappear Timer
+                    SpecialArray[finalI].ButtonId = null;       // Remove Button ID
+                    SpecialArray[finalI] = null;                // Remove from array
                     v.setEnabled(false);                     // Disable button
                     v.setBackgroundResource(R.drawable.twiceswirl_break); //change to +1 and make dis
                     AlphaAnimation anim = new AlphaAnimation(1.0f, 0.0f);//fade out the text
@@ -1522,16 +1683,12 @@ public class levelPlay extends Activity implements View.OnClickListener
         });
 
     }
-    public void displayDoublePoints() {
+    public void displayDoublePoints(final Button doubleButton, int i) {
         if (doubleCount == 0) {
-            Random r = new Random(System.currentTimeMillis()); //randomly select location in luck array
-            int randRow = r.nextInt(NUM_ROWS);
-            int randCol = r.nextInt(NUM_COLS);
-
-            final Button doubleButton = buttons[randRow][randCol];     //Button in this location
             doubleButton.setBackgroundResource(R.drawable.doublepoints); //Set image to goodswirl
             doubleButton.setEnabled(true);                            //Enable Swirl
             doubleButton.setVisibility(View.VISIBLE);                 //Make Swirl Visible
+            final int finalI = i;
             final CountDownTimer temp = new CountDownTimer(1700, 1700) { // Set timer for disappearance
                 public void onTick(long millisUntilFinished) {
                     if (millisUntilFinished / 30 == 0) {
@@ -1542,19 +1699,24 @@ public class levelPlay extends Activity implements View.OnClickListener
 
                 @Override
                 public void onFinish() {
-
+                    SpecialArray[finalI].ButtonId = null;       // Remove Button ID
+                    SpecialArray[finalI] = null;
                     doubleButton.setVisibility(View.INVISIBLE);
                     doubleButton.setEnabled(false);
 
                 }
             }.start();
+            SpecialArray[i] =  new buttonDisappear(doubleButton, temp);
             doubleButton.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
 
                     {
-                        temp.cancel();
+
                         v.setEnabled(false);                     // Disable button
                         //v.setBackgroundResource(R.drawable.badswirl_break); //change to +1 and make dis
+                        SpecialArray[finalI].TimerId.cancel();        // Cancel it's disappear Timer
+                        SpecialArray[finalI].ButtonId = null;         // Remove Button ID
+                        SpecialArray[finalI] = null;                  // Remove from array
                         AlphaAnimation anim = new AlphaAnimation(1.0f, 0.0f);//fade out the text
                         anim.setDuration(200);
                         v.startAnimation(anim);
@@ -1590,64 +1752,71 @@ public class levelPlay extends Activity implements View.OnClickListener
             else doubleCount++;
         }
     }
-    public void displayAddLife(final Button lifeButton)
+    public void displayAddLife(final Button lifeButton, int i)
     {
-        if(lifeCount == 0)
-        {
-
-            lifeButton.setBackgroundResource(R.drawable.hearttwo); //Set image to goodswirl
+        if (lifeCount == 0) {
+            lifeButton.setBackgroundResource(R.drawable.heart); //Set image to goodswirl
             lifeButton.setEnabled(true);                            //Enable Swirl
             lifeButton.setVisibility(View.VISIBLE);                 //Make Swirl Visible
-            buttonRunnable = new Runnable() { //what will be called if button has not been clicked
-                public void run() {
+            final int finalI = i;
+            final CountDownTimer temp = new CountDownTimer(1700, 1700) { // Set timer for disappearance
+                public void onTick(long millisUntilFinished) {
+                    if (millisUntilFinished / 30 == 0) {
+                        onFinish();
+                    } else {
+                    }
+                }
 
+                @Override
+                public void onFinish() {
+                    SpecialArray[finalI].ButtonId = null;       // Remove Button ID
+                    SpecialArray[finalI] = null;
                     lifeButton.setVisibility(View.INVISIBLE);
                     lifeButton.setEnabled(false);
 
-
                 }
-            };
-            if (lifeButton.isEnabled() == true) {
-                buttonHandler.postDelayed(buttonRunnable, 1600); //will disappear after 2 seconds
-            }
+            }.start();
+            SpecialArray[i] =  new buttonDisappear(lifeButton, temp);
             lifeButton.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
 
                     {
-                        v.setVisibility(View.INVISIBLE);         // Make Swirl disappear when clicked
-                        v.setEnabled(false);                     // Disable button
-                        if (lives < 3) {
+                        if(lives < 3)
+                        {
                             lives++;
                             setLives(lives);
                         }
-                        heartGiven = true;
-                        // scoreUpdate();
+                        v.setEnabled(false);                     // Disable button
+                        //v.setBackgroundResource(R.drawable.badswirl_break); //change to +1 and make dis
+                        SpecialArray[finalI].TimerId.cancel();        // Cancel it's disappear Timer
+                        SpecialArray[finalI].ButtonId = null;         // Remove Button ID
+                        SpecialArray[finalI] = null;                  // Remove from array
+                        AlphaAnimation anim = new AlphaAnimation(1.0f, 0.0f);//fade out the text
+                        anim.setDuration(200);
+                        v.startAnimation(anim);
+                        v.setVisibility(View.INVISIBLE);         // Make Swirl disappear when clicked
+                        v.setEnabled(false);                     // Disable button
                     }
                 }
+
             });
-            lifeCount++;
+            lifeCount++; /*once displayed, takes 10 calls to appear again*/
         }
         else
         {
-            if(lifeCount == 15)
+            if(lifeCount == 10)
             {
                 lifeCount = 0;
             }
             else lifeCount++;
         }
     }
-    public void displayBadSwirl() {
+    public void displayBadSwirl(final Button badButton, int i) {
 
-            final Runnable buttonRunnable;
-            final Handler buttonHandler = new Handler();
-            Random r = new Random(System.currentTimeMillis()); //randomly select location in luck array
-            int randRow = r.nextInt(NUM_ROWS);
-            int randCol = r.nextInt(NUM_COLS);
-
-            final Button badButton = buttons[randRow][randCol];     //Button in this location
             badButton.setBackgroundResource(R.drawable.badswirl); //Set image to goodswirl
             badButton.setEnabled(true);                            //Enable Swirl
-            badButton.setVisibility(View.VISIBLE);                 //Make Swirl Visible
+            badButton.setVisibility(View.VISIBLE);                 //Make Swirl
+            final int finalI = i;
             final CountDownTimer temp = new CountDownTimer(1200, 1200) { // Set timer for disappearance
                 public void onTick(long millisUntilFinished) {
                     if (millisUntilFinished / 30 == 0) {
@@ -1658,22 +1827,25 @@ public class levelPlay extends Activity implements View.OnClickListener
 
                 @Override
                 public void onFinish() {
-
+                    BadArray[finalI] = null;
                     badButton.setVisibility(View.INVISIBLE);
                     badButton.setEnabled(false);
 
                 }
             }.start();
+            BadArray[i] =  new buttonDisappear(badButton, temp);
             badButton.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
 
                     {
-                        temp.cancel();
+                        BadArray[finalI].TimerId.cancel();      // Cancel it's disappear Timer
+                        BadArray[finalI].ButtonId = null;       // Remove Button ID
                         v.setEnabled(false);                     // Disable button
                         v.setBackgroundResource(R.drawable.badswirl_break); //change to +1 and make dis
                         AlphaAnimation anim = new AlphaAnimation(1.0f, 0.0f);//fade out the text
                         anim.setDuration(500);
                         v.startAnimation(anim);
+                        BadArray[finalI] = null;
                         v.setVisibility(View.INVISIBLE);         // Make Swirl disappear when clicked
                         v.setEnabled(false);                     // Disable button
                         score -= 2;                                 // Add one to score
@@ -1683,6 +1855,31 @@ public class levelPlay extends Activity implements View.OnClickListener
                 }
             });
 
+        }
+        public void DestroySwirls()
+        {
+
+            for (int i = 0; i < 20; i++)
+            {
+                if (GoodArray[i] != null) {
+                    GoodArray[i].TimerId.cancel();
+                    GoodArray[i].ButtonId.setVisibility(View.INVISIBLE);
+                    GoodArray[i].ButtonId.setEnabled(false);
+                }
+                if (BadArray[i] != null) {
+                    BadArray[i].TimerId.cancel();
+                    BadArray[i].ButtonId.setVisibility(View.INVISIBLE);
+                    BadArray[i].ButtonId.setEnabled(false);
+                }
+                if (SpecialArray[i] != null) {
+                    SpecialArray[i].TimerId.cancel();
+                    SpecialArray[i].ButtonId.setVisibility(View.INVISIBLE);
+                    SpecialArray[i].ButtonId.setEnabled(false);
+                }
+                GoodArray[i] = null;
+                BadArray[i] = null;
+                SpecialArray[i] = null;
+            }
         }
 
     }
