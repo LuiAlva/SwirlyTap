@@ -91,6 +91,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         buttonSinglePlayer.setOnClickListener(this); //sets an onClickListener on buttonSinglePlayer
         buttonPlayAgainTest = (Button)findViewById(R.id.PlayAgainMain);
         buttonPlayAgainTest.setOnClickListener(this); //sets an onClickListener on buttonPlayAgainTest
+        buttonPlayAgainTest.setVisibility(View.GONE); //removes this button from view, and makes space for others
         buttonLevel = (Button) findViewById(R.id.levelMode);
         buttonLevel.setOnClickListener(this);
         buttonLogIn = (Button)findViewById(R.id.LogIn);
