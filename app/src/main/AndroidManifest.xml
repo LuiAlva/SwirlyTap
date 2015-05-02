@@ -96,6 +96,19 @@
             android:name="com.gmail.dianaupham.swirlytap.PlayAgain_Level"
             android:label="@string/title_activity_play_again__level" >
         </activity>
+        <activity
+            android:name="com.mopub.mobileads.MoPubActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize" />
+        <activity
+            android:name="com.mopub.mobileads.MraidActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize" />
+        <activity
+            android:name="com.mopub.common.MoPubBrowser"
+            android:configChanges="keyboardHidden|orientation|screenSize" />
+        <activity
+            android:name="com.mopub.mobileads.MraidVideoPlayerActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize" />
     </application>
 
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 </manifest>

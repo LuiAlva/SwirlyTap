@@ -21,6 +21,7 @@ import android.widget.TextView;
 import com.crashlytics.android.Crashlytics;
 import com.gmail.dianaupham.swirlytap.swirlytap.R;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.mopub.common.MoPub;
 import com.twitter.sdk.android.Twitter;
 import com.twitter.sdk.android.core.TwitterAuthConfig;
 import com.twitter.sdk.android.tweetcomposer.TweetComposer;
@@ -73,7 +74,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
                     .build();
         Fabric.with(fabric);
         }
-        Fabric.with(this, new TweetComposer(), new Crashlytics());
+        Fabric.with(this, new TweetComposer(), new Crashlytics(), new MoPub());
 /*
         // Create the Google Api Client with access to the Play Game services
         mGoogleApiClient = new GoogleApiClient.Builder(this)
