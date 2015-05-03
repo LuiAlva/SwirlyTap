@@ -1,9 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
     android:id="@+id/Register_layout"
-    android:gravity="top|center_vertical|center|center_horizontal">
+    android:gravity="top|center_vertical|center|center_horizontal"
+    android:background="@color/teal">
+
+    <TableRow
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/TitleRowRegister"
+        android:layout_alignParentStart="true">
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:text="@string/registerPrompt"
+            android:gravity="center|top"
+            android:layout_centerHorizontal="true"
+            android:id="@+id/TitleRegister"
+            android:textColor="#ff000000"
+            android:textSize="30sp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"/>
+    </TableRow>
 
     <EditText
         android:layout_width="match_parent"
@@ -40,7 +66,8 @@
         android:text="@string/Register_pass"
         android:id="@+id/register"
         android:textSize="25sp"
-        android:gravity="center" />
+        android:gravity="center"
+        android:layout_marginTop="16dp"/>
 
 
 </LinearLayout>

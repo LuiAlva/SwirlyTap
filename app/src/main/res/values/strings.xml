@@ -83,8 +83,16 @@
     <string name="submit1">SUBMIT</string>
     <string name="newus">Enter Username</string>
     <string name="newpa">Enter Password</string>
-
     <string name="title_activity_profile">Profile</string>
     <string name="title_activity_play_again__level">PlayAgain_Level</string>
+    <string name="highscoresTitle">High Scores</string>
+    <string name="back">Back</string>
+    <string name="NameHolder">Name Holder</string>
+    <string name="z0000">0000</string>
+    <string name="space3">   </string>
+    <string name="loginPrompt">Please enter your username and password to sign into SwirlyTap.</string>
+    <string name="registerPrompt">Register by choosing a username and password.</string>
+    <string name="updateTitle">Update your information.</string>
+    <string name="usersTitle">Users:</string>
 
 </resources>

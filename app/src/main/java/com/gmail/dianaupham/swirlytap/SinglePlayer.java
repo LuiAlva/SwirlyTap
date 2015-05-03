@@ -25,7 +25,7 @@ import android.widget.ProgressBar;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
-import com.mopub.mobileads.MoPubView;
+
 import com.gmail.dianaupham.swirlytap.swirlytap.R;
 
 import java.io.IOException;
@@ -104,8 +104,8 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
     private static final int HIDER_FLAGS = 0;   // The flags to pass to {@link com.gmail.dianaupham.swirlytap.SystemUiHider#getInstance}.
     private SystemUiHider mSystemUiHider;
     // TODO: Replace this test id with your personal ad unit id
-    private static final String MOPUB_BANNER_AD_UNIT_ID = "d4a0aba637d64a9f9a05a575fa757ac2";
-    private MoPubView moPubView;
+    //private static final String MOPUB_BANNER_AD_UNIT_ID = "d4a0aba637d64a9f9a05a575fa757ac2";
+    //private MoPubView moPubView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -148,9 +148,9 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
         Nuke.setImageResource(R.drawable.nuke_button_active); // Activate Nuke for now
         Nuke.setEnabled(true);
 
-        moPubView = (MoPubView) findViewById(R.id.mopub_sample_ad);
-        moPubView.setAdUnitId(MOPUB_BANNER_AD_UNIT_ID);
-        moPubView.loadAd();
+        //moPubView = (MoPubView) findViewById(R.id.mopub_sample_ad);
+        //moPubView.setAdUnitId(MOPUB_BANNER_AD_UNIT_ID);
+        //moPubView.loadAd();
 
         populateButtons(); //add buttons to grid
 
@@ -1124,12 +1124,11 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
         GoodSound2.release();
         BadSound.release();
         SpecialSound.release();
-
     }
 
     @Override
     protected void onDestroy() {
-        moPubView.destroy();
+ //       moPubView.destroy();
         super.onDestroy();
     }
 
