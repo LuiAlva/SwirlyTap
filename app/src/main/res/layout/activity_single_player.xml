@@ -133,10 +133,10 @@
                         android:layout_height="60sp"
                         android:id="@+id/Nuke"
                         android:focusableInTouchMode="true"
-                        android:src="@drawable/nuke_button_inactive"
+                        android:src="@drawable/bomb_button_inactive"
                         android:scaleType="fitCenter"
                         android:background="#00ffffff"
-                        android:layout_toRightOf="@+id/PlaceHolderButton1"
+                        android:layout_toRightOf="@+id/FreezeButton"
                         android:layout_alignParentEnd="false"
                         android:layout_alignParentRight="false"
                         android:onClick="ExplodeNuke" />
@@ -144,9 +144,9 @@
                     <ImageButton
                         android:layout_width="60sp"
                         android:layout_height="60sp"
-                        android:id="@+id/PlaceHolderButton1"
+                        android:id="@+id/FreezeButton"
                         android:focusableInTouchMode="true"
-                        android:src="@drawable/nuke_button_inactive"
+                        android:src="@drawable/bomb_button_inactive"
                         android:scaleType="fitCenter"
                         android:background="#00ffffff"
                         android:layout_toRightOf="@+id/PlaceHolderButton2"
@@ -157,7 +157,7 @@
                         android:layout_height="60sp"
                         android:id="@+id/PlaceHolderButton2"
                         android:focusableInTouchMode="true"
-                        android:src="@drawable/nuke_button_inactive"
+                        android:src="@drawable/bomb_button_inactive"
                         android:scaleType="fitCenter"
                         android:background="#00ffffff" />
                 </RelativeLayout>

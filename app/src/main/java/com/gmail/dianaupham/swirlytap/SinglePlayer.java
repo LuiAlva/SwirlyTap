@@ -41,10 +41,12 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
     boolean addTime = false;    //Allows Time button to appear
     boolean paused = false;
     boolean Countdown_active = false; //DisablePause
+    boolean NukeActivated = false;
+    boolean FreezeBombActivated = false;
     PopupWindow popupWindow; // Popup Window for Countdown, Pause menu, and Time over
     TableLayout GameWindow;  // For SwirlTable background
     ImageButton PauseButton; // create image button for pause
-    ImageButton Nuke;        // Create Image button for Nuke
+    ImageButton Nuke, FreezeBomb;        // Create Image button for Nuke
     ProgressBar Speed_Bar;   // Speed bar
     //Grid & Storage ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++//
     private static final int NUM_ROWS = 6; //instantiated size of grid
@@ -76,16 +78,16 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
     MediaPlayer BadSound;     // MediaPlayer for playing Bad sound
     MediaPlayer SpecialSound; // MediaPlayer for playing Special button sounds
     MediaPlayer gameBG;       // For Background music
-    MediaPlayer NukeBoom;     // For Nuke Explosion
+    MediaPlayer NukeBoom, FreezeBoom;     // For Nuke Explosion
     //Timers ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++//
     CountDownTimer Updater;        //Timer that updates test and values at 30 frames/ms(millisecond)
     CountDownTimer TimeCountdown;  //Timer that updates the timer every second
     CountDownTimer SwirlEngine;    //Timer that lets the swirls appear. Update depends on Start_Speed
     CountDownTimer CountdownTimer; //Timer for the countdown at the beginning
     //Swirl Disappear System ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++//
-    buttonDisappear[] GoodArray = new buttonDisappear[10];
-    buttonDisappear[] BadArray = new buttonDisappear[10];
-    buttonDisappear[] SpecialArray = new buttonDisappear[10];
+    buttonDisappear[] GoodArray = new buttonDisappear[15];
+    buttonDisappear[] BadArray = new buttonDisappear[15];
+    buttonDisappear[] SpecialArray = new buttonDisappear[15];
     int Good_Pressed = 0;       // GoodSwirls pressed
     int Bad_Pressed = 0;        // BadSwirls pressed
     int Time_Pressed = 0;       // TimeSwirls pressed
@@ -127,12 +129,18 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
         Nuke = (ImageButton)findViewById(R.id.Nuke);
         Nuke.setOnClickListener(this);         //sets an onClickListener on PauseButton
         Nuke.setEnabled(false);               //Start Nuke Disabled
+        Nuke.setClickable(false);
+        FreezeBomb = (ImageButton)findViewById(R.id.FreezeButton); // For Freeze Bomb
+        FreezeBomb.setOnClickListener(this);
+        FreezeBomb.setEnabled(false);
+        FreezeBomb.setClickable(false);
         Speed_Bar = (ProgressBar)findViewById(R.id.SpeedBar);
         GameWindow = (TableLayout)findViewById(R.id.tableForButtons);
         //Sounds ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++//
         gameBG = MediaPlayer.create(this, R.raw.game_song); //get background song
         gameBG.setLooping(true);    //make background song loop
         NukeBoom =  MediaPlayer.create(this, R.raw.nuke_explosion); //get nuke explosion
+        FreezeBoom = MediaPlayer.create(this, R.raw.bomb_freeze); //get nuke explosion
         GoodSound = new MediaPlayer();     // Setup MediaPlayer for good sound
         GoodSound2 = new MediaPlayer();    // Setup MediaPlayer for good sound
         BadSound = new MediaPlayer();      // Setup MediaPlayer for bad sound
@@ -145,8 +153,10 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
         tapBad = Uri.parse("android.resource://"+getPackageName()+"/"+R.raw.tap_bad);      //Setup sound for Bad swirl
         tapTimeAdd = Uri.parse("android.resource://"+getPackageName()+"/"+R.raw.tap_time); //Setup sound for Time up swirl
 
-        Nuke.setImageResource(R.drawable.nuke_button_active); // Activate Nuke for now
-        Nuke.setEnabled(true);
+        //Nuke.setImageResource(R.drawable.nuke_button_active); // Activate Nuke for now
+        //Nuke.setEnabled(true);
+        //FreezeBomb.setImageResource(R.drawable.freeze_button_active); // Activate Nuke for now
+        //FreezeBomb.setEnabled(true);
 
         //moPubView = (MoPubView) findViewById(R.id.mopub_sample_ad);
         //moPubView.setAdUnitId(MOPUB_BANNER_AD_UNIT_ID);
@@ -639,22 +649,33 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
 
                 }
             }.start();
+            int VeloPercent = ((100 / ((Start_Speed - Speed_Limit) / Game_Speed_Add)) * (((Start_Speed - Speed_Limit) / Game_Speed_Add) - ((Current_Speed - Speed_Limit) / Game_Speed_Add)));
             // Set the progress of the speedbar and Speed Label
-            Speed_Bar.setProgress((100/((Start_Speed -Speed_Limit)/Game_Speed_Add))*(((Start_Speed -Speed_Limit)/Game_Speed_Add)- ((Current_Speed - Speed_Limit)/Game_Speed_Add)));
             if(Current_Speed == Speed_Limit) {
                 SpeedPercent.setText("Velocity Maxed!");
                 Speed_Bar.setProgress(100);
+                if(NukeActivated == false) {
+                    Nuke.setImageResource(R.drawable.nuke_button_active); // Activate Nuke
+                    Nuke.setEnabled(true);
+                    Nuke.setClickable(true);
+                    NukeActivated = true;
+                }
             }
             else if (Current_Speed == Start_Speed) {
                 SpeedPercent.setText("Velocity: 1%");
                 Speed_Bar.setProgress(1);
             }
             else {
-                SpeedPercent.setText("Velocity: " + (100 / ((Start_Speed - Speed_Limit) / Game_Speed_Add)) * (((Start_Speed - Speed_Limit) / Game_Speed_Add) - ((Current_Speed - Speed_Limit) / Game_Speed_Add)) + "%");
-                Speed_Bar.setProgress((100 / ((Start_Speed - Speed_Limit) / Game_Speed_Add)) * (((Start_Speed - Speed_Limit) / Game_Speed_Add) - ((Current_Speed - Speed_Limit) / Game_Speed_Add)));
+                SpeedPercent.setText("Velocity: " + VeloPercent + "%");
+                Speed_Bar.setProgress(VeloPercent);
             }
-        } else {
-        }
+            if(VeloPercent <= 50 && FreezeBombActivated == false) {
+                FreezeBomb.setImageResource(R.drawable.freeze_button_active); // Activate FreezeBomb
+                FreezeBomb.setEnabled(true);
+                FreezeBomb.setClickable(true);
+                FreezeBombActivated = true;
+            }
+        } else {}
     } //End Speed_Engine
 
     public void DestroySwirls() {
@@ -683,8 +704,10 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
 
     public void ExplodeNuke() {
         paused = true;
+        Nuke.setEnabled(false);                 // Disable Nuke
+        Nuke.setClickable(false);
         SwirlEngine.cancel();                   // Cancel All timers
-        NukeBoom.start();                       // Play Nuke Explosion sound
+        NukeBoom.start();                       // Play Freeze Explosion sound
         vibration.vibrate(1000);                 // Vibrate device for 500 milliseconds
         Updater.cancel();
         TimeCountdown.cancel();
@@ -697,9 +720,44 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
         Bad_Pressed += OnScreenBad;
         Time_Pressed += OnScreenTime;
         DestroySwirls();                        // Destroy the Swirls
-        Nuke.setEnabled(false);                 // Disable Nuke
-        Nuke.setImageResource(R.drawable.nuke_button_inactive);
+        Nuke.setImageResource(R.drawable.bomb_button_inactive);
         new CountDownTimer(1000,1000) { // Set timer for disappearance
+            public void onTick(long millisUntilFinished)
+            {
+                if (millisUntilFinished == 0)
+                {
+                    onFinish();
+                }
+                else{}
+            }
+            @Override
+            public void onFinish() {
+                GameTimers(Current_Time);               // Start Timers
+                paused = false;
+            }
+        }.start();
+    }
+
+    public void Freeze() {
+        int i;
+        FreezeBomb.setEnabled(false);                 // Disable Nuke
+        FreezeBomb.setClickable(false);
+        paused = true;
+        SwirlEngine.cancel();                   // Cancel All timers
+        FreezeBoom.start();                       // Play Nuke Explosion sound
+        vibration.vibrate(800);                 // Vibrate device for 500 milliseconds
+        Updater.cancel();
+        TimeCountdown.cancel();                 // Remove disappear timers for good and special swirls
+         for (i = 0; i < 15; i++) {
+            if (GoodArray[i] != null){
+                GoodArray[i].TimerId.cancel();
+            }
+            if (SpecialArray[i] != null){
+                SpecialArray[i].TimerId.cancel();
+            }
+        }
+        FreezeBomb.setImageResource(R.drawable.bomb_button_inactive);
+        new CountDownTimer(800,800) { // Set timer for disappearance
             public void onTick(long millisUntilFinished)
             {
                 if (millisUntilFinished == 0)
@@ -774,14 +832,19 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
             case R.id.Nuke:
                 ExplodeNuke();
                 break;
+            case R.id.FreezeButton:
+                Freeze();
+                break;
         }
     }
 
     //Pause Menu Options +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public void PauseActivate() {
         if(!paused) {
-            gameBG.pause();                      // Pause the game music
             paused = true;
+            PauseButton.setEnabled(false);
+            PauseButton.setClickable(false);
+            gameBG.pause();                      // Pause the game music
             for (int i = 0; i < 10; i++) {        // cancel all the timers in disappear array
                 if (GoodArray[i] != null) {
                     GoodArray[i].TimerId.cancel();
@@ -832,6 +895,8 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
                 popupWindow.dismiss();
                 GameTimers(Current_Time);
                 gameBG.start();
+                PauseButton.setEnabled(true);
+                PauseButton.setClickable(true);
             }
         }.start();
     }
