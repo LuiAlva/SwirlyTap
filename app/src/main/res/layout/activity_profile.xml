@@ -21,13 +21,14 @@
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent">
 
-                <TextView
+                <ImageView
+                    android:src="@drawable/swirlytap_title"
+                    android:id="@+id/imageView2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Profile"
-                    android:id="@+id/ProfileTitle"
-                    android:textStyle="bold"
-                    android:textSize="40sp" />
+                    android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true"
+                    android:contentDescription="@string/TitleImage" />
 
             </RelativeLayout>
 
@@ -48,10 +49,19 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Username:"
-                    android:id="@+id/textView23"
+                    android:text="Profile"
+                    android:id="@+id/ProfileTitle"
                     android:textStyle="bold"
-                    android:textSize="26sp" />
+                    android:textSize="50sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Username:"
+                    android:id="@+id/UserNameProfile"
+                    android:textStyle="bold"
+                    android:textSize="26sp"
+                    android:layout_below="@+id/ProfileTitle"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -60,7 +70,7 @@
                     android:id="@+id/UserNameBox"
                     android:textStyle="bold"
                     android:textSize="30sp"
-                    android:layout_below="@+id/textView23"
+                    android:layout_below="@+id/UserNameProfile"
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true" />
             </RelativeLayout>

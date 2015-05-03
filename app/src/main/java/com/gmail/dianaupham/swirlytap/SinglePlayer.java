@@ -210,7 +210,6 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
 
         //Wait for game to load
         new CountDownTimer(1000, 1000) {
-
             @Override
             public void onTick(long millisUntilFinished) {
                 if (millisUntilFinished / 1000 == 0) {
@@ -218,13 +217,11 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
                 } else {
                 }
             }
-
             @Override
             public void onFinish() {
                 GameStart();       //Start beginning Countdown
             }
         }.start();
-
     }
 
     private void populateButtons() //creating grid of buttons. These buttons are initialized as disabled and invisible
@@ -287,7 +284,6 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
                 DestroySwirls();
                 GameOver();
             }
-
         }.start();
 
         Updater = new CountDownTimer(Time, 30)
@@ -331,9 +327,7 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
             {
 
             }
-
         }.start();
-
     } // End of GameTimers
 
     class buttonDisappear{
@@ -405,12 +399,9 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
                         v.setVisibility(View.INVISIBLE);         // Make Swirl disappear when clicked
                         v.setEnabled(false);                     // Disable button
                         Score++;                                 // Add one to score
-
                     }
                 }
             });
-
-
             //set 1 second timer... if timer reached then make button disappear
         }
         else if(luckArray[randRow][randCol] == "bad")
@@ -500,25 +491,23 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
         twiceButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v)
             {
-
-                {
-                    Animation FadeAnim = new AlphaAnimation(1.0f, 0.0f);//fade out the text
-                    FadeAnim.setDuration(200);
-                    playGood2(tapGood);
-                    SpecialArray[finalI].TimerId.cancel();      // Cancel it's disappear Timer
-                    SpecialArray[finalI].ButtonId = null;       // Remove Button ID
-                    SpecialArray[finalI] = null;                // Remove from array
-                    Good2_Pressed++;
-                    OnScreenGood2--;
-                    v.setBackgroundResource(R.drawable.twiceswirl_break); //Set image to goodswirl
-                    v.startAnimation(FadeAnim);
-                    v.setVisibility(View.INVISIBLE);         // Make Swirl disappear when clicked
-                    v.setEnabled(false);                     // Disable button
-                    Score+=2;                                 // Add 2 to score
-                }
+            {
+                Animation FadeAnim = new AlphaAnimation(1.0f, 0.0f);//fade out the text
+                FadeAnim.setDuration(200);
+                playGood2(tapGood);
+                SpecialArray[finalI].TimerId.cancel();      // Cancel it's disappear Timer
+                SpecialArray[finalI].ButtonId = null;       // Remove Button ID
+                SpecialArray[finalI] = null;                // Remove from array
+                Good2_Pressed++;
+                OnScreenGood2--;
+                v.setBackgroundResource(R.drawable.twiceswirl_break); //Set image to goodswirl
+                v.startAnimation(FadeAnim);
+                v.setVisibility(View.INVISIBLE);         // Make Swirl disappear when clicked
+                v.setEnabled(false);                     // Disable button
+                Score+=2;                                 // Add 2 to score
+            }
             }
         });
-
     }
     else if(luckArray[randRow][randCol] == "addTime") {
             if (addTime == true /*&& Extra_Time_Counter <= Extra_Time_Max*/) {
@@ -558,24 +547,24 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
                     SpecialArray[i] = new buttonDisappear(timeButton, temp);
                     timeButton.setOnClickListener(new View.OnClickListener() {
                         public void onClick(View v) {
-                            Animation FadeAnim = new AlphaAnimation(1.0f, 0.0f);//fade out the text
-                            FadeAnim.setDuration(200);
-                            addTime = false;                              // Stop more time buttons from popping up
-                            playSpecial(tapTimeAdd);                      // Play time up sound
-                            SpecialArray[finalI].TimerId.cancel();        // Cancel it's disappear Timer
-                            SpecialArray[finalI].ButtonId = null;         // Remove Button ID
-                            SpecialArray[finalI] = null;                  // Remove from array
-                            v.startAnimation(FadeAnim);
-                            v.setVisibility(View.INVISIBLE);              // Make Swirl disappear when clicked
-                            v.setEnabled(false);                          // Disable button
-                            SwirlEngine.cancel();                         // Cancel old Timers
-                            Updater.cancel();
-                            TimeCountdown.cancel();
-                            Current_Time += 5000;                         // Add 5 seconds to time
-                            GameTimers(Current_Time);                     // Update Timers
-                            Time_Pressed++;
-                            OnScreenTime--;                               // Remove 5 seconds from on-screen clock
-                            Extra_Time_Counter++;                         // Add one to counter (max amount = 4)
+                        Animation FadeAnim = new AlphaAnimation(1.0f, 0.0f);//fade out the text
+                        FadeAnim.setDuration(200);
+                        addTime = false;                              // Stop more time buttons from popping up
+                        playSpecial(tapTimeAdd);                      // Play time up sound
+                        SpecialArray[finalI].TimerId.cancel();        // Cancel it's disappear Timer
+                        SpecialArray[finalI].ButtonId = null;         // Remove Button ID
+                        SpecialArray[finalI] = null;                  // Remove from array
+                        v.startAnimation(FadeAnim);
+                        v.setVisibility(View.INVISIBLE);              // Make Swirl disappear when clicked
+                        v.setEnabled(false);                          // Disable button
+                        SwirlEngine.cancel();                         // Cancel old Timers
+                        Updater.cancel();
+                        TimeCountdown.cancel();
+                        Current_Time += 5000;                         // Add 5 seconds to time
+                        GameTimers(Current_Time);                     // Update Timers
+                        Time_Pressed++;
+                        OnScreenTime--;                               // Remove 5 seconds from on-screen clock
+                        Extra_Time_Counter++;                         // Add one to counter (max amount = 4)
                         }
                     });
                 }//end 'if'
@@ -599,7 +588,6 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
                         }
                         else{}
                     }
-
                     @Override
                     public void onFinish() {
                         GoodArray[finalI].ButtonId = null;       // Remove Button ID
@@ -630,7 +618,6 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
                         }
                     }
                 });
-
             }
         }
     } //End of displaybutton
@@ -795,7 +782,6 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
             e.printStackTrace();
         }
     }
-
     private void playGood2(Uri uri) {
         try{
             GoodSound2.reset();
@@ -807,7 +793,6 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
             e.printStackTrace();
         }
     }
-
     private void playBad(Uri uri) {
         try{
             BadSound.reset();
@@ -819,7 +804,6 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
             e.printStackTrace();
         }
     }
-
     private void playSpecial(Uri uri) {
         try{
             SpecialSound.reset();
@@ -977,7 +961,6 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
         final TextView CountdownText = (TextView) popupWindow.getContentView().findViewById (R.id.count_down_text);
 
         CountdownTimer = new CountDownTimer(4000,1000) {
-
             public void onTick(long millisUntilFinished)
             {
                 if (millisUntilFinished / 1000 == 0)
@@ -1004,26 +987,7 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
 
     public void GameOver() {
         paused = true;
-        String screenshotPath = Environment.getExternalStorageDirectory().toString() + "/" + "screenshot.png";
-        View view = getWindow().getDecorView().getRootView();
-        view.setDrawingCacheEnabled(true);
-        bitmap = Bitmap.createBitmap(view.getDrawingCache());
-        view.setDrawingCacheEnabled(false);
-        OutputStream fout = null;
-        File imageFile = new File(screenshotPath);
-        try { //save bitmp as PNG file
-            fout = new FileOutputStream(imageFile);
-            bitmap.compress(Bitmap.CompressFormat.PNG, 90, fout);
-            fout.flush();
-            fout.close();
-        } catch (FileNotFoundException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-
+        ScreenShot(SinglePlayer.this);  //Take screenshot of last second of game
         try {
             LayoutInflater inflater = (LayoutInflater) SinglePlayer.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             View layout = inflater.inflate(R.layout.game_over_screen, (ViewGroup)findViewById(R.id.game_over_layout));
@@ -1077,7 +1041,6 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
                 startActivity(intentAgain);                                           //go to PlayAgain activity/menu
                 finish();
             }
-
         }.start();
     }
 
@@ -1195,6 +1158,29 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
 
     // Game Start and Game Over(end) ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+    public void ScreenShot(Activity activity)
+    {
+        String screenshotPath = Environment.getExternalStorageDirectory().toString() + "/" + "screenshot.png";
+        View view = getWindow().getDecorView().getRootView();
+        view.setDrawingCacheEnabled(true);
+        bitmap = Bitmap.createBitmap(view.getDrawingCache());
+        view.setDrawingCacheEnabled(false);
+        OutputStream fout = null;
+        File imageFile = new File(screenshotPath);
+        try { //save bitmp as PNG file
+            fout = new FileOutputStream(imageFile);
+            bitmap.compress(Bitmap.CompressFormat.PNG, 90, fout);
+            fout.flush();
+            fout.close();
+        } catch (FileNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+
     protected void onResume() {
         super.onResume();
 
@@ -1206,7 +1192,6 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
         gameBG.setLooping(true);    //make background song loop
 
         if (Countdown_active) { GameStart(); } // restart countdown timer
-
     }
 
     protected void onPause() {
