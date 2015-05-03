@@ -1,8 +1,6 @@
 package com.gmail.dianaupham.swirlytap;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.media.MediaPlayer;
@@ -18,12 +16,12 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
+
 import com.gmail.dianaupham.swirlytap.swirlytap.R;
-import com.twitter.sdk.android.tweetcomposer.TweetComposer;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import io.fabric.sdk.android.Fabric;
 
 public class PlayAgain_Level extends ActionBarActivity implements View.OnClickListener  {
     Button buttonAgainLevel;     //create type button for 'Play Again'
@@ -111,6 +109,9 @@ public class PlayAgain_Level extends ActionBarActivity implements View.OnClickLi
 
     private void HighScoreClick()
     {   //start HighScore activity once "Play Again" button clicked
+        Intent intentAgain2 = new Intent(PlayAgain_Level.this, HighScoreActivity.class);
+        intentAgain2.putExtra("LoadLevelScores", true);
+        startActivity(intentAgain2);//goes to HighScore activity
     }
 
     public void onClick(View v)

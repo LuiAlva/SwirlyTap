@@ -1,6 +1,10 @@
 package com.gmail.dianaupham.swirlytap;
 import android.app.Activity;
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
@@ -13,11 +17,10 @@ import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
-import com.gmail.dianaupham.swirlytap.swirlytap.R;
-import java.util.Random;
 
-import android.app.ProgressDialog;
-import android.os.AsyncTask;
+import com.gmail.dianaupham.swirlytap.swirlytap.R;
+
+import java.util.Random;
 
 public class levelPlay extends Activity implements View.OnClickListener
 {
@@ -35,8 +38,11 @@ public class levelPlay extends Activity implements View.OnClickListener
     /*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
     Button buttons[][] = new Button[NUM_ROWS][NUM_COLS];        //created total number of grid buttons
     /*++++++++++++++++counters, scores, levels+++++++++++++++++++*/
+    public static final String PREFS_NAME = "PREFS_FILE"; // Name of preference file
     int lives = 3;      //number of lives that player has at start of game
     int score = 0;      //initiating score
+    int SCORE, ScorePass;          // for highscore comparison
+    String NAME, NamePass;        // For highscore comparison
     int level = 1;      //start at level 1
     int missedSwirls = 0;
     int luckCount = 0;
@@ -105,7 +111,7 @@ public class levelPlay extends Activity implements View.OnClickListener
             BadArray[i] = null;
             SpecialArray[i] = null;
         }
-      //  gameTimer(60000);
+        UpdateTimer(60000);    // Start the Score Update Timer
         new LoadViewTask().execute();
 
     }
@@ -224,7 +230,7 @@ public class levelPlay extends Activity implements View.OnClickListener
                     public void onClick(View v) {
                         v.setVisibility(View.INVISIBLE);         // Make Swirl disappear
                         v.setEnabled(false);                     // Disable button
-                        //Score++;                                 // Add one to score
+                        //score++;                                 // Add one to score
                     }
                 });
                 tableRow.addView(Swirl);
@@ -1329,7 +1335,10 @@ public class levelPlay extends Activity implements View.OnClickListener
             }
         }.start();
 
-        Updater = new CountDownTimer(30, 30)
+    }
+
+    public void UpdateTimer(final int Time) {
+        Updater = new CountDownTimer(Time, 30)
         {
             TextView totalScore= (TextView) findViewById(R.id.scoreAnimation);
             public void onTick(long millisUntilFinished)
@@ -1344,7 +1353,7 @@ public class levelPlay extends Activity implements View.OnClickListener
             public void onFinish()
             {
                 totalScore.setText("" + score); //Update Score Counter
-                Updater.start();
+                UpdateTimer(60000);
             }
         }.start();
     }
@@ -1374,6 +1383,8 @@ public class levelPlay extends Activity implements View.OnClickListener
                 lifeThree.setBackgroundResource(R.drawable.grey);
 
                 DestroySwirls();            //destroy all swirls in array
+                Updater.cancel();           //Cancel the Score Update Timer
+                CompareScore();             // Get HighScore
                 Intent intentAgain = new Intent(levelPlay.this, PlayAgain_Level.class);  //create intent (to go to PlayAgain menu)
                 intentAgain.putExtra("score", score);
                 startActivity(intentAgain);                                           //go to PlayAgain activity/menu
@@ -1381,6 +1392,119 @@ public class levelPlay extends Activity implements View.OnClickListener
                 break;
         }
     }
+
+    public void CompareScore() {
+        SharedPreferences prefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor;
+        NAME = prefs.getString("PlayerName", "Player");
+        SCORE = score;
+        if( prefs.getInt("HighScore", 0) < SCORE ) {                       // Player High Score
+            editor = prefs.edit();
+            editor.putInt("HighScore", SCORE);
+            editor.commit();
+        }
+        if( prefs.getInt("LevelHighScore1", 0) < SCORE ) {                       // HighScore 1
+            editor = prefs.edit();
+            ScorePass = prefs.getInt("LevelHighScore1", 0);
+            NamePass = prefs.getString("LevelHighName1", "Player");
+            editor.putInt("LevelHighScore1", SCORE);
+            editor.putString("LevelHighName1", NAME);
+            SCORE = ScorePass;
+            NAME = NamePass;
+            editor.commit();
+        }
+        if( prefs.getInt("LevelHighScore2", 0) < SCORE ) {                       // HighScore 2
+            editor = prefs.edit();
+            ScorePass = prefs.getInt("LevelHighScore2", 0);
+            NamePass = prefs.getString("LevelHighName2", "Player");
+            editor.putInt("LevelHighScore2", SCORE);
+            editor.putString("LevelHighName2", NAME);
+            SCORE = ScorePass;
+            NAME = NamePass;
+            editor.commit();
+        }
+        if( prefs.getInt("LevelHighScore3", 0) < SCORE ) {                       // HighScore 3
+            editor = prefs.edit();
+            ScorePass = prefs.getInt("LevelHighScore3", 0);
+            NamePass = prefs.getString("LevelHighName3", "Player");
+            editor.putInt("LevelHighScore3", SCORE);
+            editor.putString("LevelHighName3", NAME);
+            SCORE = ScorePass;
+            NAME = NamePass;
+            editor.commit();
+        }
+        if( prefs.getInt("LevelHighScore4", 0) < SCORE ) {                       // HighScore 4
+            editor = prefs.edit();
+            ScorePass = prefs.getInt("LevelHighScore4", 0);
+            NamePass = prefs.getString("LevelHighName4", "Player");
+            editor.putInt("LevelHighScore4", SCORE);
+            editor.putString("LevelHighName4", NAME);
+            SCORE = ScorePass;
+            NAME = NamePass;
+            editor.commit();
+        }
+        if( prefs.getInt("LevelHighScore5", 0) < SCORE ) {                       // HighScore 5
+            editor = prefs.edit();
+            ScorePass = prefs.getInt("LevelHighScore5", 0);
+            NamePass = prefs.getString("LevelHighName5", "Player");
+            editor.putInt("LevelHighScore5", SCORE);
+            editor.putString("LevelHighName5", NAME);
+            SCORE = ScorePass;
+            NAME = NamePass;
+            editor.commit();
+        }
+        if( prefs.getInt("LevelHighScore6", 0) < SCORE ) {                       // HighScore 6
+            editor = prefs.edit();
+            ScorePass = prefs.getInt("LevelHighScore6", 0);
+            NamePass = prefs.getString("LevelHighName6", "Player");
+            editor.putInt("LevelHighScore6", SCORE);
+            editor.putString("LevelHighName6", NAME);
+            SCORE = ScorePass;
+            NAME = NamePass;
+            editor.commit();
+        }
+        if( prefs.getInt("LevelHighScore7", 0) < SCORE ) {                       // HighScore 7
+            editor = prefs.edit();
+            ScorePass = prefs.getInt("LevelHighScore7", 0);
+            NamePass = prefs.getString("LevelHighName7", "Player");
+            editor.putInt("LevelHighScore7", SCORE);
+            editor.putString("LevelHighName7", NAME);
+            SCORE = ScorePass;
+            NAME = NamePass;
+            editor.commit();
+        }
+        if( prefs.getInt("LevelHighScore8", 0) < SCORE ) {                       // HighScore 8
+            editor = prefs.edit();
+            ScorePass = prefs.getInt("LevelHighScore8", 0);
+            NamePass = prefs.getString("LevelHighName8", "Player");
+            editor.putInt("LevelHighScore8", SCORE);
+            editor.putString("LevelHighName8", NAME);
+            SCORE = ScorePass;
+            NAME = NamePass;
+            editor.commit();
+        }
+        if( prefs.getInt("LevelHighScore9", 0) < SCORE ) {                       // HighScore 9
+            editor = prefs.edit();
+            ScorePass = prefs.getInt("LevelHighScore9", 0);
+            NamePass = prefs.getString("LevelHighName9", "Player");
+            editor.putInt("LevelHighScore9", SCORE);
+            editor.putString("LevelHighName9", NAME);
+            SCORE = ScorePass;
+            NAME = NamePass;
+            editor.commit();
+        }
+        if( prefs.getInt("LevelHighScore10", 0) < SCORE ) {                       // HighScore 10
+            editor = prefs.edit();
+            ScorePass = prefs.getInt("LevelHighScore10", 0);
+            NamePass = prefs.getString("LevelHighName10", "Player");
+            editor.putInt("LevelHighScore10", SCORE);
+            editor.putString("LevelHighName10", NAME);
+            SCORE = ScorePass;
+            NAME = NamePass;
+            editor.commit();
+        }
+    }
+
     public void setMissed(int numMissed)
     {
         switch(numMissed)

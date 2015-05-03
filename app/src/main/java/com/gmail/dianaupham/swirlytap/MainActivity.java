@@ -102,29 +102,49 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         boolean firstTime = prefs.getBoolean("FirstTimeSetup", true);
         if (firstTime) {
             SharedPreferences.Editor editor = prefs.edit();
-            editor.putBoolean("FirstTimeSetup", false);
-            editor.putInt("HighScore1", 0);         // For Overall Local HighScores
-            editor.putInt("HighScore2", 0);
-            editor.putInt("HighScore3", 0);
-            editor.putInt("HighScore4", 0);
-            editor.putInt("HighScore5", 0);
-            editor.putInt("HighScore6", 0);
-            editor.putInt("HighScore7", 0);
-            editor.putInt("HighScore8", 0);
-            editor.putInt("HighScore9", 0);
-            editor.putInt("HighScore10", 0);
-            editor.putString("HighName1", "");
-            editor.putString("HighName2", "");
-            editor.putString("HighName3", "");
-            editor.putString("HighName4", "");
-            editor.putString("HighName5", "");
-            editor.putString("HighName6", "");
-            editor.putString("HighName7", "");
-            editor.putString("HighName8", "");
-            editor.putString("HighName9", "");
-            editor.putString("HighName10", "");
-            editor.putString("PlayerName", "Player");
+            editor.putInt("TimeHighScore1", 0);         // For Time Mode Local HighScores
+            editor.putInt("TimeHighScore2", 0);
+            editor.putInt("TimeHighScore3", 0);
+            editor.putInt("TimeHighScore4", 0);
+            editor.putInt("TimeHighScore5", 0);
+            editor.putInt("TimeHighScore6", 0);
+            editor.putInt("TimeHighScore7", 0);
+            editor.putInt("TimeHighScore8", 0);
+            editor.putInt("TimeHighScore9", 0);
+            editor.putInt("TimeHighScore10", 0);
+            editor.putString("TimeHighName1", "");
+            editor.putString("TimeHighName2", "");
+            editor.putString("TimeHighName3", "");
+            editor.putString("TimeHighName4", "");
+            editor.putString("TimeHighName5", "");
+            editor.putString("TimeHighName6", "");
+            editor.putString("TimeHighName7", "");
+            editor.putString("TimeHighName8", "");
+            editor.putString("TimeHighName9", "");
+            editor.putString("TimeHighName10", "");
+            editor.putInt("LevelHighScore1", 0);         // For Level Mode Local HighScores
+            editor.putInt("LevelHighScore2", 0);
+            editor.putInt("LevelHighScore3", 0);
+            editor.putInt("LevelHighScore4", 0);
+            editor.putInt("LevelHighScore5", 0);
+            editor.putInt("LevelHighScore6", 0);
+            editor.putInt("LevelHighScore7", 0);
+            editor.putInt("LevelHighScore8", 0);
+            editor.putInt("LevelHighScore9", 0);
+            editor.putInt("LevelHighScore10", 0);
+            editor.putString("LevelHighName1", "");
+            editor.putString("LevelHighName2", "");
+            editor.putString("LevelHighName3", "");
+            editor.putString("LevelHighName4", "");
+            editor.putString("LevelHighName5", "");
+            editor.putString("LevelHighName6", "");
+            editor.putString("LevelHighName7", "");
+            editor.putString("LevelHighName8", "");
+            editor.putString("LevelHighName9", "");
+            editor.putString("LevelHighName10", "");
+            editor.putString("PlayerName", "Player");// For player name
             editor.putInt("HighScore", 0);           // For player High Score
+            editor.putBoolean("FirstTimeSetup", false);
             editor.commit();
 
         }

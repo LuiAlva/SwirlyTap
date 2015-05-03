@@ -997,102 +997,102 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
             editor.putInt("HighScore", SCORE);
             editor.commit();
         }
-        if( prefs.getInt("HighScore1", 0) < SCORE ) {                       // HighScore 1
+        if( prefs.getInt("TimeHighScore1", 0) < SCORE ) {                       // HighScore 1
             editor = prefs.edit();
-            ScorePass = prefs.getInt("HighScore1", 0);
-            NamePass = prefs.getString("HighName1", "Player");
-            editor.putInt("HighScore1", SCORE);
-            editor.putString("HighName1", NAME);
+            ScorePass = prefs.getInt("TimeHighScore1", 0);
+            NamePass = prefs.getString("TimeHighName1", "Player");
+            editor.putInt("TimeHighScore1", SCORE);
+            editor.putString("TimeHighName1", NAME);
             SCORE = ScorePass;
             NAME = NamePass;
             editor.commit();
         }
-        if( prefs.getInt("HighScore2", 0) < SCORE ) {                       // HighScore 2
+        if( prefs.getInt("TimeHighScore2", 0) < SCORE ) {                       // HighScore 2
             editor = prefs.edit();
-            ScorePass = prefs.getInt("HighScore2", 0);
-            NamePass = prefs.getString("HighName2", "Player");
-            editor.putInt("HighScore2", SCORE);
-            editor.putString("HighName2", NAME);
+            ScorePass = prefs.getInt("TimeHighScore2", 0);
+            NamePass = prefs.getString("TimeHighName2", "Player");
+            editor.putInt("TimeHighScore2", SCORE);
+            editor.putString("TimeHighName2", NAME);
             SCORE = ScorePass;
             NAME = NamePass;
             editor.commit();
         }
-        if( prefs.getInt("HighScore3", 0) < SCORE ) {                       // HighScore 3
+        if( prefs.getInt("TimeHighScore3", 0) < SCORE ) {                       // HighScore 3
             editor = prefs.edit();
-            ScorePass = prefs.getInt("HighScore3", 0);
-            NamePass = prefs.getString("HighName3", "Player");
-            editor.putInt("HighScore3", SCORE);
-            editor.putString("HighName3", NAME);
+            ScorePass = prefs.getInt("TimeHighScore3", 0);
+            NamePass = prefs.getString("TimeHighName3", "Player");
+            editor.putInt("TimeHighScore3", SCORE);
+            editor.putString("TimeHighName3", NAME);
             SCORE = ScorePass;
             NAME = NamePass;
             editor.commit();
         }
-        if( prefs.getInt("HighScore4", 0) < SCORE ) {                       // HighScore 4
+        if( prefs.getInt("TimeHighScore4", 0) < SCORE ) {                       // HighScore 4
             editor = prefs.edit();
-            ScorePass = prefs.getInt("HighScore4", 0);
-            NamePass = prefs.getString("HighName4", "Player");
-            editor.putInt("HighScore4", SCORE);
-            editor.putString("HighName4", NAME);
+            ScorePass = prefs.getInt("TimeHighScore4", 0);
+            NamePass = prefs.getString("TimeHighName4", "Player");
+            editor.putInt("TimeHighScore4", SCORE);
+            editor.putString("TimeHighName4", NAME);
             SCORE = ScorePass;
             NAME = NamePass;
             editor.commit();
         }
-        if( prefs.getInt("HighScore5", 0) < SCORE ) {                       // HighScore 5
+        if( prefs.getInt("TimeHighScore5", 0) < SCORE ) {                       // HighScore 5
             editor = prefs.edit();
-            ScorePass = prefs.getInt("HighScore5", 0);
-            NamePass = prefs.getString("HighName5", "Player");
-            editor.putInt("HighScore5", SCORE);
-            editor.putString("HighName5", NAME);
+            ScorePass = prefs.getInt("TimeHighScore5", 0);
+            NamePass = prefs.getString("TimeHighName5", "Player");
+            editor.putInt("TimeHighScore5", SCORE);
+            editor.putString("TimeHighName5", NAME);
             SCORE = ScorePass;
             NAME = NamePass;
             editor.commit();
         }
-        if( prefs.getInt("HighScore6", 0) < SCORE ) {                       // HighScore 6
+        if( prefs.getInt("TimeHighScore6", 0) < SCORE ) {                       // HighScore 6
             editor = prefs.edit();
-            ScorePass = prefs.getInt("HighScore6", 0);
-            NamePass = prefs.getString("HighName6", "Player");
-            editor.putInt("HighScore6", SCORE);
-            editor.putString("HighName6", NAME);
+            ScorePass = prefs.getInt("TimeHighScore6", 0);
+            NamePass = prefs.getString("TimeHighName6", "Player");
+            editor.putInt("TimeHighScore6", SCORE);
+            editor.putString("TimeHighName6", NAME);
             SCORE = ScorePass;
             NAME = NamePass;
             editor.commit();
         }
-        if( prefs.getInt("HighScore7", 0) < SCORE ) {                       // HighScore 7
+        if( prefs.getInt("TimeHighScore7", 0) < SCORE ) {                       // HighScore 7
             editor = prefs.edit();
-            ScorePass = prefs.getInt("HighScore7", 0);
-            NamePass = prefs.getString("HighName7", "Player");
-            editor.putInt("HighScore7", SCORE);
-            editor.putString("HighName7", NAME);
+            ScorePass = prefs.getInt("TimeHighScore7", 0);
+            NamePass = prefs.getString("TimeHighName7", "Player");
+            editor.putInt("TimeHighScore7", SCORE);
+            editor.putString("TimeHighName7", NAME);
             SCORE = ScorePass;
             NAME = NamePass;
             editor.commit();
         }
-        if( prefs.getInt("HighScore8", 0) < SCORE ) {                       // HighScore 8
+        if( prefs.getInt("TimeHighScore8", 0) < SCORE ) {                       // HighScore 8
             editor = prefs.edit();
-            ScorePass = prefs.getInt("HighScore8", 0);
-            NamePass = prefs.getString("HighName8", "Player");
-            editor.putInt("HighScore8", Score);
-            editor.putString("HighName8", NAME);
+            ScorePass = prefs.getInt("TimeHighScore8", 0);
+            NamePass = prefs.getString("TimeHighName8", "Player");
+            editor.putInt("TimeHighScore8", SCORE);
+            editor.putString("TimeHighName8", NAME);
             SCORE = ScorePass;
             NAME = NamePass;
             editor.commit();
         }
-        if( prefs.getInt("HighScore9", 0) < SCORE ) {                       // HighScore 9
+        if( prefs.getInt("TimeHighScore9", 0) < SCORE ) {                       // HighScore 9
             editor = prefs.edit();
-            ScorePass = prefs.getInt("HighScore9", 0);
-            NamePass = prefs.getString("HighName9", "Player");
-            editor.putInt("HighScore9", Score);
-            editor.putString("HighName9", NAME);
+            ScorePass = prefs.getInt("TimeHighScore9", 0);
+            NamePass = prefs.getString("TimeHighName9", "Player");
+            editor.putInt("TimeHighScore9", SCORE);
+            editor.putString("TimeHighName9", NAME);
             SCORE = ScorePass;
             NAME = NamePass;
             editor.commit();
         }
-        if( prefs.getInt("HighScore10", 0) < SCORE ) {                       // HighScore 10
+        if( prefs.getInt("TimeHighScore10", 0) < SCORE ) {                       // HighScore 10
             editor = prefs.edit();
-            ScorePass = prefs.getInt("HighScore10", 0);
-            NamePass = prefs.getString("HighName10", "Player");
-            editor.putInt("HighScore10", SCORE);
-            editor.putString("HighName10", NAME);
+            ScorePass = prefs.getInt("TimeHighScore10", 0);
+            NamePass = prefs.getString("TimeHighName10", "Player");
+            editor.putInt("TimeHighScore10", SCORE);
+            editor.putString("TimeHighName10", NAME);
             SCORE = ScorePass;
             NAME = NamePass;
             editor.commit();

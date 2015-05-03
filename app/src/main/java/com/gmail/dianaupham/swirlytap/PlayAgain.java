@@ -18,11 +18,14 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
+
 import com.gmail.dianaupham.swirlytap.swirlytap.R;
 import com.twitter.sdk.android.tweetcomposer.TweetComposer;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+
 import io.fabric.sdk.android.Fabric;
 
 public class PlayAgain extends ActionBarActivity implements View.OnClickListener  {
@@ -51,7 +54,7 @@ public class PlayAgain extends ActionBarActivity implements View.OnClickListener
         mediaPlayer = MediaPlayer.create(this, R.raw.game_success); //get success sound
         // Get HighScore
         SharedPreferences prefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
-        HighScore = prefs.getInt("HighScore1", 0);
+        HighScore = prefs.getInt("TimeHighScore1", 0);
 
         Intent game = getIntent(); // Grab the the intent of game that ended
         int score = game.getIntExtra("score", 0); //Grab score from game
@@ -149,6 +152,7 @@ public class PlayAgain extends ActionBarActivity implements View.OnClickListener
     private void HighScoreClick()
     {   //start single player activity once "Play Again" button clicked
         Intent intentAgain2 = new Intent(PlayAgain.this, HighScoreActivity.class);
+        intentAgain2.putExtra("LoadTimedScores", true);
         startActivity(intentAgain2);//goes to HighScore activity
     }
 
