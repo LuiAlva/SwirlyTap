@@ -4,10 +4,13 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.Rect;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Vibrator;
 import android.view.Gravity;
@@ -28,7 +31,11 @@ import android.widget.TextView;
 
 import com.gmail.dianaupham.swirlytap.swirlytap.R;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.Random;
 
 public class SinglePlayer extends Activity implements View.OnClickListener {
@@ -58,11 +65,11 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
     Button buttons[][] = new Button[NUM_ROWS][NUM_COLS];   //created total number of grid buttons
     String[][] luckArray = new String[ARRAY_ROWS][ARRAY_COLS]; //array containing good and bad buttons
     //Time & Speed ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++//
-    int StartTime = 61000;       //Set start time, 60000 = 60 seconds temporary set to 20 seconds
+    int StartTime = 61000;       //Set start time, 60000
     int Current_Time = 61000;    //Current in-game time
     int Current_Speed = 290;     //Current in-game speed
-    int Start_Speed = 290;        //Speed at the start of the game
-    int Speed_Limit = 90;       //Highest Speed
+    int Start_Speed = 290;       //Speed at the start of the game
+    int Speed_Limit = 90;        //Highest Speed
     int Game_Speed_Add = 10;     //Add speed every increment
     int Speed_Increment = 6;     //Points needed to increment speed
     int Speed_Increment_Add = 0; //Add to Speed_Increment to make it harder to speed up
@@ -98,6 +105,8 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
     int OnScreenGood2 = 0;      // 2xGoodSwirls On Screen
     int Extra_Time_Max = 4;     // Set limit for amount of time added (20 seconds)
     int Extra_Time_Counter = 0; // Count amount of ExtraTime added
+    String screenshot;          // Screenshot (file) of SinglePlayer
+    Bitmap bitmap;              // Bitmap of screenshot of SinglePlayer
     Vibrator vibration;
 
     private static final boolean AUTO_HIDE = true;          // Auto hide UI (ActionBar)
@@ -995,6 +1004,26 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
 
     public void GameOver() {
         paused = true;
+        String screenshotPath = Environment.getExternalStorageDirectory().toString() + "/" + "screenshot.png";
+        View view = getWindow().getDecorView().getRootView();
+        view.setDrawingCacheEnabled(true);
+        bitmap = Bitmap.createBitmap(view.getDrawingCache());
+        view.setDrawingCacheEnabled(false);
+        OutputStream fout = null;
+        File imageFile = new File(screenshotPath);
+        try { //save bitmp as PNG file
+            fout = new FileOutputStream(imageFile);
+            bitmap.compress(Bitmap.CompressFormat.PNG, 90, fout);
+            fout.flush();
+            fout.close();
+        } catch (FileNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
         try {
             LayoutInflater inflater = (LayoutInflater) SinglePlayer.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             View layout = inflater.inflate(R.layout.game_over_screen, (ViewGroup)findViewById(R.id.game_over_layout));

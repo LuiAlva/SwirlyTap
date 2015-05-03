@@ -89,9 +89,9 @@ public class PlayAgain_Level extends ActionBarActivity implements View.OnClickLi
             Intent targetedShareIntent = new Intent(android.content.Intent.ACTION_SEND);
             targetedShareIntent.setType("*/*");                                 //send any generic data
             targetedShareIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Check out SwirlyTap!");
-            String fileTemp = "file://" + Environment.getExternalStorageDirectory()
+            String fileTemp = "file://" + Environment.getExternalStorageDirectory()   //image location
                     + File.separator + "goodswirl.png";
-            targetedShareIntent.putExtra(Intent.EXTRA_STREAM, Uri.parse(fileTemp));
+            //targetedShareIntent.putExtra(Intent.EXTRA_STREAM, Uri.parse(fileTemp));
             if(TextUtils.equals(packageName, "com.facebook.katana")){
                 targetedShareIntent.putExtra(android.content.Intent.EXTRA_TEXT, "https://twitter.com/SwirlyTap"); //will only accept URL
             } else {

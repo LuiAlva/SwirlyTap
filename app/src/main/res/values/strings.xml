@@ -94,5 +94,6 @@
     <string name="registerPrompt">Register by choosing a username and password.</string>
     <string name="updateTitle">Update your information.</string>
     <string name="usersTitle">Users:</string>
+    <string name="spScreenshot">Screenshot</string>
 
 </resources>
