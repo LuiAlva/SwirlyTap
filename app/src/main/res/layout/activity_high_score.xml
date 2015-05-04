@@ -41,21 +41,50 @@
                 android:layout_alignParentStart="false"
                 android:layout_below="@+id/TitleRow">
 
-                <Button
-                    android:layout_width="80sp"
-                    android:layout_height="40sp"
-                    android:text="Local"
-                    android:id="@+id/LocalTab"
-                    android:background="@drawable/highscores_tab"
-                    android:layout_marginTop="10sp" />
+                <RelativeLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content">
 
-                <Button
-                    android:layout_width="80sp"
-                    android:layout_height="40sp"
-                    android:text="Overall"
-                    android:id="@+id/OverallTab"
-                    android:background="@drawable/highscores_tab"
-                    android:layout_marginTop="10sp" />
+                    <Button
+                        android:layout_width="80sp"
+                        android:layout_height="40sp"
+                        android:text="Local"
+                        android:id="@+id/LocalTab"
+                        android:background="@drawable/highscores_left_tab"
+                        android:layout_marginTop="10sp" />
+
+                    <Button
+                        android:layout_width="80sp"
+                        android:layout_height="40sp"
+                        android:text="Overall"
+                        android:id="@+id/OverallTab"
+                        android:background="@drawable/highscores_left_tab"
+                        android:layout_alignTop="@+id/LocalTab"
+                        android:layout_toRightOf="@+id/LocalTab"
+                        android:layout_toEndOf="@+id/LocalTab" />
+
+                    <Button
+                        android:layout_width="80sp"
+                        android:layout_height="40sp"
+                        android:text="Timed"
+                        android:id="@+id/Timed"
+                        android:background="@drawable/highscores_right_tab"
+                        android:layout_alignTop="@+id/OverallTab"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentEnd="true"
+                        android:textColor="#ff303030" />
+
+                    <Button
+                        android:layout_width="80sp"
+                        android:layout_height="40sp"
+                        android:text="Level"
+                        android:id="@+id/Level"
+                        android:background="@drawable/highscores_right_tab"
+                        android:textColor="#ff303030"
+                        android:layout_alignTop="@+id/Timed"
+                        android:layout_toLeftOf="@+id/Timed"
+                        android:layout_toStartOf="@+id/Timed" />
+                </RelativeLayout>
             </TableRow>
 
             <TableRow
