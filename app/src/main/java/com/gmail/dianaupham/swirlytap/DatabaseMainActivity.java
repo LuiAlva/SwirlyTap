@@ -55,6 +55,7 @@ public class DatabaseMainActivity extends Activity
 
             }
         });
+        buttonUpdate.setVisibility(View.GONE); //removes this button from view, and makes space for others
         buttonDelete = (Button) findViewById(R.id.Delete);
         buttonDelete.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -69,6 +70,7 @@ public class DatabaseMainActivity extends Activity
 
             }
         });
+        buttonAllUsers.setVisibility(View.GONE); //removes this button from view, and makes space for others
         buttonGame = (Button) findViewById(R.id.starts_game);
         buttonGame.setOnClickListener(new View.OnClickListener()
         {

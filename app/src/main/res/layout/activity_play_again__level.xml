@@ -97,16 +97,18 @@
                     android:layout_marginRight="10sp">
 
                     <Button
-                        android:text="@string/action_home"
-                        android:id="@+id/returnHomeLevel"
+                        android:text="@string/play_again"
+                        android:id="@+id/PlayAgainLevel"
                         android:layout_width="match_parent"
                         android:layout_height="50sp"
+                        android:paddingRight="15dp"
+                        android:paddingLeft="15dp"
                         android:layout_marginLeft="10sp"
                         android:layout_marginRight="10sp"
-                        android:textSize="20sp"
+                        android:textSize="18sp"
                         android:textColor="#ffffffff"
                         android:background="@drawable/button_bg"
-                        android:layout_marginBottom="5sp" />
+                        android:gravity="center" />
 
                     <Button
                         android:text="@string/share"
@@ -140,18 +142,16 @@
                         android:layout_marginBottom="5sp" />
 
                     <Button
-                        android:text="@string/play_again"
-                        android:id="@+id/PlayAgainLevel"
+                        android:text="@string/action_home"
+                        android:id="@+id/returnHomeLevel"
                         android:layout_width="match_parent"
                         android:layout_height="50sp"
-                        android:paddingRight="15dp"
-                        android:paddingLeft="15dp"
                         android:layout_marginLeft="10sp"
                         android:layout_marginRight="10sp"
-                        android:textSize="18sp"
+                        android:textSize="20sp"
                         android:textColor="#ffffffff"
                         android:background="@drawable/button_bg"
-                        android:gravity="center" />
+                        android:layout_marginBottom="5sp" />
 
                 </GridLayout>
 

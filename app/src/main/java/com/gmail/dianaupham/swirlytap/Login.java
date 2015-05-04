@@ -33,33 +33,30 @@ public class Login extends Activity
             @Override
             public void onClick(View v)
             {
-                    if(myTable.Login(USER_NAME.getText().toString(), PASS_WORD.getText().toString()))
-                    {
-                        myTable.setlogin(USER_NAME.getText().toString(),PASS_WORD.getText().toString(),1);
-                        Toast.makeText(getApplicationContext(), "SUCCESS", Toast.LENGTH_SHORT).show();
-                        SharedPreferences prefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
-                        SharedPreferences.Editor editor = prefs.edit();
-                        editor.putString("PlayerName", USER_NAME.getText().toString() );
-                        editor.putBoolean("NotLoggedIn", false);
-                        editor.commit();
-                        Intent i = new Intent(getApplicationContext(), DatabaseMainActivity.class);
-                        Bundle bundle = new Bundle();
-                        bundle.putString("USERNAME",USER_NAME.getText().toString());
-                        bundle.putString("PASSWORD", PASS_WORD.getText().toString());
-                        i.putExtras(bundle);
-                        startActivity(i);
-                        finish();
-
-                    }
-                    else
-                    {
-                        Toast.makeText(getApplicationContext(), "Incorrect Login - Try Again", Toast.LENGTH_LONG).show();
-                    }
-
+                if(myTable.Login(USER_NAME.getText().toString(), PASS_WORD.getText().toString()))
+                {
+                    myTable.setlogin(USER_NAME.getText().toString(),PASS_WORD.getText().toString(),1);
+                    Toast.makeText(getApplicationContext(), "SUCCESS", Toast.LENGTH_SHORT).show();
+                    SharedPreferences prefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = prefs.edit();
+                    editor.putString("PlayerName", USER_NAME.getText().toString() );
+                    editor.putBoolean("NotLoggedIn", false);
+                    editor.commit();
+                    Intent i = new Intent(getApplicationContext(), DatabaseMainActivity.class);
+                    Intent i2 = new Intent(getApplicationContext(), MainActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putString("USERNAME",USER_NAME.getText().toString());
+                    bundle.putString("PASSWORD", PASS_WORD.getText().toString());
+                    i.putExtras(bundle);
+                    //startActivity(i);
+                    startActivity(i2);
+                    finish();
+                }
+                else
+                {
+                    Toast.makeText(getApplicationContext(), "Incorrect Login - Try Again", Toast.LENGTH_LONG).show();
+                }
             }
         });
-
-
     }
-
 }

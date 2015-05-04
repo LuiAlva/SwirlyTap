@@ -39,15 +39,11 @@ public class Register extends Activity
                     Intent i = new Intent(getApplicationContext(),LoginScreen.class);
                     startActivity(i);
                 }
-
                 else
                 {
                     Toast.makeText(getApplicationContext(),"Passwords do not match", Toast.LENGTH_SHORT).show();
                 }
-
-
             }
         });
     }
-
 }

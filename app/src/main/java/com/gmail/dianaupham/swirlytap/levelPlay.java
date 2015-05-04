@@ -1,8 +1,16 @@
 package com.gmail.dianaupham.swirlytap;
 import android.app.Activity;
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.media.MediaPlayer;
+import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Environment;
 import android.os.Handler;
 import android.view.View;
 import android.view.Window;
@@ -13,11 +21,15 @@ import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
-import com.gmail.dianaupham.swirlytap.swirlytap.R;
-import java.util.Random;
 
-import android.app.ProgressDialog;
-import android.os.AsyncTask;
+import com.gmail.dianaupham.swirlytap.swirlytap.R;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.util.Random;
 
 public class levelPlay extends Activity implements View.OnClickListener
 {
@@ -35,8 +47,11 @@ public class levelPlay extends Activity implements View.OnClickListener
     /*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
     Button buttons[][] = new Button[NUM_ROWS][NUM_COLS];        //created total number of grid buttons
     /*++++++++++++++++counters, scores, levels+++++++++++++++++++*/
+    public static final String PREFS_NAME = "PREFS_FILE"; // Name of preference file
     int lives = 3;      //number of lives that player has at start of game
     int score = 0;      //initiating score
+    int SCORE, ScorePass;          // for highscore comparison
+    String NAME, NamePass;        // For highscore comparison
     int level = 1;      //start at level 1
     int missedSwirls = 0;
     int luckCount = 0;
@@ -48,11 +63,20 @@ public class levelPlay extends Activity implements View.OnClickListener
     boolean heartGiven = false;     //used to limit the number of times the player recieves perks
     boolean destroyGoodSwirls = false;
     int swirlPointsLeft = 0;        //to determine if all swirls have been destroyed on screen
+    //int HighScore;                  //For HighScore
     int Current_Time = 61000;       //Current in-game time
     int Game_Speed = 400;           //Speed of the game
     int randCell;
     int goodCount = 0; //initialize score of lightning count. This will increase as good buttons appear on screen and decrease as good
     //buttons leave the screen. When a player taps the lightning bolt it will get all good swirls and 2x swirls
+    Uri tapGood;              // Sound when Good swirl is tapped
+    Uri tapBad;               // Sound for Bad swirl
+    Uri tapAddLife;           // Sound for Another Life
+    MediaPlayer GoodSound;    // MediaPlayer for playing good sound
+    MediaPlayer GoodSound2;   // MediaPlayer for playing good sound - for faster sound
+    MediaPlayer BadSound;     // MediaPlayer for playing Bad sound
+    MediaPlayer SpecialSound; // MediaPlayer for playing Special button sounds
+    MediaPlayer gameBG;       // For Background music
     /*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
     /*++++++++++++++++++++++++++++++++Initializing buttons, images, timers, button arrays+++++++++++++++++++++++++++++++*/
     LinearLayout llayout; //set it up after declaration
@@ -99,6 +123,18 @@ public class levelPlay extends Activity implements View.OnClickListener
         leveldisplay.setVisibility(View.INVISIBLE);//start invisible and make visible for 2 seconds at beginning of each level
         setLives(lives);//start game with 3 lives displayed as hearts on screen
         setMissed(missedSwirls);
+
+        //gameBG = MediaPlayer.create(this, R.raw.game_song); //get background song
+        //gameBG.setLooping(true);           //make background song loop
+        GoodSound = new MediaPlayer();     // Setup MediaPlayer for good sound
+        GoodSound2 = new MediaPlayer();    // Setup MediaPlayer for good sound
+        BadSound = new MediaPlayer();      // Setup MediaPlayer for bad sound
+        SpecialSound = new MediaPlayer();  // Setup MediaPlayer for Special button sounds
+        GoodSound.setVolume(12,12);
+        GoodSound2.setVolume(12,12);
+        tapGood = Uri.parse("android.resource://"+getPackageName()+"/"+R.raw.tap_good);    //Setup sound for Good swirl
+        tapBad = Uri.parse("android.resource://"+getPackageName()+"/"+R.raw.tap_bad);      //Setup sound for Bad swirl
+        tapAddLife = Uri.parse("android.resource://"+getPackageName()+"/"+R.raw.tap_time); //Setup sound for add Life
         //set all button arrays to null when game started
         for(int i = 0; i < 20; i++){
             GoodArray[i] = null;
@@ -110,6 +146,8 @@ public class levelPlay extends Activity implements View.OnClickListener
         populateLuckArrays(); //create all luck arrays prior to game starting
         goToLevel(level);
 
+        UpdateTimer(60000);    // Start the Score Update Timer
+
     }
     class buttonDisappear
     {
@@ -120,6 +158,8 @@ public class levelPlay extends Activity implements View.OnClickListener
             TimerId = timer;
         }
     }
+
+    //To use the AsyncTask, it must be subclassed
 
     private void populateButtons() //creating grid of buttons. These buttons are initialized as disabled and invisible
     {
@@ -144,7 +184,7 @@ public class levelPlay extends Activity implements View.OnClickListener
                     public void onClick(View v) {
                         v.setVisibility(View.INVISIBLE);         // Make Swirl disappear
                         v.setEnabled(false);                     // Disable button
-                        //Score++;                                 // Add one to score
+                        //score++;                                 // Add one to score
                     }
                 });
                 tableRow.addView(Swirl);
@@ -276,7 +316,7 @@ public class levelPlay extends Activity implements View.OnClickListener
                     luckCount++;
                 displayButton(2);
                 break;
-             /*++++++++++++++++++++++++++++++++++++LEVEL 4++++++++++++++++++++++++++++++++++++++++++++*/
+            /*+++++++++++++++++++++++++++++++++++++LEVEL 4++++++++++++++++++++++++++++++++++++++++++++*/
             /*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
             case 4:
                 level = 4;
@@ -344,7 +384,6 @@ public class levelPlay extends Activity implements View.OnClickListener
                             SwirlEngine.start();
                         }
                     }.start();
-
                 }
                 //after 20 buttons displayed, re declare luck array
                 if(luckCount == 20)
@@ -356,7 +395,7 @@ public class levelPlay extends Activity implements View.OnClickListener
                     luckCount++;
                 displayButton(3);
                 break;
-             /*++++++++++++++++++++++++++++++++++++LEVEL 6++++++++++++++++++++++++++++++++++++++++++++*/
+            /*+++++++++++++++++++++++++++++++++++++LEVEL 6++++++++++++++++++++++++++++++++++++++++++++*/
             /*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
             case 6:
                 level = 6;
@@ -426,7 +465,6 @@ public class levelPlay extends Activity implements View.OnClickListener
                             SwirlEngine.start();
                         }
                     }.start();
-
                 }
                 if(doublePoints == true)llayout.setBackgroundResource(R.drawable.doublepointbackround);
                 else llayout.setBackgroundResource(R.drawable.levelseven);
@@ -440,7 +478,7 @@ public class levelPlay extends Activity implements View.OnClickListener
                     luckCount++;
                 displayButton(4);
                 break;
-             /*++++++++++++++++++++++++++++++++++++LEVEL 8++++++++++++++++++++++++++++++++++++++++++++*/
+            /*+++++++++++++++++++++++++++++++++++++LEVEL 8++++++++++++++++++++++++++++++++++++++++++++*/
             /*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
             case 8:
                 level = 8;
@@ -468,7 +506,6 @@ public class levelPlay extends Activity implements View.OnClickListener
                             SwirlEngine.start();
                         }
                     }.start();
-
                 }
                 if(doublePoints == true)llayout.setBackgroundResource(R.drawable.doublepointbackround);
                 else llayout.setBackgroundResource(R.drawable.leveleight);
@@ -482,7 +519,7 @@ public class levelPlay extends Activity implements View.OnClickListener
                     luckCount++;
                 displayButton(4);
                 break;
-             /*++++++++++++++++++++++++++++++++++++LEVEL 9++++++++++++++++++++++++++++++++++++++++++++*/
+            /*+++++++++++++++++++++++++++++++++++++LEVEL 9++++++++++++++++++++++++++++++++++++++++++++*/
             /*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
             case 9:
                 level = 9;
@@ -510,7 +547,6 @@ public class levelPlay extends Activity implements View.OnClickListener
                             SwirlEngine.start();
                         }
                     }.start();
-
                 }
                 if(doublePoints == true)llayout.setBackgroundResource(R.drawable.doublepointbackround);
                 else llayout.setBackgroundResource(R.drawable.levelnine);
@@ -524,7 +560,7 @@ public class levelPlay extends Activity implements View.OnClickListener
                     luckCount++;
                 displayButton(4);
                 break;
-             /*++++++++++++++++++++++++++++++++++++LEVEL 10++++++++++++++++++++++++++++++++++++++++++++*/
+            /*+++++++++++++++++++++++++++++++++++++LEVEL 10++++++++++++++++++++++++++++++++++++++++++++*/
             /*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
             case 10:
                 level = 10;
@@ -552,7 +588,6 @@ public class levelPlay extends Activity implements View.OnClickListener
                             SwirlEngine.start();
                         }
                     }.start();
-
                 }
                 if(doublePoints == true)llayout.setBackgroundResource(R.drawable.doublepointbackround);
                 else llayout.setBackgroundResource(R.drawable.levelten);
@@ -566,7 +601,7 @@ public class levelPlay extends Activity implements View.OnClickListener
                     luckCount++;
                 displayButton(4);
                 break;
-             /*++++++++++++++++++++++++++++++++++++LEVEL 11++++++++++++++++++++++++++++++++++++++++++++*/
+            /*+++++++++++++++++++++++++++++++++++++LEVEL 11++++++++++++++++++++++++++++++++++++++++++++*/
             /*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
             case 11:
                 level = 11;
@@ -594,7 +629,6 @@ public class levelPlay extends Activity implements View.OnClickListener
                             SwirlEngine.start();
                         }
                     }.start();
-
                 }
                 if(doublePoints == true)llayout.setBackgroundResource(R.drawable.doublepointbackround);
                 else llayout.setBackgroundResource(R.drawable.leveleleven);
@@ -636,7 +670,6 @@ public class levelPlay extends Activity implements View.OnClickListener
                             SwirlEngine.start();
                         }
                     }.start();
-
                 }
                 if(doublePoints == true)llayout.setBackgroundResource(R.drawable.doublepointbackround);
                 else llayout.setBackgroundResource(R.drawable.leveltwelve);
@@ -678,7 +711,6 @@ public class levelPlay extends Activity implements View.OnClickListener
                             SwirlEngine.start();
                         }
                     }.start();
-
                 }
                 if(doublePoints == true)llayout.setBackgroundResource(R.drawable.doublepointbackround);
                 else llayout.setBackgroundResource(R.drawable.levelthirteen);
@@ -720,7 +752,6 @@ public class levelPlay extends Activity implements View.OnClickListener
                             SwirlEngine.start();
                         }
                     }.start();
-
                 }
                 //after 20 buttons displayed, re declare luck array
                 if(doublePoints == true)llayout.setBackgroundResource(R.drawable.doublepointbackround);
@@ -734,7 +765,7 @@ public class levelPlay extends Activity implements View.OnClickListener
                     luckCount++;
                 displayButton(5);
                 break;
-             /*++++++++++++++++++++++++++++++++++++LEVEL 15++++++++++++++++++++++++++++++++++++++++++++*/
+            /*+++++++++++++++++++++++++++++++++++++LEVEL 15++++++++++++++++++++++++++++++++++++++++++++*/
             /*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
             case 15:
                 level = 15;
@@ -762,7 +793,6 @@ public class levelPlay extends Activity implements View.OnClickListener
                             SwirlEngine.start();
                         }
                     }.start();
-
                 }
                 if(doublePoints == true)llayout.setBackgroundResource(R.drawable.doublepointbackround);
                 else llayout.setBackgroundResource(R.drawable.levelfifteen);
@@ -804,7 +834,6 @@ public class levelPlay extends Activity implements View.OnClickListener
                             SwirlEngine.start();
                         }
                     }.start();
-
                 }
                 if(doublePoints == true)llayout.setBackgroundResource(R.drawable.doublepointbackround);
                 else llayout.setBackgroundResource(R.drawable.levelsixteen);
@@ -846,7 +875,6 @@ public class levelPlay extends Activity implements View.OnClickListener
                             SwirlEngine.start();
                         }
                     }.start();
-
                 }
                 if(doublePoints == true)llayout.setBackgroundResource(R.drawable.doublepointbackround);
                 else llayout.setBackgroundResource(R.drawable.levelseventeen);
@@ -888,7 +916,6 @@ public class levelPlay extends Activity implements View.OnClickListener
                             SwirlEngine.start();
                         }
                     }.start();
-
                 }
                 if(doublePoints == true)llayout.setBackgroundResource(R.drawable.doublepointbackround);
                 else llayout.setBackgroundResource(R.drawable.leveleighteen);
@@ -930,7 +957,6 @@ public class levelPlay extends Activity implements View.OnClickListener
                             SwirlEngine.start();
                         }
                     }.start();
-
                 }
                 if(doublePoints == true)llayout.setBackgroundResource(R.drawable.doublepointbackround);
                 else llayout.setBackgroundResource(R.drawable.levelnineteen);
@@ -972,7 +998,6 @@ public class levelPlay extends Activity implements View.OnClickListener
                             SwirlEngine.start();
                         }
                     }.start();
-
                 }
                 if(doublePoints == true)llayout.setBackgroundResource(R.drawable.doublepointbackround);
                 else llayout.setBackgroundResource(R.drawable.leveltwenty);
@@ -1014,7 +1039,6 @@ public class levelPlay extends Activity implements View.OnClickListener
                             SwirlEngine.start();
                         }
                     }.start();
-
                 }
                 if(doublePoints == true)llayout.setBackgroundResource(R.drawable.doublepointbackround);
                 else llayout.setBackgroundResource(R.drawable.levelinfinite);
@@ -1030,7 +1054,6 @@ public class levelPlay extends Activity implements View.OnClickListener
                 break;
             //go to infinite level in which will only end if user loses all 3 lives
             //introduce death swirl..loses all 3 lives if clicked
-
         }
     }
 
@@ -1047,7 +1070,6 @@ public class levelPlay extends Activity implements View.OnClickListener
         {
             if (luckArray1[randRow][randCol] == "good") //GOOD BUTTON +1 POINT IF CLICKED
             {
-
                 for(i = 0; i < 20; i++)
                 {        // Find empty spot in GoodArray
                     if(GoodArray[i] == null){break;}
@@ -1055,7 +1077,6 @@ public class levelPlay extends Activity implements View.OnClickListener
                 }
                 final Button goodButton = buttons[randRow][randCol];     //Button in this location
                 displayGoodSwirl(goodButton, i);
-
             }
         }
         /*+++++++++++++++++++++++++++++++++++++++LUCK ARRAY 2++++++++++++++++++++++++++++++++++++++*/
@@ -1151,7 +1172,6 @@ public class levelPlay extends Activity implements View.OnClickListener
                 //final Button goodButton = buttons[randRow][randCol];     //Button in this location
                 displayDoublePoints(doubleButton, i);
             }
-
             else //GOOD BUTTON +1 POINT IF CLICKED
             {
                 for(i = 0; i < 20; i++)
@@ -1260,8 +1280,10 @@ public class levelPlay extends Activity implements View.OnClickListener
                 SwirlEngine.start();
             }
         }.start();
+    }
 
-        Updater = new CountDownTimer(30, 30)
+    public void UpdateTimer(final int Time) {
+        Updater = new CountDownTimer(Time, 30)
         {
             TextView totalScore= (TextView) findViewById(R.id.scoreAnimation);
             public void onTick(long millisUntilFinished)
@@ -1276,7 +1298,7 @@ public class levelPlay extends Activity implements View.OnClickListener
             public void onFinish()
             {
                 totalScore.setText("" + score); //Update Score Counter
-                Updater.start();
+                UpdateTimer(60000);
             }
         }.start();
     }
@@ -1300,12 +1322,14 @@ public class levelPlay extends Activity implements View.OnClickListener
                 lifeTwo.setBackgroundResource(R.drawable.grey);
                 lifeThree.setBackgroundResource(R.drawable.grey);
                 break;
-            case 0: //open end screen activity
+            case 0: //open end screen activity  //GAME OVER
                 lifeOne.setBackgroundResource(R.drawable.grey);
                 lifeTwo.setBackgroundResource(R.drawable.grey);
                 lifeThree.setBackgroundResource(R.drawable.grey);
-
+                ScreenShot(levelPlay.this); //take a screenshot of end of LevelPlay
                 DestroySwirls();            //destroy all swirls in array
+                Updater.cancel();           //Cancel the Score Update Timer
+                CompareScore();             // Get HighScore
                 Intent intentAgain = new Intent(levelPlay.this, PlayAgain_Level.class);  //create intent (to go to PlayAgain menu)
                 intentAgain.putExtra("score", score);
                 startActivity(intentAgain);                                           //go to PlayAgain activity/menu
@@ -1313,6 +1337,119 @@ public class levelPlay extends Activity implements View.OnClickListener
                 break;
         }
     }
+
+    public void CompareScore() {
+        SharedPreferences prefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor;
+        NAME = prefs.getString("PlayerName", "Player");
+        SCORE = score;
+        if( prefs.getInt("HighScore", 0) < SCORE ) {                       // Player High Score
+            editor = prefs.edit();
+            editor.putInt("HighScore", SCORE);
+            editor.commit();
+        }
+        if( prefs.getInt("LevelHighScore1", 0) < SCORE ) {                       // HighScore 1
+            editor = prefs.edit();
+            ScorePass = prefs.getInt("LevelHighScore1", 0);
+            NamePass = prefs.getString("LevelHighName1", "Player");
+            editor.putInt("LevelHighScore1", SCORE);
+            editor.putString("LevelHighName1", NAME);
+            SCORE = ScorePass;
+            NAME = NamePass;
+            editor.commit();
+        }
+        if( prefs.getInt("LevelHighScore2", 0) < SCORE ) {                       // HighScore 2
+            editor = prefs.edit();
+            ScorePass = prefs.getInt("LevelHighScore2", 0);
+            NamePass = prefs.getString("LevelHighName2", "Player");
+            editor.putInt("LevelHighScore2", SCORE);
+            editor.putString("LevelHighName2", NAME);
+            SCORE = ScorePass;
+            NAME = NamePass;
+            editor.commit();
+        }
+        if( prefs.getInt("LevelHighScore3", 0) < SCORE ) {                       // HighScore 3
+            editor = prefs.edit();
+            ScorePass = prefs.getInt("LevelHighScore3", 0);
+            NamePass = prefs.getString("LevelHighName3", "Player");
+            editor.putInt("LevelHighScore3", SCORE);
+            editor.putString("LevelHighName3", NAME);
+            SCORE = ScorePass;
+            NAME = NamePass;
+            editor.commit();
+        }
+        if( prefs.getInt("LevelHighScore4", 0) < SCORE ) {                       // HighScore 4
+            editor = prefs.edit();
+            ScorePass = prefs.getInt("LevelHighScore4", 0);
+            NamePass = prefs.getString("LevelHighName4", "Player");
+            editor.putInt("LevelHighScore4", SCORE);
+            editor.putString("LevelHighName4", NAME);
+            SCORE = ScorePass;
+            NAME = NamePass;
+            editor.commit();
+        }
+        if( prefs.getInt("LevelHighScore5", 0) < SCORE ) {                       // HighScore 5
+            editor = prefs.edit();
+            ScorePass = prefs.getInt("LevelHighScore5", 0);
+            NamePass = prefs.getString("LevelHighName5", "Player");
+            editor.putInt("LevelHighScore5", SCORE);
+            editor.putString("LevelHighName5", NAME);
+            SCORE = ScorePass;
+            NAME = NamePass;
+            editor.commit();
+        }
+        if( prefs.getInt("LevelHighScore6", 0) < SCORE ) {                       // HighScore 6
+            editor = prefs.edit();
+            ScorePass = prefs.getInt("LevelHighScore6", 0);
+            NamePass = prefs.getString("LevelHighName6", "Player");
+            editor.putInt("LevelHighScore6", SCORE);
+            editor.putString("LevelHighName6", NAME);
+            SCORE = ScorePass;
+            NAME = NamePass;
+            editor.commit();
+        }
+        if( prefs.getInt("LevelHighScore7", 0) < SCORE ) {                       // HighScore 7
+            editor = prefs.edit();
+            ScorePass = prefs.getInt("LevelHighScore7", 0);
+            NamePass = prefs.getString("LevelHighName7", "Player");
+            editor.putInt("LevelHighScore7", SCORE);
+            editor.putString("LevelHighName7", NAME);
+            SCORE = ScorePass;
+            NAME = NamePass;
+            editor.commit();
+        }
+        if( prefs.getInt("LevelHighScore8", 0) < SCORE ) {                       // HighScore 8
+            editor = prefs.edit();
+            ScorePass = prefs.getInt("LevelHighScore8", 0);
+            NamePass = prefs.getString("LevelHighName8", "Player");
+            editor.putInt("LevelHighScore8", SCORE);
+            editor.putString("LevelHighName8", NAME);
+            SCORE = ScorePass;
+            NAME = NamePass;
+            editor.commit();
+        }
+        if( prefs.getInt("LevelHighScore9", 0) < SCORE ) {                       // HighScore 9
+            editor = prefs.edit();
+            ScorePass = prefs.getInt("LevelHighScore9", 0);
+            NamePass = prefs.getString("LevelHighName9", "Player");
+            editor.putInt("LevelHighScore9", SCORE);
+            editor.putString("LevelHighName9", NAME);
+            SCORE = ScorePass;
+            NAME = NamePass;
+            editor.commit();
+        }
+        if( prefs.getInt("LevelHighScore10", 0) < SCORE ) {                       // HighScore 10
+            editor = prefs.edit();
+            ScorePass = prefs.getInt("LevelHighScore10", 0);
+            NamePass = prefs.getString("LevelHighName10", "Player");
+            editor.putInt("LevelHighScore10", SCORE);
+            editor.putString("LevelHighName10", NAME);
+            SCORE = ScorePass;
+            NAME = NamePass;
+            editor.commit();
+        }
+    }
+
     public void setMissed(int numMissed)
     {
         switch(numMissed)
@@ -1323,16 +1460,13 @@ public class levelPlay extends Activity implements View.OnClickListener
                 setLives(lives);
                 setMissed(missedSwirls);
                 break;
-
             case 4: //user has 3 lives ...display all lives as red hearts
-
                 missedOne.setBackgroundResource(R.drawable.missed);
                 missedTwo.setBackgroundResource(R.drawable.missed);
                 missedThree.setBackgroundResource(R.drawable.missed);
                 missedFour.setBackgroundResource(R.drawable.missed);
                 missedFive.setBackgroundResource(R.drawable.goodswirl);
                 break;
-
             case 3: //user has 2 lives...display 2 red hearts and 1 grey heart
                 missedOne.setBackgroundResource(R.drawable.missed);
                 missedTwo.setBackgroundResource(R.drawable.missed);
@@ -1362,8 +1496,7 @@ public class levelPlay extends Activity implements View.OnClickListener
                 missedFive.setBackgroundResource(R.drawable.goodswirl);
         }
     }
-    public void levelUpdate() //will update level dependin
-    // g on score...
+    public void levelUpdate() //will update level depending on score ...
     { //start music for each level here
         if (score >= 0 && score < 5) goToLevel(1);
         else if (score >= 5 && score < 15) goToLevel(2);
@@ -1396,7 +1529,6 @@ public class levelPlay extends Activity implements View.OnClickListener
         {
             for(int col = 0; col<NUM_COLS; col++)
             {
-
                 /*+++++++++++++++++++++++++++++++FIRST LUCK ARRAY++++++++++++++++++++++++++++++++++*/
                 luckArray1[row][col] = "good"; //all items in luckArray1 are good buttons
                 /*+++++++++++++++++++++++++++++++SECOND LUCK ARRAY++++++++++++++++++++++++++++++++++*/
@@ -1437,10 +1569,8 @@ public class levelPlay extends Activity implements View.OnClickListener
                     luckArray5[row][col] = "lightning";
                 else
                     luckArray5[row][col] = "good"; //much higher chance to receive good button
-
             }
         }
-
     }
     public void displayLevel(int levelnum) //function used to display the level animation based on current level
     {
@@ -1453,6 +1583,7 @@ public class levelPlay extends Activity implements View.OnClickListener
 
     /*+++++++++++++++++++++++++++++++++++++DISPLAY GOOD SWIRL BUTTON++++++++++++++++++++++++++++++++++++++++*/
     /*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
+
     public void displayGoodSwirl(final Button good, int i)
     {
         goodCount++; //add to number of good swirls on screen
@@ -1492,11 +1623,8 @@ public class levelPlay extends Activity implements View.OnClickListener
         GoodArray[i] =  new buttonDisappear(good, temp);
         good.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-
-                {
-                    //leveldisplay.setVisibility(View.VISIBLE);
+                {   //leveldisplay.setVisibility(View.VISIBLE);
                     //add a plus one animation by score
-
                     if(doublePoints == true)
                     {
                         score+=2;
@@ -1522,12 +1650,12 @@ public class levelPlay extends Activity implements View.OnClickListener
                     v.setBackgroundResource(R.drawable.goodswirl_break); //change to +1 and make dis
                     AlphaAnimation anim = new AlphaAnimation(1.0f, 0.0f);//fade out the text
                     anim.setDuration(200);
+                    playGood(tapGood);
                     v.startAnimation(anim);
                     v.setVisibility(View.INVISIBLE);         // Make Swirl disappear when clicked
                                                  // Add one to score
                     if(goodCount > 0)
                         goodCount--; //take from number of good swirls on screen
-
                 }
             }
         });
@@ -1551,7 +1679,6 @@ public class levelPlay extends Activity implements View.OnClickListener
                 else
                 {
 
-
                 }
             }
 
@@ -1566,16 +1693,13 @@ public class levelPlay extends Activity implements View.OnClickListener
                 twice.setEnabled(false);
                 if(goodCount > 0)
                     goodCount-=2;
-
             }
         }.start();
         SpecialArray[i] =  new buttonDisappear(twice, temp);
         twice.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v)
             {
-
                 {
-
                     if(doublePoints == true)
                     {
                         score+=4;
@@ -1596,7 +1720,6 @@ public class levelPlay extends Activity implements View.OnClickListener
                     }
                     //leveldisplay.setVisibility(View.VISIBLE);
                     //add a plus one animation by score
-
                     SpecialArray[finalI].TimerId.cancel();      // Cancel it's disappear Timer
                     SpecialArray[finalI].ButtonId = null;       // Remove Button ID
                     SpecialArray[finalI] = null;                // Remove from array
@@ -1604,6 +1727,7 @@ public class levelPlay extends Activity implements View.OnClickListener
                     v.setBackgroundResource(R.drawable.twiceswirl_break); //change to +1 and make dis
                     AlphaAnimation anim = new AlphaAnimation(1.0f, 0.0f);//fade out the text
                     anim.setDuration(200);
+                    playGood2(tapGood);
                     v.startAnimation(anim);
                     v.setVisibility(View.INVISIBLE);         // Make Swirl disappear when clicked
                     // v.setEnabled(false);                     // Disable button
@@ -1614,7 +1738,6 @@ public class levelPlay extends Activity implements View.OnClickListener
                 }
             }
         });
-
     }
     /*++++++++++++++++++++++++++++++++++++++DISPLAY DOUBLE POINTS BUTTON+++++++++++++++++++++++++++++++++*/
     /*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
@@ -1638,42 +1761,35 @@ public class levelPlay extends Activity implements View.OnClickListener
                     SpecialArray[finalI] = null;
                     doubleButton.setVisibility(View.INVISIBLE);
                     doubleButton.setEnabled(false);
-
                 }
             }.start();
             SpecialArray[i] =  new buttonDisappear(doubleButton, temp);
             doubleButton.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
-
-                    {
-
-                        v.setEnabled(false);                     // Disable button
-                        //v.setBackgroundResource(R.drawable.badswirl_break); //change to +1 and make dis
-                        SpecialArray[finalI].TimerId.cancel();        // Cancel it's disappear Timer
-                        SpecialArray[finalI].ButtonId = null;         // Remove Button ID
-                        SpecialArray[finalI] = null;                  // Remove from array
-                        AlphaAnimation anim = new AlphaAnimation(1.0f, 0.0f);//fade out the text
-                        anim.setDuration(200);
-                        v.startAnimation(anim);
-                        v.setVisibility(View.INVISIBLE);         // Make Swirl disappear when clicked
-                        v.setEnabled(false);                     // Disable button
-                        //start timer for five seconds
-                        final CountDownTimer temp = new CountDownTimer(5000, 1000) { // Set timer for disappearance
-                            public void onTick(long millisUntilFinished) {
-                                if (millisUntilFinished / 30 == 0) {
-                                    onFinish();
-                                } else {
-                                    doublePoints = true;
-                                }
+                    v.setEnabled(false);                     // Disable button
+                    //v.setBackgroundResource(R.drawable.badswirl_break); //change to +1 and make dis
+                    SpecialArray[finalI].TimerId.cancel();        // Cancel it's disappear Timer
+                    SpecialArray[finalI].ButtonId = null;         // Remove Button ID
+                    SpecialArray[finalI] = null;                  // Remove from array
+                    AlphaAnimation anim = new AlphaAnimation(1.0f, 0.0f);//fade out the text
+                    anim.setDuration(200);
+                    v.startAnimation(anim);
+                    v.setVisibility(View.INVISIBLE);         // Make Swirl disappear when clicked
+                    v.setEnabled(false);                     // Disable button
+                    //start timer for five seconds
+                    final CountDownTimer temp = new CountDownTimer(5000, 1000) { // Set timer for disappearance
+                        public void onTick(long millisUntilFinished) {
+                            if (millisUntilFinished / 30 == 0) {
+                                onFinish();
+                            } else {
+                                doublePoints = true;
                             }
-
-
-                            @Override
-                            public void onFinish() {
-                                doublePoints = false;
-                            }
-                        }.start();
-                    }
+                        }
+                        @Override
+                        public void onFinish() {
+                            doublePoints = false;
+                        }
+                    }.start();
                 }
             });
             doubleCount++;
@@ -1710,30 +1826,27 @@ public class levelPlay extends Activity implements View.OnClickListener
                     SpecialArray[finalI] = null;
                     lifeButton.setVisibility(View.INVISIBLE);
                     lifeButton.setEnabled(false);
-
                 }
             }.start();
             SpecialArray[i] =  new buttonDisappear(lifeButton, temp);
             lifeButton.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
-
+                    if(lives < 3)
                     {
-                        if(lives < 3)
-                        {
-                            lives++;
-                            setLives(lives);
-                        }
-                        v.setEnabled(false);                     // Disable button
-                        //v.setBackgroundResource(R.drawable.badswirl_break); //change to +1 and make dis
-                        SpecialArray[finalI].TimerId.cancel();        // Cancel it's disappear Timer
-                        SpecialArray[finalI].ButtonId = null;         // Remove Button ID
-                        SpecialArray[finalI] = null;                  // Remove from array
-                        AlphaAnimation anim = new AlphaAnimation(1.0f, 0.0f);//fade out the text
-                        anim.setDuration(200);
-                        v.startAnimation(anim);
-                        v.setVisibility(View.INVISIBLE);         // Make Swirl disappear when clicked
-                        v.setEnabled(false);                     // Disable button
+                        lives++;
+                        setLives(lives);
                     }
+                    v.setEnabled(false);                     // Disable button
+                    //v.setBackgroundResource(R.drawable.badswirl_break); //change to +1 and make dis
+                    SpecialArray[finalI].TimerId.cancel();        // Cancel it's disappear Timer
+                    SpecialArray[finalI].ButtonId = null;         // Remove Button ID
+                    SpecialArray[finalI] = null;                  // Remove from array
+                    AlphaAnimation anim = new AlphaAnimation(1.0f, 0.0f);//fade out the text
+                    anim.setDuration(200);
+                    playSpecial(tapAddLife);
+                    v.startAnimation(anim);
+                    v.setVisibility(View.INVISIBLE);         // Make Swirl disappear when clicked
+                    v.setEnabled(false);                     // Disable button
                 }
 
             });
@@ -1769,31 +1882,29 @@ public class levelPlay extends Activity implements View.OnClickListener
                     BadArray[finalI] = null;
                     badButton.setVisibility(View.INVISIBLE);
                     badButton.setEnabled(false);
-
                 }
             }.start();
             BadArray[i] =  new buttonDisappear(badButton, temp);
             badButton.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
-
-                    {
-                        BadArray[finalI].TimerId.cancel();      // Cancel it's disappear Timer
-                        BadArray[finalI].ButtonId = null;       // Remove Button ID
-                        v.setEnabled(false);                     // Disable button
-                        v.setBackgroundResource(R.drawable.badswirl_break); //change to +1 and make dis
-                        AlphaAnimation anim = new AlphaAnimation(1.0f, 0.0f);//fade out the text
-                        anim.setDuration(500);
-                        v.startAnimation(anim);
-                        BadArray[finalI] = null;
-                        v.setVisibility(View.INVISIBLE);         // Make Swirl disappear when clicked
-                        v.setEnabled(false);                     // Disable button
-                        score -= 2;                                 // Add one to score
-                        lives -= 1;
-                        setLives(lives);
-                    }
+                {
+                    BadArray[finalI].TimerId.cancel();      // Cancel it's disappear Timer
+                    BadArray[finalI].ButtonId = null;       // Remove Button ID
+                    v.setEnabled(false);                     // Disable button
+                    v.setBackgroundResource(R.drawable.badswirl_break); //change to +1 and make dis
+                    AlphaAnimation anim = new AlphaAnimation(1.0f, 0.0f);//fade out the text
+                    anim.setDuration(500);
+                    playBad(tapBad);
+                    v.startAnimation(anim);
+                    BadArray[finalI] = null;
+                    v.setVisibility(View.INVISIBLE);         // Make Swirl disappear when clicked
+                    v.setEnabled(false);                     // Disable button
+                    score -= 2;                                 // Add one to score
+                    lives -= 1;
+                    setLives(lives);
+                }
                 }
             });
-
         }
         public void displayLightning(final Button lightningButton, int i)
         {
@@ -1844,7 +1955,6 @@ public class levelPlay extends Activity implements View.OnClickListener
     /*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
         public void DestroySwirls()
         {
-
             for (int i = 0; i < 20; i++)
             {
                 if (GoodArray[i] != null) {
@@ -1869,13 +1979,11 @@ public class levelPlay extends Activity implements View.OnClickListener
         }
     /*+++++++++++++++++++++++++++++USED FOR LIGHTNING BUTTON++++++++++++++++++++++++++++++++++++*/
     /*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
-        public void DestroyGoodSwirls()
-        {
-            for (int i = 0; i < 20; i++)
-            {
+        public void DestroyGoodSwirls() {
+            for (int i = 0; i < 20; i++) {
                 if (GoodArray[i] != null) {
                     GoodArray[i].TimerId.cancel();
-                   // GoodArray[i].ButtonId.setVisibility(View.INVISIBLE);
+                    // GoodArray[i].ButtonId.setVisibility(View.INVISIBLE);
                     GoodArray[i].ButtonId.setBackgroundResource(R.drawable.goodswirl_break); //change to +1 and make dis
                     AlphaAnimation anim = new AlphaAnimation(1.0f, 0.0f);//fade out the text
                     anim.setDuration(200);
@@ -1884,7 +1992,8 @@ public class levelPlay extends Activity implements View.OnClickListener
                     GoodArray[i].ButtonId.setEnabled(false);
                 }
 
-             if (SpecialArray[i] != null) {
+
+                if (SpecialArray[i] != null) {
                     SpecialArray[i].TimerId.cancel();
                     SpecialArray[i].ButtonId.setVisibility(View.INVISIBLE);
                     SpecialArray[i].ButtonId.setEnabled(false);
@@ -1893,7 +2002,76 @@ public class levelPlay extends Activity implements View.OnClickListener
                 SpecialArray[i] = null;
             }
         }
+
+    private void playGood(Uri uri) {
+        try{
+            GoodSound.reset();
+            GoodSound.setDataSource(this, uri);
+            GoodSound.prepare();
+            GoodSound.start();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
+    private void playGood2(Uri uri) {
+        try{
+            GoodSound2.reset();
+            GoodSound2.setDataSource(this, uri);
+            GoodSound2.prepare();
+            GoodSound2.start();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    private void playBad(Uri uri) {
+        try{
+            BadSound.reset();
+            BadSound.setDataSource(this, uri);
+            BadSound.prepare();
+            BadSound.start();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    private void playSpecial(Uri uri) {
+        try{
+            SpecialSound.reset();
+            SpecialSound.setDataSource(this, uri);
+            SpecialSound.prepare();
+            SpecialSound.start();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    public void ScreenShot(Activity activity)
+    {
+        String screenshotPathLevel = Environment.getExternalStorageDirectory().toString() + "/" + "screenshotLevel.png";
+        View view = getWindow().getDecorView().getRootView();
+        view.setDrawingCacheEnabled(true);
+        Bitmap bitmapLevel;
+        bitmapLevel = Bitmap.createBitmap(view.getDrawingCache());
+        view.setDrawingCacheEnabled(false);
+        OutputStream fout = null;
+        File imageFile = new File(screenshotPathLevel);
+        try { //save bitmp as PNG file
+            fout = new FileOutputStream(imageFile);
+            bitmapLevel.compress(Bitmap.CompressFormat.PNG, 90, fout);
+            fout.flush();
+            fout.close();
+        } catch (FileNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+
+}
 
 
 

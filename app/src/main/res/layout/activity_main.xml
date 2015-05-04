@@ -1,4 +1,5 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -14,79 +15,118 @@
     <FrameLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/imageView2"
         android:id="@+id/frameLayout">
 
     </FrameLayout>
 
-    <ImageView
-        android:src="@drawable/swirlytap_title"
-        android:id="@+id/imageView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="25sp"
-        android:contentDescription="@string/TitleImage" />
-
-    <GridLayout
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/frameLayout"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="43dp">
+        android:layout_height="fill_parent"
+        android:weightSum="1"
+        android:layout_gravity="center">
 
-        <Button
-            android:text="@string/TimeMode"
-            android:id="@+id/singlePlayer"
-            android:layout_width="match_parent"
-            android:layout_height="60sp"
-            android:textSize="24sp"
-            android:background="@drawable/button_bg"
-            android:layout_gravity="center"
-            android:textColor="#ffffffff"
-            android:layout_row="0"
-            android:layout_column="0"
-            android:layout_marginBottom="10sp" />
+        <ImageView
+            android:src="@drawable/swirlytap_title"
+            android:id="@+id/imageView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="25sp"
+            android:contentDescription="@string/TitleImage"
+            android:layout_gravity="center_horizontal"/>
 
-        <Button
-            android:text="@string/LevelMode"
-            android:id="@+id/levelMode"
-            android:layout_width="match_parent"
-            android:layout_height="60sp"
-            android:textSize="22sp"
-            android:background="@drawable/button_bg"
-            android:layout_gravity="center"
-            android:textColor="#ffffffff"
-            android:layout_row="1"
-            android:layout_column="0"
-            android:layout_marginBottom="10sp" />
+        <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent">
 
-        <Button
-            android:text="@string/Login"
-            android:id="@+id/LogIn"
-            android:layout_width="match_parent"
-            android:layout_height="60sp"
-            android:textSize="22sp"
-            android:background="@drawable/button_bg"
-            android:layout_gravity="center"
-            android:textColor="#ffffffff"
-            android:layout_row="2"
-            android:layout_column="0"
-            android:layout_marginBottom="10sp" />
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="fill_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:gravity="center">
 
-        <Button
-            android:text="@string/play_again_test"
-            android:id="@+id/PlayAgainMain"
-            android:layout_width="match_parent"
-            android:layout_height="60sp"
-            android:textSize="20sp"
-            android:background="@drawable/button_bg"
-            android:textColor="#ffffffff"
-            android:layout_row="3"
-            android:layout_column="0"
-            android:layout_gravity="center" />
-    </GridLayout>
+                <GridLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingRight="10dp"
+                    android:paddingLeft="10dp"
+                    android:orientation="vertical"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="10sp"
+                    android:layout_marginRight="10sp">
+
+                    <Button
+                        android:text="@string/TimeMode"
+                        android:id="@+id/singlePlayer"
+                        android:layout_width="match_parent"
+                        android:layout_height="60sp"
+                        android:textSize="24sp"
+                        android:background="@drawable/button_bg"
+                        android:layout_gravity="center"
+                        android:textColor="#ffffffff"
+                        android:layout_row="0"
+                        android:layout_column="0"
+                        android:layout_marginBottom="10sp"/>
+
+                    <Button
+                        android:text="@string/LevelMode"
+                        android:id="@+id/levelMode"
+                        android:layout_width="match_parent"
+                        android:layout_height="60sp"
+                        android:textSize="22sp"
+                        android:background="@drawable/button_bg"
+                        android:layout_gravity="center"
+                        android:textColor="#ffffffff"
+                        android:layout_row="1"
+                        android:layout_column="0"
+                        android:layout_marginBottom="10sp" />
+
+                    <Button
+                        android:text="@string/LogIn"
+                        android:id="@+id/LogIn"
+                        android:layout_width="match_parent"
+                        android:layout_height="60sp"
+                        android:textSize="22sp"
+                        android:background="@drawable/button_bg"
+                        android:layout_gravity="center"
+                        android:textColor="#ffffffff"
+                        android:layout_row="2"
+                        android:layout_column="0"
+                        android:layout_marginBottom="10sp" />
+                    <Button
+                        android:text="@string/Profile"
+                        android:id="@+id/Profile"
+                        android:layout_width="match_parent"
+                        android:layout_height="60sp"
+                        android:textSize="22sp"
+                        android:background="@drawable/button_bg"
+                        android:layout_gravity="center"
+                        android:textColor="#ffffffff"
+                        android:layout_row="2"
+                        android:layout_column="0"
+                        android:layout_marginBottom="10sp" />
+
+                    <Button
+                        android:text="@string/play_again_test"
+                        android:id="@+id/PlayAgainMain"
+                        android:layout_width="match_parent"
+                        android:layout_height="60sp"
+                        android:textSize="20sp"
+                        android:background="@drawable/button_bg"
+                        android:textColor="#ffffffff"
+                        android:layout_row="3"
+                        android:layout_column="0"
+                        android:layout_gravity="center" />
+
+                </GridLayout>
+
+            </LinearLayout>
+
+        </TableRow>
+    </LinearLayout>
 
     <TextView
         android:layout_width="wrap_content"

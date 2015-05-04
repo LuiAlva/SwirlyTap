@@ -1,9 +1,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" android:background="#0099cc"
+    android:layout_height="match_parent" android:background="@drawable/highscore_bg"
     tools:context="com.gmail.dianaupham.swirlytap.HighScoreActivity"
     android:orientation="vertical">
-
 
     <LinearLayout
         android:orientation="vertical"
@@ -15,22 +14,24 @@
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:layout_marginLeft="10sp"
-            android:layout_marginRight="10sp">
+            android:layout_marginRight="10sp"
+            android:background="#6acfcfcf">
 
             <TableRow
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/TitleRow"
-                android:layout_alignParentStart="true">
+                android:layout_alignParentStart="true"
+                android:gravity="center">
 
-                <TextView
+                <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="High Scores"
                     android:id="@+id/Title"
-                    android:textColor="#ff000000"
-                    android:textStyle="bold"
-                    android:textSize="30sp" />
+                    android:src="@drawable/highscore_timed_title"
+                    android:scaleType="fitXY"
+                    android:layout_marginTop="10sp"
+                    android:background="#906890e7" />
             </TableRow>
 
             <TableRow
@@ -42,17 +43,19 @@
 
                 <Button
                     android:layout_width="80sp"
-                    android:layout_height="50sp"
+                    android:layout_height="40sp"
                     android:text="Local"
                     android:id="@+id/LocalTab"
-                    android:background="@drawable/button_bg" />
+                    android:background="@drawable/highscores_tab"
+                    android:layout_marginTop="10sp" />
 
                 <Button
                     android:layout_width="80sp"
-                    android:layout_height="50sp"
+                    android:layout_height="40sp"
                     android:text="Overall"
                     android:id="@+id/OverallTab"
-                    android:background="@drawable/button_bg" />
+                    android:background="@drawable/highscores_tab"
+                    android:layout_marginTop="10sp" />
             </TableRow>
 
             <TableRow
@@ -64,11 +67,12 @@
                 android:id="@+id/navigation">
 
                 <Button
-                    android:layout_width="80sp"
+                    android:layout_width="fill_parent"
                     android:layout_height="50sp"
-                    android:text="Back"
+                    android:text="@string/back"
                     android:id="@+id/Back"
-                    android:background="@drawable/button_bg" />
+                    android:background="@drawable/button_bg"
+                    android:layout_margin="10sp" />
             </TableRow>
 
             <TableRow
@@ -78,7 +82,8 @@
                 android:layout_below="@+id/Tabs"
                 android:id="@+id/Content"
                 android:layout_centerInParent="true"
-                android:gravity="center">
+                android:gravity="center"
+                android:background="@drawable/highscore_table">
 
                 <LinearLayout
                     android:orientation="vertical"
@@ -91,7 +96,8 @@
                     <TableRow
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
-                        android:id="@+id/HighScoreRow1">
+                        android:id="@+id/HighScoreRow1"
+                        android:background="#56ffffff">
 
                         <RelativeLayout
                             android:layout_width="fill_parent"
@@ -105,7 +111,8 @@
                                 android:layout_column="0"
                                 android:textStyle="bold"
                                 android:textSize="25sp"
-                                android:layout_centerVertical="true" />
+                                android:layout_centerVertical="true"
+                                android:textColor="#ff000000" />
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -116,19 +123,21 @@
                                 android:layout_alignParentEnd="true"
                                 android:layout_toRightOf="@+id/Score1"
                                 android:textSize="20sp"
-                                android:text="Name Holder"
+                                android:text="@string/NameHolder"
                                 android:textIsSelectable="false"
-                                android:gravity="right" />
+                                android:gravity="right"
+                                android:textColor="#ff000000" />
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="0000"
+                                android:text="@string/z0000"
                                 android:id="@+id/Score1"
                                 android:layout_toRightOf="@+id/textView6"
                                 android:gravity="right"
                                 android:textSize="25sp"
-                                android:layout_centerVertical="true" />
+                                android:layout_centerVertical="true"
+                                android:textColor="#ff000000" />
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -144,7 +153,8 @@
                     <TableRow
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
-                        android:id="@+id/HighScoreRow2">
+                        android:id="@+id/HighScoreRow2"
+                        android:background="#6acfcfcf">
 
                         <RelativeLayout
                             android:layout_width="fill_parent"
@@ -158,7 +168,8 @@
                                 android:layout_column="0"
                                 android:textStyle="bold"
                                 android:textSize="25sp"
-                                android:layout_centerVertical="true" />
+                                android:layout_centerVertical="true"
+                                android:textColor="#ff000000" />
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -169,19 +180,21 @@
                                 android:layout_alignParentEnd="true"
                                 android:layout_toRightOf="@+id/Score2"
                                 android:textSize="20sp"
-                                android:text="Name Holder"
+                                android:text="@string/NameHolder"
                                 android:textIsSelectable="false"
-                                android:gravity="right" />
+                                android:gravity="right"
+                                android:textColor="#ff000000" />
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="0000"
+                                android:text="@string/z0000"
                                 android:id="@+id/Score2"
                                 android:layout_toRightOf="@+id/textView9"
                                 android:gravity="right"
                                 android:textSize="25sp"
-                                android:layout_centerVertical="true" />
+                                android:layout_centerVertical="true"
+                                android:textColor="#ff000000" />
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -196,7 +209,8 @@
                     <TableRow
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
-                        android:id="@+id/HighScoreRow3">
+                        android:id="@+id/HighScoreRow3"
+                        android:background="#56ffffff">
 
                         <RelativeLayout
                             android:layout_width="fill_parent"
@@ -210,7 +224,8 @@
                                 android:layout_column="0"
                                 android:textStyle="bold"
                                 android:textSize="25sp"
-                                android:layout_centerVertical="true" />
+                                android:layout_centerVertical="true"
+                                android:textColor="#ff000000" />
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -221,9 +236,10 @@
                                 android:layout_alignParentEnd="true"
                                 android:layout_toRightOf="@+id/Score3"
                                 android:textSize="20sp"
-                                android:text="Name Holder"
+                                android:text="@string/NameHolder"
                                 android:textIsSelectable="false"
-                                android:gravity="right" />
+                                android:gravity="right"
+                                android:textColor="#ff000000" />
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -233,7 +249,8 @@
                                 android:layout_toRightOf="@+id/textView12"
                                 android:gravity="right"
                                 android:textSize="25sp"
-                                android:layout_centerVertical="true" />
+                                android:layout_centerVertical="true"
+                                android:textColor="#ff000000" />
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -248,7 +265,8 @@
                     <TableRow
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
-                        android:id="@+id/HighScoreRow4">
+                        android:id="@+id/HighScoreRow4"
+                        android:background="#6acfcfcf">
 
                         <RelativeLayout
                             android:layout_width="fill_parent"
@@ -262,7 +280,8 @@
                                 android:layout_column="0"
                                 android:textStyle="bold"
                                 android:textSize="25sp"
-                                android:layout_centerVertical="true" />
+                                android:layout_centerVertical="true"
+                                android:textColor="#ff000000" />
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -273,19 +292,21 @@
                                 android:layout_alignParentEnd="true"
                                 android:layout_toRightOf="@+id/Score4"
                                 android:textSize="20sp"
-                                android:text="Name Holder"
+                                android:text="@string/NameHolder"
                                 android:textIsSelectable="false"
-                                android:gravity="right" />
+                                android:gravity="right"
+                                android:textColor="#ff000000" />
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="0000"
+                                android:text="@string/z0000"
                                 android:id="@+id/Score4"
                                 android:layout_toRightOf="@+id/textView15"
                                 android:gravity="right"
                                 android:textSize="25sp"
-                                android:layout_centerVertical="true" />
+                                android:layout_centerVertical="true"
+                                android:textColor="#ff000000" />
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -300,7 +321,8 @@
                     <TableRow
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
-                        android:id="@+id/HighScoreRow5">
+                        android:id="@+id/HighScoreRow5"
+                        android:background="#56ffffff">
 
                         <RelativeLayout
                             android:layout_width="fill_parent"
@@ -314,7 +336,8 @@
                                 android:layout_column="0"
                                 android:textStyle="bold"
                                 android:textSize="25sp"
-                                android:layout_centerVertical="true" />
+                                android:layout_centerVertical="true"
+                                android:textColor="#ff000000" />
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -325,19 +348,21 @@
                                 android:layout_alignParentEnd="true"
                                 android:layout_toRightOf="@+id/Score5"
                                 android:textSize="20sp"
-                                android:text="Name Holder"
+                                android:text="@string/NameHolder"
                                 android:textIsSelectable="false"
-                                android:gravity="right" />
+                                android:gravity="right"
+                                android:textColor="#ff000000" />
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="0000"
+                                android:text="@string/z0000"
                                 android:id="@+id/Score5"
                                 android:layout_toRightOf="@+id/textView18"
                                 android:gravity="right"
                                 android:textSize="25sp"
-                                android:layout_centerVertical="true" />
+                                android:layout_centerVertical="true"
+                                android:textColor="#ff000000" />
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -352,7 +377,8 @@
                     <TableRow
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
-                        android:id="@+id/HighScoreRow6" >
+                        android:id="@+id/HighScoreRow6"
+                        android:background="#6acfcfcf">
 
                         <RelativeLayout
                             android:layout_width="fill_parent"
@@ -366,7 +392,8 @@
                                 android:layout_column="0"
                                 android:textStyle="bold"
                                 android:textSize="25sp"
-                                android:layout_centerVertical="true" />
+                                android:layout_centerVertical="true"
+                                android:textColor="#ff000000" />
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -377,19 +404,21 @@
                                 android:layout_alignParentEnd="true"
                                 android:layout_toRightOf="@+id/Score6"
                                 android:textSize="20sp"
-                                android:text="Name Holder"
+                                android:text="@string/NameHolder"
                                 android:textIsSelectable="false"
-                                android:gravity="right" />
+                                android:gravity="right"
+                                android:textColor="#ff000000" />
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="0000"
+                                android:text="@string/z0000"
                                 android:id="@+id/Score6"
                                 android:layout_toRightOf="@+id/textView8"
                                 android:gravity="right"
                                 android:textSize="25sp"
-                                android:layout_centerVertical="true" />
+                                android:layout_centerVertical="true"
+                                android:textColor="#ff000000" />
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -404,7 +433,8 @@
                     <TableRow
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
-                        android:id="@+id/HighScoreRow7" >
+                        android:id="@+id/HighScoreRow7"
+                        android:background="#56ffffff">
 
                         <RelativeLayout
                             android:layout_width="fill_parent"
@@ -418,7 +448,8 @@
                                 android:layout_column="0"
                                 android:textStyle="bold"
                                 android:textSize="25sp"
-                                android:layout_centerVertical="true" />
+                                android:layout_centerVertical="true"
+                                android:textColor="#ff000000" />
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -429,19 +460,21 @@
                                 android:layout_alignParentEnd="true"
                                 android:layout_toRightOf="@+id/Score7"
                                 android:textSize="20sp"
-                                android:text="Name Holder"
+                                android:text="@string/NameHolder"
                                 android:textIsSelectable="false"
-                                android:gravity="right" />
+                                android:gravity="right"
+                                android:textColor="#ff000000" />
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="0000"
+                                android:text="@string/z0000"
                                 android:id="@+id/Score7"
                                 android:layout_toRightOf="@+id/textView11"
                                 android:gravity="right"
                                 android:textSize="25sp"
-                                android:layout_centerVertical="true" />
+                                android:layout_centerVertical="true"
+                                android:textColor="#ff000000" />
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -456,7 +489,8 @@
                     <TableRow
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
-                        android:id="@+id/HighScoreRow8" >
+                        android:id="@+id/HighScoreRow8"
+                        android:background="#6acfcfcf">
 
                         <RelativeLayout
                             android:layout_width="fill_parent"
@@ -470,7 +504,8 @@
                                 android:layout_column="0"
                                 android:textStyle="bold"
                                 android:textSize="25sp"
-                                android:layout_centerVertical="true" />
+                                android:layout_centerVertical="true"
+                                android:textColor="#ff000000" />
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -481,19 +516,21 @@
                                 android:layout_alignParentEnd="true"
                                 android:layout_toRightOf="@+id/Score8"
                                 android:textSize="20sp"
-                                android:text="Name Holder"
+                                android:text="@string/NameHolder"
                                 android:textIsSelectable="false"
-                                android:gravity="right" />
+                                android:gravity="right"
+                                android:textColor="#ff000000" />
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="0000"
+                                android:text="@string/z0000"
                                 android:id="@+id/Score8"
                                 android:layout_toRightOf="@+id/textView14"
                                 android:gravity="right"
                                 android:textSize="25sp"
-                                android:layout_centerVertical="true" />
+                                android:layout_centerVertical="true"
+                                android:textColor="#ff000000" />
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -508,7 +545,8 @@
                     <TableRow
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
-                        android:id="@+id/HighScoreRow9" >
+                        android:id="@+id/HighScoreRow9"
+                        android:background="#56ffffff">
 
                         <RelativeLayout
                             android:layout_width="fill_parent"
@@ -522,7 +560,8 @@
                                 android:textStyle="bold"
                                 android:textSize="25sp"
                                 android:layout_centerVertical="true"
-                                android:text="9.  " />
+                                android:text="9.  "
+                                android:textColor="#ff000000" />
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -533,19 +572,21 @@
                                 android:layout_alignParentEnd="true"
                                 android:layout_toRightOf="@+id/Score9"
                                 android:textSize="20sp"
-                                android:text="Name Holder"
+                                android:text="@string/NameHolder"
                                 android:textIsSelectable="false"
-                                android:gravity="right" />
+                                android:gravity="right"
+                                android:textColor="#ff000000" />
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="0000"
+                                android:text="@string/z0000"
                                 android:id="@+id/Score9"
                                 android:layout_toRightOf="@+id/textView20"
                                 android:gravity="right"
                                 android:textSize="25sp"
-                                android:layout_centerVertical="true" />
+                                android:layout_centerVertical="true"
+                                android:textColor="#ff000000" />
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -560,7 +601,8 @@
                     <TableRow
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
-                        android:id="@+id/HighScoreRow10" >
+                        android:id="@+id/HighScoreRow10"
+                        android:background="#6acfcfcf">
 
                         <RelativeLayout
                             android:layout_width="fill_parent"
@@ -574,7 +616,8 @@
                                 android:layout_column="0"
                                 android:textStyle="bold"
                                 android:textSize="25sp"
-                                android:layout_centerVertical="true" />
+                                android:layout_centerVertical="true"
+                                android:textColor="#ff000000" />
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -585,19 +628,21 @@
                                 android:layout_alignParentEnd="true"
                                 android:layout_toRightOf="@+id/Score10"
                                 android:textSize="20sp"
-                                android:text="Name Holder"
+                                android:text="@string/NameHolder"
                                 android:textIsSelectable="false"
-                                android:gravity="right" />
+                                android:gravity="right"
+                                android:textColor="#ff000000" />
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="0000"
+                                android:text="@string/z0000"
                                 android:id="@+id/Score10"
                                 android:layout_toRightOf="@+id/textView22"
                                 android:gravity="right"
                                 android:textSize="25sp"
-                                android:layout_centerVertical="true" />
+                                android:layout_centerVertical="true"
+                                android:textColor="#ff000000" />
 
                             <TextView
                                 android:layout_width="wrap_content"

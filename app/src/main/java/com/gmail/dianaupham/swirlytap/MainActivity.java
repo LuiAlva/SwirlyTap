@@ -21,6 +21,7 @@ import android.widget.TextView;
 import com.crashlytics.android.Crashlytics;
 import com.gmail.dianaupham.swirlytap.swirlytap.R;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.mopub.common.MoPub;
 import com.twitter.sdk.android.Twitter;
 import com.twitter.sdk.android.core.TwitterAuthConfig;
 import com.twitter.sdk.android.tweetcomposer.TweetComposer;
@@ -38,6 +39,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     Button buttonPlayAgainTest; //create type button for PlayAgainTest
     Button buttonLevel;
     Button buttonLogIn;
+    Button buttonProfile;
     Button LOG_IN, REG, NoThanks;      // For Login screen
     CheckBox StopLogin;
     MediaPlayer mediaPlayer; //for music
@@ -73,7 +75,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
                     .build();
         Fabric.with(fabric);
         }
-        Fabric.with(this, new TweetComposer(), new Crashlytics());
+        Fabric.with(this, new TweetComposer(), new Crashlytics(), new MoPub());
 /*
         // Create the Google Api Client with access to the Play Game services
         mGoogleApiClient = new GoogleApiClient.Builder(this)
@@ -91,38 +93,57 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         buttonSinglePlayer.setOnClickListener(this); //sets an onClickListener on buttonSinglePlayer
         buttonPlayAgainTest = (Button)findViewById(R.id.PlayAgainMain);
         buttonPlayAgainTest.setOnClickListener(this); //sets an onClickListener on buttonPlayAgainTest
+        buttonPlayAgainTest.setVisibility(View.GONE); //removes this button from view, and makes space for others
         buttonLevel = (Button) findViewById(R.id.levelMode);
         buttonLevel.setOnClickListener(this);
-        buttonLogIn = (Button)findViewById(R.id.LogIn);
-        buttonLogIn.setOnClickListener(this); //sets an onClickListener on buttonHighScore
         mediaPlayer.setLooping(true);
         SharedPreferences prefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
         boolean firstTime = prefs.getBoolean("FirstTimeSetup", true);
         if (firstTime) {
             SharedPreferences.Editor editor = prefs.edit();
-            editor.putBoolean("FirstTimeSetup", false);
-            editor.putInt("HighScore1", 0);         // For Overall Local HighScores
-            editor.putInt("HighScore2", 0);
-            editor.putInt("HighScore3", 0);
-            editor.putInt("HighScore4", 0);
-            editor.putInt("HighScore5", 0);
-            editor.putInt("HighScore6", 0);
-            editor.putInt("HighScore7", 0);
-            editor.putInt("HighScore8", 0);
-            editor.putInt("HighScore9", 0);
-            editor.putInt("HighScore10", 0);
-            editor.putString("HighName1", "");
-            editor.putString("HighName2", "");
-            editor.putString("HighName3", "");
-            editor.putString("HighName4", "");
-            editor.putString("HighName5", "");
-            editor.putString("HighName6", "");
-            editor.putString("HighName7", "");
-            editor.putString("HighName8", "");
-            editor.putString("HighName9", "");
-            editor.putString("HighName10", "");
-            editor.putString("PlayerName", "Player");
+            editor.putInt("TimeHighScore1", 0);         // For Time Mode Local HighScores
+            editor.putInt("TimeHighScore2", 0);
+            editor.putInt("TimeHighScore3", 0);
+            editor.putInt("TimeHighScore4", 0);
+            editor.putInt("TimeHighScore5", 0);
+            editor.putInt("TimeHighScore6", 0);
+            editor.putInt("TimeHighScore7", 0);
+            editor.putInt("TimeHighScore8", 0);
+            editor.putInt("TimeHighScore9", 0);
+            editor.putInt("TimeHighScore10", 0);
+            editor.putString("TimeHighName1", "");
+            editor.putString("TimeHighName2", "");
+            editor.putString("TimeHighName3", "");
+            editor.putString("TimeHighName4", "");
+            editor.putString("TimeHighName5", "");
+            editor.putString("TimeHighName6", "");
+            editor.putString("TimeHighName7", "");
+            editor.putString("TimeHighName8", "");
+            editor.putString("TimeHighName9", "");
+            editor.putString("TimeHighName10", "");
+            editor.putInt("LevelHighScore1", 0);         // For Level Mode Local HighScores
+            editor.putInt("LevelHighScore2", 0);
+            editor.putInt("LevelHighScore3", 0);
+            editor.putInt("LevelHighScore4", 0);
+            editor.putInt("LevelHighScore5", 0);
+            editor.putInt("LevelHighScore6", 0);
+            editor.putInt("LevelHighScore7", 0);
+            editor.putInt("LevelHighScore8", 0);
+            editor.putInt("LevelHighScore9", 0);
+            editor.putInt("LevelHighScore10", 0);
+            editor.putString("LevelHighName1", "");
+            editor.putString("LevelHighName2", "");
+            editor.putString("LevelHighName3", "");
+            editor.putString("LevelHighName4", "");
+            editor.putString("LevelHighName5", "");
+            editor.putString("LevelHighName6", "");
+            editor.putString("LevelHighName7", "");
+            editor.putString("LevelHighName8", "");
+            editor.putString("LevelHighName9", "");
+            editor.putString("LevelHighName10", "");
+            editor.putString("PlayerName", "Player");// For player name
             editor.putInt("HighScore", 0);           // For player High Score
+            editor.putBoolean("FirstTimeSetup", false);
             editor.commit();
 
         }
@@ -133,6 +154,15 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         SharedPreferences.Editor editor = prefs.edit();
         editor.putBoolean("NotLoggedIn",NotLoggedIn);
         editor.putBoolean("AskLogin", AskLogin);
+
+        buttonLogIn = (Button)findViewById(R.id.LogIn);
+        buttonLogIn.setOnClickListener(this); //sets an onClickListener on buttonLogIn
+        buttonProfile = (Button)findViewById(R.id.Profile);
+        buttonProfile.setOnClickListener(this); //sets an onClickListener on buttonProfile
+        if (prefs.getBoolean("NotLoggedIn", true))
+            buttonProfile.setVisibility(View.GONE); //removes this button from view, and makes space for others
+        else
+            buttonLogIn.setVisibility(View.GONE); //removes this button from view, and makes space for others
         editor.commit();
         new CountDownTimer(800,800) {
 
@@ -207,6 +237,10 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
                 playLevelClick();
                 break;
             case R.id.LogIn:
+                mediaPlayer.pause(); //stop song
+                LogInClick();
+                break;
+            case R.id.Profile:
                 mediaPlayer.pause(); //stop song
                 LogInClick();
                 break;

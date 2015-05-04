@@ -43,7 +43,6 @@ public class LoginScreen extends Activity
                 Intent i = new Intent(getApplicationContext(), Login.class);
                 startActivity(i);
                 finish();
-
             }
         });
         REG.setOnClickListener(new View.OnClickListener() {
@@ -53,7 +52,6 @@ public class LoginScreen extends Activity
                 Intent i = new Intent(getApplicationContext(),Register.class);
                 startActivity(i);
                 finish();
-
             }
         });
         Back.setOnClickListener(new View.OnClickListener() {
@@ -62,7 +60,6 @@ public class LoginScreen extends Activity
                 Intent i = new Intent(getApplicationContext(),MainActivity.class);
                 startActivity(i);
                 finish();
-
             }
         });
     }

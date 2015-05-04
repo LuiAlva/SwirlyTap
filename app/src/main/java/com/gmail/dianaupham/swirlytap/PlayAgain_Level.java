@@ -1,10 +1,9 @@
 package com.gmail.dianaupham.swirlytap;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.content.res.Resources;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
@@ -18,12 +17,12 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
+
 import com.gmail.dianaupham.swirlytap.swirlytap.R;
-import com.twitter.sdk.android.tweetcomposer.TweetComposer;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import io.fabric.sdk.android.Fabric;
 
 public class PlayAgain_Level extends ActionBarActivity implements View.OnClickListener  {
     Button buttonAgainLevel;     //create type button for 'Play Again'
@@ -77,27 +76,35 @@ public class PlayAgain_Level extends ActionBarActivity implements View.OnClickLi
 
     public void ShareClick(View view){
         //sharing implementation
+        Resources resources = getResources();
+
         List<Intent> targetedShareIntents = new ArrayList<Intent>();
         Uri imageUri = Uri.parse("android.resource://" + getPackageName()
                 + "/drawable/" + "goodswirl.png");                  //temp. use goodswirl
         Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND); //allows delivery of image and text
-        sharingIntent.setType("*/*");                                 //send any generic data
-        String shareBody = "SwirlyTap :) https://twitter.com/SwirlyTap";//text+URL
+        sharingIntent.setType("*/*");                               //send any generic data
+        String shareBodyTwitter = "Check out my score on Level Mode for @SwirlyTap! https://twitter.com/SwirlyTap";//text+URL
+        String shareBodyText = "Check out my score on SwirlyTap's Level Mode! https://twitter.com/SwirlyTap"; //TODO: replace twitter link with GooplePlay URL
+        String shareBody = "Check out my score on SwirlyTap's Level Mode! https://twitter.com/SwirlyTap";//text+URL
 
         PackageManager pm = view.getContext().getPackageManager();
         List<ResolveInfo> activityList = pm.queryIntentActivities(sharingIntent, 0);
         for(final ResolveInfo app : activityList) {
             String packageName = app.activityInfo.packageName;
             Intent targetedShareIntent = new Intent(android.content.Intent.ACTION_SEND);
-            targetedShareIntent.setType("*/*");                                 //send any generic data
-            targetedShareIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Check out SwirlyTap!");
-            String fileTemp = "file://" + Environment.getExternalStorageDirectory()
-                    + File.separator + "goodswirl.png";
-            targetedShareIntent.putExtra(Intent.EXTRA_STREAM, Uri.parse(fileTemp));
-            if(TextUtils.equals(packageName, "com.facebook.katana")){
+            targetedShareIntent.setType("*/*");                                         //send any generic data
+            targetedShareIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Check out SwirlyTap!"); //subject line on emails
+            String fileTemp = "file://" + Environment.getExternalStorageDirectory()     //image location
+                    + File.separator + "screenshotLevel.png";
+            targetedShareIntent.putExtra(Intent.EXTRA_STREAM, Uri.parse(fileTemp));     //share image
+            if(TextUtils.equals(packageName, "com.facebook.katana")){                   //share message specific to Facebook
                 targetedShareIntent.putExtra(android.content.Intent.EXTRA_TEXT, "https://twitter.com/SwirlyTap"); //will only accept URL
-            } else {
-                targetedShareIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);//share text+URL
+            }else if(packageName.contains("mms")) {                                     //if sharing via Text Message
+                targetedShareIntent.putExtra(Intent.EXTRA_TEXT, shareBodyText);
+            }else if(packageName.contains("twitter")){                                  //if sharing via Twitter
+                targetedShareIntent.putExtra(Intent.EXTRA_TEXT, shareBodyTwitter);      //Twitter-specific message
+            }else {                                                                     //message for other sharing apps
+                targetedShareIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);//share text+URL along with image
             }
             targetedShareIntent.setPackage(packageName);
             targetedShareIntents.add(targetedShareIntent);
@@ -111,6 +118,9 @@ public class PlayAgain_Level extends ActionBarActivity implements View.OnClickLi
 
     private void HighScoreClick()
     {   //start HighScore activity once "Play Again" button clicked
+        Intent intentAgain2 = new Intent(PlayAgain_Level.this, HighScoreActivity.class);
+        intentAgain2.putExtra("LoadLevelScores", true);
+        startActivity(intentAgain2);//goes to HighScore activity
     }
 
     public void onClick(View v)
@@ -130,24 +140,17 @@ public class PlayAgain_Level extends ActionBarActivity implements View.OnClickLi
                 final ViewGroup viewGroup = (ViewGroup) ((ViewGroup) this
                         .findViewById(android.R.id.content)).getChildAt(0);     //set view
                 ShareClick(viewGroup);//share text+URL and image
-                //ShareClick2();     //share text and image
                 break;
-
-            /*if High Score is clicked... it will take you to a different screen
-            to display the "Leader Board" */
         }
     }
 
     protected void onResume() {
         super.onResume();
     }
-
     protected void onPause() {
         super.onPause();
-
         mediaPlayer.release();
     }
-
     public void onBackPressed() {
         HomeClick();      //return to Home screen (MainActivity)
     }

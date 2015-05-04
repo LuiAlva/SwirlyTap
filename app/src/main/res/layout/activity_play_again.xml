@@ -1,4 +1,5 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -43,7 +44,6 @@
                     android:layout_marginLeft="25sp"
                     android:layout_marginRight="25sp"
                     android:layout_marginTop="5sp" />
-
                 <LinearLayout
                     android:orientation="vertical"
                     android:layout_width="wrap_content"
@@ -198,7 +198,6 @@
                 <GridLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-
                     android:paddingRight="10dp"
                     android:paddingLeft="10dp"
                     android:orientation="vertical"
@@ -207,16 +206,18 @@
                     android:layout_marginRight="10sp">
 
                     <Button
-                        android:text="@string/action_home"
-                        android:id="@+id/returnHome"
+                        android:text="@string/play_again"
+                        android:id="@+id/PlayAgain"
                         android:layout_width="match_parent"
                         android:layout_height="50sp"
                         android:layout_marginLeft="10sp"
                         android:layout_marginRight="10sp"
-                        android:textSize="20sp"
+                        android:paddingRight="15dp"
+                        android:paddingLeft="15dp"
+                        android:textSize="18sp"
                         android:textColor="#ffffffff"
                         android:background="@drawable/button_bg"
-                        android:layout_marginBottom="5sp" />
+                        android:gravity="center" />
 
                     <Button
                         android:text="@string/share"
@@ -250,25 +251,16 @@
                         android:layout_marginBottom="5sp" />
 
                     <Button
-                        android:text="@string/play_again"
-                        android:id="@+id/PlayAgain"
+                        android:text="@string/action_home"
+                        android:id="@+id/returnHome"
                         android:layout_width="match_parent"
                         android:layout_height="50sp"
-                        android:paddingRight="15dp"
-                        android:paddingLeft="15dp"
                         android:layout_marginLeft="10sp"
                         android:layout_marginRight="10sp"
-                        android:textSize="18sp"
+                        android:textSize="20sp"
                         android:textColor="#ffffffff"
                         android:background="@drawable/button_bg"
-                        android:gravity="center" />
-
-                    <!--    <com.twitter.sdk.android.tweetui.TweetView
-                        xmlns:twittersdk="http://schemas.android.com/apk/res-auto"
-                        android:id="@+id/photo_default_tweet"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        twittersdk:tw__tweet_id="20"/> -->
+                        android:layout_marginBottom="5sp" />
 
                 </GridLayout>
 
@@ -277,4 +269,4 @@
         </TableRow>
     </LinearLayout>
 
-</LinearLayout>
+</RelativeLayout>

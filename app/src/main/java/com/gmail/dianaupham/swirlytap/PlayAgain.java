@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
@@ -18,11 +20,17 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
+
 import com.gmail.dianaupham.swirlytap.swirlytap.R;
 import com.twitter.sdk.android.tweetcomposer.TweetComposer;
+
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
+
 import io.fabric.sdk.android.Fabric;
 
 public class PlayAgain extends ActionBarActivity implements View.OnClickListener  {
@@ -51,7 +59,7 @@ public class PlayAgain extends ActionBarActivity implements View.OnClickListener
         mediaPlayer = MediaPlayer.create(this, R.raw.game_success); //get success sound
         // Get HighScore
         SharedPreferences prefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
-        HighScore = prefs.getInt("HighScore1", 0);
+        HighScore = prefs.getInt("TimeHighScore1", 0);
 
         Intent game = getIntent(); // Grab the the intent of game that ended
         int score = game.getIntExtra("score", 0); //Grab score from game
@@ -59,6 +67,7 @@ public class PlayAgain extends ActionBarActivity implements View.OnClickListener
         int BadSwirls = game.getIntExtra("BadSwirls", 0);
         int Good2Swirls = game.getIntExtra("Good2Swirls", 0);
         int TimeSwirls = game.getIntExtra("TimeSwirls", 0);
+
         TextView Score= (TextView) findViewById(R.id.ScoreView);
         Score.setText("" + score + " points!");   //Set text to show score
         TextView BEST_SCORE= (TextView) findViewById(R.id.BestScore);
@@ -71,7 +80,6 @@ public class PlayAgain extends ActionBarActivity implements View.OnClickListener
         Good2Counter.setText(""+ Good2Swirls);   //Set text to show score
         TextView TimeCounter= (TextView) findViewById(R.id.Time_Swirl_Counter);
         TimeCounter.setText(""+ TimeSwirls);   //Set text to show score
-
 
         buttonAgain = (Button)findViewById(R.id.PlayAgain);
         buttonAgain.setOnClickListener(this);     //sets an onClickListener on buttonAgain
@@ -98,43 +106,37 @@ public class PlayAgain extends ActionBarActivity implements View.OnClickListener
         startActivity(intentReturnHome);//returns to Home screen
         finish();
     }
-    private void ShareClick2()
-    {   //use Implicit Intent to share promotional text/image of application
-        Uri imageUri = Uri.parse("android.resource://" + getPackageName()
-                + "/drawable/" + "goodswirl.png");                  //temp. use goodswirl
-        Intent shareIntent = new Intent(Intent.ACTION_SEND); //allows delivery of image and text
-        shareIntent.setType("*/*");                                 //send any generic data
-        shareIntent.putExtra(Intent.EXTRA_TEXT, "SwirlyTap :)");    //text shared: "@SwirlyTap :)"
-        String fileTemp = "file://" + Environment.getExternalStorageDirectory()
-                + File.separator + "goodswirl.png";
-        shareIntent.putExtra(Intent.EXTRA_STREAM, Uri.parse(fileTemp));
-        //shareIntent.putExtra(Intent.EXTRA_STREAM, imageUri);        //includes image
-        //shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);//read URI
-        startActivity(Intent.createChooser(shareIntent, getResources().getString(R.string.share)));  //choose sharing app
-    }
     public void ShareClick(View view){
         //sharing implementation
+        Resources resources = getResources();
+
         List<Intent> targetedShareIntents = new ArrayList<Intent>();
         Uri imageUri = Uri.parse("android.resource://" + getPackageName()
                 + "/drawable/" + "goodswirl.png");                  //temp. use goodswirl
         Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND); //allows delivery of image and text
-        sharingIntent.setType("*/*");                                 //send any generic data
-        String shareBody = "SwirlyTap :) https://twitter.com/SwirlyTap";//text+URL
+        sharingIntent.setType("*/*");                               //send any generic data
+        String shareBodyTwitter = "Check out my score on @SwirlyTap! https://twitter.com/SwirlyTap";//text+URL
+        String shareBodyText = "Check out my score on SwirlyTap! https://twitter.com/SwirlyTap"; //TODO: replace twitter link with GooplePlay URL
+        String shareBody = "Check out my score on SwirlyTap! https://twitter.com/SwirlyTap";//text+URL
 
         PackageManager pm = view.getContext().getPackageManager();
         List<ResolveInfo> activityList = pm.queryIntentActivities(sharingIntent, 0);
         for(final ResolveInfo app : activityList) {
             String packageName = app.activityInfo.packageName;
             Intent targetedShareIntent = new Intent(android.content.Intent.ACTION_SEND);
-            targetedShareIntent.setType("*/*");                                 //send any generic data
-            targetedShareIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Check out SwirlyTap!");
-            String fileTemp = "file://" + Environment.getExternalStorageDirectory()
-                    + File.separator + "goodswirl.png";
-            targetedShareIntent.putExtra(Intent.EXTRA_STREAM, Uri.parse(fileTemp));
-            if(TextUtils.equals(packageName, "com.facebook.katana")){
+            targetedShareIntent.setType("*/*");                                         //send any generic data
+            targetedShareIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Check out SwirlyTap!"); //subject line on emails
+            String fileTemp = "file://" + Environment.getExternalStorageDirectory()     //image location
+                    + File.separator + "screenshot.png";
+            targetedShareIntent.putExtra(Intent.EXTRA_STREAM, Uri.parse(fileTemp));     //share image
+            if(TextUtils.equals(packageName, "com.facebook.katana")){                   //share message specific to Facebook
                 targetedShareIntent.putExtra(android.content.Intent.EXTRA_TEXT, "https://twitter.com/SwirlyTap"); //will only accept URL
-            } else {
-                targetedShareIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);//share text+URL
+            }else if(packageName.contains("mms")) {                                     //if sharing via Text Message
+                targetedShareIntent.putExtra(Intent.EXTRA_TEXT, shareBodyText);
+            }else if(packageName.contains("twitter")){                                  //if sharing via Twitter
+                targetedShareIntent.putExtra(Intent.EXTRA_TEXT, shareBodyTwitter);      //Twitter-specific message
+            }else {                                                                     //message for other sharing apps
+                targetedShareIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);//share text+URL along with image
             }
             targetedShareIntent.setPackage(packageName);
             targetedShareIntents.add(targetedShareIntent);
@@ -149,6 +151,7 @@ public class PlayAgain extends ActionBarActivity implements View.OnClickListener
     private void HighScoreClick()
     {   //start single player activity once "Play Again" button clicked
         Intent intentAgain2 = new Intent(PlayAgain.this, HighScoreActivity.class);
+        intentAgain2.putExtra("LoadTimedScores", true);
         startActivity(intentAgain2);//goes to HighScore activity
     }
 
@@ -162,18 +165,14 @@ public class PlayAgain extends ActionBarActivity implements View.OnClickListener
             case R.id.returnHome: //if "Home" is clicked
                 HomeClick();      //return to Home screen (MainActivity)
                 break;
-            case R.id.HighScore: //if "HighScore" is clicked
-                HighScoreClick();      // Go to high score activity (HighScoreActivity)
+            case R.id.HighScore:  //if "HighScore" is clicked
+                HighScoreClick(); // Go to high score activity (HighScoreActivity)
                 break;
             case R.id.Share:      //if "Share" is clicked
                 final ViewGroup viewGroup = (ViewGroup) ((ViewGroup) this
                         .findViewById(android.R.id.content)).getChildAt(0);     //set view
                 ShareClick(viewGroup);//share text+URL and image
-                //ShareClick2();     //share text and image
                 break;
-
-            /*if High Score is clicked... it will take you to a different screen
-            to display the "Leader Board" */
         }
     }
 
@@ -190,11 +189,5 @@ public class PlayAgain extends ActionBarActivity implements View.OnClickListener
     public void onBackPressed() {
         HomeClick();      //return to Home screen (MainActivity)
     }
-
-////    TweetComposer.Builder builder = new TweetComposer.Builder(this)
-////            .text("just setting up my Fabric.")
-//            .image(R.drawable.goodswirl);
-////            .image(Uri.parse(new File("/drawable/goodswirl.png").toString()));
-//    builder.show();
 
 }//end public class PlayAgain
