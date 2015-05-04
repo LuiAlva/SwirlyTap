@@ -1162,17 +1162,19 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
         SharedPreferences prefsTotals = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor editorTotals;
         NAME = prefsTotals.getString("PlayerName", "Player");
+
         if (prefsTotals.getInt("GoodSwirlTotal", 0) == 0) {
             editorTotals = prefsTotals.edit();
             editorTotals.putInt("GoodSwirlTotal", Good_Pressed);
+            //editorTotals.putString("GoodSwirlTotalName", NAME);
             editorTotals.commit();
         } else if (prefsTotals.getInt("GoodSwirlTotal", 0) > 0) {
             editorTotals = prefsTotals.edit();
             GoodSwirlTotalPass = prefsTotals.getInt("GoodSwirlTotal", 0);
-            NamePass = prefsTotals.getString("GoodSwirlTotal", "Player");
+            //NamePass = prefsTotals.getString("GoodSwirlTotal", "Player");
             GoodSwirlTotalPass = GoodSwirlTotalPass + Good_Pressed;
             editorTotals.putInt("GoodSwirlTotal", GoodSwirlTotalPass);
-            editorTotals.putString("GoodSwirlTotal", NAME);
+            //editorTotals.putString("GoodSwirlTotalName", NAME);
             editorTotals.commit();
         }
     }
