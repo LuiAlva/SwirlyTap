@@ -29,6 +29,7 @@ import android.widget.TableRow;
 import android.widget.TextView;
 
 import com.gmail.dianaupham.swirlytap.swirlytap.R;
+import com.mopub.mobileads.MoPubView;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -42,6 +43,10 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
     int ScorePass = 0;      //for passing the old HighScores
     String NamePass = "";   //For passing the name in HighScores
     int GoodSwirlTotalPass = 0; //For passing old GoodSwirl total
+    int TwiceSwirlTotalPass = 0;//For passing old TwiceSwirl total
+    int BadSwirlTotalPass = 0;  //For passing old BadSwirl total
+    int TimeAddTotalPass = 0;   //For passing old TimeAdd total
+    int SP_GamesPlayedTotalPass = 0;//passing old SP_GamesPlayed total
     String NAME = "";       // For Player Name for CompareScores()
     int SCORE = 0;          // For Score for CompareScores()
     int GOODSWIRLtotal = 0; // For total GoodSwirls tapped
@@ -106,6 +111,7 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
     int OnScreenBad = 0;        // BadSwirls On Screen
     int OnScreenTime = 0;       // TimeSwirls On Screen
     int OnScreenGood2 = 0;      // 2xGoodSwirls On Screen
+    int spFirstGamePlayed = 1;  // Set #game played to 1 after game finish, if first game played
     int Extra_Time_Max = 1;     // Set limit for amount of time added (20 seconds)
     int Extra_Time_Counter = 0; // Count amount of ExtraTime added
     String screenshot;          // Screenshot (file) of SinglePlayer
@@ -1118,8 +1124,9 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
 
             @Override
             public void onFinish() {
-                CompareScore();
-                TotalTapped();
+                CompareScore();    //Update HighScores if there is new HighScore
+                TotalTapped();     //Add #swirls/#timeAdd to Total user counts
+                spGamesPlayed();   //+1 game completed
                 //* End the Game*\\
                 popupWindow.dismiss();                                                //Dismiss Time's up popup
                 gameBG.stop();                                                        //stop song
@@ -1252,12 +1259,13 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
         SharedPreferences.Editor editorTotals;
         NAME = prefsTotals.getString("PlayerName", "Player");
 
-        if (prefsTotals.getInt("GoodSwirlTotal", 0) == 0) {
+        //+++++++++GOOD SWIRL+++++++++++++++++++++++++++++
+        if (prefsTotals.getInt("GoodSwirlTotal", 0) == 0) { //First game (or first green swirl tapped)
             editorTotals = prefsTotals.edit();
             editorTotals.putInt("GoodSwirlTotal", Good_Pressed);
             //editorTotals.putString("GoodSwirlTotalName", NAME);
             editorTotals.commit();
-        } else if (prefsTotals.getInt("GoodSwirlTotal", 0) > 0) {
+        } else if (prefsTotals.getInt("GoodSwirlTotal", 0) > 0) { //Add GoodSwirls clicked in this game to Total
             editorTotals = prefsTotals.edit();
             GoodSwirlTotalPass = prefsTotals.getInt("GoodSwirlTotal", 0);
             //NamePass = prefsTotals.getString("GoodSwirlTotal", "Player");
@@ -1266,7 +1274,61 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
             //editorTotals.putString("GoodSwirlTotalName", NAME);
             editorTotals.commit();
         }
-    }
+        //+++++++++TWICE SWIRL++++++++++++++++++++++++
+        if (prefsTotals.getInt("TwiceSwirlTotal", 0) == 0) { //First game (or first yellow swirl tapped)
+            editorTotals = prefsTotals.edit();
+            editorTotals.putInt("TwiceSwirlTotal", Good2_Pressed);
+            editorTotals.commit();
+        } else if (prefsTotals.getInt("TwiceSwirlTotal", 0) > 0) { //Add TwiceSwirls clicked in this game to Total
+            editorTotals = prefsTotals.edit();
+            TwiceSwirlTotalPass = prefsTotals.getInt("TwiceSwirlTotal", 0);
+            TwiceSwirlTotalPass = TwiceSwirlTotalPass + Good2_Pressed;
+            editorTotals.putInt("TwiceSwirlTotal", TwiceSwirlTotalPass);
+            editorTotals.commit();
+        }
+        //+++++++++BAD SWIRL++++++++++++++++++++++++
+        if (prefsTotals.getInt("BadSwirlTotal", 0) == 0) { //First game (or first red swirl tapped)
+            editorTotals = prefsTotals.edit();
+            editorTotals.putInt("BadSwirlTotal", Bad_Pressed);
+            editorTotals.commit();
+        } else if (prefsTotals.getInt("BadSwirlTotal", 0) > 0) { //Add BadSwirls clicked in this game to Total
+            editorTotals = prefsTotals.edit();
+            BadSwirlTotalPass = prefsTotals.getInt("BadSwirlTotal", 0);
+            BadSwirlTotalPass = BadSwirlTotalPass + Bad_Pressed;
+            editorTotals.putInt("BadSwirlTotal", BadSwirlTotalPass);
+            editorTotals.commit();
+        }
+        //+++++++++TIME ADD++++++++++++++++++++++++
+        if (prefsTotals.getInt("TimeAddTotal", 0) == 0) { //First game (or first +5_Time tapped)
+            editorTotals = prefsTotals.edit();
+            editorTotals.putInt("TimeAddTotal", Time_Pressed);
+            editorTotals.commit();
+        } else if (prefsTotals.getInt("TimeAddTotal", 0) > 0) { //Add +5_Time clicked in this game to Total
+            editorTotals = prefsTotals.edit();
+            TimeAddTotalPass = prefsTotals.getInt("TimeAddTotal", 0);
+            TimeAddTotalPass = TimeAddTotalPass + Time_Pressed;
+            editorTotals.putInt("TimeAddTotal", TimeAddTotalPass);
+            editorTotals.commit();
+        }
+    }//end TotalTapped()
+
+    public void spGamesPlayed() {
+        SharedPreferences prefsTotals = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editorTotals;
+        NAME = prefsTotals.getString("PlayerName", "Player");
+        if (prefsTotals.getInt("spGamesPlayedTotal", 0) == 0) { //First game played
+            editorTotals = prefsTotals.edit();
+            editorTotals.putInt("spGamesPlayedTotal", spFirstGamePlayed);
+            editorTotals.commit();
+        } else if (prefsTotals.getInt("spGamesPlayedTotal", 0) > 0) { //More than one game played, increment count +1
+            editorTotals = prefsTotals.edit();
+            SP_GamesPlayedTotalPass = prefsTotals.getInt("spGamesPlayedTotal", 0);
+            SP_GamesPlayedTotalPass = SP_GamesPlayedTotalPass + 1;  //+1 SP game played
+            editorTotals.putInt("spGamesPlayedTotal", SP_GamesPlayedTotalPass);
+            editorTotals.commit();
+        }//end 'else if'
+    }//end spGamesPlayed()
+
     // Game Start and Game Over(end) ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
     public void ScreenShot(Activity activity)
@@ -1319,7 +1381,7 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
 
     @Override
     protected void onDestroy() {
- //       moPubView.destroy();
+        //moPubView.destroy();
         super.onDestroy();
         GoodSound.release();
         GoodSound2.release();
