@@ -1906,7 +1906,7 @@ public class levelPlay extends Activity implements View.OnClickListener
                 }
             });
         }
-        public void displayLightning(final Button lightningButton, int i)
+    public void displayLightning(final Button lightningButton, int i)
         {
             lightningButton.setBackgroundResource(R.drawable.lightningbolt); //Set image to goodswirl
             lightningButton.setEnabled(true);                            //Enable Swirl
@@ -1953,7 +1953,7 @@ public class levelPlay extends Activity implements View.OnClickListener
 
     /*++++++++++++++++++++++++++++++++DESTROY ALL BUTTONS++++++++++++++++++++++++++++++++++++++*/
     /*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
-        public void DestroySwirls()
+    public void DestroySwirls()
         {
             for (int i = 0; i < 20; i++)
             {
@@ -1979,7 +1979,7 @@ public class levelPlay extends Activity implements View.OnClickListener
         }
     /*+++++++++++++++++++++++++++++USED FOR LIGHTNING BUTTON++++++++++++++++++++++++++++++++++++*/
     /*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
-        public void DestroyGoodSwirls() {
+    public void DestroyGoodSwirls() {
             for (int i = 0; i < 20; i++) {
                 if (GoodArray[i] != null) {
                     GoodArray[i].TimerId.cancel();
