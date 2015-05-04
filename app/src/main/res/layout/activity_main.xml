@@ -110,8 +110,8 @@
                         android:layout_marginBottom="10sp" />
 
                     <Button
-                        android:text="@string/play_again_test"
-                        android:id="@+id/PlayAgainMain"
+                        android:text="@string/High_Score"
+                        android:id="@+id/highscores"
                         android:layout_width="match_parent"
                         android:layout_height="60sp"
                         android:textSize="20sp"

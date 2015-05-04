@@ -36,7 +36,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     // Note: Your consumer key and secret should be obfuscated in your source code before shipping.
 
     Button buttonSinglePlayer; //create type button
-    Button buttonPlayAgainTest; //create type button for PlayAgainTest
+    Button HIGHSCORES; //create type button for PlayAgainTest
     Button buttonLevel;
     Button buttonLogIn;
     Button buttonProfile;
@@ -91,9 +91,8 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         mediaPlayer = MediaPlayer.create(this, R.raw.title_song); //get song
         buttonSinglePlayer = (Button)findViewById(R.id.singlePlayer);
         buttonSinglePlayer.setOnClickListener(this); //sets an onClickListener on buttonSinglePlayer
-        buttonPlayAgainTest = (Button)findViewById(R.id.PlayAgainMain);
-        buttonPlayAgainTest.setOnClickListener(this); //sets an onClickListener on buttonPlayAgainTest
-        buttonPlayAgainTest.setVisibility(View.GONE); //removes this button from view, and makes space for others
+        HIGHSCORES = (Button)findViewById(R.id.highscores);
+        HIGHSCORES.setOnClickListener(this); //sets an onClickListener on HIGHSCORES
         buttonLevel = (Button) findViewById(R.id.levelMode);
         buttonLevel.setOnClickListener(this);
         mediaPlayer.setLooping(true);
@@ -196,11 +195,12 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         startActivity(new Intent(MainActivity.this, SinglePlayer.class));
         finish();
     }
-    private void PlayAgainTestClick()
+    private void HighScores()
     {
         //test button for PlayAgain activity (for quicker access)
-        startActivity(new Intent(MainActivity.this, PlayAgain.class));
-        finish();
+        Intent intentAgain2 = new Intent(MainActivity.this, HighScoreActivity.class);
+        intentAgain2.putExtra("LoadTimedScores", true);
+        startActivity(intentAgain2);//goes to HighScore activity
     }
     private void playLevelClick()
     {
@@ -228,9 +228,9 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
                 mediaPlayer.pause(); //stop song
                 singlePlayerClick();
                 break;
-            case R.id.PlayAgainMain:
+            case R.id.highscores:
                 mediaPlayer.pause(); //stop song
-                PlayAgainTestClick();
+                HighScores();
                 break;
             case R.id.levelMode:
                 mediaPlayer.pause(); //stop song
