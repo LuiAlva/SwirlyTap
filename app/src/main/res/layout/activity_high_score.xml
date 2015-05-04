@@ -100,8 +100,10 @@
                     android:layout_height="50sp"
                     android:text="@string/back"
                     android:id="@+id/Back"
-                    android:background="@drawable/button_bg"
-                    android:layout_margin="10sp" />
+                    android:background="@drawable/button_red_bg"
+                    android:layout_margin="10sp"
+                    android:textStyle="bold"
+                    android:textSize="22sp" />
             </TableRow>
 
             <TableRow
@@ -160,8 +162,8 @@
                                         android:layout_alignParentRight="true"
                                         android:layout_alignParentEnd="true"
                                         android:layout_toRightOf="@+id/Score1"
-                                        android:textSize="20sp"
-                                        android:text="@string/NameHolder"
+                                        android:textSize="25sp"
+                                        android:text="@string/z0000"
                                         android:textIsSelectable="false"
                                         android:gravity="right"
                                         android:textColor="#ff000000" />
@@ -169,11 +171,11 @@
                                     <TextView
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:text="@string/z0000"
+                                        android:text="@string/NameHolder"
                                         android:id="@+id/Score1"
                                         android:layout_toRightOf="@+id/textView6"
                                         android:gravity="right"
-                                        android:textSize="25sp"
+                                        android:textSize="18sp"
                                         android:layout_centerVertical="true"
                                         android:textColor="#ff000000" />
 
@@ -218,8 +220,8 @@
                                         android:layout_alignParentRight="true"
                                         android:layout_alignParentEnd="true"
                                         android:layout_toRightOf="@+id/Score2"
-                                        android:textSize="20sp"
-                                        android:text="@string/NameHolder"
+                                        android:textSize="25sp"
+                                        android:text="@string/z0000"
                                         android:textIsSelectable="false"
                                         android:gravity="right"
                                         android:textColor="#ff000000" />
@@ -227,11 +229,11 @@
                                     <TextView
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:text="@string/z0000"
+                                        android:text="@string/NameHolder"
                                         android:id="@+id/Score2"
                                         android:layout_toRightOf="@+id/textView9"
                                         android:gravity="right"
-                                        android:textSize="25sp"
+                                        android:textSize="18sp"
                                         android:layout_centerVertical="true"
                                         android:textColor="#ff000000" />
 
@@ -275,8 +277,8 @@
                                         android:layout_alignParentRight="true"
                                         android:layout_alignParentEnd="true"
                                         android:layout_toRightOf="@+id/Score3"
-                                        android:textSize="20sp"
-                                        android:text="@string/NameHolder"
+                                        android:textSize="25sp"
+                                        android:text="@string/z0000"
                                         android:textIsSelectable="false"
                                         android:gravity="right"
                                         android:textColor="#ff000000" />
@@ -284,11 +286,11 @@
                                     <TextView
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:text="0000"
+                                        android:text="@string/NameHolder"
                                         android:id="@+id/Score3"
                                         android:layout_toRightOf="@+id/textView12"
                                         android:gravity="right"
-                                        android:textSize="25sp"
+                                        android:textSize="18sp"
                                         android:layout_centerVertical="true"
                                         android:textColor="#ff000000" />
 
@@ -332,8 +334,8 @@
                                         android:layout_alignParentRight="true"
                                         android:layout_alignParentEnd="true"
                                         android:layout_toRightOf="@+id/Score4"
-                                        android:textSize="20sp"
-                                        android:text="@string/NameHolder"
+                                        android:textSize="25sp"
+                                        android:text="@string/z0000"
                                         android:textIsSelectable="false"
                                         android:gravity="right"
                                         android:textColor="#ff000000" />
@@ -341,11 +343,11 @@
                                     <TextView
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:text="@string/z0000"
+                                        android:text="@string/NameHolder"
                                         android:id="@+id/Score4"
                                         android:layout_toRightOf="@+id/textView15"
                                         android:gravity="right"
-                                        android:textSize="25sp"
+                                        android:textSize="18sp"
                                         android:layout_centerVertical="true"
                                         android:textColor="#ff000000" />
 
@@ -389,8 +391,8 @@
                                         android:layout_alignParentRight="true"
                                         android:layout_alignParentEnd="true"
                                         android:layout_toRightOf="@+id/Score5"
-                                        android:textSize="20sp"
-                                        android:text="@string/NameHolder"
+                                        android:textSize="25sp"
+                                        android:text="@string/z0000"
                                         android:textIsSelectable="false"
                                         android:gravity="right"
                                         android:textColor="#ff000000" />
@@ -398,11 +400,11 @@
                                     <TextView
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:text="@string/z0000"
+                                        android:text="@string/NameHolder"
                                         android:id="@+id/Score5"
                                         android:layout_toRightOf="@+id/textView18"
                                         android:gravity="right"
-                                        android:textSize="25sp"
+                                        android:textSize="18sp"
                                         android:layout_centerVertical="true"
                                         android:textColor="#ff000000" />
 
@@ -446,8 +448,8 @@
                                         android:layout_alignParentRight="true"
                                         android:layout_alignParentEnd="true"
                                         android:layout_toRightOf="@+id/Score6"
-                                        android:textSize="20sp"
-                                        android:text="@string/NameHolder"
+                                        android:textSize="25sp"
+                                        android:text="@string/z0000"
                                         android:textIsSelectable="false"
                                         android:gravity="right"
                                         android:textColor="#ff000000" />
@@ -455,11 +457,11 @@
                                     <TextView
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:text="@string/z0000"
+                                        android:text="@string/NameHolder"
                                         android:id="@+id/Score6"
                                         android:layout_toRightOf="@+id/textView8"
                                         android:gravity="right"
-                                        android:textSize="25sp"
+                                        android:textSize="18sp"
                                         android:layout_centerVertical="true"
                                         android:textColor="#ff000000" />
 
@@ -503,8 +505,8 @@
                                         android:layout_alignParentRight="true"
                                         android:layout_alignParentEnd="true"
                                         android:layout_toRightOf="@+id/Score7"
-                                        android:textSize="20sp"
-                                        android:text="@string/NameHolder"
+                                        android:textSize="25sp"
+                                        android:text="@string/z0000"
                                         android:textIsSelectable="false"
                                         android:gravity="right"
                                         android:textColor="#ff000000" />
@@ -512,11 +514,11 @@
                                     <TextView
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:text="@string/z0000"
+                                        android:text="@string/NameHolder"
                                         android:id="@+id/Score7"
                                         android:layout_toRightOf="@+id/textView11"
                                         android:gravity="right"
-                                        android:textSize="25sp"
+                                        android:textSize="18sp"
                                         android:layout_centerVertical="true"
                                         android:textColor="#ff000000" />
 
@@ -560,8 +562,8 @@
                                         android:layout_alignParentRight="true"
                                         android:layout_alignParentEnd="true"
                                         android:layout_toRightOf="@+id/Score8"
-                                        android:textSize="20sp"
-                                        android:text="@string/NameHolder"
+                                        android:textSize="25sp"
+                                        android:text="@string/z0000"
                                         android:textIsSelectable="false"
                                         android:gravity="right"
                                         android:textColor="#ff000000" />
@@ -569,11 +571,11 @@
                                     <TextView
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:text="@string/z0000"
+                                        android:text="@string/NameHolder"
                                         android:id="@+id/Score8"
                                         android:layout_toRightOf="@+id/textView14"
                                         android:gravity="right"
-                                        android:textSize="25sp"
+                                        android:textSize="18sp"
                                         android:layout_centerVertical="true"
                                         android:textColor="#ff000000" />
 
@@ -617,8 +619,8 @@
                                         android:layout_alignParentRight="true"
                                         android:layout_alignParentEnd="true"
                                         android:layout_toRightOf="@+id/Score9"
-                                        android:textSize="20sp"
-                                        android:text="@string/NameHolder"
+                                        android:textSize="25sp"
+                                        android:text="@string/z0000"
                                         android:textIsSelectable="false"
                                         android:gravity="right"
                                         android:textColor="#ff000000" />
@@ -626,11 +628,11 @@
                                     <TextView
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:text="@string/z0000"
+                                        android:text="@string/NameHolder"
                                         android:id="@+id/Score9"
                                         android:layout_toRightOf="@+id/textView20"
                                         android:gravity="right"
-                                        android:textSize="25sp"
+                                        android:textSize="18sp"
                                         android:layout_centerVertical="true"
                                         android:textColor="#ff000000" />
 
@@ -674,8 +676,8 @@
                                         android:layout_alignParentRight="true"
                                         android:layout_alignParentEnd="true"
                                         android:layout_toRightOf="@+id/Score10"
-                                        android:textSize="20sp"
-                                        android:text="@string/NameHolder"
+                                        android:textSize="25sp"
+                                        android:text="@string/z0000"
                                         android:textIsSelectable="false"
                                         android:gravity="right"
                                         android:textColor="#ff000000" />
@@ -683,11 +685,11 @@
                                     <TextView
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:text="@string/z0000"
+                                        android:text="@string/NameHolder"
                                         android:id="@+id/Score10"
                                         android:layout_toRightOf="@+id/textView22"
                                         android:gravity="right"
-                                        android:textSize="25sp"
+                                        android:textSize="18sp"
                                         android:layout_centerVertical="true"
                                         android:textColor="#ff000000" />
 

@@ -133,10 +133,10 @@
                         android:layout_height="60sp"
                         android:id="@+id/Nuke"
                         android:focusableInTouchMode="true"
-                        android:src="@drawable/bomb_button_inactive"
+                        android:src="@drawable/nuke_button_inactive"
                         android:scaleType="fitCenter"
                         android:background="#00ffffff"
-                        android:layout_toRightOf="@+id/FreezeButton"
+                        android:layout_toRightOf="@+id/LightningButton"
                         android:layout_alignParentEnd="false"
                         android:layout_alignParentRight="false"
                         android:onClick="ExplodeNuke" />
@@ -144,20 +144,20 @@
                     <ImageButton
                         android:layout_width="60sp"
                         android:layout_height="60sp"
-                        android:id="@+id/FreezeButton"
+                        android:id="@+id/LightningButton"
                         android:focusableInTouchMode="true"
-                        android:src="@drawable/bomb_button_inactive"
+                        android:src="@drawable/lightning_button_inactive"
                         android:scaleType="fitCenter"
                         android:background="#00ffffff"
-                        android:layout_toRightOf="@+id/PlaceHolderButton2"
+                        android:layout_toRightOf="@+id/DoubleButton"
                         android:layout_alignParentRight="false" />
 
                     <ImageButton
                         android:layout_width="60sp"
                         android:layout_height="60sp"
-                        android:id="@+id/PlaceHolderButton2"
+                        android:id="@+id/DoubleButton"
                         android:focusableInTouchMode="true"
-                        android:src="@drawable/bomb_button_inactive"
+                        android:src="@drawable/double_button_inactive"
                         android:scaleType="fitCenter"
                         android:background="#00ffffff" />
                 </RelativeLayout>
