@@ -65,6 +65,7 @@
         android:layout_height="75sp"
         android:hint="@string/submit1"
         android:id="@+id/button3"
+
         android:textSize="25sp"
         android:gravity="center"
         android:layout_marginTop="16dp"/>

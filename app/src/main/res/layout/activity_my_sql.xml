@@ -19,6 +19,8 @@
         android:textSize="30sp"
         android:clickable="true"
         android:enabled="true"
+        android:background="@drawable/button_bg"
+        android:textColor="#ffffffff"
         android:layout_above="@+id/Delete"
         android:layout_alignLeft="@+id/Delete"
         android:layout_alignStart="@+id/Delete" />
@@ -33,6 +35,8 @@
         android:enabled="true"
         android:focusableInTouchMode="true"
         android:focusable="true"
+        android:background="@drawable/button_bg"
+        android:textColor="#ffffffff"
         android:layout_above="@+id/Users"
         android:layout_alignLeft="@+id/Users"
         android:layout_alignStart="@+id/Users" />
@@ -47,6 +51,8 @@
         android:focusable="true"
         android:clickable="true"
         android:enabled="true"
+        android:background="@drawable/button_bg"
+        android:textColor="#ffffffff"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true" />
 
@@ -55,6 +61,8 @@
         android:layout_height="65sp"
         android:text="@string/play"
         android:id="@+id/starts_game"
+        android:background="@drawable/button_bg"
+        android:textColor="#ffffffff"
         android:layout_below="@+id/Users"
         android:layout_alignLeft="@+id/Users"
         android:layout_alignStart="@+id/Users"

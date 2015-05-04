@@ -39,6 +39,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     Button buttonPlayAgainTest; //create type button for PlayAgainTest
     Button buttonLevel;
     Button buttonLogIn;
+    Button buttonProfile;
     Button LOG_IN, REG, NoThanks;      // For Login screen
     CheckBox StopLogin;
     MediaPlayer mediaPlayer; //for music
@@ -95,8 +96,6 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         buttonPlayAgainTest.setVisibility(View.GONE); //removes this button from view, and makes space for others
         buttonLevel = (Button) findViewById(R.id.levelMode);
         buttonLevel.setOnClickListener(this);
-        buttonLogIn = (Button)findViewById(R.id.LogIn);
-        buttonLogIn.setOnClickListener(this); //sets an onClickListener on buttonHighScore
         mediaPlayer.setLooping(true);
         SharedPreferences prefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
         boolean firstTime = prefs.getBoolean("FirstTimeSetup", true);
@@ -155,6 +154,15 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         SharedPreferences.Editor editor = prefs.edit();
         editor.putBoolean("NotLoggedIn",NotLoggedIn);
         editor.putBoolean("AskLogin", AskLogin);
+
+        buttonLogIn = (Button)findViewById(R.id.LogIn);
+        buttonLogIn.setOnClickListener(this); //sets an onClickListener on buttonLogIn
+        buttonProfile = (Button)findViewById(R.id.Profile);
+        buttonProfile.setOnClickListener(this); //sets an onClickListener on buttonProfile
+        if (prefs.getBoolean("NotLoggedIn", true))
+            buttonProfile.setVisibility(View.GONE); //removes this button from view, and makes space for others
+        else
+            buttonLogIn.setVisibility(View.GONE); //removes this button from view, and makes space for others
         editor.commit();
         new CountDownTimer(800,800) {
 
@@ -229,6 +237,10 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
                 playLevelClick();
                 break;
             case R.id.LogIn:
+                mediaPlayer.pause(); //stop song
+                LogInClick();
+                break;
+            case R.id.Profile:
                 mediaPlayer.pause(); //stop song
                 LogInClick();
                 break;

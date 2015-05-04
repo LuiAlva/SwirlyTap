@@ -44,7 +44,6 @@
                     android:layout_marginLeft="25sp"
                     android:layout_marginRight="25sp"
                     android:layout_marginTop="5sp" />
-
                 <LinearLayout
                     android:orientation="vertical"
                     android:layout_width="wrap_content"
@@ -211,10 +210,10 @@
                         android:id="@+id/PlayAgain"
                         android:layout_width="match_parent"
                         android:layout_height="50sp"
-                        android:paddingRight="15dp"
-                        android:paddingLeft="15dp"
                         android:layout_marginLeft="10sp"
                         android:layout_marginRight="10sp"
+                        android:paddingRight="15dp"
+                        android:paddingLeft="15dp"
                         android:textSize="18sp"
                         android:textColor="#ffffffff"
                         android:background="@drawable/button_bg"

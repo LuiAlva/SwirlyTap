@@ -74,9 +74,10 @@
         android:layout_height="75sp"
         android:text="@string/Register_pass"
         android:id="@+id/register"
+        android:background="@drawable/button_bg"
+        android:textColor="#ffffffff"
         android:textSize="25sp"
         android:gravity="center"
         android:layout_marginTop="16dp"/>
-
 
 </LinearLayout>

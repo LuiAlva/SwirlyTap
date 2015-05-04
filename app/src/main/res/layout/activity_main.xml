@@ -15,20 +15,9 @@
     <FrameLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/imageView2"
         android:id="@+id/frameLayout">
 
     </FrameLayout>
-
-    <ImageView
-        android:src="@drawable/swirlytap_title"
-        android:id="@+id/imageView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="25sp"
-        android:contentDescription="@string/TitleImage" />
 
     <LinearLayout
         android:orientation="vertical"
@@ -36,6 +25,17 @@
         android:layout_height="fill_parent"
         android:weightSum="1"
         android:layout_gravity="center">
+
+        <ImageView
+            android:src="@drawable/swirlytap_title"
+            android:id="@+id/imageView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="25sp"
+            android:contentDescription="@string/TitleImage"
+            android:layout_gravity="center_horizontal"/>
 
         <TableRow
             android:layout_width="fill_parent"
@@ -69,7 +69,7 @@
                         android:textColor="#ffffffff"
                         android:layout_row="0"
                         android:layout_column="0"
-                        android:layout_marginBottom="10sp" />
+                        android:layout_marginBottom="10sp"/>
 
                     <Button
                         android:text="@string/LevelMode"
@@ -85,8 +85,20 @@
                         android:layout_marginBottom="10sp" />
 
                     <Button
-                        android:text="@string/Login"
+                        android:text="@string/LogIn"
                         android:id="@+id/LogIn"
+                        android:layout_width="match_parent"
+                        android:layout_height="60sp"
+                        android:textSize="22sp"
+                        android:background="@drawable/button_bg"
+                        android:layout_gravity="center"
+                        android:textColor="#ffffffff"
+                        android:layout_row="2"
+                        android:layout_column="0"
+                        android:layout_marginBottom="10sp" />
+                    <Button
+                        android:text="@string/Profile"
+                        android:id="@+id/Profile"
                         android:layout_width="match_parent"
                         android:layout_height="60sp"
                         android:textSize="22sp"

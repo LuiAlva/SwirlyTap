@@ -62,8 +62,11 @@
     <Button
         android:layout_width="195sp"
         android:layout_height="75sp"
-        android:text="@string/loginbutton"
+        android:text="@string/LogIn"
         android:id="@+id/button"
         android:textSize="25sp"
+        android:background="@drawable/button_bg"
+        android:textColor="#ffffffff"
         android:layout_marginTop="16dp"/>
+
 </LinearLayout>
