@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -61,11 +63,20 @@ public class levelPlay extends Activity implements View.OnClickListener
     boolean heartGiven = false;     //used to limit the number of times the player recieves perks
     boolean destroyGoodSwirls = false;
     int swirlPointsLeft = 0;        //to determine if all swirls have been destroyed on screen
+    //int HighScore;                  //For HighScore
     int Current_Time = 61000;       //Current in-game time
     int Game_Speed = 400;           //Speed of the game
     int randCell;
     int goodCount = 0; //initialize score of lightning count. This will increase as good buttons appear on screen and decrease as good
     //buttons leave the screen. When a player taps the lightning bolt it will get all good swirls and 2x swirls
+    Uri tapGood;              // Sound when Good swirl is tapped
+    Uri tapBad;               // Sound for Bad swirl
+    Uri tapAddLife;           // Sound for Another Life
+    MediaPlayer GoodSound;    // MediaPlayer for playing good sound
+    MediaPlayer GoodSound2;   // MediaPlayer for playing good sound - for faster sound
+    MediaPlayer BadSound;     // MediaPlayer for playing Bad sound
+    MediaPlayer SpecialSound; // MediaPlayer for playing Special button sounds
+    MediaPlayer gameBG;       // For Background music
     /*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
     /*++++++++++++++++++++++++++++++++Initializing buttons, images, timers, button arrays+++++++++++++++++++++++++++++++*/
     LinearLayout llayout; //set it up after declaration
@@ -112,6 +123,18 @@ public class levelPlay extends Activity implements View.OnClickListener
         leveldisplay.setVisibility(View.INVISIBLE);//start invisible and make visible for 2 seconds at beginning of each level
         setLives(lives);//start game with 3 lives displayed as hearts on screen
         setMissed(missedSwirls);
+
+        //gameBG = MediaPlayer.create(this, R.raw.game_song); //get background song
+        //gameBG.setLooping(true);           //make background song loop
+        GoodSound = new MediaPlayer();     // Setup MediaPlayer for good sound
+        GoodSound2 = new MediaPlayer();    // Setup MediaPlayer for good sound
+        BadSound = new MediaPlayer();      // Setup MediaPlayer for bad sound
+        SpecialSound = new MediaPlayer();  // Setup MediaPlayer for Special button sounds
+        GoodSound.setVolume(12,12);
+        GoodSound2.setVolume(12,12);
+        tapGood = Uri.parse("android.resource://"+getPackageName()+"/"+R.raw.tap_good);    //Setup sound for Good swirl
+        tapBad = Uri.parse("android.resource://"+getPackageName()+"/"+R.raw.tap_bad);      //Setup sound for Bad swirl
+        tapAddLife = Uri.parse("android.resource://"+getPackageName()+"/"+R.raw.tap_time); //Setup sound for add Life
         //set all button arrays to null when game started
         for(int i = 0; i < 20; i++){
             GoodArray[i] = null;
@@ -1120,7 +1143,6 @@ public class levelPlay extends Activity implements View.OnClickListener
         {
             if (luckArray1[randRow][randCol] == "good") //GOOD BUTTON +1 POINT IF CLICKED
             {
-
                 for(i = 0; i < 20; i++)
                 {        // Find empty spot in GoodArray
                     if(GoodArray[i] == null){break;}
@@ -1128,7 +1150,6 @@ public class levelPlay extends Activity implements View.OnClickListener
                 }
                 final Button goodButton = buttons[randRow][randCol];     //Button in this location
                 displayGoodSwirl(goodButton, i);
-
             }
         }
         /*+++++++++++++++++++++++++++++++++++++++LUCK ARRAY 2++++++++++++++++++++++++++++++++++++++*/
@@ -1686,6 +1707,7 @@ public class levelPlay extends Activity implements View.OnClickListener
                     v.setBackgroundResource(R.drawable.goodswirl_break); //change to +1 and make dis
                     AlphaAnimation anim = new AlphaAnimation(1.0f, 0.0f);//fade out the text
                     anim.setDuration(200);
+                    playGood(tapGood);
                     v.startAnimation(anim);
                     v.setVisibility(View.INVISIBLE);         // Make Swirl disappear when clicked
                                                  // Add one to score
@@ -1761,6 +1783,7 @@ public class levelPlay extends Activity implements View.OnClickListener
                     v.setBackgroundResource(R.drawable.twiceswirl_break); //change to +1 and make dis
                     AlphaAnimation anim = new AlphaAnimation(1.0f, 0.0f);//fade out the text
                     anim.setDuration(200);
+                    playGood2(tapGood);
                     v.startAnimation(anim);
                     v.setVisibility(View.INVISIBLE);         // Make Swirl disappear when clicked
                     // v.setEnabled(false);                     // Disable button
@@ -1872,6 +1895,7 @@ public class levelPlay extends Activity implements View.OnClickListener
                     SpecialArray[finalI] = null;                  // Remove from array
                     AlphaAnimation anim = new AlphaAnimation(1.0f, 0.0f);//fade out the text
                     anim.setDuration(200);
+                    playSpecial(tapAddLife);
                     v.startAnimation(anim);
                     v.setVisibility(View.INVISIBLE);         // Make Swirl disappear when clicked
                     v.setEnabled(false);                     // Disable button
@@ -1920,6 +1944,7 @@ public class levelPlay extends Activity implements View.OnClickListener
                     v.setBackgroundResource(R.drawable.badswirl_break); //change to +1 and make dis
                     AlphaAnimation anim = new AlphaAnimation(1.0f, 0.0f);//fade out the text
                     anim.setDuration(500);
+                    playBad(tapBad);
                     v.startAnimation(anim);
                     BadArray[finalI] = null;
                     v.setVisibility(View.INVISIBLE);         // Make Swirl disappear when clicked
@@ -1955,6 +1980,51 @@ public class levelPlay extends Activity implements View.OnClickListener
                 SpecialArray[i] = null;
             }
         }
+
+    private void playGood(Uri uri) {
+        try{
+            GoodSound.reset();
+            GoodSound.setDataSource(this, uri);
+            GoodSound.prepare();
+            GoodSound.start();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    private void playGood2(Uri uri) {
+        try{
+            GoodSound2.reset();
+            GoodSound2.setDataSource(this, uri);
+            GoodSound2.prepare();
+            GoodSound2.start();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    private void playBad(Uri uri) {
+        try{
+            BadSound.reset();
+            BadSound.setDataSource(this, uri);
+            BadSound.prepare();
+            BadSound.start();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    private void playSpecial(Uri uri) {
+        try{
+            SpecialSound.reset();
+            SpecialSound.setDataSource(this, uri);
+            SpecialSound.prepare();
+            SpecialSound.start();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
     public void ScreenShot(Activity activity)
     {
         String screenshotPathLevel = Environment.getExternalStorageDirectory().toString() + "/" + "screenshotLevel.png";

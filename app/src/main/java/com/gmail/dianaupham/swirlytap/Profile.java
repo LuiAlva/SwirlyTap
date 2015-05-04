@@ -55,7 +55,6 @@ public class Profile extends Activity {
                 Intent i = new Intent(getApplicationContext(),MainActivity.class);
                 startActivity(i);
                 finish();
-
             }
         });
         BACK.setOnClickListener(new View.OnClickListener() {
@@ -68,7 +67,6 @@ public class Profile extends Activity {
 
             }
         });
-
     }
 
     public void onBackPressed() {

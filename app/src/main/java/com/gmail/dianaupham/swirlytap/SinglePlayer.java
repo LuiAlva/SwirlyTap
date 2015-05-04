@@ -103,11 +103,11 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
     int OnScreenBad = 0;        // BadSwirls On Screen
     int OnScreenTime = 0;       // TimeSwirls On Screen
     int OnScreenGood2 = 0;      // 2xGoodSwirls On Screen
-    int Extra_Time_Max = 4;     // Set limit for amount of time added (20 seconds)
+    int Extra_Time_Max = 1;     // Set limit for amount of time added (20 seconds)
     int Extra_Time_Counter = 0; // Count amount of ExtraTime added
     String screenshot;          // Screenshot (file) of SinglePlayer
     Bitmap bitmap;              // Bitmap of screenshot of SinglePlayer
-    Vibrator vibration;
+    Vibrator vibration;         // Device will vibrate when BadSwirl is clicked
 
     private static final boolean AUTO_HIDE = true;          // Auto hide UI (ActionBar)
     private static final int AUTO_HIDE_DELAY_MILLIS = 1000; // Hide system UI after 1000 milliseconds
@@ -192,7 +192,7 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
                 {
                     luckArray[row][col] = "twicePoints"; //place 2x button in array
                 }
-                else if(randCell%21 == 0)
+                else if(randCell%21 == 0)  //TODO: make addTime more random
                 {
                     luckArray[row][col] = "addTime"; //place add time button in array
                 }
@@ -384,7 +384,6 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
             goodButton.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v)
                 {
-
                     {
                         Animation FadeAnim = new AlphaAnimation(1.0f, 0.0f);//fade out the text
                         FadeAnim.setDuration(200);
@@ -815,7 +814,7 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
             e.printStackTrace();
         }
     }
-    //Sound Players ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    //Sound Players (end) ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     public void onClick(View v)
     {
         switch(v.getId()) {
