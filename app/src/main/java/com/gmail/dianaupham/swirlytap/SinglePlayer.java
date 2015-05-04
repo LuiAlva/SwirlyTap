@@ -42,8 +42,10 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
     int Score = 0;          //this is total score
     int ScorePass = 0;      //for passing the old HighScores
     String NamePass = "";   //For passing the name in HighScores
+    int GoodSwirlTotalPass = 0; //For passing old GoodSwirl total
     String NAME = "";       // For Player Name for CompareScores()
     int SCORE = 0;          // For Score for CompareScores()
+    int GOODSWIRLtotal = 0; // For total GoodSwirls tapped
     public static final String PREFS_NAME = "PREFS_FILE"; // Name of preference file
     boolean addTime = false;    //Allows Time button to appear
     boolean paused = false;
@@ -1028,6 +1030,7 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
             @Override
             public void onFinish() {
                 CompareScore();
+                TotalTapped();
                 //* End the Game*\\
                 popupWindow.dismiss();                                                //Dismiss Time's up popup
                 gameBG.stop();                                                        //stop song
@@ -1155,6 +1158,24 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
         }
     }
 
+    public void TotalTapped() {
+        SharedPreferences prefsTotals = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editorTotals;
+        NAME = prefsTotals.getString("PlayerName", "Player");
+        if (prefsTotals.getInt("GoodSwirlTotal", 0) == 0) {
+            editorTotals = prefsTotals.edit();
+            editorTotals.putInt("GoodSwirlTotal", Good_Pressed);
+            editorTotals.commit();
+        } else if (prefsTotals.getInt("GoodSwirlTotal", 0) > 0) {
+            editorTotals = prefsTotals.edit();
+            GoodSwirlTotalPass = prefsTotals.getInt("GoodSwirlTotal", 0);
+            NamePass = prefsTotals.getString("GoodSwirlTotal", "Player");
+            GoodSwirlTotalPass = GoodSwirlTotalPass + Good_Pressed;
+            editorTotals.putInt("GoodSwirlTotal", GoodSwirlTotalPass);
+            editorTotals.putString("GoodSwirlTotal", NAME);
+            editorTotals.commit();
+        }
+    }
     // Game Start and Game Over(end) ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
     public void ScreenShot(Activity activity)
