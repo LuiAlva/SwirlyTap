@@ -1308,7 +1308,7 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
     protected void onPause() {
         super.onPause();
 
-        if (Countdown_active == false) { PauseActivate(); }                // Pause the game
+        if (Countdown_active == false || !paused) { PauseActivate(); }                // Pause the game
         else { CountdownTimer.cancel(); popupWindow.dismiss(); }
         GoodSound.release();
         GoodSound2.release();
