@@ -106,7 +106,9 @@ public class levelPlay extends Activity implements View.OnClickListener
             SpecialArray[i] = null;
         }
       //  gameTimer(60000);
-        new LoadViewTask().execute();
+        populateButtons(); //add buttons to grid
+        populateLuckArrays(); //create all luck arrays prior to game starting
+        goToLevel(level);
 
     }
     class buttonDisappear
@@ -119,88 +121,6 @@ public class levelPlay extends Activity implements View.OnClickListener
         }
     }
 
-    //To use the AsyncTask, it must be subclassed
-    private class LoadViewTask extends AsyncTask<Void, Integer, Void>
-    {
-        //Before running code in separate thread
-        @Override
-        protected void onPreExecute()
-        {
-            //Create a new progress dialog
-            progressDialog = new ProgressDialog(levelPlay.this);
-            //Set the progress dialog to display a horizontal progress bar
-            progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-            //Set the dialog title to 'Loading...'
-            progressDialog.setTitle("Loading...");
-            //Set the dialog message to 'Loading application View, please wait...'
-            progressDialog.setMessage("Loading application View, please wait...");
-            //This dialog can't be canceled by pressing the back key
-            progressDialog.setCancelable(false);
-            //This dialog isn't indeterminate
-            progressDialog.setIndeterminate(false);
-            //The maximum number of items is 100
-            progressDialog.setMax(100);
-            //Set the current progress to zero
-            progressDialog.setProgress(0);
-            //Display the progress dialog
-            progressDialog.show();
-        }
-        //The code to be executed in a background thread.
-        @Override
-        protected Void doInBackground(Void... params)
-        {
-            /* This is just a code that delays the thread execution 4 times,
-             * during 850 milliseconds and updates the current progress. This
-             * is where the code that is going to be executed on a background
-             * thread must be placed.
-             */
-            try
-            {
-                //Get the current thread's token
-                synchronized (this)
-                {
-                    //Initialize an integer (that will act as a counter) to zero
-                    populateButtons(); //add buttons to grid
-                    populateLuckArrays(); //create all luck arrays prior to game starting
-                    int counter = 0;
-                    //While the counter is smaller than four
-                    while(counter <= 4)
-                    {
-                        //Wait 850 milliseconds
-                        this.wait(850);
-                        //Increment the counter
-                        counter++;
-                        //Set the current progress.
-                        //This value is going to be passed to the onProgressUpdate() method.
-                        publishProgress(counter*25);
-                    }
-                }
-            }
-            catch (InterruptedException e)
-            {
-                e.printStackTrace();
-            }
-            return null;
-        }
-
-        //Update the progress
-        @Override
-        protected void onProgressUpdate(Integer... values)
-        {
-            //set the current progress of the progress dialog
-            progressDialog.setProgress(values[0]);
-        }
-
-        //after executing the code in the thread
-        @Override
-        protected void onPostExecute(Void result)
-        {
-            //close the progress dialog
-            progressDialog.dismiss();
-            //initialize the View
-            goToLevel(1); //start game at level 1
-        }
-    }
     private void populateButtons() //creating grid of buttons. These buttons are initialized as disabled and invisible
     {
         TableLayout table = (TableLayout)findViewById(R.id.tableForButtons); //make new table
@@ -1289,6 +1209,18 @@ public class levelPlay extends Activity implements View.OnClickListener
                 displayAddLife(lifeButton, i);
 
             }
+            else if(luckArray5[randRow][randCol] == "lightning")
+            {
+                for(i = 0; i < 20; i++)
+                {        // Find empty spot in SpecialArray
+                    if(SpecialArray[i] == null){break;}
+                    if(i == 19) {i = 0;}
+                }
+                Button lightningButton = buttons[randRow][randCol];     //Button in this location
+                //final Button goodButton = buttons[randRow][randCol];     //Button in this location
+                displayLightning(lightningButton, i);
+
+            }
 
             else //GOOD BUTTON +1 POINT IF CLICKED
             {
@@ -1501,6 +1433,8 @@ public class levelPlay extends Activity implements View.OnClickListener
                     luckArray5[row][col] = "bad"; //place bad button in array
                 else if(randCell%8 == 0)
                     luckArray5[row][col] = "twicePoints";
+                else if(randCell == 19)
+                    luckArray5[row][col] = "lightning";
                 else
                     luckArray5[row][col] = "good"; //much higher chance to receive good button
 
@@ -1517,10 +1451,10 @@ public class levelPlay extends Activity implements View.OnClickListener
         leveldisplay.startAnimation(anim);
     }
 
-
+    /*+++++++++++++++++++++++++++++++++++++DISPLAY GOOD SWIRL BUTTON++++++++++++++++++++++++++++++++++++++++*/
+    /*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
     public void displayGoodSwirl(final Button good, int i)
     {
-
         goodCount++; //add to number of good swirls on screen
         good.setBackgroundResource(R.drawable.goodswirl); //Set image to goodswirl
         good.setEnabled(true);                            //Enable Swirl
@@ -1546,8 +1480,8 @@ public class levelPlay extends Activity implements View.OnClickListener
 //                good.startAnimation(anim3);
                 GoodArray[finalI].ButtonId = null;       // Remove Button ID
                 GoodArray[finalI] = null;
-                missedSwirls++;
-                setMissed(missedSwirls);        //count off if swirl disappeared
+                //missedSwirls++;
+                //setMissed(missedSwirls);        //count off if swirl disappeared
                 good.setVisibility(View.INVISIBLE);
                 good.setEnabled(false);
                 if(goodCount > 0)
@@ -1598,11 +1532,10 @@ public class levelPlay extends Activity implements View.OnClickListener
             }
         });
     }
-
+    /*++++++++++++++++++++++++++++++++++++DISPLAY DOUBLE SWIRL BUTTON++++++++++++++++++++++++++++++++++++++*/
+    /*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
     public void displayTwiceSwirl(final Button twice, int i)
     {
-
-
         goodCount+=2;
         twice.setBackgroundResource(R.drawable.twiceswirl); //Set image to goodswirl
         twice.setEnabled(true);                            //Enable Swirl
@@ -1683,6 +1616,8 @@ public class levelPlay extends Activity implements View.OnClickListener
         });
 
     }
+    /*++++++++++++++++++++++++++++++++++++++DISPLAY DOUBLE POINTS BUTTON+++++++++++++++++++++++++++++++++*/
+    /*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
     public void displayDoublePoints(final Button doubleButton, int i) {
         if (doubleCount == 0) {
             doubleButton.setBackgroundResource(R.drawable.doublepoints); //Set image to goodswirl
@@ -1752,6 +1687,8 @@ public class levelPlay extends Activity implements View.OnClickListener
             else doubleCount++;
         }
     }
+    /*++++++++++++++++++++++++++++++++++++DISPLAY ADD LIFE BUTTON++++++++++++++++++++++++++++++++++++*/
+    /*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
     public void displayAddLife(final Button lifeButton, int i)
     {
         if (lifeCount == 0) {
@@ -1811,6 +1748,8 @@ public class levelPlay extends Activity implements View.OnClickListener
             else lifeCount++;
         }
     }
+    /*++++++++++++++++++++++++++++++++++++++++DISPLAY BAD SWIRL BUTTON+++++++++++++++++++++++++++++++++++*/
+    /*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
     public void displayBadSwirl(final Button badButton, int i) {
 
             badButton.setBackgroundResource(R.drawable.badswirl); //Set image to goodswirl
@@ -1856,6 +1795,53 @@ public class levelPlay extends Activity implements View.OnClickListener
             });
 
         }
+        public void displayLightning(final Button lightningButton, int i)
+        {
+            lightningButton.setBackgroundResource(R.drawable.lightningbolt); //Set image to goodswirl
+            lightningButton.setEnabled(true);                            //Enable Swirl
+            lightningButton.setVisibility(View.VISIBLE);                 //Make Swirl
+            final int finalI = i;
+            final CountDownTimer temp = new CountDownTimer(1200, 1200) { // Set timer for disappearance
+                public void onTick(long millisUntilFinished) {
+                    if (millisUntilFinished / 30 == 0) {
+                        onFinish();
+                    } else {
+                    }
+                }
+
+                @Override
+                public void onFinish() {
+                    SpecialArray[finalI] = null;
+                    lightningButton.setVisibility(View.INVISIBLE);
+                    lightningButton.setEnabled(false);
+
+                }
+            }.start();
+            SpecialArray[i] =  new buttonDisappear(lightningButton, temp);
+           lightningButton.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+
+                    {
+                        SpecialArray[finalI].TimerId.cancel();      // Cancel it's disappear Timer
+                        SpecialArray[finalI].ButtonId = null;       // Remove Button ID
+                        v.setEnabled(false);                     // Disable button
+                        AlphaAnimation anim = new AlphaAnimation(1.0f, 0.0f);//fade out the text
+                        anim.setDuration(500);
+                        v.startAnimation(anim);
+                        SpecialArray[finalI] = null;
+                        v.setVisibility(View.INVISIBLE);         // Make Swirl disappear when clicked
+                        v.setEnabled(false);                     // Disable button
+                        DestroyGoodSwirls(); //will destroy all swirls currently on screen
+                        /*add all points by good swirls on screen*/
+                        /*check if doublePoints = true. If so multiply score by 2*/
+                        /*add the total amount to total*/
+                    }
+                }
+            });
+        }
+
+    /*++++++++++++++++++++++++++++++++DESTROY ALL BUTTONS++++++++++++++++++++++++++++++++++++++*/
+    /*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
         public void DestroySwirls()
         {
 
@@ -1881,7 +1867,32 @@ public class levelPlay extends Activity implements View.OnClickListener
                 SpecialArray[i] = null;
             }
         }
+    /*+++++++++++++++++++++++++++++USED FOR LIGHTNING BUTTON++++++++++++++++++++++++++++++++++++*/
+    /*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
+        public void DestroyGoodSwirls()
+        {
+            for (int i = 0; i < 20; i++)
+            {
+                if (GoodArray[i] != null) {
+                    GoodArray[i].TimerId.cancel();
+                   // GoodArray[i].ButtonId.setVisibility(View.INVISIBLE);
+                    GoodArray[i].ButtonId.setBackgroundResource(R.drawable.goodswirl_break); //change to +1 and make dis
+                    AlphaAnimation anim = new AlphaAnimation(1.0f, 0.0f);//fade out the text
+                    anim.setDuration(200);
+                    GoodArray[i].ButtonId.startAnimation(anim);
+                    GoodArray[i].ButtonId.setVisibility(View.INVISIBLE);         // Make Swirl disappear when clicked
+                    GoodArray[i].ButtonId.setEnabled(false);
+                }
 
+             if (SpecialArray[i] != null) {
+                    SpecialArray[i].TimerId.cancel();
+                    SpecialArray[i].ButtonId.setVisibility(View.INVISIBLE);
+                    SpecialArray[i].ButtonId.setEnabled(false);
+                }
+                GoodArray[i] = null;
+                SpecialArray[i] = null;
+            }
+        }
     }
 
 
