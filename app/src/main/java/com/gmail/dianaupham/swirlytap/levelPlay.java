@@ -1748,8 +1748,7 @@ public class levelPlay extends Activity implements View.OnClickListener
                     v.setVisibility(View.INVISIBLE);         // Make Swirl disappear when clicked
                                                  // Add one to score
                     Good_Pressed++;              //+1 goodswirl tapped
-                    if(goodCount > 0)
-                        goodCount--; //take from number of good swirls on screen
+
                 }
             }
         });
@@ -1826,8 +1825,7 @@ public class levelPlay extends Activity implements View.OnClickListener
                     // v.setEnabled(false);                  // Disable button
                     score+=2;                                // Add one to score
                     Good2_Pressed++;                         //+1 TwiceSwirl tapped
-                    if(goodCount > 0)
-                        goodCount-=2;
+
                     // scoreUpdate();
                 }
             }
@@ -2007,7 +2005,7 @@ public class levelPlay extends Activity implements View.OnClickListener
     public void displayLightning(final Button lightningButton, int i)
         {
             if(lightningAppearedCount == 0) {
-                lightningButton.setBackgroundResource(R.drawable.lightningbolt); //Set image to goodswirl
+                lightningButton.setBackgroundResource(R.drawable.lightning_button_active); //Set image to goodswirl
                 lightningButton.setEnabled(true);                            //Enable Swirl
                 lightningButton.setVisibility(View.VISIBLE);                 //Make Swirl
                 final int finalI = i;
@@ -2036,7 +2034,6 @@ public class levelPlay extends Activity implements View.OnClickListener
                             SpecialArray[finalI].TimerId.cancel();      // Cancel it's disappear Timer
                             SpecialArray[finalI].ButtonId = null;       // Remove Button ID
                             v.setEnabled(false);                     // Disable button
-                            v.setBackgroundResource(R.drawable.lightning_explode); //change to +1 and make dis
                             AlphaAnimation anim = new AlphaAnimation(1.0f, 0.0f);//fade out the text
                             anim.setDuration(500);
                             v.startAnimation(anim);

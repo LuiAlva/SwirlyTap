@@ -84,6 +84,146 @@
 
                 </LinearLayout>
 
+                <TableLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_below="@+id/linearLayout"
+                    android:layout_alignLeft="@+id/linearLayout"
+                    android:layout_alignStart="@+id/linearLayout"
+                    android:layout_alignRight="@+id/linearLayout"
+                    android:layout_alignEnd="@+id/linearLayout">
+
+                    <TableRow
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent">
+
+                        <ImageButton
+                            android:layout_width="35sp"
+                            android:layout_height="35sp"
+                            android:id="@+id/goodSwirl"
+                            android:layout_column="0"
+                            android:background="@drawable/goodswirl" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="00"
+                            android:id="@+id/good_swirl_count"
+                            android:layout_column="1"
+                            android:layout_gravity="center"
+                            android:textColor="#ffffffff" />
+
+                        <ImageView
+                            android:layout_width="50sp"
+                            android:layout_height="35sp"
+                            android:id="@+id/space1"
+                            android:layout_column="2" />
+
+                        <ImageButton
+                            android:layout_width="35sp"
+                            android:layout_height="35sp"
+                            android:id="@+id/imageButton2"
+                            android:layout_column="4"
+                            android:background="@drawable/badswirl" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="00"
+                            android:id="@+id/bad_swirl_count"
+                            android:layout_column="5"
+                            android:layout_gravity="center"
+                            android:textColor="#ffffffff" />
+
+                        <ImageView
+                            android:layout_width="50sp"
+                            android:layout_height="35sp"
+                            android:id="@+id/imageView4"
+                            android:layout_column="6" />
+
+                        <ImageButton
+                            android:layout_width="35sp"
+                            android:layout_height="35sp"
+                            android:id="@+id/twiceSwirl"
+                            android:layout_column="7"
+                            android:background="@drawable/twiceswirl" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="00"
+                            android:id="@+id/twice_swirl_count"
+                            android:layout_column="8"
+                            android:layout_gravity="center"
+                            android:textColor="#ffffffff" />
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent">
+
+                        <ImageButton
+                            android:layout_width="35dp"
+                            android:layout_height="35sp"
+                            android:id="@+id/doublePoints"
+                            android:layout_column="0"
+                            android:background="@drawable/doublepoints" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="00"
+                            android:id="@+id/double_point_count"
+                            android:layout_column="1"
+                            android:layout_gravity="center"
+                            android:textColor="#ffffffff" />
+
+                        <ImageView
+                            android:layout_width="50sp"
+                            android:layout_height="35sp"
+                            android:id="@+id/space3"
+                            android:layout_column="2" />
+
+                        <ImageButton
+                            android:layout_width="35sp"
+                            android:layout_height="35sp"
+                            android:id="@+id/lightning_bolt"
+                            android:layout_column="4"
+                            android:background="@drawable/lightning_button_active" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="00"
+                            android:id="@+id/lightning_bolt_count"
+                            android:layout_column="5"
+                            android:layout_gravity="center"
+                            android:textColor="#ffffffff" />
+
+                        <ImageView
+                            android:layout_width="50sp"
+                            android:layout_height="35sp"
+                            android:id="@+id/space4"
+                            android:layout_column="2" />
+
+                        <ImageButton
+                            android:layout_width="35sp"
+                            android:layout_height="35sp"
+                            android:id="@+id/life_button"
+                            android:layout_column="7"
+                            android:background="@drawable/heart" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="00"
+                            android:id="@+id/life_count"
+                            android:layout_column="8"
+                            android:layout_gravity="center"
+                            android:textColor="#ffffffff" />
+                    </TableRow>
+                </TableLayout>
+
             </RelativeLayout>
 
         </TableRow>
