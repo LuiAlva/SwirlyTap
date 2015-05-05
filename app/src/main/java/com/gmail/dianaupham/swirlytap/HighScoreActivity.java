@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -25,7 +26,8 @@ public class HighScoreActivity extends Activity {
     public static final String PREFS_NAME = "PREFS_FILE";
     TextView SCOREBOX, NAMEBOX;
     ImageView TITLE;
-    Button BACK, LEVEL, TIMED, LOCAL, OVERALL;
+    Button BACK;
+    ImageButton LEVEL, TIMED, LOCAL, OVERALL;
     Boolean Level, Timed;
     MediaPlayer mediaPlayer; //for music
 
@@ -47,13 +49,13 @@ public class HighScoreActivity extends Activity {
         TITLE = (ImageView)findViewById(id.Title);
         mediaPlayer = MediaPlayer.create(this, R.raw.highscore_song); //get song
         mediaPlayer.setLooping(true);
-        LOCAL = (Button) findViewById(id.LocalTab);
+        LOCAL = (ImageButton) findViewById(id.LocalTab);
         LOCAL.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 LocalScores(Level, Timed);
             }});
-        OVERALL = (Button) findViewById(id.LocalTab);
+        OVERALL = (ImageButton) findViewById(id.OverallTab);
         OVERALL.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -66,7 +68,7 @@ public class HighScoreActivity extends Activity {
                                      public void onClick(View v) {
                                          finish();
                                      }});
-        LEVEL =(Button)findViewById(id.Level);
+        LEVEL =(ImageButton)findViewById(id.Level);
         LEVEL.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -74,7 +76,7 @@ public class HighScoreActivity extends Activity {
                 TITLE.setImageResource(drawable.highscore_level_title);
                 LocalScores(Level, Timed);
             }});
-        TIMED =(Button)findViewById(id.Timed);
+        TIMED =(ImageButton)findViewById(id.Timed);
         TIMED.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -94,7 +96,11 @@ public class HighScoreActivity extends Activity {
     }
 
     public void LocalScores(Boolean Level, Boolean Timed) {
+        LOCAL.setImageResource(drawable.highscores_h_left_tab);
+        OVERALL.setImageResource(drawable.highscores_left_tab);
         if(Level == true) {
+            LEVEL.setImageResource(drawable.highscores_h_right_tab);
+            TIMED.setImageResource(drawable.highscores_right_tab);
             SharedPreferences prefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
             SCOREBOX = (TextView) findViewById(id.Name1);                  // Set High Score 1
             NAMEBOX = (TextView) findViewById(id.Score1);
@@ -138,6 +144,8 @@ public class HighScoreActivity extends Activity {
             NAMEBOX.setText("" + prefs.getString("LevelHighName10", "Player"));
         }
         if(Timed == true) {
+            TIMED.setImageResource(drawable.highscores_h_right_tab);
+            LEVEL.setImageResource(drawable.highscores_right_tab);
             SharedPreferences prefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
             SCOREBOX = (TextView) findViewById(id.Name1);                  // Set High Score 1
             NAMEBOX = (TextView) findViewById(id.Score1);
@@ -183,7 +191,11 @@ public class HighScoreActivity extends Activity {
     }
 
     public void DatabaseScores(Boolean Level, Boolean Timed) {
+        OVERALL.setImageResource(drawable.highscores_h_left_tab);
+        LOCAL.setImageResource(drawable.highscores_left_tab);
         if(Level == true) {
+            LEVEL.setImageResource(drawable.highscores_h_right_tab);
+            TIMED.setImageResource(drawable.highscores_right_tab);
             SharedPreferences prefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
             SCOREBOX = (TextView) findViewById(id.Name1);                  // Set High Score 1
             NAMEBOX = (TextView) findViewById(id.Score1);
@@ -227,6 +239,8 @@ public class HighScoreActivity extends Activity {
             NAMEBOX.setText("" + prefs.getString("LevelHighName10", "Player"));
         }
         if(Timed == true) {
+            TIMED.setImageResource(drawable.highscores_h_right_tab);
+            LEVEL.setImageResource(drawable.highscores_right_tab);
             SharedPreferences prefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
             SCOREBOX = (TextView) findViewById(id.Name1);                  // Set High Score 1
             NAMEBOX = (TextView) findViewById(id.Score1);

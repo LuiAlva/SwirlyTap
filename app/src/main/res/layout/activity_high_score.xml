@@ -45,45 +45,106 @@
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content">
 
-                    <Button
+                    <ImageButton
                         android:layout_width="70sp"
                         android:layout_height="40sp"
-                        android:text="Local"
                         android:id="@+id/LocalTab"
-                        android:background="@drawable/highscores_left_tab"
-                        android:layout_marginTop="10sp" />
+                        android:src="@drawable/highscores_left_tab"
+                        android:scaleType="fitEnd"
+                        android:background="#00ffffff"
+                        android:adjustViewBounds="true" />
 
-                    <Button
+                    <ImageButton
                         android:layout_width="70sp"
                         android:layout_height="40sp"
-                        android:text="Overall"
                         android:id="@+id/OverallTab"
-                        android:background="@drawable/highscores_left_tab"
-                        android:layout_alignTop="@+id/LocalTab"
+                        android:src="@drawable/highscores_left_tab"
+                        android:scaleType="fitEnd"
+                        android:background="#00ffffff"
+                        android:adjustViewBounds="true"
+                        android:layout_alignParentTop="true"
                         android:layout_toRightOf="@+id/LocalTab"
                         android:layout_toEndOf="@+id/LocalTab" />
 
-                    <Button
+                    <ImageButton
                         android:layout_width="70sp"
                         android:layout_height="40sp"
-                        android:text="Timed"
                         android:id="@+id/Timed"
-                        android:background="@drawable/highscores_right_tab"
-                        android:layout_alignTop="@+id/OverallTab"
-                        android:layout_alignParentRight="true"
-                        android:layout_alignParentEnd="true"
-                        android:textColor="#ff303030" />
+                        android:src="@drawable/highscores_right_tab"
+                        android:scaleType="fitEnd"
+                        android:background="#00ffffff"
+                        android:adjustViewBounds="true"
+                        android:layout_alignParentTop="true"
+                        android:layout_toLeftOf="@+id/Level"
+                        android:layout_toStartOf="@+id/Level" />
 
-                    <Button
+                    <ImageButton
                         android:layout_width="70sp"
                         android:layout_height="40sp"
-                        android:text="Level"
                         android:id="@+id/Level"
-                        android:background="@drawable/highscores_right_tab"
-                        android:textColor="#ff303030"
+                        android:src="@drawable/highscores_right_tab"
+                        android:scaleType="fitEnd"
+                        android:background="#00ffffff"
+                        android:adjustViewBounds="true"
+                        android:layout_alignParentTop="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentEnd="true" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Local"
+                        android:id="@+id/textLocal"
+                        android:layout_alignTop="@+id/LocalTab"
+                        android:layout_alignBottom="@+id/LocalTab"
+                        android:layout_alignLeft="@+id/LocalTab"
+                        android:layout_alignRight="@+id/LocalTab"
+                        android:gravity="center"
+                        android:textColor="#ffffffff"
+                        android:textSize="18sp"
+                        android:layout_marginTop="10sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Overall"
+                        android:id="@+id/textOverall"
+                        android:layout_alignTop="@+id/OverallTab"
+                        android:layout_alignBottom="@+id/OverallTab"
+                        android:layout_alignLeft="@+id/OverallTab"
+                        android:layout_alignRight="@+id/OverallTab"
+                        android:gravity="center"
+                        android:textColor="#ffffffff"
+                        android:textSize="18sp"
+                        android:layout_marginTop="10sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Timed"
+                        android:id="@+id/textTimed"
                         android:layout_alignTop="@+id/Timed"
-                        android:layout_toLeftOf="@+id/Timed"
-                        android:layout_toStartOf="@+id/Timed" />
+                        android:layout_alignBottom="@+id/Timed"
+                        android:layout_alignLeft="@+id/Timed"
+                        android:layout_alignRight="@+id/Timed"
+                        android:gravity="center"
+                        android:textColor="#ff000000"
+                        android:textSize="18sp"
+                        android:layout_marginTop="10sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Level"
+                        android:id="@+id/textLevel"
+                        android:layout_alignTop="@+id/Level"
+                        android:layout_alignBottom="@+id/Level"
+                        android:layout_alignLeft="@+id/Level"
+                        android:layout_alignRight="@+id/Level"
+                        android:gravity="center"
+                        android:textColor="#ff000000"
+                        android:textSize="18sp"
+                        android:layout_marginTop="10sp" />
                 </RelativeLayout>
             </TableRow>
 
