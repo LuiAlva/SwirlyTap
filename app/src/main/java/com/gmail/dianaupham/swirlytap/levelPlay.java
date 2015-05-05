@@ -57,8 +57,11 @@ public class levelPlay extends Activity implements View.OnClickListener
     int luckCount = 0;
     int tempLevel = 0;      //set temp level to 0
     int lightningCount = 0;
+    int lightningAppearedCount = 0; //lightning bolts that have appeared
     int doubleCount = 0;
+    int badCount = 0;
     boolean doublePoints = false;
+    boolean levelLoaded = false;
     int lifeCount = 0;
     boolean heartGiven = false;     //used to limit the number of times the player recieves perks
     boolean destroyGoodSwirls = false;
@@ -68,6 +71,8 @@ public class levelPlay extends Activity implements View.OnClickListener
     int Game_Speed = 400;           //Speed of the game
     int randCell;
     int goodCount = 0; //initialize score of lightning count. This will increase as good buttons appear on screen and decrease as good
+    int doublePointCount = 0;
+    int twiceCount =0;
     //buttons leave the screen. When a player taps the lightning bolt it will get all good swirls and 2x swirls
     Uri tapGood;              // Sound when Good swirl is tapped
     Uri tapBad;               // Sound for Bad swirl
@@ -96,6 +101,7 @@ public class levelPlay extends Activity implements View.OnClickListener
     TextView scoredisplay;
     Runnable buttonRunnable;
     Handler buttonHandler = new Handler();
+    Handler mHandler = new Handler();
     buttonDisappear[] GoodArray = new buttonDisappear[20];
     buttonDisappear[] BadArray = new buttonDisappear[20];
     buttonDisappear[] SpecialArray = new buttonDisappear[20];
@@ -103,6 +109,8 @@ public class levelPlay extends Activity implements View.OnClickListener
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
+
+
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE); // Removes Title Bar
         setContentView(R.layout.level_play); //show res/layout/activity_single_player.xml
@@ -205,9 +213,15 @@ public class levelPlay extends Activity implements View.OnClickListener
             case 1:
                 if(tempLevel < level)//if this is the first time the level has been called then do the below functions.
                 {
+                    mHandler.postDelayed(new Runnable() {
+                        public void run() {
+                            // when level loaded = true then set boolean to true
+                            levelLoaded = true;
+                        }
+                    }, 2000);
                     luckCount = 0;
                     tempLevel = level;
-                    if(doublePoints == true)llayout.setBackgroundResource(R.drawable.doublepointbackround);
+                    if(doublePoints == true)llayout.setBackgroundResource(R.drawable.doublepointbackground);
                     else llayout.setBackgroundResource(R.drawable.levelone);
                     //call function that displays level
                     displayLevel(level);
@@ -229,9 +243,8 @@ public class levelPlay extends Activity implements View.OnClickListener
                         }
                     }.start();
                 }
-                //after every 20 buttons displayed, re declare luck arrays...make more random
-
-                displayButton(1);  //display button from luckarray 1
+                else if(levelLoaded == true)
+                    displayButton(1);  //display button from luckarray 1
                 break;
            /*++++++++++++++++++++++++++++++++++++LEVEL 2++++++++++++++++++++++++++++++++++++++++++++*/
             /*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
@@ -314,7 +327,7 @@ public class levelPlay extends Activity implements View.OnClickListener
                 }
                 else
                     luckCount++;
-                displayButton(2);
+                displayButton(3);
                 break;
             /*+++++++++++++++++++++++++++++++++++++LEVEL 4++++++++++++++++++++++++++++++++++++++++++++*/
             /*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
@@ -362,7 +375,7 @@ public class levelPlay extends Activity implements View.OnClickListener
                 if(tempLevel < level)
                 {
                     luckCount = 0;
-                    if(doublePoints == true)llayout.setBackgroundResource(R.drawable.doublepointbackround);
+                    if(doublePoints == true)llayout.setBackgroundResource(R.drawable.doublepointbackground);
                     else llayout.setBackgroundResource(R.drawable.levelfive);
                     displayLevel(level);//display the level animation
                     tempLevel = level;
@@ -402,7 +415,7 @@ public class levelPlay extends Activity implements View.OnClickListener
                 if(tempLevel < level)
                 {
                     luckCount = 0;
-                    if(doublePoints == true)llayout.setBackgroundResource(R.drawable.doublepointbackround);
+                    if(doublePoints == true)llayout.setBackgroundResource(R.drawable.doublepointbackground);
                     else llayout.setBackgroundResource(R.drawable.levelsix);
                     displayLevel(level);//display the level animation
                     tempLevel = level;
@@ -434,7 +447,7 @@ public class levelPlay extends Activity implements View.OnClickListener
                 }
                 else
                     luckCount++;
-                displayButton(3);
+                displayButton(4);
                 break;
             /*++++++++++++++++++++++++++++++++++++LEVEL 7++++++++++++++++++++++++++++++++++++++++++++*/
             /*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
@@ -443,7 +456,7 @@ public class levelPlay extends Activity implements View.OnClickListener
                 if(tempLevel < level)
                 {
                     luckCount = 0;
-                    if(doublePoints == true)llayout.setBackgroundResource(R.drawable.doublepointbackround);
+                    if(doublePoints == true)llayout.setBackgroundResource(R.drawable.doublepointbackground);
                     else llayout.setBackgroundResource(R.drawable.levelseven);
                     displayLevel(level);//display the level animation
                     tempLevel = level;
@@ -466,7 +479,7 @@ public class levelPlay extends Activity implements View.OnClickListener
                         }
                     }.start();
                 }
-                if(doublePoints == true)llayout.setBackgroundResource(R.drawable.doublepointbackround);
+                if(doublePoints == true)llayout.setBackgroundResource(R.drawable.doublepointbackground);
                 else llayout.setBackgroundResource(R.drawable.levelseven);
                 //after 20 buttons displayed, re declare luck array
                 if(luckCount == 20)
@@ -507,7 +520,7 @@ public class levelPlay extends Activity implements View.OnClickListener
                         }
                     }.start();
                 }
-                if(doublePoints == true)llayout.setBackgroundResource(R.drawable.doublepointbackround);
+                if(doublePoints == true)llayout.setBackgroundResource(R.drawable.doublepointbackground);
                 else llayout.setBackgroundResource(R.drawable.leveleight);
                 //after 20 buttons displayed, re declare luck array
                 if(luckCount == 20)
@@ -517,7 +530,7 @@ public class levelPlay extends Activity implements View.OnClickListener
                 }
                 else
                     luckCount++;
-                displayButton(4);
+                displayButton(5);
                 break;
             /*+++++++++++++++++++++++++++++++++++++LEVEL 9++++++++++++++++++++++++++++++++++++++++++++*/
             /*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
@@ -548,7 +561,7 @@ public class levelPlay extends Activity implements View.OnClickListener
                         }
                     }.start();
                 }
-                if(doublePoints == true)llayout.setBackgroundResource(R.drawable.doublepointbackround);
+                if(doublePoints == true)llayout.setBackgroundResource(R.drawable.doublepointbackground);
                 else llayout.setBackgroundResource(R.drawable.levelnine);
                 //after 20 buttons displayed, re declare luck array
                 if(luckCount == 20)
@@ -558,7 +571,7 @@ public class levelPlay extends Activity implements View.OnClickListener
                 }
                 else
                     luckCount++;
-                displayButton(4);
+                displayButton(5);
                 break;
             /*+++++++++++++++++++++++++++++++++++++LEVEL 10++++++++++++++++++++++++++++++++++++++++++++*/
             /*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
@@ -589,7 +602,7 @@ public class levelPlay extends Activity implements View.OnClickListener
                         }
                     }.start();
                 }
-                if(doublePoints == true)llayout.setBackgroundResource(R.drawable.doublepointbackround);
+                if(doublePoints == true)llayout.setBackgroundResource(R.drawable.doublepointbackground);
                 else llayout.setBackgroundResource(R.drawable.levelten);
                 //after 20 buttons displayed, re declare luck array
                 if(luckCount == 20)
@@ -599,7 +612,7 @@ public class levelPlay extends Activity implements View.OnClickListener
                 }
                 else
                     luckCount++;
-                displayButton(4);
+                displayButton(5);
                 break;
             /*+++++++++++++++++++++++++++++++++++++LEVEL 11++++++++++++++++++++++++++++++++++++++++++++*/
             /*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
@@ -630,7 +643,7 @@ public class levelPlay extends Activity implements View.OnClickListener
                         }
                     }.start();
                 }
-                if(doublePoints == true)llayout.setBackgroundResource(R.drawable.doublepointbackround);
+                if(doublePoints == true)llayout.setBackgroundResource(R.drawable.doublepointbackground);
                 else llayout.setBackgroundResource(R.drawable.leveleleven);
                 //after 20 buttons displayed, re declare luck array
                 if(luckCount == 20)
@@ -640,7 +653,7 @@ public class levelPlay extends Activity implements View.OnClickListener
                 }
                 else
                     luckCount++;
-                displayButton(4);
+                displayButton(5);
                 break;
             /*++++++++++++++++++++++++++++++++++++LEVEL 12++++++++++++++++++++++++++++++++++++++++++++*/
             /*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
@@ -671,7 +684,7 @@ public class levelPlay extends Activity implements View.OnClickListener
                         }
                     }.start();
                 }
-                if(doublePoints == true)llayout.setBackgroundResource(R.drawable.doublepointbackround);
+                if(doublePoints == true)llayout.setBackgroundResource(R.drawable.doublepointbackground);
                 else llayout.setBackgroundResource(R.drawable.leveltwelve);
                 //after 20 buttons displayed, re declare luck array
                 if(luckCount == 20)
@@ -681,7 +694,7 @@ public class levelPlay extends Activity implements View.OnClickListener
                 }
                 else
                     luckCount++;
-                displayButton(4);
+                displayButton(5);
                 break;
             /*++++++++++++++++++++++++++++++++++++LEVEL 13++++++++++++++++++++++++++++++++++++++++++++*/
             /*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
@@ -712,7 +725,7 @@ public class levelPlay extends Activity implements View.OnClickListener
                         }
                     }.start();
                 }
-                if(doublePoints == true)llayout.setBackgroundResource(R.drawable.doublepointbackround);
+                if(doublePoints == true)llayout.setBackgroundResource(R.drawable.doublepointbackground);
                 else llayout.setBackgroundResource(R.drawable.levelthirteen);
                 //after 20 buttons displayed, re declare luck array
                 if(luckCount == 20)
@@ -722,7 +735,7 @@ public class levelPlay extends Activity implements View.OnClickListener
                 }
                 else
                     luckCount++;
-                displayButton(4);
+                displayButton(5);
                 break;
            /*++++++++++++++++++++++++++++++++++++LEVEL 14++++++++++++++++++++++++++++++++++++++++++++*/
            /*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
@@ -754,7 +767,7 @@ public class levelPlay extends Activity implements View.OnClickListener
                     }.start();
                 }
                 //after 20 buttons displayed, re declare luck array
-                if(doublePoints == true)llayout.setBackgroundResource(R.drawable.doublepointbackround);
+                if(doublePoints == true)llayout.setBackgroundResource(R.drawable.doublepointbackground);
                 else llayout.setBackgroundResource(R.drawable.levelfourteen);
                 if(luckCount == 20)
                 {
@@ -794,7 +807,7 @@ public class levelPlay extends Activity implements View.OnClickListener
                         }
                     }.start();
                 }
-                if(doublePoints == true)llayout.setBackgroundResource(R.drawable.doublepointbackround);
+                if(doublePoints == true)llayout.setBackgroundResource(R.drawable.doublepointbackground);
                 else llayout.setBackgroundResource(R.drawable.levelfifteen);
                 //after 20 buttons displayed, re declare luck array
                 if(luckCount == 20)
@@ -835,7 +848,7 @@ public class levelPlay extends Activity implements View.OnClickListener
                         }
                     }.start();
                 }
-                if(doublePoints == true)llayout.setBackgroundResource(R.drawable.doublepointbackround);
+                if(doublePoints == true)llayout.setBackgroundResource(R.drawable.doublepointbackground);
                 else llayout.setBackgroundResource(R.drawable.levelsixteen);
                 //after 20 buttons displayed, re declare luck array
                 if(luckCount == 20)
@@ -876,7 +889,7 @@ public class levelPlay extends Activity implements View.OnClickListener
                         }
                     }.start();
                 }
-                if(doublePoints == true)llayout.setBackgroundResource(R.drawable.doublepointbackround);
+                if(doublePoints == true)llayout.setBackgroundResource(R.drawable.doublepointbackground);
                 else llayout.setBackgroundResource(R.drawable.levelseventeen);
                 //after 20 buttons displayed, re declare luck array
                 if(luckCount == 20)
@@ -917,7 +930,7 @@ public class levelPlay extends Activity implements View.OnClickListener
                         }
                     }.start();
                 }
-                if(doublePoints == true)llayout.setBackgroundResource(R.drawable.doublepointbackround);
+                if(doublePoints == true)llayout.setBackgroundResource(R.drawable.doublepointbackground);
                 else llayout.setBackgroundResource(R.drawable.leveleighteen);
                 //after 20 buttons displayed, re declare luck array
                 if(luckCount == 20)
@@ -958,7 +971,7 @@ public class levelPlay extends Activity implements View.OnClickListener
                         }
                     }.start();
                 }
-                if(doublePoints == true)llayout.setBackgroundResource(R.drawable.doublepointbackround);
+                if(doublePoints == true)llayout.setBackgroundResource(R.drawable.doublepointbackground);
                 else llayout.setBackgroundResource(R.drawable.levelnineteen);
                 //after 20 buttons displayed, re declare luck array
                 if(luckCount == 20)
@@ -999,7 +1012,7 @@ public class levelPlay extends Activity implements View.OnClickListener
                         }
                     }.start();
                 }
-                if(doublePoints == true)llayout.setBackgroundResource(R.drawable.doublepointbackround);
+                if(doublePoints == true)llayout.setBackgroundResource(R.drawable.doublepointbackground);
                 else llayout.setBackgroundResource(R.drawable.leveltwenty);
                 //after 20 buttons displayed, re declare luck array
                 if(luckCount == 20)
@@ -1040,7 +1053,7 @@ public class levelPlay extends Activity implements View.OnClickListener
                         }
                     }.start();
                 }
-                if(doublePoints == true)llayout.setBackgroundResource(R.drawable.doublepointbackround);
+                if(doublePoints == true)llayout.setBackgroundResource(R.drawable.doublepointbackground);
                 else llayout.setBackgroundResource(R.drawable.levelinfinite);
                 //after 20 buttons displayed, re declare luck array
                 if(luckCount == 20)
@@ -1331,7 +1344,12 @@ public class levelPlay extends Activity implements View.OnClickListener
                 Updater.cancel();           //Cancel the Score Update Timer
                 CompareScore();             // Get HighScore
                 Intent intentAgain = new Intent(levelPlay.this, PlayAgain_Level.class);  //create intent (to go to PlayAgain menu)
-                intentAgain.putExtra("score", score);
+                intentAgain.putExtra("score", score); //send score
+                intentAgain.putExtra("good_swirl", goodCount); //send number of good swirls hit
+                intentAgain.putExtra("bad_swirl", badCount); //send number of bad swirls hit
+                intentAgain.putExtra("twice_swirl", twiceCount); //send number of twice swirls hit
+                intentAgain.putExtra("double_points", doublePointCount); //send number of double xp buttons hit
+                intentAgain.putExtra("lightning_bolt", lightningCount); //send number of lightning bolts hit
                 startActivity(intentAgain);                                           //go to PlayAgain activity/menu
                 finish();
                 break;
@@ -1586,7 +1604,7 @@ public class levelPlay extends Activity implements View.OnClickListener
 
     public void displayGoodSwirl(final Button good, int i)
     {
-        goodCount++; //add to number of good swirls on screen
+
         good.setBackgroundResource(R.drawable.goodswirl); //Set image to goodswirl
         good.setEnabled(true);                            //Enable Swirl
         good.setVisibility(View.VISIBLE);                 //Make Swirl Visible
@@ -1611,12 +1629,11 @@ public class levelPlay extends Activity implements View.OnClickListener
 //                good.startAnimation(anim3);
                 GoodArray[finalI].ButtonId = null;       // Remove Button ID
                 GoodArray[finalI] = null;
-                //missedSwirls++;
-                //setMissed(missedSwirls);        //count off if swirl disappeared
+                missedSwirls++;
+                setMissed(missedSwirls);        //count off if swirl disappeared
                 good.setVisibility(View.INVISIBLE);
                 good.setEnabled(false);
-                if(goodCount > 0)
-                    goodCount--;
+
 
             }
         }.start();
@@ -1625,8 +1642,10 @@ public class levelPlay extends Activity implements View.OnClickListener
             public void onClick(View v) {
                 {   //leveldisplay.setVisibility(View.VISIBLE);
                     //add a plus one animation by score
+                    goodCount++; //add to number of good swirls on screen
                     if(doublePoints == true)
                     {
+
                         score+=2;
                         showscoreanim.setBackgroundResource(R.drawable.plustwo);//will appear when button is clicked
                         AlphaAnimation anim2 = new AlphaAnimation(1.0f, 0.0f);
@@ -1654,8 +1673,7 @@ public class levelPlay extends Activity implements View.OnClickListener
                     v.startAnimation(anim);
                     v.setVisibility(View.INVISIBLE);         // Make Swirl disappear when clicked
                                                  // Add one to score
-                    if(goodCount > 0)
-                        goodCount--; //take from number of good swirls on screen
+
                 }
             }
         });
@@ -1664,7 +1682,6 @@ public class levelPlay extends Activity implements View.OnClickListener
     /*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
     public void displayTwiceSwirl(final Button twice, int i)
     {
-        goodCount+=2;
         twice.setBackgroundResource(R.drawable.twiceswirl); //Set image to goodswirl
         twice.setEnabled(true);                            //Enable Swirl
         twice.setVisibility(View.VISIBLE);                 //Make Swirl Visible
@@ -1691,8 +1708,7 @@ public class levelPlay extends Activity implements View.OnClickListener
                 SpecialArray[finalI] = null;
                 twice.setVisibility(View.INVISIBLE);
                 twice.setEnabled(false);
-                if(goodCount > 0)
-                    goodCount-=2;
+
             }
         }.start();
         SpecialArray[i] =  new buttonDisappear(twice, temp);
@@ -1700,6 +1716,7 @@ public class levelPlay extends Activity implements View.OnClickListener
             public void onClick(View v)
             {
                 {
+                    twiceCount++; //add to number of good swirls on screen
                     if(doublePoints == true)
                     {
                         score+=4;
@@ -1732,8 +1749,7 @@ public class levelPlay extends Activity implements View.OnClickListener
                     v.setVisibility(View.INVISIBLE);         // Make Swirl disappear when clicked
                     // v.setEnabled(false);                     // Disable button
                     score+=2;                                 // Add one to score
-                    if(goodCount > 0)
-                        goodCount-=2;
+
                     // scoreUpdate();
                 }
             }
@@ -1766,6 +1782,7 @@ public class levelPlay extends Activity implements View.OnClickListener
             SpecialArray[i] =  new buttonDisappear(doubleButton, temp);
             doubleButton.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
+                    doublePointCount++; //add to number of doublePoint buttons that appeared
                     v.setEnabled(false);                     // Disable button
                     //v.setBackgroundResource(R.drawable.badswirl_break); //change to +1 and make dis
                     SpecialArray[finalI].TimerId.cancel();        // Cancel it's disappear Timer
@@ -1854,7 +1871,7 @@ public class levelPlay extends Activity implements View.OnClickListener
         }
         else
         {
-            if(lifeCount == 10)
+            if(lifeCount == 20)
             {
                 lifeCount = 0;
             }
@@ -1888,6 +1905,7 @@ public class levelPlay extends Activity implements View.OnClickListener
             badButton.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
                 {
+                    badCount++;
                     BadArray[finalI].TimerId.cancel();      // Cancel it's disappear Timer
                     BadArray[finalI].ButtonId = null;       // Remove Button ID
                     v.setEnabled(false);                     // Disable button
@@ -1906,49 +1924,63 @@ public class levelPlay extends Activity implements View.OnClickListener
                 }
             });
         }
+
     public void displayLightning(final Button lightningButton, int i)
         {
-            lightningButton.setBackgroundResource(R.drawable.lightningbolt); //Set image to goodswirl
-            lightningButton.setEnabled(true);                            //Enable Swirl
-            lightningButton.setVisibility(View.VISIBLE);                 //Make Swirl
-            final int finalI = i;
-            final CountDownTimer temp = new CountDownTimer(1200, 1200) { // Set timer for disappearance
-                public void onTick(long millisUntilFinished) {
-                    if (millisUntilFinished / 30 == 0) {
-                        onFinish();
-                    } else {
+            if(lightningAppearedCount == 0) {
+                lightningButton.setBackgroundResource(R.drawable.lightningbolt); //Set image to goodswirl
+                lightningButton.setEnabled(true);                            //Enable Swirl
+                lightningButton.setVisibility(View.VISIBLE);                 //Make Swirl
+                final int finalI = i;
+                final CountDownTimer temp = new CountDownTimer(1200, 1200) { // Set timer for disappearance
+                    public void onTick(long millisUntilFinished) {
+                        if (millisUntilFinished / 30 == 0) {
+                            onFinish();
+                        } else {
+                        }
                     }
-                }
 
-                @Override
-                public void onFinish() {
-                    SpecialArray[finalI] = null;
-                    lightningButton.setVisibility(View.INVISIBLE);
-                    lightningButton.setEnabled(false);
-
-                }
-            }.start();
-            SpecialArray[i] =  new buttonDisappear(lightningButton, temp);
-           lightningButton.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View v) {
-
-                    {
-                        SpecialArray[finalI].TimerId.cancel();      // Cancel it's disappear Timer
-                        SpecialArray[finalI].ButtonId = null;       // Remove Button ID
-                        v.setEnabled(false);                     // Disable button
-                        AlphaAnimation anim = new AlphaAnimation(1.0f, 0.0f);//fade out the text
-                        anim.setDuration(500);
-                        v.startAnimation(anim);
+                    @Override
+                    public void onFinish() {
                         SpecialArray[finalI] = null;
-                        v.setVisibility(View.INVISIBLE);         // Make Swirl disappear when clicked
-                        v.setEnabled(false);                     // Disable button
-                        DestroyGoodSwirls(); //will destroy all swirls currently on screen
+                        lightningButton.setVisibility(View.INVISIBLE);
+                        lightningButton.setEnabled(false);
+
+                    }
+                }.start();
+                SpecialArray[i] = new buttonDisappear(lightningButton, temp);
+                lightningButton.setOnClickListener(new View.OnClickListener() {
+                    public void onClick(View v) {
+
+                        {
+                            lightningCount++; //add to number of good swirls on screen
+                            SpecialArray[finalI].TimerId.cancel();      // Cancel it's disappear Timer
+                            SpecialArray[finalI].ButtonId = null;       // Remove Button ID
+                            v.setEnabled(false);                     // Disable button
+                            v.setBackgroundResource(R.drawable.lightning_explode); //change to +1 and make dis
+                            AlphaAnimation anim = new AlphaAnimation(1.0f, 0.0f);//fade out the text
+                            anim.setDuration(500);
+                            v.startAnimation(anim);
+                            SpecialArray[finalI] = null;
+                            v.setVisibility(View.INVISIBLE);         // Make Swirl disappear when clicked
+                            v.setEnabled(false);                     // Disable button
+                            DestroyGoodSwirls(); //will destroy all swirls currently on screen
                         /*add all points by good swirls on screen*/
                         /*check if doublePoints = true. If so multiply score by 2*/
                         /*add the total amount to total*/
+                        }
                     }
+                });
+                lightningAppearedCount++;
+            }
+            else
+            {
+                if(lightningAppearedCount == 7)
+                {
+                    lightningAppearedCount = 0;
                 }
-            });
+                else lightningAppearedCount++;
+            }
         }
 
     /*++++++++++++++++++++++++++++++++DESTROY ALL BUTTONS++++++++++++++++++++++++++++++++++++++*/
