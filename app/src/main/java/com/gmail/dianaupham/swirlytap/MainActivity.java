@@ -211,7 +211,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         SharedPreferences prefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
         NotLogged = prefs.getBoolean("NotLoggedIn", true);
         if( NotLogged ) {
-            Intent login = new Intent(MainActivity.this, LoginScreen.class);
+            Intent login = new Intent(MainActivity.this, WelcomeScreen.class);
             startActivity(login);
             finish();
         } else {
@@ -342,7 +342,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     public void LoginScreen() {
         try {
             LayoutInflater inflater = (LayoutInflater) MainActivity.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            View layout = inflater.inflate(R.layout.login_screen_layout, (ViewGroup)findViewById(R.id.login_Layout));
+            View layout = inflater.inflate(R.layout.welcome_screen, (ViewGroup)findViewById(R.id.login_Layout));
             popupWindow = new PopupWindow(layout, getWindow().getAttributes().width, getWindow().getAttributes().height, true);
             popupWindow.setAnimationStyle(-1);
             popupWindow.showAtLocation(layout, Gravity.CENTER, 0, 0);

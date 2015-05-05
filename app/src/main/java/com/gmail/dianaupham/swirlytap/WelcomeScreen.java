@@ -11,7 +11,7 @@ import android.widget.CheckBox;
 
 import com.gmail.dianaupham.swirlytap.swirlytap.R;
 
-public class LoginScreen extends Activity
+public class WelcomeScreen extends Activity
 {
    private DatabaseTableActivity myTable;
     Button LOG_IN, REG, Back;
@@ -29,7 +29,7 @@ public class LoginScreen extends Activity
         getWindow().requestFeature(Window.FEATURE_ACTION_BAR);   //Hides the action and title bars!
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.login_screen_layout);
+        setContentView(R.layout.welcome_screen);
         myTable = new DatabaseTableActivity(this);
         LOG_IN = (Button)findViewById(R.id.login1);
         REG = (Button)findViewById(R.id.register1);
