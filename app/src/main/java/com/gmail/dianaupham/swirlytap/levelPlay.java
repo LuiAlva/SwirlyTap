@@ -44,6 +44,7 @@ public class levelPlay extends Activity implements View.OnClickListener
     String[][] luckArray3 = new String[NUM_ROWS][NUM_COLS];
     String[][] luckArray4 = new String[NUM_ROWS][NUM_COLS];
     String[][] luckArray5 = new String[NUM_ROWS][NUM_COLS];
+    String[][] luckArray6 = new String[NUM_ROWS][NUM_COLS];
     /*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
     Button buttons[][] = new Button[NUM_ROWS][NUM_COLS];        //created total number of grid buttons
     /*++++++++++++++++counters, scores, levels+++++++++++++++++++*/
@@ -58,8 +59,11 @@ public class levelPlay extends Activity implements View.OnClickListener
     int tempLevel = 0;      //set temp level to 0
     int lightningCount = 0;
     int lightningAppearedCount = 0; //lightning bolts that have appeared
+    int nukeAppearedCount = 0; //nukes that have appeared
     int doubleCount = 0;
     int badCount = 0;
+    int on_screen_goodCount = 0; //count score of good swirls currently on screen
+    int on_screen_allCount = 0;  //count score of both good and bad swirls currently on screen
     boolean doublePoints = false;
     boolean levelLoaded = false;
     int lifeCount = 0;
@@ -785,7 +789,7 @@ public class levelPlay extends Activity implements View.OnClickListener
                 }
                 else
                     luckCount++;
-                displayButton(5);
+                displayButton(6);
                 break;
             /*+++++++++++++++++++++++++++++++++++++LEVEL 15++++++++++++++++++++++++++++++++++++++++++++*/
             /*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
@@ -826,7 +830,7 @@ public class levelPlay extends Activity implements View.OnClickListener
                 }
                 else
                     luckCount++;
-                displayButton(5);
+                displayButton(6);
                 break;
             /*++++++++++++++++++++++++++++++++++++LEVEL 16++++++++++++++++++++++++++++++++++++++++++++*/
             /*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
@@ -867,7 +871,7 @@ public class levelPlay extends Activity implements View.OnClickListener
                 }
                 else
                     luckCount++;
-                displayButton(5);
+                displayButton(6);
                 break;
             /*++++++++++++++++++++++++++++++++++++LEVEL 17++++++++++++++++++++++++++++++++++++++++++++*/
             /*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
@@ -908,7 +912,7 @@ public class levelPlay extends Activity implements View.OnClickListener
                 }
                 else
                     luckCount++;
-                displayButton(5);
+                displayButton(6);
                 break;
             /*++++++++++++++++++++++++++++++++++++LEVEL 18++++++++++++++++++++++++++++++++++++++++++++*/
             /*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
@@ -949,7 +953,7 @@ public class levelPlay extends Activity implements View.OnClickListener
                 }
                 else
                     luckCount++;
-                displayButton(5);
+                displayButton(6);
                 break;
             /*++++++++++++++++++++++++++++++++++++LEVEL 19++++++++++++++++++++++++++++++++++++++++++++*/
             /*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
@@ -990,7 +994,7 @@ public class levelPlay extends Activity implements View.OnClickListener
                 }
                 else
                     luckCount++;
-                displayButton(5);
+                displayButton(6);
                 break;
             /*++++++++++++++++++++++++++++++++++++LEVEL 20++++++++++++++++++++++++++++++++++++++++++++*/
             /*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
@@ -1031,7 +1035,7 @@ public class levelPlay extends Activity implements View.OnClickListener
                 }
                 else
                     luckCount++;
-                displayButton(5);
+                displayButton(6);
                 break;
             /*++++++++++++++++++++++++++++++++++++LEVEL INFINITE++++++++++++++++++++++++++++++++++++++++++++*/
             /*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
@@ -1072,7 +1076,7 @@ public class levelPlay extends Activity implements View.OnClickListener
                 }
                 else
                     luckCount++;
-                displayButton(5);
+                displayButton(6);
                 break;
             //go to infinite level in which will only end if user loses all 3 lives
             //introduce death swirl..loses all 3 lives if clicked
@@ -1207,6 +1211,7 @@ public class levelPlay extends Activity implements View.OnClickListener
                 //set 1 second timer... if timer reached then make button disappear
             }
         }
+        /*++++++++++++++++++++++++++++++++++++LUCK ARRAY 5++++++++++++++++++++++++++++++++++++++++++*/
         else if(luckArrayType == 5)
         {
             if(luckArray5[randRow][randCol] == "bad")
@@ -1277,7 +1282,86 @@ public class levelPlay extends Activity implements View.OnClickListener
                 //set 1 second timer... if timer reached then make button disappear
             }
         }
+        /*++++++++++++++++++++++++++++++++++LUCK ARRAY 6+++++++++++++++++++++++++++++++++++++++++++*/
+        else if(luckArrayType == 6)
+        {
+            if(luckArray6[randRow][randCol] == "bad")
+            {
+                for(i = 0; i < 20; i++) {        // Find empty spot in BadArray
+                    if(BadArray[i] == null){break;}
+                    if(i == 19) {i = 0;}
+                }
+                Button badButton = buttons[randRow][randCol];     //Button in this location
+                displayBadSwirl(badButton, i);
+            }
+            else if(luckArray6[randRow][randCol] == "twicePoints")
+            {
+                for(i = 0; i < 20; i++)
+                {        // Find empty spot in SpecialArray
+                    if(SpecialArray[i] == null){break;}
+                    if(i == 19) {i = 0;}
+                }
+                Button twiceButton = buttons[randRow][randCol];     //Button in this location
+                displayTwiceSwirl(twiceButton, i);
+            }
+            else if(luckArray6[randRow][randCol] == "doublePoints")
+            {
+                for(i = 0; i < 20; i++)
+                {        // Find empty spot in SpecialArray
+                    if(SpecialArray[i] == null){break;}
+                    if(i == 19) {i = 0;}
+                }
+                Button doubleButton = buttons[randRow][randCol];     //Button in this location
+                //final Button goodButton = buttons[randRow][randCol];     //Button in this location
+                displayDoublePoints(doubleButton, i);
+            }
+            else if(luckArray6[randRow][randCol] == "addLife")
+            {
+                for(i = 0; i < 20; i++)
+                {        // Find empty spot in SpecialArray
+                    if(SpecialArray[i] == null){break;}
+                    if(i == 19) {i = 0;}
+                }
+                Button lifeButton = buttons[randRow][randCol];     //Button in this location
+                //final Button goodButton = buttons[randRow][randCol];     //Button in this location
+                displayAddLife(lifeButton, i);
 
+            }
+            else if(luckArray6[randRow][randCol] == "lightning")
+            {
+                for(i = 0; i < 20; i++)
+                {        // Find empty spot in SpecialArray
+                    if(SpecialArray[i] == null){break;}
+                    if(i == 19) {i = 0;}
+                }
+                Button lightningButton = buttons[randRow][randCol];     //Button in this location
+                //final Button goodButton = buttons[randRow][randCol];     //Button in this location
+                displayLightning(lightningButton, i);
+            }
+            else if(luckArray6[randRow][randCol] == "nuke")
+            {
+                for(i = 0; i < 20; i++)
+                {        // Find empty spot in SpecialArray
+                    if(SpecialArray[i] == null){break;}
+                    if(i == 19) {i = 0;}
+                }
+                Button nukeButton = buttons[randRow][randCol];     //Button in this location
+                //final Button goodButton = buttons[randRow][randCol];     //Button in this location
+                displayNuke(nukeButton, i);
+            }
+            else //GOOD BUTTON +1 POINT IF CLICKED
+            {
+                for(i = 0; i < 20; i++)
+                {        // Find empty spot in GoodArray
+                    if(GoodArray[i] == null){break;}
+                    if(i == 19) {i = 0;}
+                }
+                Button goodButton = buttons[randRow][randCol];     //Button in this location
+                displayGoodSwirl(goodButton, i);
+
+                //set 1 second timer... if timer reached then make button disappear
+            }
+        }
     } //End of displaybutton
 
     //GAME TIMERS BELOW
@@ -1661,6 +1745,22 @@ public class levelPlay extends Activity implements View.OnClickListener
                     luckArray5[row][col] = "lightning";
                 else
                     luckArray5[row][col] = "good"; //much higher chance to receive good button
+                /*++++++++++++++++++++++++++++++SIXTH LUCK ARRAY+++++++++++++++++++++++++++++++++++*/
+                randCell=rand.nextInt(NUM_ROWS*NUM_COLS);
+                if(randCell == 22)
+                    luckArray6[row][col] = "doublePoints";
+                else if(randCell == 23)
+                    luckArray6[row][col] = "addLife";
+                else if(randCell%5 ==0) //much less chance to receive bad button
+                    luckArray6[row][col] = "bad"; //place bad button in array
+                else if(randCell%8 == 0)
+                    luckArray6[row][col] = "twicePoints";
+                else if(randCell == 19)
+                    luckArray6[row][col] = "lightning";
+                else if(randCell == 17)
+                    luckArray6[row][col] = "nuke";
+                else
+                    luckArray6[row][col] = "good"; //much higher chance to receive good button
             }
         }
     }
@@ -1678,7 +1778,8 @@ public class levelPlay extends Activity implements View.OnClickListener
 
     public void displayGoodSwirl(final Button good, int i)
     {
-
+        on_screen_goodCount++;
+        on_screen_allCount++;
         good.setBackgroundResource(R.drawable.goodswirl); //Set image to goodswirl
         good.setEnabled(true);                            //Enable Swirl
         good.setVisibility(View.VISIBLE);                 //Make Swirl Visible
@@ -1701,6 +1802,8 @@ public class levelPlay extends Activity implements View.OnClickListener
 //                AlphaAnimation anim3 = new AlphaAnimation(1.0f, 0.0f);//fade out the text
 //                anim3.setDuration(200);
 //                good.startAnimation(anim3);
+                on_screen_goodCount--;
+                on_screen_allCount--;
                 GoodArray[finalI].ButtonId = null;       // Remove Button ID
                 GoodArray[finalI] = null;
                 missedSwirls++;
@@ -1717,6 +1820,8 @@ public class levelPlay extends Activity implements View.OnClickListener
                 {   //leveldisplay.setVisibility(View.VISIBLE);
                     //add a plus one animation by score
                     goodCount++; //add to number of good swirls on screen
+                    on_screen_goodCount--;
+                    on_screen_allCount--;
                     if(doublePoints == true)
                     {
 
@@ -1757,6 +1862,8 @@ public class levelPlay extends Activity implements View.OnClickListener
     /*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
     public void displayTwiceSwirl(final Button twice, int i)
     {
+        on_screen_goodCount+=2;
+        on_screen_allCount+=2;
         twice.setBackgroundResource(R.drawable.twiceswirl); //Set image to goodswirl
         twice.setEnabled(true);                            //Enable Swirl
         twice.setVisibility(View.VISIBLE);                 //Make Swirl Visible
@@ -1779,6 +1886,8 @@ public class levelPlay extends Activity implements View.OnClickListener
 //                AlphaAnimation anim4 = new AlphaAnimation(1.0f, 0.0f);//fade out the text
 //                anim4.setDuration(200);
 //                twice.startAnimation(anim4);
+                on_screen_goodCount-=2;
+                on_screen_allCount-=2;
                 SpecialArray[finalI].ButtonId = null;       // Remove Button ID
                 SpecialArray[finalI] = null;
                 twice.setVisibility(View.INVISIBLE);
@@ -1791,6 +1900,8 @@ public class levelPlay extends Activity implements View.OnClickListener
             public void onClick(View v)
             {
                 {
+                    on_screen_goodCount-=2;
+                    on_screen_allCount-=2;
                     twiceCount++; //add to number of good swirls on screen
                     if(doublePoints == true)
                     {
@@ -1957,7 +2068,7 @@ public class levelPlay extends Activity implements View.OnClickListener
     /*++++++++++++++++++++++++++++++++++++++++DISPLAY BAD SWIRL BUTTON+++++++++++++++++++++++++++++++++++*/
     /*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
     public void displayBadSwirl(final Button badButton, int i) {
-
+            on_screen_allCount-=2;
             badButton.setBackgroundResource(R.drawable.badswirl); //Set image to goodswirl
             badButton.setEnabled(true);                            //Enable Swirl
             badButton.setVisibility(View.VISIBLE);                 //Make Swirl
@@ -1972,6 +2083,7 @@ public class levelPlay extends Activity implements View.OnClickListener
 
                 @Override
                 public void onFinish() {
+                    on_screen_allCount+=2;
                     BadArray[finalI] = null;
                     badButton.setVisibility(View.INVISIBLE);
                     badButton.setEnabled(false);
@@ -1981,6 +2093,7 @@ public class levelPlay extends Activity implements View.OnClickListener
             badButton.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
                 {
+                    on_screen_allCount+=2;
                     badCount++;
                     BadArray[finalI].TimerId.cancel();      // Cancel it's disappear Timer
                     BadArray[finalI].ButtonId = null;       // Remove Button ID
@@ -2005,7 +2118,7 @@ public class levelPlay extends Activity implements View.OnClickListener
     public void displayLightning(final Button lightningButton, int i)
         {
             if(lightningAppearedCount == 0) {
-                lightningButton.setBackgroundResource(R.drawable.lightning_button_active); //Set image to goodswirl
+                lightningButton.setBackgroundResource(R.drawable.lightningbolt); //Set image to goodswirl
                 lightningButton.setEnabled(true);                            //Enable Swirl
                 lightningButton.setVisibility(View.VISIBLE);                 //Make Swirl
                 final int finalI = i;
@@ -2030,6 +2143,11 @@ public class levelPlay extends Activity implements View.OnClickListener
                     public void onClick(View v) {
 
                         {
+                            if(doublePoints == true)
+                            {
+                                score+=on_screen_goodCount*2;
+                            }
+                            else score+=on_screen_goodCount;
                             lightningCount++; //add to number of good swirls on screen
                             SpecialArray[finalI].TimerId.cancel();      // Cancel it's disappear Timer
                             SpecialArray[finalI].ButtonId = null;       // Remove Button ID
@@ -2058,7 +2176,69 @@ public class levelPlay extends Activity implements View.OnClickListener
                 else lightningAppearedCount++;
             }
         }
+    /*++++++++++++++++++++++++++++++++DISPLAY NUKE BUTTON++++++++++++++++++++++++++++++++++++++*/
+    public void displayNuke(final Button nukeButton, int i)
+    {
+        if(nukeAppearedCount == 0) {
+            nukeButton.setBackgroundResource(R.drawable.nukebutton); //Set image to goodswirl
+            nukeButton.setEnabled(true);                            //Enable Swirl
+            nukeButton.setVisibility(View.VISIBLE);                 //Make Swirl
+            final int finalI = i;
+            final CountDownTimer temp = new CountDownTimer(1200, 1200) { // Set timer for disappearance
+                public void onTick(long millisUntilFinished) {
+                    if (millisUntilFinished / 30 == 0) {
+                        onFinish();
+                    } else {
+                    }
+                }
 
+                @Override
+                public void onFinish() {
+                    SpecialArray[finalI] = null;
+                    nukeButton.setVisibility(View.INVISIBLE);
+                    nukeButton.setEnabled(false);
+
+                }
+            }.start();
+            SpecialArray[i] = new buttonDisappear(nukeButton, temp);
+            nukeButton.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+
+                    {
+                        if(doublePoints == true)
+                        {
+                            score+=on_screen_allCount*2;
+                        }
+                        else score+=on_screen_allCount;
+
+                        lightningCount++; //add to number of good swirls on screen
+                        SpecialArray[finalI].TimerId.cancel();      // Cancel it's disappear Timer
+                        SpecialArray[finalI].ButtonId = null;       // Remove Button ID
+                        v.setEnabled(false);                     // Disable button
+                        AlphaAnimation anim = new AlphaAnimation(1.0f, 0.0f);//fade out the text
+                        anim.setDuration(500);
+                        v.startAnimation(anim);
+                        SpecialArray[finalI] = null;
+                        v.setVisibility(View.INVISIBLE);         // Make Swirl disappear when clicked
+                        v.setEnabled(false);                     // Disable button
+                        DestroySwirls(); //will destroy all swirls currently on screen
+                        /*add all points by good swirls on screen*/
+                        /*check if doublePoints = true. If so multiply score by 2*/
+                        /*add the total amount to total*/
+                    }
+                }
+            });
+            nukeAppearedCount++;
+        }
+        else
+        {
+            if(nukeAppearedCount == 7)
+            {
+                nukeAppearedCount = 0;
+            }
+            else nukeAppearedCount++;
+        }
+    }
     /*++++++++++++++++++++++++++++++++DESTROY ALL BUTTONS++++++++++++++++++++++++++++++++++++++*/
     /*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
     public void DestroySwirls()
@@ -2067,11 +2247,13 @@ public class levelPlay extends Activity implements View.OnClickListener
             {
                 if (GoodArray[i] != null) {
                     GoodArray[i].TimerId.cancel();
+                    GoodArray[i].ButtonId.setBackgroundResource(R.drawable.goodswirl_break); //change to +1 and make dis
                     GoodArray[i].ButtonId.setVisibility(View.INVISIBLE);
                     GoodArray[i].ButtonId.setEnabled(false);
                 }
                 if (BadArray[i] != null) {
                     BadArray[i].TimerId.cancel();
+                    GoodArray[i].ButtonId.setBackgroundResource(R.drawable.badswirl_break); //change to +1 and make dis
                     BadArray[i].ButtonId.setVisibility(View.INVISIBLE);
                     BadArray[i].ButtonId.setEnabled(false);
                 }
