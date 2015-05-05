@@ -50,7 +50,7 @@ public class Profile extends Activity {
         int GoodSwirlTotal = prefs.getInt("GoodSwirlTotal", 0);
         int TwiceSwirlTotal = prefs.getInt("TwiceSwirlTotal", 0);
         int BadSwirlTotal = prefs.getInt("BadSwirlTotal", 0);
-        int TimeAddSwirlTotal = prefs.getInt("TimeAddSwirlTotal", 0);
+        int TimeAddSwirlTotal = prefs.getInt("TimeAddTotal", 0);
         int spGamesPlayedTotal = prefs.getInt("spGamesPlayedTotal", 0);
         int lpGamesPlayedTotal = prefs.getInt("lpGamesPlayedTotal", 0);
         username.setText("" + player );
@@ -86,7 +86,6 @@ public class Profile extends Activity {
                 Intent i = new Intent(getApplicationContext(),MainActivity.class);
                 startActivity(i);
                 finish();
-
             }
         });
     }
