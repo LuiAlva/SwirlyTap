@@ -73,13 +73,13 @@ public class PlayAgain extends ActionBarActivity implements View.OnClickListener
         TextView BEST_SCORE= (TextView) findViewById(R.id.BestScore);
         BEST_SCORE.setText("Best: " + HighScore);   //Set text to show score
         TextView GoodCount= (TextView) findViewById(R.id.Good_Swirl_Counter);
-        GoodCount.setText(""+ GoodSwirls);   //Set text to show score
+        GoodCount.setText(""+ GoodSwirls);   //Set text to show count
         TextView BadCount= (TextView) findViewById(R.id.Bad_Swirl_Counter);
-        BadCount.setText(""+ BadSwirls);   //Set text to show score
+        BadCount.setText(""+ BadSwirls);   //Set text to show count
         TextView Good2Counter= (TextView) findViewById(R.id.Good2_Swirl_Counter);
-        Good2Counter.setText(""+ Good2Swirls);   //Set text to show score
+        Good2Counter.setText(""+ Good2Swirls);   //Set text to show count
         TextView TimeCounter= (TextView) findViewById(R.id.Time_Swirl_Counter);
-        TimeCounter.setText(""+ TimeSwirls);   //Set text to show score
+        TimeCounter.setText(""+ TimeSwirls);   //Set text to show count
 
         buttonAgain = (Button)findViewById(R.id.PlayAgain);
         buttonAgain.setOnClickListener(this);     //sets an onClickListener on buttonAgain

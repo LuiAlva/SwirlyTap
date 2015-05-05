@@ -14,7 +14,7 @@
     <string name="num_sixty">60</string>
     <string name="time">TIME</string>
     <string name="time_sixty">Time: 60</string>
-    <string name="temp_you_scored">000 points!</string>
+    <string name="temp_you_scored">0000 points!</string>
     <string name="action_home">Home</string>
     <string name="restart">Restart Game</string>
     <string name="share">Share</string>

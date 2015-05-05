@@ -70,7 +70,7 @@
                         android:gravity="center" />
 
                     <TextView
-                        android:text="Best: 000"
+                        android:text="Best: 0000"
                         android:id="@+id/BestScore"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"

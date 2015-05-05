@@ -332,12 +332,11 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Time Mode Total:  "
+                android:text="Time Mode:  "
                 android:id="@+id/spGamesPlayedTotalDescription"
                 android:textStyle="bold"
                 android:textSize="26sp"
                 android:layout_column="0"/>
-
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -347,11 +346,41 @@
                 android:textSize="30sp"
                 android:layout_column="1"/>
         </TableRow>
+        <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/spGamesPlayedTotalTitle"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:id="@+id/lpGamesPlayedTotalTitle"
+            android:paddingLeft="20dp"
+            android:paddingRight="0dp"
+            android:layout_marginLeft="10sp"
+            android:layout_marginRight="10sp"
+            android:background="#2c000000">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Level Mode:  "
+                android:id="@+id/lpGamesPlayedTotalDescription"
+                android:textStyle="bold"
+                android:textSize="26sp"
+                android:layout_column="0"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/z0000"
+                android:id="@+id/lpGamesPlayedTotalBox"
+                android:textStyle="bold"
+                android:textSize="30sp"
+                android:layout_column="1"/>
+        </TableRow>
 
         <TableRow
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/tableRowGamePlayStats"
+            android:layout_below="@+id/lpGamesPlayedTotalTitle"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:gravity="center"

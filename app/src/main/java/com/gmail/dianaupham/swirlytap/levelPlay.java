@@ -67,6 +67,15 @@ public class levelPlay extends Activity implements View.OnClickListener
     boolean destroyGoodSwirls = false;
     int swirlPointsLeft = 0;        //to determine if all swirls have been destroyed on screen
     //int HighScore;                  //For HighScore
+    int Good_Pressed = 0;       // GoodSwirls pressed
+    int Good2_Pressed = 0;      // 2xGoodSwirls pressed
+    int Bad_Pressed = 0;        // BadSwirls pressed
+    int GoodSwirlTotalPass = 0; //For passing old GoodSwirl total
+    int TwiceSwirlTotalPass = 0;//For passing old TwiceSwirl total
+    int BadSwirlTotalPass = 0;  //For passing old BadSwirl total
+    int TimeAddTotalPass = 0;   //For passing old TimeAdd total
+    int LP_GamesPlayedTotalPass = 0;//passing old SP_GamesPlayed total
+    int lpFirstGamePlayed = 1;  // Set #game played to 1 after game finish, if first game played
     int Current_Time = 61000;       //Current in-game time
     int Game_Speed = 400;           //Speed of the game
     int randCell;
@@ -1342,7 +1351,9 @@ public class levelPlay extends Activity implements View.OnClickListener
                 ScreenShot(levelPlay.this); //take a screenshot of end of LevelPlay
                 DestroySwirls();            //destroy all swirls in array
                 Updater.cancel();           //Cancel the Score Update Timer
-                CompareScore();             // Get HighScore
+                CompareScore();             //Get HighScore
+                lpGamesPlayed();            //Get updated #LevelPlay games played
+                TotalTapped();              //Update total tapped counts from LP
                 Intent intentAgain = new Intent(levelPlay.this, PlayAgain_Level.class);  //create intent (to go to PlayAgain menu)
                 intentAgain.putExtra("score", score); //send score
                 intentAgain.putExtra("good_swirl", goodCount); //send number of good swirls hit
@@ -1467,6 +1478,69 @@ public class levelPlay extends Activity implements View.OnClickListener
             editor.commit();
         }
     }
+
+    public void TotalTapped() {
+        SharedPreferences prefsTotals = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editorTotals;
+        NAME = prefsTotals.getString("PlayerName", "Player");
+
+        //+++++++++GOOD SWIRL+++++++++++++++++++++++++++++
+        if (prefsTotals.getInt("GoodSwirlTotal", 0) == 0) { //First game (or first green swirl tapped)
+            editorTotals = prefsTotals.edit();
+            editorTotals.putInt("GoodSwirlTotal", Good_Pressed);
+            //editorTotals.putString("GoodSwirlTotalName", NAME);
+            editorTotals.commit();
+        } else if (prefsTotals.getInt("GoodSwirlTotal", 0) > 0) { //Add GoodSwirls clicked in this game to Total
+            editorTotals = prefsTotals.edit();
+            GoodSwirlTotalPass = prefsTotals.getInt("GoodSwirlTotal", 0);
+            //NamePass = prefsTotals.getString("GoodSwirlTotal", "Player");
+            GoodSwirlTotalPass = GoodSwirlTotalPass + Good_Pressed;
+            editorTotals.putInt("GoodSwirlTotal", GoodSwirlTotalPass);
+            //editorTotals.putString("GoodSwirlTotalName", NAME);
+            editorTotals.commit();
+        }
+        //+++++++++TWICE SWIRL++++++++++++++++++++++++
+        if (prefsTotals.getInt("TwiceSwirlTotal", 0) == 0) { //First game (or first yellow swirl tapped)
+            editorTotals = prefsTotals.edit();
+            editorTotals.putInt("TwiceSwirlTotal", Good2_Pressed);
+            editorTotals.commit();
+        } else if (prefsTotals.getInt("TwiceSwirlTotal", 0) > 0) { //Add TwiceSwirls clicked in this game to Total
+            editorTotals = prefsTotals.edit();
+            TwiceSwirlTotalPass = prefsTotals.getInt("TwiceSwirlTotal", 0);
+            TwiceSwirlTotalPass = TwiceSwirlTotalPass + Good2_Pressed;
+            editorTotals.putInt("TwiceSwirlTotal", TwiceSwirlTotalPass);
+            editorTotals.commit();
+        }
+        //+++++++++BAD SWIRL++++++++++++++++++++++++
+        if (prefsTotals.getInt("BadSwirlTotal", 0) == 0) { //First game (or first red swirl tapped)
+            editorTotals = prefsTotals.edit();
+            editorTotals.putInt("BadSwirlTotal", Bad_Pressed);
+            editorTotals.commit();
+        } else if (prefsTotals.getInt("BadSwirlTotal", 0) > 0) { //Add BadSwirls clicked in this game to Total
+            editorTotals = prefsTotals.edit();
+            BadSwirlTotalPass = prefsTotals.getInt("BadSwirlTotal", 0);
+            BadSwirlTotalPass = BadSwirlTotalPass + Bad_Pressed;
+            editorTotals.putInt("BadSwirlTotal", BadSwirlTotalPass);
+            editorTotals.commit();
+        }
+    }//end TotalTapped()
+
+    public void lpGamesPlayed() {
+        SharedPreferences prefsTotals = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editorTotals;
+        NAME = prefsTotals.getString("PlayerName", "Player");
+        if (prefsTotals.getInt("lpGamesPlayedTotal", 0) == 0) { //First game played
+            editorTotals = prefsTotals.edit();
+            editorTotals.putInt("lpGamesPlayedTotal", lpFirstGamePlayed);
+            editorTotals.commit();
+        } else if (prefsTotals.getInt("lpGamesPlayedTotal", 0) > 0) { //More than one game played, increment count +1
+            editorTotals = prefsTotals.edit();
+            LP_GamesPlayedTotalPass = prefsTotals.getInt("lpGamesPlayedTotal", 0);
+            LP_GamesPlayedTotalPass = LP_GamesPlayedTotalPass + 1;  //+1 SP game played
+            editorTotals.putInt("lpGamesPlayedTotal", LP_GamesPlayedTotalPass);
+            editorTotals.commit();
+        }//end 'else if'
+    }//end spGamesPlayed()
 
     public void setMissed(int numMissed)
     {
@@ -1673,7 +1747,9 @@ public class levelPlay extends Activity implements View.OnClickListener
                     v.startAnimation(anim);
                     v.setVisibility(View.INVISIBLE);         // Make Swirl disappear when clicked
                                                  // Add one to score
-
+                    Good_Pressed++;              //+1 goodswirl tapped
+                    if(goodCount > 0)
+                        goodCount--; //take from number of good swirls on screen
                 }
             }
         });
@@ -1747,9 +1823,11 @@ public class levelPlay extends Activity implements View.OnClickListener
                     playGood2(tapGood);
                     v.startAnimation(anim);
                     v.setVisibility(View.INVISIBLE);         // Make Swirl disappear when clicked
-                    // v.setEnabled(false);                     // Disable button
-                    score+=2;                                 // Add one to score
-
+                    // v.setEnabled(false);                  // Disable button
+                    score+=2;                                // Add one to score
+                    Good2_Pressed++;                         //+1 TwiceSwirl tapped
+                    if(goodCount > 0)
+                        goodCount-=2;
                     // scoreUpdate();
                 }
             }
@@ -1919,6 +1997,7 @@ public class levelPlay extends Activity implements View.OnClickListener
                     v.setEnabled(false);                     // Disable button
                     score -= 2;                                 // Add one to score
                     lives -= 1;
+                    Bad_Pressed++;
                     setLives(lives);
                 }
                 }

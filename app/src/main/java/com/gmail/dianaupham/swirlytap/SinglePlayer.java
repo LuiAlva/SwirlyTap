@@ -49,7 +49,6 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
     int SP_GamesPlayedTotalPass = 0;//passing old SP_GamesPlayed total
     String NAME = "";       // For Player Name for CompareScores()
     int SCORE = 0;          // For Score for CompareScores()
-    int GOODSWIRLtotal = 0; // For total GoodSwirls tapped
     public static final String PREFS_NAME = "PREFS_FILE"; // Name of preference file
     boolean addTime = false;    //Allows Time button to appear
     boolean paused = false;

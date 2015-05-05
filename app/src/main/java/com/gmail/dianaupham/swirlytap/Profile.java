@@ -44,6 +44,7 @@ public class Profile extends Activity {
         badswirltotal = (TextView) findViewById(R.id.BadSwirlTotalBox);
         timeaddtotal = (TextView) findViewById(R.id.TimeAddTotalBox);
         spgamesplayedtotal = (TextView) findViewById(R.id.spGamesPlayedTotalBox);
+        lpgamesplayedtotal = (TextView) findViewById(R.id.lpGamesPlayedTotalBox);
         String player = prefs.getString("PlayerName", "Player");
         int Highscore = prefs.getInt("HighScore", 0);
         int GoodSwirlTotal = prefs.getInt("GoodSwirlTotal", 0);
@@ -51,6 +52,7 @@ public class Profile extends Activity {
         int BadSwirlTotal = prefs.getInt("BadSwirlTotal", 0);
         int TimeAddSwirlTotal = prefs.getInt("TimeAddSwirlTotal", 0);
         int spGamesPlayedTotal = prefs.getInt("spGamesPlayedTotal", 0);
+        int lpGamesPlayedTotal = prefs.getInt("lpGamesPlayedTotal", 0);
         username.setText("" + player );
         highscore.setText("" + Highscore );
         goodswirltotal.setText("" + GoodSwirlTotal);
@@ -58,6 +60,7 @@ public class Profile extends Activity {
         badswirltotal.setText("" + BadSwirlTotal);
         timeaddtotal.setText("" + TimeAddSwirlTotal);
         spgamesplayedtotal.setText("" + spGamesPlayedTotal);
+        lpgamesplayedtotal.setText("" + lpGamesPlayedTotal);
 
         Sign_Out = (Button)findViewById(R.id.sign_out);
         BACK = (Button)findViewById(R.id.Back);

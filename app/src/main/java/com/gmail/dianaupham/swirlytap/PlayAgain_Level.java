@@ -1,6 +1,8 @@
 package com.gmail.dianaupham.swirlytap;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.content.res.Resources;
@@ -42,12 +44,15 @@ public class PlayAgain_Level extends ActionBarActivity implements View.OnClickLi
         setContentView(R.layout.activity_play_again__level);
         getSupportActionBar().hide();
         mediaPlayer = MediaPlayer.create(this, R.raw.game_success); //get success sound
-        // Get HighScore
+        SharedPreferences prefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+        HighScore = prefs.getInt("LevelHighScore1", 0);
 
         Intent game = getIntent(); // Grab the the intent of game that ended
         int score = game.getIntExtra("score", 0); //Grab score from game
         TextView Score= (TextView) findViewById(R.id.ScoreViewLevel);
-        Score.setText("" + score + " points!");   //Set text to show score
+        Score.setText("" + score + " points!");   //Set text to show recent score
+        TextView BEST_SCORE= (TextView) findViewById(R.id.BestScoreLevel);
+        BEST_SCORE.setText("Best: " + HighScore);   //Set text to show best score
 
         buttonAgainLevel = (Button)findViewById(R.id.PlayAgainLevel);
         buttonAgainLevel.setOnClickListener(this);     //sets an onClickListener on buttonAgain

@@ -138,5 +138,22 @@
         android:textSize="14sp"
         android:textStyle="bold"
         android:textColor="#ff000000" />
+    <ImageView
+        android:id="@+id/SoundMute"
+        android:layout_width="40sp"
+        android:layout_height="40sp"
+        android:src="@drawable/sound_mute"
+        android:layout_gravity="center"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"/>
+    <ImageView
+        android:id="@+id/SoundPlay"
+        android:layout_width="40sp"
+        android:layout_height="40sp"
+        android:src="@drawable/sound_play"
+        android:layout_gravity="center"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"/>
+
 
 </RelativeLayout>
