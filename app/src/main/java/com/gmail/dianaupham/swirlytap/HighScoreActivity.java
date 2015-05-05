@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
@@ -11,6 +12,8 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.gmail.dianaupham.swirlytap.swirlytap.R;
 
 import static com.gmail.dianaupham.swirlytap.swirlytap.R.drawable;
 import static com.gmail.dianaupham.swirlytap.swirlytap.R.id;
@@ -24,6 +27,7 @@ public class HighScoreActivity extends Activity {
     ImageView TITLE;
     Button BACK, LEVEL, TIMED, LOCAL, OVERALL;
     Boolean Level, Timed;
+    MediaPlayer mediaPlayer; //for music
 
     private static final boolean AUTO_HIDE = true;          // Auto hide UI (ActionBar)
     private static final int AUTO_HIDE_DELAY_MILLIS = 1000; // Hide system UI after 1000 milliseconds
@@ -41,6 +45,8 @@ public class HighScoreActivity extends Activity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(layout.activity_high_score);
         TITLE = (ImageView)findViewById(id.Title);
+        mediaPlayer = MediaPlayer.create(this, R.raw.highscore_song); //get song
+        mediaPlayer.setLooping(true);
         LOCAL = (Button) findViewById(id.LocalTab);
         LOCAL.setOnClickListener( new View.OnClickListener() {
             @Override
@@ -269,8 +275,21 @@ public class HighScoreActivity extends Activity {
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
     }
+
     public void onBackPressed() {
         finish();
+    }
+
+    protected void onResume() {
+        super.onResume();
+        mediaPlayer = MediaPlayer.create(this, R.raw.highscore_song); //get song
+        mediaPlayer.setLooping(true);    //make background song loop
+        if (!mediaPlayer.isPlaying()) { mediaPlayer.start(); }
+    }
+
+    protected void onPause() {
+        super.onPause();
+        mediaPlayer.release();
     }
 
 }

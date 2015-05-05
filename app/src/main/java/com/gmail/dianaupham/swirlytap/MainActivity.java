@@ -230,6 +230,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
                 break;
             case R.id.highscores:
                 mediaPlayer.pause(); //stop song
+                mediaPlayer.release();
                 HighScores();
                 break;
             case R.id.levelMode:
