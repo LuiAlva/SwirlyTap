@@ -10,74 +10,135 @@
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:id="@+id/Register_layout"
     android:gravity="top|center_vertical|center|center_horizontal"
-    android:background="@color/teal">
+    android:background="@drawable/profile_bg">
 
-    <ImageView
-        android:src="@drawable/swirlytap_title"
-        android:id="@+id/imageView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:contentDescription="@string/TitleImage" />
-
-    <TableRow
+    <RelativeLayout
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/TitleRowRegister"
-        android:layout_alignParentStart="true">
+        android:layout_height="fill_parent">
 
         <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:text="@string/registerPrompt"
-            android:gravity="center|top"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Register Profile"
+            android:id="@+id/RegisterTitle"
             android:layout_centerHorizontal="true"
-            android:id="@+id/TitleRegister"
             android:textColor="#ff000000"
-            android:textSize="30sp"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="20dp"/>
-    </TableRow>
+            android:textSize="40sp"
+            android:textStyle="bold"
+            android:layout_alignParentStart="true"
+            android:gravity="center"
+            android:background="#58939393" />
 
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:ems="10"
-        android:id="@+id/editUserName"
-        android:layout_gravity="right"
-        android:hint ="@string/enterUN"
-        android:textSize="30sp" />
+        <ScrollView
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:id="@+id/scrollView3"
+            android:layout_below="@+id/RegisterTitle"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true">
 
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:id="@+id/editpassword"
-        android:layout_gravity="right"
-        android:inputType="textPassword"
-        android:hint ="@string/enterPass"
-        android:textSize="30sp" />
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content">
 
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textPassword"
-        android:hint="@string/Pass_Word"
-        android:id="@+id/editpassword1"
-        android:textSize="30sp" />
+                <TableRow
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/TitleRowRegister"
+                    android:layout_below="@+id/RegisterTitle"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:background="#ff242424">
 
-    <Button
-        android:layout_width="195sp"
-        android:layout_height="75sp"
-        android:text="@string/Register_pass"
-        android:id="@+id/register"
-        android:background="@drawable/button_bg"
-        android:textColor="#ffffffff"
-        android:textSize="25sp"
-        android:gravity="center"
-        android:layout_marginTop="16dp"/>
+                    <TextView
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:text="@string/registerPrompt"
+                        android:gravity="center|top"
+                        android:layout_centerHorizontal="true"
+                        android:id="@+id/RegisterDescription"
+                        android:textColor="#ffe1e1e1"
+                        android:textSize="28sp"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginBottom="20dp" />
+                </TableRow>
+
+                <RelativeLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/relativeLayout2"
+                    android:layout_below="@+id/TitleRowRegister"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true">
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textPersonName"
+                        android:ems="10"
+                        android:id="@+id/editUserName"
+                        android:layout_gravity="right"
+                        android:hint ="@string/enterUN"
+                        android:textSize="28sp"
+                        android:layout_below="@+id/TitleRowRegister"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true" />
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:id="@+id/editpassword"
+                        android:layout_gravity="right"
+                        android:inputType="textPassword"
+                        android:hint ="@string/enterPass"
+                        android:textSize="28sp"
+                        android:layout_below="@+id/editUserName"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true" />
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:inputType="textPassword"
+                        android:hint="@string/Pass_Word"
+                        android:id="@+id/editpassword1"
+                        android:textSize="28sp"
+                        android:layout_below="@+id/editpassword"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true" />
+
+                </RelativeLayout>
+
+                <Button
+                    android:layout_width="195sp"
+                    android:layout_height="60sp"
+                    android:text="@string/Register_pass"
+                    android:id="@+id/register"
+                    android:background="@drawable/button_bg"
+                    android:textColor="#ffffffff"
+                    android:textSize="25sp"
+                    android:gravity="center"
+                    android:layout_below="@+id/relativeLayout2"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="10sp" />
+
+                <Button
+                    android:layout_width="195sp"
+                    android:layout_height="60sp"
+                    android:text="@string/Back"
+                    android:id="@+id/Back"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_below="@+id/register"
+                    android:textColor="#ffffffff"
+                    android:textSize="25sp"
+                    android:background="@drawable/button_bg"
+                    android:layout_marginTop="10sp" />
+            </RelativeLayout>
+        </ScrollView>
+
+    </RelativeLayout>
 
 </LinearLayout>
