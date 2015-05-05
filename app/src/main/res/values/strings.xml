@@ -87,7 +87,6 @@
     <string name="highscoresTitle">High Scores</string>
     <string name="back">Back</string>
     <string name="NameHolder">Name Holder</string>
-    <string name="z0000">0000</string>
     <string name="space3">   </string>
     <string name="loginPrompt">Please enter your username and password to sign into SwirlyTap.</string>
     <string name="registerPrompt">Register by choosing a username and password.</string>
@@ -98,6 +97,9 @@
     <string name="UserName">UserName</string>
     <string name="UsernameDescription">User:  </string>
     <string name="z000">000</string>
+    <string name="z0000">0000</string>
+    <string name="z00000">00000</string>
+    <string name="sz00000"> 00000</string>
     <string name="SignOut">Sign Out</string>
     <string name="Back">Back</string>
     <string name="MyProfile">My Profile</string>
