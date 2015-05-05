@@ -60,7 +60,7 @@ public class PlayAgain_Level extends ActionBarActivity implements View.OnClickLi
         TextView twiceButtons = (TextView)findViewById(R.id.twice_swirl_count);
         TextView doubleButtons = (TextView)findViewById(R.id.double_point_count);
         TextView lightningButtons = (TextView)findViewById(R.id.lightning_bolt_count);
-        
+
         Score.setText("" + score + " points!");   //Set text to show recent score
         goodButtons.setText(""+good_buttons);
         badButtons.setText(""+bad_buttons);
