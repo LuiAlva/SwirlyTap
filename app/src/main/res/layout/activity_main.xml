@@ -5,26 +5,18 @@
     android:layout_height="match_parent"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context=".MainActivity"
     android:orientation="vertical"
     android:background="@drawable/menu_bg"
     android:clickable="false">
 
-    <FrameLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/frameLayout">
-
-    </FrameLayout>
-
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_height="match_parent"
         android:weightSum="1"
-        android:layout_gravity="center">
+        android:layout_gravity="center"
+        android:paddingTop="10sp">
 
         <ImageView
             android:src="@drawable/swirlytap_title"
@@ -56,7 +48,8 @@
                     android:orientation="vertical"
                     android:layout_gravity="center"
                     android:layout_marginLeft="10sp"
-                    android:layout_marginRight="10sp">
+                    android:layout_marginRight="10sp"
+                    android:paddingBottom="20dp">
 
                     <Button
                         android:text="@string/TimeMode"
@@ -138,22 +131,25 @@
         android:textSize="14sp"
         android:textStyle="bold"
         android:textColor="#ff000000" />
-    <ImageView
+    <ImageButton
         android:id="@+id/SoundMute"
-        android:layout_width="40sp"
-        android:layout_height="40sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:src="@drawable/sound_mute"
         android:layout_gravity="center"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"/>
-    <ImageView
+        android:layout_alignParentRight="true"
+        android:background="@null"
+        android:scaleType="fitXY"/>
+    <ImageButton
         android:id="@+id/SoundPlay"
-        android:layout_width="40sp"
-        android:layout_height="40sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:src="@drawable/sound_play"
         android:layout_gravity="center"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"/>
+        android:layout_alignParentRight="true"
+        android:background="@null"/>
 
 
 </RelativeLayout>
