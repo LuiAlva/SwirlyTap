@@ -895,34 +895,11 @@ public class levelPlay extends Activity implements View.OnClickListener
                 {
                     totalScore.setText("" + score); //Update Score Counter
                     levelUpdate();
-//                    if(score==0)levelUpdate();
-//                    else if(score >= 5 )levelUpdate();
-//                    else if(score == 15)levelUpdate();
-//                    else if(score == 30)levelUpdate();
-//                    else if(score == 50)levelUpdate();
-//                    else if(score == 75)levelUpdate();
-//                    else if(score == 100)levelUpdate();
-//                    else if(score == 140)levelUpdate();
-//                    else if(score == 180)levelUpdate();
-//                    else if(score == 225)levelUpdate();
-//                    else if(score == 275)levelUpdate();
-//                    else if(score == 330)levelUpdate();
-//                    else if(score == 390)levelUpdate();
-//                    else if(score == 485)levelUpdate();
-//                    else if(score == 585)levelUpdate();
-//                    else if(score == 690)levelUpdate();
-//                    else if(score == 800)levelUpdate();
-//                    else if(score == 915)levelUpdate();
-//                    else if(score == 1035)levelUpdate();
-//                    else if(score == 1160)levelUpdate();
-//                    else if(score == 1290)levelUpdate();
-
-
                 }
             }
             public void onFinish()
             {
-                //levelUpdate();
+
                 totalScore.setText("" + score); //Update Score Counter
                 UpdateTimer(60000);
             }
@@ -1940,9 +1917,9 @@ public class levelPlay extends Activity implements View.OnClickListener
                 } else {
                     if(level ==1) displayButton(1);
                     else if(level ==2)displayButton(2);
-                    else if(level ==3)displayButton(6);
-                    else if(level ==4)displayButton(6);
-                    else if(level ==5)displayButton(6);
+                    else if(level ==3)displayButton(3);
+                    else if(level ==4)displayButton(3);
+                    else if(level ==5)displayButton(3);
                     else if(level ==6)displayButton(3);
                     else if(level ==7)displayButton(4);
                     else if(level ==8)displayButton(4);
