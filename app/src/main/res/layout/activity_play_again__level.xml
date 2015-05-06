@@ -25,8 +25,8 @@
             android:gravity="center">
 
             <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="331dp"
+                android:layout_height="297dp"
                 android:layout_gravity="center"
                 android:background="@drawable/results_window"
                 android:layout_margin="10dp">
@@ -169,7 +169,7 @@
                             android:layout_height="35sp"
                             android:id="@+id/doublePoints"
                             android:layout_column="0"
-                            android:background="@drawable/doublepoints" />
+                            android:background="@drawable/double_button_active" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -223,6 +223,29 @@
                             android:layout_column="8"
                             android:layout_gravity="center"
                             android:textColor="#ffffffff" />
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:gravity="center" >
+
+                        <ImageButton
+                            android:layout_width="35dp"
+                            android:layout_height="35dp"
+                            android:id="@+id/nukeButton"
+                            android:layout_column="0"
+                            android:background="@drawable/nuke_button_active" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="00"
+                            android:id="@+id/nukeCount"
+                            android:layout_column="1"
+                            android:layout_gravity="center"
+                            android:textColor="#ffffffff" />
+
                     </TableRow>
                 </TableLayout>
 

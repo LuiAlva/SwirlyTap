@@ -66,12 +66,14 @@ public class levelPlay extends Activity implements View.OnClickListener
     int nukeAppearedCount = 0; //nukes that have appeared
     int doubleCount = 0;
     int badCount = 0;
+    int heartCount = 0;
     int on_screen_goodCount = 0; //count score of good swirls currently on screen
     int on_screen_allCount = 0;  //count score of both good and bad swirls currently on screen
     boolean doublePoints = false;
     boolean levelLoaded = false;
     boolean paused = false;
     int lifeCount = 0;
+    int nuke_button_count = 0;
     boolean heartGiven = false;     //used to limit the number of times the player recieves perks
     boolean destroyGoodSwirls = false;
     PopupWindow popupWindow; // Popup Window for Countdown, Pause menu, and Time over
@@ -942,6 +944,8 @@ public class levelPlay extends Activity implements View.OnClickListener
                 intentAgain.putExtra("twice_swirl", twiceCount); //send number of twice swirls hit
                 intentAgain.putExtra("double_points", doublePointCount); //send number of double xp buttons hit
                 intentAgain.putExtra("lightning_bolt", lightningCount); //send number of lightning bolts hit
+                intentAgain.putExtra("add_life", heartCount);
+                intentAgain.putExtra("nuke", nuke_button_count);
                 startActivity(intentAgain);                                           //go to PlayAgain activity/menu
                 finish();
                 break;
@@ -1443,7 +1447,7 @@ public class levelPlay extends Activity implements View.OnClickListener
     /*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
     public void displayDoublePoints(final Button doubleButton, int i) {
         if (doubleCount == 0) {
-            doubleButton.setBackgroundResource(R.drawable.doublepoints); //Set image to goodswirl
+            doubleButton.setBackgroundResource(R.drawable.double_button_active); //Set image to goodswirl
             doubleButton.setEnabled(true);                            //Enable Swirl
             doubleButton.setVisibility(View.VISIBLE);                 //Make Swirl Visible
             final int finalI = i;
@@ -1532,6 +1536,7 @@ public class levelPlay extends Activity implements View.OnClickListener
             SpecialArray[i] =  new buttonDisappear(lifeButton, temp);
             lifeButton.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
+                    heartCount++;
                     if(lives < 3)
                     {
                         lives++;
@@ -1700,7 +1705,7 @@ public class levelPlay extends Activity implements View.OnClickListener
             SpecialArray[i] = new buttonDisappear(nukeButton, temp);
             nukeButton.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
-
+                nuke_button_count++;
                     {
                         if(doublePoints == true)
                         {
