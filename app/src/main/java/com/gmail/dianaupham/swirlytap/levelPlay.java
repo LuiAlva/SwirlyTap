@@ -7,7 +7,6 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.media.MediaPlayer;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Environment;
@@ -2029,6 +2028,30 @@ public class levelPlay extends Activity implements View.OnClickListener
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
+    }
+
+    protected void onResume() {
+        super.onResume();
+
+        GoodSound = new MediaPlayer();     // Setup MediaPlayer for good sound
+        GoodSound2 = new MediaPlayer();    // Setup MediaPlayer for good sound
+        BadSound = new MediaPlayer();      // Setup MediaPlayer for bad sound
+        SpecialSound = new MediaPlayer();  // Setup MediaPlayer for Special button sounds
+    }
+
+    protected void onPause() {
+        super.onPause();
+
+        if (!paused) { PauseActivate(); }                // Pause the game
+        else { SwirlEngine.cancel(); Updater.cancel();  popupWindow.dismiss(); }
+        GoodSound.release();
+        GoodSound2.release();
+        BadSound.release();
+        SpecialSound.release();
+    }
+
+    public void onBackPressed() {
+        PauseActivate();                // Pause the game
     }
 
 }
