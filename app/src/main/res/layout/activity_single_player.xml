@@ -9,6 +9,12 @@
     android:orientation="vertical"
     android:background="@drawable/oneplayer_bg">
 
+    <!--com.mopub.mobileads.MoPubView
+        android:id="@+id/mopub_sample_ad"
+        android:layout_alignParentBottom="true"
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"/-->
+
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="fill_parent"
@@ -130,7 +136,7 @@
                         android:src="@drawable/nuke_button_inactive"
                         android:scaleType="fitCenter"
                         android:background="#00ffffff"
-                        android:layout_toRightOf="@+id/PlaceHolderButton1"
+                        android:layout_toRightOf="@+id/LightningButton"
                         android:layout_alignParentEnd="false"
                         android:layout_alignParentRight="false"
                         android:onClick="ExplodeNuke" />
@@ -138,20 +144,20 @@
                     <ImageButton
                         android:layout_width="60sp"
                         android:layout_height="60sp"
-                        android:id="@+id/PlaceHolderButton1"
+                        android:id="@+id/LightningButton"
                         android:focusableInTouchMode="true"
-                        android:src="@drawable/nuke_button_inactive"
+                        android:src="@drawable/lightning_button_inactive"
                         android:scaleType="fitCenter"
                         android:background="#00ffffff"
-                        android:layout_toRightOf="@+id/PlaceHolderButton2"
+                        android:layout_toRightOf="@+id/DoubleButton"
                         android:layout_alignParentRight="false" />
 
                     <ImageButton
                         android:layout_width="60sp"
                         android:layout_height="60sp"
-                        android:id="@+id/PlaceHolderButton2"
+                        android:id="@+id/DoubleButton"
                         android:focusableInTouchMode="true"
-                        android:src="@drawable/nuke_button_inactive"
+                        android:src="@drawable/double_button_inactive"
                         android:scaleType="fitCenter"
                         android:background="#00ffffff" />
                 </RelativeLayout>

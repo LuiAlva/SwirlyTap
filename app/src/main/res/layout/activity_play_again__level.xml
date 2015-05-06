@@ -1,4 +1,5 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -24,13 +25,11 @@
             android:gravity="center">
 
             <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_width="331dp"
+                android:layout_height="297dp"
                 android:layout_gravity="center"
                 android:background="@drawable/results_window"
-                android:layout_marginTop="10sp"
-                android:layout_marginLeft="10sp"
-                android:layout_marginRight="10sp">
+                android:layout_margin="10dp">
 
                 <ImageView
                     android:src="@drawable/congratulations"
@@ -53,7 +52,8 @@
                     android:layout_alignLeft="@+id/imageView"
                     android:gravity="center"
                     android:id="@+id/linearLayout"
-                    android:layout_centerInParent="true">
+                    android:layout_centerInParent="true"
+                    android:background="#2c000000">
 
                     <TextView
                         android:text="@string/temp_you_scored"
@@ -67,8 +67,187 @@
                         android:textStyle="bold"
                         android:layout_marginBottom="4sp"
                         android:gravity="center" />
+                    <TextView
+                        android:text="Best: 0000"
+                        android:id="@+id/BestScoreLevel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="25sp"
+                        android:layout_below="@+id/imageView"
+                        android:layout_centerHorizontal="true"
+                        android:textStyle="bold"
+                        android:layout_marginBottom="4sp"
+                        android:gravity="center"
+                        android:textColor="#ff4dc7cd" />
 
                 </LinearLayout>
+
+                <TableLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_below="@+id/linearLayout"
+                    android:layout_alignLeft="@+id/linearLayout"
+                    android:layout_alignStart="@+id/linearLayout"
+                    android:layout_alignRight="@+id/linearLayout"
+                    android:layout_alignEnd="@+id/linearLayout"
+                    android:layout_centerHorizontal="true"
+                    android:gravity="center">
+
+                    <TableRow
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:gravity="center">
+
+                        <ImageButton
+                            android:layout_width="35sp"
+                            android:layout_height="35sp"
+                            android:id="@+id/goodSwirl"
+                            android:layout_column="0"
+                            android:background="@drawable/goodswirl" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="00"
+                            android:id="@+id/good_swirl_count"
+                            android:layout_column="1"
+                            android:layout_gravity="center"
+                            android:textColor="#ffffffff" />
+
+                        <ImageView
+                            android:layout_width="50sp"
+                            android:layout_height="35sp"
+                            android:id="@+id/space1"
+                            android:layout_column="2" />
+
+                        <ImageButton
+                            android:layout_width="35sp"
+                            android:layout_height="35sp"
+                            android:id="@+id/imageButton2"
+                            android:layout_column="4"
+                            android:background="@drawable/badswirl" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="00"
+                            android:id="@+id/bad_swirl_count"
+                            android:layout_column="5"
+                            android:layout_gravity="center"
+                            android:textColor="#ffffffff" />
+
+                        <ImageView
+                            android:layout_width="50sp"
+                            android:layout_height="35sp"
+                            android:id="@+id/imageView4"
+                            android:layout_column="6" />
+
+                        <ImageButton
+                            android:layout_width="35sp"
+                            android:layout_height="35sp"
+                            android:id="@+id/twiceSwirl"
+                            android:layout_column="7"
+                            android:background="@drawable/twiceswirl" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="00"
+                            android:id="@+id/twice_swirl_count"
+                            android:layout_column="8"
+                            android:layout_gravity="center"
+                            android:textColor="#ffffffff" />
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:gravity="center">
+
+                        <ImageButton
+                            android:layout_width="35dp"
+                            android:layout_height="35sp"
+                            android:id="@+id/doublePoints"
+                            android:layout_column="0"
+                            android:background="@drawable/double_button_active" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="00"
+                            android:id="@+id/double_point_count"
+                            android:layout_column="1"
+                            android:layout_gravity="center"
+                            android:textColor="#ffffffff" />
+
+                        <ImageView
+                            android:layout_width="50sp"
+                            android:layout_height="35sp"
+                            android:id="@+id/space3"
+                            android:layout_column="2" />
+
+                        <ImageButton
+                            android:layout_width="35sp"
+                            android:layout_height="35sp"
+                            android:id="@+id/lightning_bolt"
+                            android:layout_column="4"
+                            android:background="@drawable/lightning_button_active" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="00"
+                            android:id="@+id/lightning_bolt_count"
+                            android:layout_column="5"
+                            android:layout_gravity="center"
+                            android:textColor="#ffffffff" />
+
+                        <ImageView
+                            android:layout_width="50sp"
+                            android:layout_height="35sp"
+                            android:id="@+id/space4"
+                            android:layout_column="2" />
+
+                        <ImageButton
+                            android:layout_width="35sp"
+                            android:layout_height="35sp"
+                            android:id="@+id/life_button"
+                            android:layout_column="7"
+                            android:background="@drawable/heart" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="00"
+                            android:id="@+id/life_count"
+                            android:layout_column="8"
+                            android:layout_gravity="center"
+                            android:textColor="#ffffffff" />
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:gravity="center" >
+
+                        <ImageButton
+                            android:layout_width="35dp"
+                            android:layout_height="35dp"
+                            android:id="@+id/nukeButton"
+                            android:layout_column="0"
+                            android:background="@drawable/nuke_button_active" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="00"
+                            android:id="@+id/nukeCount"
+                            android:layout_column="1"
+                            android:layout_gravity="center"
+                            android:textColor="#ffffffff" />
+
+                    </TableRow>
+                </TableLayout>
 
             </RelativeLayout>
 
@@ -97,16 +276,18 @@
                     android:layout_marginRight="10sp">
 
                     <Button
-                        android:text="@string/action_home"
-                        android:id="@+id/returnHomeLevel"
+                        android:text="@string/play_again"
+                        android:id="@+id/PlayAgainLevel"
                         android:layout_width="match_parent"
                         android:layout_height="50sp"
+                        android:paddingRight="15dp"
+                        android:paddingLeft="15dp"
                         android:layout_marginLeft="10sp"
                         android:layout_marginRight="10sp"
-                        android:textSize="20sp"
+                        android:textSize="18sp"
                         android:textColor="#ffffffff"
                         android:background="@drawable/button_bg"
-                        android:layout_marginBottom="5sp" />
+                        android:gravity="center" />
 
                     <Button
                         android:text="@string/share"
@@ -140,18 +321,16 @@
                         android:layout_marginBottom="5sp" />
 
                     <Button
-                        android:text="@string/play_again"
-                        android:id="@+id/PlayAgainLevel"
+                        android:text="@string/action_home"
+                        android:id="@+id/returnHomeLevel"
                         android:layout_width="match_parent"
                         android:layout_height="50sp"
-                        android:paddingRight="15dp"
-                        android:paddingLeft="15dp"
                         android:layout_marginLeft="10sp"
                         android:layout_marginRight="10sp"
-                        android:textSize="18sp"
+                        android:textSize="20sp"
                         android:textColor="#ffffffff"
                         android:background="@drawable/button_bg"
-                        android:gravity="center" />
+                        android:layout_marginBottom="5sp" />
 
                 </GridLayout>
 

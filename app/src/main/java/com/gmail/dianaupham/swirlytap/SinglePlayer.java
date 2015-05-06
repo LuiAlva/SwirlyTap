@@ -4,10 +4,12 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Vibrator;
 import android.view.Gravity;
@@ -28,39 +30,54 @@ import android.widget.TextView;
 
 import com.gmail.dianaupham.swirlytap.swirlytap.R;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.Random;
 
 public class SinglePlayer extends Activity implements View.OnClickListener {
     int Score = 0;          //this is total score
     int ScorePass = 0;      //for passing the old HighScores
     String NamePass = "";   //For passing the name in HighScores
+    int GoodSwirlTotalPass = 0; //For passing old GoodSwirl total
+    int TwiceSwirlTotalPass = 0;//For passing old TwiceSwirl total
+    int BadSwirlTotalPass = 0;  //For passing old BadSwirl total
+    int TimeAddTotalPass = 0;   //For passing old TimeAdd total
+    int SP_GamesPlayedTotalPass = 0;//passing old SP_GamesPlayed total
     String NAME = "";       // For Player Name for CompareScores()
     int SCORE = 0;          // For Score for CompareScores()
     public static final String PREFS_NAME = "PREFS_FILE"; // Name of preference file
     boolean addTime = false;    //Allows Time button to appear
     boolean paused = false;
     boolean Countdown_active = false; //DisablePause
+    boolean NukeActivated = false;
+    boolean LightningBombActivated = false;
+    boolean DoubleBombActivated = false;
+    boolean DOUBLEPOINTS = false;       // For double points
     PopupWindow popupWindow; // Popup Window for Countdown, Pause menu, and Time over
     TableLayout GameWindow;  // For SwirlTable background
     ImageButton PauseButton; // create image button for pause
-    ImageButton Nuke;        // Create Image button for Nuke
+    ImageButton Nuke, LightningBomb, DoublingBomb;        // Create Image button for Nuke
     ProgressBar Speed_Bar;   // Speed bar
     //Grid & Storage ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++//
     private static final int NUM_ROWS = 6; //instantiated size of grid
     private static final int NUM_COLS = 4;
     private static final int ARRAY_ROWS = NUM_ROWS * 5;
     private static final int ARRAY_COLS = NUM_COLS * 5;
+    int randRow;
+    int randCol;
     private static int FINAL_COL; //set col and row location to pass to gridButton
     private static int FINAL_ROW; //this sends location of button
     Button buttons[][] = new Button[NUM_ROWS][NUM_COLS];   //created total number of grid buttons
     String[][] luckArray = new String[ARRAY_ROWS][ARRAY_COLS]; //array containing good and bad buttons
     //Time & Speed ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++//
-    int StartTime = 61000;       //Set start time, 60000 = 60 seconds temporary set to 20 seconds
+    int StartTime = 61000;       //Set start time, 60000
     int Current_Time = 61000;    //Current in-game time
     int Current_Speed = 290;     //Current in-game speed
-    int Start_Speed = 290;        //Speed at the start of the game
-    int Speed_Limit = 90;       //Highest Speed
+    int Start_Speed = 290;       //Speed at the start of the game
+    int Speed_Limit = 90;        //Highest Speed
     int Game_Speed_Add = 10;     //Add speed every increment
     int Speed_Increment = 6;     //Points needed to increment speed
     int Speed_Increment_Add = 0; //Add to Speed_Increment to make it harder to speed up
@@ -71,21 +88,21 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
     Uri tapTimeAdd;           // Sound for Time add swirl
     Uri CountdownSound;       // Sound for Countdown at the beginning of the game
     Uri CountdownGoSound;     // Sound for Start after Countdown
+    Uri NukeBoom, ThunderBoom; // For Nuke Explosion
     MediaPlayer GoodSound;    // MediaPlayer for playing good sound
     MediaPlayer GoodSound2;   // MediaPlayer for playing good sound - for faster sound
     MediaPlayer BadSound;     // MediaPlayer for playing Bad sound
     MediaPlayer SpecialSound; // MediaPlayer for playing Special button sounds
     MediaPlayer gameBG;       // For Background music
-    MediaPlayer NukeBoom;     // For Nuke Explosion
     //Timers ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++//
     CountDownTimer Updater;        //Timer that updates test and values at 30 frames/ms(millisecond)
     CountDownTimer TimeCountdown;  //Timer that updates the timer every second
     CountDownTimer SwirlEngine;    //Timer that lets the swirls appear. Update depends on Start_Speed
     CountDownTimer CountdownTimer; //Timer for the countdown at the beginning
     //Swirl Disappear System ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++//
-    buttonDisappear[] GoodArray = new buttonDisappear[10];
-    buttonDisappear[] BadArray = new buttonDisappear[10];
-    buttonDisappear[] SpecialArray = new buttonDisappear[10];
+    buttonDisappear[] GoodArray = new buttonDisappear[15];
+    buttonDisappear[] BadArray = new buttonDisappear[15];
+    buttonDisappear[] SpecialArray = new buttonDisappear[15];
     int Good_Pressed = 0;       // GoodSwirls pressed
     int Bad_Pressed = 0;        // BadSwirls pressed
     int Time_Pressed = 0;       // TimeSwirls pressed
@@ -94,15 +111,21 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
     int OnScreenBad = 0;        // BadSwirls On Screen
     int OnScreenTime = 0;       // TimeSwirls On Screen
     int OnScreenGood2 = 0;      // 2xGoodSwirls On Screen
-    int Extra_Time_Max = 4;     // Set limit for amount of time added (20 seconds)
+    int spFirstGamePlayed = 1;  // Set #game played to 1 after game finish, if first game played
+    int Extra_Time_Max = 1;     // Set limit for amount of time added (20 seconds)
     int Extra_Time_Counter = 0; // Count amount of ExtraTime added
-    Vibrator vibration;
+    String screenshot;          // Screenshot (file) of SinglePlayer
+    Bitmap bitmap;              // Bitmap of screenshot of SinglePlayer
+    Vibrator vibration;         // Device will vibrate when BadSwirl is clicked
 
     private static final boolean AUTO_HIDE = true;          // Auto hide UI (ActionBar)
     private static final int AUTO_HIDE_DELAY_MILLIS = 1000; // Hide system UI after 1000 milliseconds
     private static final boolean TOGGLE_ON_CLICK = true;    // If UI is clicked show it
     private static final int HIDER_FLAGS = 0;   // The flags to pass to {@link com.gmail.dianaupham.swirlytap.SystemUiHider#getInstance}.
     private SystemUiHider mSystemUiHider;
+    // TODO: Replace this test id with your personal ad unit id
+    //private static final String MOPUB_BANNER_AD_UNIT_ID = "d4a0aba637d64a9f9a05a575fa757ac2";
+    //private MoPubView moPubView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -124,12 +147,20 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
         Nuke = (ImageButton)findViewById(R.id.Nuke);
         Nuke.setOnClickListener(this);         //sets an onClickListener on PauseButton
         Nuke.setEnabled(false);               //Start Nuke Disabled
+        Nuke.setClickable(false);
+        LightningBomb = (ImageButton)findViewById(R.id.LightningButton); // For lightning Bomb
+        LightningBomb.setOnClickListener(this);
+        LightningBomb.setEnabled(false);
+        LightningBomb.setClickable(false);
+        DoublingBomb = (ImageButton)findViewById(R.id.DoubleButton); // For Double points Bomb
+        DoublingBomb.setOnClickListener(this);
+        DoublingBomb.setEnabled(false);
+        DoublingBomb.setClickable(false);
         Speed_Bar = (ProgressBar)findViewById(R.id.SpeedBar);
         GameWindow = (TableLayout)findViewById(R.id.tableForButtons);
         //Sounds ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++//
         gameBG = MediaPlayer.create(this, R.raw.game_song); //get background song
         gameBG.setLooping(true);    //make background song loop
-        NukeBoom =  MediaPlayer.create(this, R.raw.nuke_explosion); //get nuke explosion
         GoodSound = new MediaPlayer();     // Setup MediaPlayer for good sound
         GoodSound2 = new MediaPlayer();    // Setup MediaPlayer for good sound
         BadSound = new MediaPlayer();      // Setup MediaPlayer for bad sound
@@ -141,10 +172,17 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
         tapGood = Uri.parse("android.resource://"+getPackageName()+"/"+R.raw.tap_good);    //Setup sound for Good swirl
         tapBad = Uri.parse("android.resource://"+getPackageName()+"/"+R.raw.tap_bad);      //Setup sound for Bad swirl
         tapTimeAdd = Uri.parse("android.resource://"+getPackageName()+"/"+R.raw.tap_time); //Setup sound for Time up swirl
+        NukeBoom = Uri.parse("android.resource://"+getPackageName()+"/"+R.raw.nuke_explosion);    //Setup sound for Nuke Boom
+        ThunderBoom = Uri.parse("android.resource://"+getPackageName()+"/"+R.raw.bomb_freeze);    //Setup sound for Nuke Boom
 
-        Nuke.setImageResource(R.drawable.nuke_button_active); // Activate Nuke for now
-        Nuke.setEnabled(true);
+        //Nuke.setImageResource(R.drawable.nuke_button_active); // Activate Nuke for now
+        //Nuke.setEnabled(true);
+        //LightningBomb.setImageResource(R.drawable.lightning_button_active); // Activate Nuke for now
+        //LightningBomb.setEnabled(true);
 
+        //moPubView = (MoPubView) findViewById(R.id.mopub_sample_ad);
+        //moPubView.setAdUnitId(MOPUB_BANNER_AD_UNIT_ID);
+        //moPubView.loadAd();
 
         populateButtons(); //add buttons to grid
 
@@ -167,7 +205,7 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
                 {
                     luckArray[row][col] = "twicePoints"; //place 2x button in array
                 }
-                else if(randCell%21 == 0)
+                else if(randCell%21 == 0)  //TODO: make addTime more random
                 {
                     luckArray[row][col] = "addTime"; //place add time button in array
                 }
@@ -177,7 +215,7 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
         }
         /////////////////////////////////////////////////////////////////////////////////////////
         // Null Disappear timers array
-        for(int i = 0; i < 10; i++){
+        for(int i = 0; i < 15; i++){
             GoodArray[i] = null;
             BadArray[i] = null;
             SpecialArray[i] = null;
@@ -185,7 +223,6 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
 
         //Wait for game to load
         new CountDownTimer(1000, 1000) {
-
             @Override
             public void onTick(long millisUntilFinished) {
                 if (millisUntilFinished / 1000 == 0) {
@@ -193,13 +230,11 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
                 } else {
                 }
             }
-
             @Override
             public void onFinish() {
                 GameStart();       //Start beginning Countdown
             }
         }.start();
-
     }
 
     private void populateButtons() //creating grid of buttons. These buttons are initialized as disabled and invisible
@@ -262,7 +297,6 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
                 DestroySwirls();
                 GameOver();
             }
-
         }.start();
 
         Updater = new CountDownTimer(Time, 30)
@@ -281,7 +315,7 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
                 {
                     totalScore.setText("" + Score); //Update Score Counter
                     if (Current_Speed != Speed_Limit)
-                       Speed_Engine(Score);           //Update the Speed
+                       Speed_Engine(Good_Pressed + Good2_Pressed);           //Update the Speed
                 }
             }
             // Show text at end of timer
@@ -306,17 +340,18 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
             {
 
             }
-
         }.start();
-
     } // End of GameTimers
 
     class buttonDisappear{
         public Button ButtonId;
         CountDownTimer TimerId;
-        public buttonDisappear(Button button, CountDownTimer timer){
+        int[] Position = { -1, -1};
+        public buttonDisappear(Button button, CountDownTimer timer , int Row, int Col){
             ButtonId = button;
             TimerId = timer;
+            Position[0] = Row;
+            Position[1] = Col;
         }
     }
 
@@ -324,11 +359,18 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
     {
         final Runnable buttonRunnable;
         final Handler buttonHandler = new Handler();
-        Random r = new Random(); //randomly select location in luck array
-        r.setSeed(System.currentTimeMillis());
-        int randRow = r.nextInt(NUM_ROWS);
-        int randCol = r.nextInt(NUM_COLS);
         int i; //For array location for disappear
+        do {
+            Random r = new Random(); //randomly select location in luck array
+            r.setSeed(System.currentTimeMillis());
+            randRow = r.nextInt(NUM_ROWS);
+            randCol = r.nextInt(NUM_COLS);
+            for(i = 0; i < 15; i++){
+                if (GoodArray[i] != null && GoodArray[i].Position[0] == randRow && GoodArray[i].Position[1] == randCol) { break; }
+                if (BadArray[i] != null && BadArray[i].Position[0] == randRow && BadArray[i].Position[1] == randCol) { break; }
+                if (SpecialArray[i] != null && SpecialArray[i].Position[0] == randRow && SpecialArray[i].Position[1] == randCol) { break; }
+            }
+        } while(i != 15);
 
         if(luckArray[randRow][randCol]=="good") //GOOD BUTTON +1 POINT IF CLICKED
         {
@@ -360,12 +402,11 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
                 goodButton.setVisibility(View.INVISIBLE);
                 goodButton.setEnabled(false);
             }
-        }.start();
-            GoodArray[i] =  new buttonDisappear(goodButton, temp);
+            }.start();
+            GoodArray[i] =  new buttonDisappear(goodButton, temp, randRow, randCol);
             goodButton.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v)
                 {
-
                     {
                         Animation FadeAnim = new AlphaAnimation(1.0f, 0.0f);//fade out the text
                         FadeAnim.setDuration(200);
@@ -373,19 +414,21 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
                         GoodArray[finalI].TimerId.cancel();      // Cancel it's disappear Timer
                         GoodArray[finalI].ButtonId = null;       // Remove Button ID
                         GoodArray[finalI] = null;                // Remove from array
-                        Good_Pressed++;
                         OnScreenGood--;
                         goodButton.setBackgroundResource(R.drawable.goodswirl_break); //Set image to goodswirl
                         v.startAnimation(FadeAnim);
                         v.setVisibility(View.INVISIBLE);         // Make Swirl disappear when clicked
                         v.setEnabled(false);                     // Disable button
-                        Score++;                                 // Add one to score
-
+                        if(DOUBLEPOINTS) {
+                            Score+= 2;                                 // Add two to score
+                            Good_Pressed+= 2;                          // Count as 2 swirls
+                        } else {
+                            Score++;                                 // Add one to score
+                            Good_Pressed++;
+                        }
                     }
                 }
             });
-
-
             //set 1 second timer... if timer reached then make button disappear
         }
         else if(luckArray[randRow][randCol] == "bad")
@@ -417,7 +460,7 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
                 badButton.setEnabled(false);
             }
         }.start();
-        BadArray[i] =  new buttonDisappear(badButton, temp);
+        BadArray[i] =  new buttonDisappear(badButton, temp, randRow, randCol);
         badButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v)
             {
@@ -471,32 +514,36 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
                 twiceButton.setEnabled(false);
             }
         }.start();
-        SpecialArray[i] =  new buttonDisappear(twiceButton, temp);
+        SpecialArray[i] =  new buttonDisappear(twiceButton, temp, randRow, randCol);
         twiceButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v)
             {
-
-                {
-                    Animation FadeAnim = new AlphaAnimation(1.0f, 0.0f);//fade out the text
-                    FadeAnim.setDuration(200);
-                    playGood2(tapGood);
-                    SpecialArray[finalI].TimerId.cancel();      // Cancel it's disappear Timer
-                    SpecialArray[finalI].ButtonId = null;       // Remove Button ID
-                    SpecialArray[finalI] = null;                // Remove from array
+            {
+                Animation FadeAnim = new AlphaAnimation(1.0f, 0.0f);//fade out the text
+                FadeAnim.setDuration(200);
+                playGood2(tapGood);
+                SpecialArray[finalI].TimerId.cancel();      // Cancel it's disappear Timer
+                SpecialArray[finalI].ButtonId = null;       // Remove Button ID
+                SpecialArray[finalI] = null;                // Remove from array
+                OnScreenGood2--;
+                v.setBackgroundResource(R.drawable.twiceswirl_break); //Set image to goodswirl
+                v.startAnimation(FadeAnim);
+                v.setVisibility(View.INVISIBLE);         // Make Swirl disappear when clicked
+                v.setEnabled(false);                     // Disable button
+                if(DOUBLEPOINTS) {
+                    Score+= 4;                                 // Add 4 to score
+                    Good2_Pressed+= 2;                          // Count as 2 swirls
+                } else {
+                    Score+= 2;                                 // Add two to score
                     Good2_Pressed++;
-                    OnScreenGood2--;
-                    v.setBackgroundResource(R.drawable.twiceswirl_break); //Set image to goodswirl
-                    v.startAnimation(FadeAnim);
-                    v.setVisibility(View.INVISIBLE);         // Make Swirl disappear when clicked
-                    v.setEnabled(false);                     // Disable button
-                    Score+=2;                                 // Add 2 to score
                 }
             }
+            }
         });
-
     }
     else if(luckArray[randRow][randCol] == "addTime") {
             if (addTime == true /*&& Extra_Time_Counter <= Extra_Time_Max*/) {
+                addTime = false;
                 if (Extra_Time_Counter < Extra_Time_Max)
                 {
                     for (i = 0; i < 10; i++) {        // Find empty spot in SpecialArray
@@ -530,27 +577,26 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
                             timeButton.setEnabled(false);
                         }
                     }.start();
-                    SpecialArray[i] = new buttonDisappear(timeButton, temp);
+                    SpecialArray[i] = new buttonDisappear(timeButton, temp, randRow, randCol);
                     timeButton.setOnClickListener(new View.OnClickListener() {
                         public void onClick(View v) {
-                            Animation FadeAnim = new AlphaAnimation(1.0f, 0.0f);//fade out the text
-                            FadeAnim.setDuration(200);
-                            addTime = false;                              // Stop more time buttons from popping up
-                            playSpecial(tapTimeAdd);                      // Play time up sound
-                            SpecialArray[finalI].TimerId.cancel();        // Cancel it's disappear Timer
-                            SpecialArray[finalI].ButtonId = null;         // Remove Button ID
-                            SpecialArray[finalI] = null;                  // Remove from array
-                            v.startAnimation(FadeAnim);
-                            v.setVisibility(View.INVISIBLE);              // Make Swirl disappear when clicked
-                            v.setEnabled(false);                          // Disable button
-                            SwirlEngine.cancel();                         // Cancel old Timers
-                            Updater.cancel();
-                            TimeCountdown.cancel();
-                            Current_Time += 5000;                         // Add 5 seconds to time
-                            GameTimers(Current_Time);                     // Update Timers
-                            Time_Pressed++;
-                            OnScreenTime--;                               // Remove 5 seconds from on-screen clock
-                            Extra_Time_Counter++;                         // Add one to counter (max amount = 4)
+                        Animation FadeAnim = new AlphaAnimation(1.0f, 0.0f);//fade out the text
+                        FadeAnim.setDuration(200);
+                        playSpecial(tapTimeAdd);                      // Play time up sound
+                        SpecialArray[finalI].TimerId.cancel();        // Cancel it's disappear Timer
+                        SpecialArray[finalI].ButtonId = null;         // Remove Button ID
+                        SpecialArray[finalI] = null;                  // Remove from array
+                        v.startAnimation(FadeAnim);
+                        v.setVisibility(View.INVISIBLE);              // Make Swirl disappear when clicked
+                        v.setEnabled(false);                          // Disable button
+                        SwirlEngine.cancel();                         // Cancel old Timers
+                        Updater.cancel();
+                        TimeCountdown.cancel();
+                        Current_Time += 5000;                         // Add 5 seconds to time
+                        GameTimers(Current_Time);                     // Update Timers
+                        Time_Pressed++;
+                        OnScreenTime--;                               // Remove 5 seconds from on-screen clock
+                        Extra_Time_Counter++;                         // Add one to counter (max amount = 4)
                         }
                     });
                 }//end 'if'
@@ -574,7 +620,6 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
                         }
                         else{}
                     }
-
                     @Override
                     public void onFinish() {
                         GoodArray[finalI].ButtonId = null;       // Remove Button ID
@@ -584,7 +629,7 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
                         goodButton.setEnabled(false);
                     }
                 }.start();
-                GoodArray[i] =  new buttonDisappear(goodButton, temp);
+                GoodArray[i] =  new buttonDisappear(goodButton, temp, randRow, randCol);
                 goodButton.setOnClickListener(new View.OnClickListener() {
                     public void onClick(View v) {
 
@@ -595,17 +640,21 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
                             GoodArray[finalI].TimerId.cancel();      // Cancel it's disappear Timer
                             GoodArray[finalI].ButtonId = null;       // Remove Button ID
                             GoodArray[finalI] = null;                // Remove from array
-                            Good_Pressed++;
                             OnScreenGood--;
                             goodButton.setBackgroundResource(R.drawable.goodswirl_break); //Set image to goodswirl
                             v.startAnimation(FadeAnim);
                             v.setVisibility(View.INVISIBLE);         // Make Swirl disappear when clicked
                             v.setEnabled(false);                     // Disable button
-                            Score++;                                 // Add one to score
+                            if(DOUBLEPOINTS) {
+                                Score+= 2;                                 // Add two to score
+                                Good_Pressed+= 2;                          // Count as 2 swirls
+                            } else {
+                                Score++;                                 // Add one to score
+                                Good_Pressed++;
+                            }
                         }
                     }
                 });
-
             }
         }
     } //End of displaybutton
@@ -622,7 +671,7 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
             SwirlEngine = new CountDownTimer(Current_Time, Current_Speed) { // start new timer with changed speed
                 @Override
                 public void onTick(long millisUntilFinished) {
-                    if (millisUntilFinished / 30 == 0) {
+                    if (millisUntilFinished == 0) {
                         onFinish();
                     } else {
                         displayButton();
@@ -633,23 +682,44 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
 
                 }
             }.start();
+            int VeloPercent = ((100 / ((Start_Speed - Speed_Limit) / Game_Speed_Add)) * (((Start_Speed - Speed_Limit) / Game_Speed_Add) - ((Current_Speed - Speed_Limit) / Game_Speed_Add)));
             // Set the progress of the speedbar and Speed Label
-            Speed_Bar.setProgress((100/((Start_Speed -Speed_Limit)/Game_Speed_Add))*(((Start_Speed -Speed_Limit)/Game_Speed_Add)- ((Current_Speed - Speed_Limit)/Game_Speed_Add)));
             if(Current_Speed == Speed_Limit) {
                 SpeedPercent.setText("Velocity Maxed!");
                 Speed_Bar.setProgress(100);
+                if(NukeActivated == false) {
+                    Nuke.setImageResource(R.drawable.nuke_button_active); // Activate Nuke
+                    Nuke.setEnabled(true);
+                    Nuke.setClickable(true);
+                    NukeActivated = true;
+                }
+                if(DoublingBomb.isEnabled()){
+                    PointSpecial();
+                }
+                DOUBLEPOINTS = true;
             }
             else if (Current_Speed == Start_Speed) {
                 SpeedPercent.setText("Velocity: 1%");
                 Speed_Bar.setProgress(1);
             }
             else {
-                SpeedPercent.setText("Velocity: " + (100 / ((Start_Speed - Speed_Limit) / Game_Speed_Add)) * (((Start_Speed - Speed_Limit) / Game_Speed_Add) - ((Current_Speed - Speed_Limit) / Game_Speed_Add)) + "%");
-                Speed_Bar.setProgress((100 / ((Start_Speed - Speed_Limit) / Game_Speed_Add)) * (((Start_Speed - Speed_Limit) / Game_Speed_Add) - ((Current_Speed - Speed_Limit) / Game_Speed_Add)));
+                SpeedPercent.setText("Velocity: " + VeloPercent + "%");
+                Speed_Bar.setProgress(VeloPercent);
             }
-        } else {
-        }
-    } //End Speed_Engine
+            if(VeloPercent >= 50 && LightningBombActivated == false) {
+                LightningBomb.setImageResource(R.drawable.lightning_button_active); // Activate LightningBomb
+                LightningBomb.setEnabled(true);
+                LightningBomb.setClickable(true);
+                LightningBombActivated = true;
+            }
+            if(VeloPercent >= 25 && DoubleBombActivated == false) {
+                DoublingBomb.setImageResource(R.drawable.double_button_active); // Activate LightningBomb
+                DoublingBomb.setEnabled(true);
+                DoublingBomb.setClickable(true);
+                DoubleBombActivated = true;
+            }
+        } else {}
+    } //End e
 
     public void DestroySwirls() {
 
@@ -676,38 +746,131 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
     }
 
     public void ExplodeNuke() {
-        paused = true;
-        SwirlEngine.cancel();                   // Cancel All timers
-        NukeBoom.start();                       // Play Nuke Explosion sound
-        vibration.vibrate(1000);                 // Vibrate device for 500 milliseconds
-        Updater.cancel();
-        TimeCountdown.cancel();
-        Score += OnScreenGood;                  // Add All Scores and Time
-        Score -= OnScreenBad;
-        Score += (OnScreenGood2 * 2);
-        Current_Time += (OnScreenTime * 5000);
-        Good_Pressed += OnScreenGood;           // Add all the swirls that were pressed
-        Good2_Pressed += OnScreenGood2;
-        Bad_Pressed += OnScreenBad;
-        Time_Pressed += OnScreenTime;
-        DestroySwirls();                        // Destroy the Swirls
-        Nuke.setEnabled(false);                 // Disable Nuke
-        Nuke.setImageResource(R.drawable.nuke_button_inactive);
-        new CountDownTimer(1000,1000) { // Set timer for disappearance
-            public void onTick(long millisUntilFinished)
-            {
-                if (millisUntilFinished == 0)
-                {
-                    onFinish();
+        if(paused == false) {
+            paused = true;
+            Nuke.setEnabled(false);                 // Disable Nuke
+            Nuke.setClickable(false);
+            SwirlEngine.cancel();                   // Cancel All timers
+            TimeCountdown.cancel();
+            Updater.cancel();
+            playSpecial(NukeBoom);                       // Play Nuke Explosion sound
+            vibration.vibrate(1000);                 // Vibrate device for 500 milliseconds
+            if(DOUBLEPOINTS) {
+                Score += (OnScreenGood * 2);                  // Add All Scores and Time
+                Score -= (OnScreenBad * 5);
+                Score += (OnScreenGood2 * 4);
+                Current_Time += (OnScreenTime * 5000);
+                Good_Pressed += (OnScreenGood * 2);           // Add all the swirls that were pressed
+                Good2_Pressed += (OnScreenGood2 * 2);
+                Bad_Pressed += OnScreenBad;
+                Time_Pressed += OnScreenTime;
+            } else {
+                Score += OnScreenGood;                  // Add All Scores and Time
+                Score -= (OnScreenBad * 5);
+                Score += (OnScreenGood2 * 2);
+                Current_Time += (OnScreenTime * 5000);
+                Good_Pressed += OnScreenGood;           // Add all the swirls that were pressed
+                Good2_Pressed += OnScreenGood2;
+                Bad_Pressed += OnScreenBad;
+                Time_Pressed += OnScreenTime;
+            }
+            DestroySwirls();                        // Destroy the Swirls
+            Nuke.setImageResource(R.drawable.nuke_button_inactive);
+            new CountDownTimer(1000, 1000) { // Set timer for disappearance
+                public void onTick(long millisUntilFinished) {
+                    if (millisUntilFinished == 0) {
+                        onFinish();
+                    } else {
+                    }
                 }
-                else{}
+
+                @Override
+                public void onFinish() {
+                    GameTimers(Current_Time);               // Start Timers
+                    paused = false;
+                }
+            }.start();
+        }
+    }
+
+    public void ThunderBolt() {
+        int i;
+        if (paused == false) {
+            LightningBomb.setEnabled(false);                 // Disable Nuke
+            LightningBomb.setClickable(false);
+            paused = true;
+            SwirlEngine.cancel();                   // Cancel All timers
+            TimeCountdown.cancel();
+            Updater.cancel();
+            playSpecial(ThunderBoom);                       // Play Nuke Explosion sound
+            vibration.vibrate(800);                 // Vibrate device for 500 milliseconds
+            if(DOUBLEPOINTS) {
+                Score += (OnScreenGood * 2);                  // Add All Scores and Time
+                Score += (OnScreenGood2 * 4);
+                Current_Time += (OnScreenTime * 5000);
+                Good_Pressed += OnScreenGood * 2;           // Add all the swirls that were pressed
+                Good2_Pressed += OnScreenGood2 * 2;
+                Time_Pressed += OnScreenTime;
+            } else {
+                Score += OnScreenGood;                  // Add All Scores and Time
+                Score += (OnScreenGood2 * 2);
+                Current_Time += (OnScreenTime * 5000);
+                Good_Pressed += OnScreenGood;           // Add all the swirls that were pressed
+                Good2_Pressed += OnScreenGood2;
+                Time_Pressed += OnScreenTime;
             }
-            @Override
-            public void onFinish() {
-                GameTimers(Current_Time);               // Start Timers
-                paused = false;
-            }
-        }.start();
+            DestroySwirls();                        // Destroy the Swirls
+            LightningBomb.setImageResource(R.drawable.lightning_button_inactive);
+            new CountDownTimer(1000, 1000) { // Set timer for disappearance
+                public void onTick(long millisUntilFinished) {
+                    if (millisUntilFinished == 0) {
+                        onFinish();
+                    } else {
+                    }
+                }
+
+                @Override
+                public void onFinish() {
+                    GameTimers(Current_Time);               // Start Timers
+                    paused = false;
+                }
+            }.start();
+        }
+    }
+
+    public void PointSpecial() {
+        if(paused == false) {
+            paused = true;
+            DoublingBomb.setEnabled(false);                 // Disable Nuke
+            DoublingBomb.setClickable(false);
+            SwirlEngine.cancel();                   // Cancel All timers
+            TimeCountdown.cancel();
+            Updater.cancel();
+            playSpecial(ThunderBoom);                       // Play Nuke Explosion sound
+            vibration.vibrate(1000);                 // Vibrate device for 500 milliseconds
+            Score += (OnScreenGood * 2);                  // Add All Scores and Time
+            Score += (OnScreenGood2 * 4);
+            Current_Time += (OnScreenTime * 5000);
+            Good_Pressed += (OnScreenGood * 2);           // Add all the swirls that were pressed
+            Good2_Pressed += (OnScreenGood2 * 2);
+            Time_Pressed += OnScreenTime;
+            DestroySwirls();                        // Destroy the Swirls
+            DoublingBomb.setImageResource(R.drawable.double_button_inactive);
+            new CountDownTimer(1000, 1000) { // Set timer for disappearance
+                public void onTick(long millisUntilFinished) {
+                    if (millisUntilFinished == 0) {
+                        onFinish();
+                    } else {
+                    }
+                }
+
+                @Override
+                public void onFinish() {
+                    GameTimers(Current_Time);               // Start Timers
+                    paused = false;
+                }
+            }.start();
+        }
     }
 
     //Sound Players+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -722,7 +885,6 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
             e.printStackTrace();
         }
     }
-
     private void playGood2(Uri uri) {
         try{
             GoodSound2.reset();
@@ -734,7 +896,6 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
             e.printStackTrace();
         }
     }
-
     private void playBad(Uri uri) {
         try{
             BadSound.reset();
@@ -746,7 +907,6 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
             e.printStackTrace();
         }
     }
-
     private void playSpecial(Uri uri) {
         try{
             SpecialSound.reset();
@@ -758,7 +918,7 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
             e.printStackTrace();
         }
     }
-    //Sound Players ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    //Sound Players (end) ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     public void onClick(View v)
     {
         switch(v.getId()) {
@@ -768,14 +928,22 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
             case R.id.Nuke:
                 ExplodeNuke();
                 break;
+            case R.id.LightningButton:
+                ThunderBolt();
+                break;
+            case R.id.DoubleButton:
+                PointSpecial();
+                break;
         }
     }
 
     //Pause Menu Options +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public void PauseActivate() {
         if(!paused) {
-            gameBG.pause();                      // Pause the game music
             paused = true;
+            PauseButton.setEnabled(false);
+            PauseButton.setClickable(false);
+            gameBG.pause();                      // Pause the game music
             for (int i = 0; i < 10; i++) {        // cancel all the timers in disappear array
                 if (GoodArray[i] != null) {
                     GoodArray[i].TimerId.cancel();
@@ -826,6 +994,8 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
                 popupWindow.dismiss();
                 GameTimers(Current_Time);
                 gameBG.start();
+                PauseButton.setEnabled(true);
+                PauseButton.setClickable(true);
             }
         }.start();
     }
@@ -897,7 +1067,6 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
         final TextView CountdownText = (TextView) popupWindow.getContentView().findViewById (R.id.count_down_text);
 
         CountdownTimer = new CountDownTimer(4000,1000) {
-
             public void onTick(long millisUntilFinished)
             {
                 if (millisUntilFinished / 1000 == 0)
@@ -924,6 +1093,7 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
 
     public void GameOver() {
         paused = true;
+        ScreenShot(SinglePlayer.this);  //Take screenshot of last second of game
         try {
             LayoutInflater inflater = (LayoutInflater) SinglePlayer.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             View layout = inflater.inflate(R.layout.game_over_screen, (ViewGroup)findViewById(R.id.game_over_layout));
@@ -964,7 +1134,9 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
 
             @Override
             public void onFinish() {
-                CompareScore();
+                CompareScore();    //Update HighScores if there is new HighScore
+                TotalTapped();     //Add #swirls/#timeAdd to Total user counts
+                spGamesPlayed();   //+1 game completed
                 //* End the Game*\\
                 popupWindow.dismiss();                                                //Dismiss Time's up popup
                 gameBG.stop();                                                        //stop song
@@ -977,7 +1149,6 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
                 startActivity(intentAgain);                                           //go to PlayAgain activity/menu
                 finish();
             }
-
         }.start();
     }
 
@@ -991,109 +1162,207 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
             editor.putInt("HighScore", SCORE);
             editor.commit();
         }
-        if( prefs.getInt("HighScore1", 0) < SCORE ) {                       // HighScore 1
+        if( prefs.getInt("TimeHighScore1", 0) < SCORE ) {                       // HighScore 1
             editor = prefs.edit();
-            ScorePass = prefs.getInt("HighScore1", 0);
-            NamePass = prefs.getString("HighName1", "Player");
-            editor.putInt("HighScore1", SCORE);
-            editor.putString("HighName1", NAME);
+            ScorePass = prefs.getInt("TimeHighScore1", 0);
+            NamePass = prefs.getString("TimeHighName1", "Player");
+            editor.putInt("TimeHighScore1", SCORE);
+            editor.putString("TimeHighName1", NAME);
             SCORE = ScorePass;
             NAME = NamePass;
             editor.commit();
         }
-        if( prefs.getInt("HighScore2", 0) < SCORE ) {                       // HighScore 2
+        if( prefs.getInt("TimeHighScore2", 0) < SCORE ) {                       // HighScore 2
             editor = prefs.edit();
-            ScorePass = prefs.getInt("HighScore2", 0);
-            NamePass = prefs.getString("HighName2", "Player");
-            editor.putInt("HighScore2", SCORE);
-            editor.putString("HighName2", NAME);
+            ScorePass = prefs.getInt("TimeHighScore2", 0);
+            NamePass = prefs.getString("TimeHighName2", "Player");
+            editor.putInt("TimeHighScore2", SCORE);
+            editor.putString("TimeHighName2", NAME);
             SCORE = ScorePass;
             NAME = NamePass;
             editor.commit();
         }
-        if( prefs.getInt("HighScore3", 0) < SCORE ) {                       // HighScore 3
+        if( prefs.getInt("TimeHighScore3", 0) < SCORE ) {                       // HighScore 3
             editor = prefs.edit();
-            ScorePass = prefs.getInt("HighScore3", 0);
-            NamePass = prefs.getString("HighName3", "Player");
-            editor.putInt("HighScore3", SCORE);
-            editor.putString("HighName3", NAME);
+            ScorePass = prefs.getInt("TimeHighScore3", 0);
+            NamePass = prefs.getString("TimeHighName3", "Player");
+            editor.putInt("TimeHighScore3", SCORE);
+            editor.putString("TimeHighName3", NAME);
             SCORE = ScorePass;
             NAME = NamePass;
             editor.commit();
         }
-        if( prefs.getInt("HighScore4", 0) < SCORE ) {                       // HighScore 4
+        if( prefs.getInt("TimeHighScore4", 0) < SCORE ) {                       // HighScore 4
             editor = prefs.edit();
-            ScorePass = prefs.getInt("HighScore4", 0);
-            NamePass = prefs.getString("HighName4", "Player");
-            editor.putInt("HighScore4", SCORE);
-            editor.putString("HighName4", NAME);
+            ScorePass = prefs.getInt("TimeHighScore4", 0);
+            NamePass = prefs.getString("TimeHighName4", "Player");
+            editor.putInt("TimeHighScore4", SCORE);
+            editor.putString("TimeHighName4", NAME);
             SCORE = ScorePass;
             NAME = NamePass;
             editor.commit();
         }
-        if( prefs.getInt("HighScore5", 0) < SCORE ) {                       // HighScore 5
+        if( prefs.getInt("TimeHighScore5", 0) < SCORE ) {                       // HighScore 5
             editor = prefs.edit();
-            ScorePass = prefs.getInt("HighScore5", 0);
-            NamePass = prefs.getString("HighName5", "Player");
-            editor.putInt("HighScore5", SCORE);
-            editor.putString("HighName5", NAME);
+            ScorePass = prefs.getInt("TimeHighScore5", 0);
+            NamePass = prefs.getString("TimeHighName5", "Player");
+            editor.putInt("TimeHighScore5", SCORE);
+            editor.putString("TimeHighName5", NAME);
             SCORE = ScorePass;
             NAME = NamePass;
             editor.commit();
         }
-        if( prefs.getInt("HighScore6", 0) < SCORE ) {                       // HighScore 6
+        if( prefs.getInt("TimeHighScore6", 0) < SCORE ) {                       // HighScore 6
             editor = prefs.edit();
-            ScorePass = prefs.getInt("HighScore6", 0);
-            NamePass = prefs.getString("HighName6", "Player");
-            editor.putInt("HighScore6", SCORE);
-            editor.putString("HighName6", NAME);
+            ScorePass = prefs.getInt("TimeHighScore6", 0);
+            NamePass = prefs.getString("TimeHighName6", "Player");
+            editor.putInt("TimeHighScore6", SCORE);
+            editor.putString("TimeHighName6", NAME);
             SCORE = ScorePass;
             NAME = NamePass;
             editor.commit();
         }
-        if( prefs.getInt("HighScore7", 0) < SCORE ) {                       // HighScore 7
+        if( prefs.getInt("TimeHighScore7", 0) < SCORE ) {                       // HighScore 7
             editor = prefs.edit();
-            ScorePass = prefs.getInt("HighScore7", 0);
-            NamePass = prefs.getString("HighName7", "Player");
-            editor.putInt("HighScore7", SCORE);
-            editor.putString("HighName7", NAME);
+            ScorePass = prefs.getInt("TimeHighScore7", 0);
+            NamePass = prefs.getString("TimeHighName7", "Player");
+            editor.putInt("TimeHighScore7", SCORE);
+            editor.putString("TimeHighName7", NAME);
             SCORE = ScorePass;
             NAME = NamePass;
             editor.commit();
         }
-        if( prefs.getInt("HighScore8", 0) < SCORE ) {                       // HighScore 8
+        if( prefs.getInt("TimeHighScore8", 0) < SCORE ) {                       // HighScore 8
             editor = prefs.edit();
-            ScorePass = prefs.getInt("HighScore8", 0);
-            NamePass = prefs.getString("HighName8", "Player");
-            editor.putInt("HighScore8", Score);
-            editor.putString("HighName8", NAME);
+            ScorePass = prefs.getInt("TimeHighScore8", 0);
+            NamePass = prefs.getString("TimeHighName8", "Player");
+            editor.putInt("TimeHighScore8", SCORE);
+            editor.putString("TimeHighName8", NAME);
             SCORE = ScorePass;
             NAME = NamePass;
             editor.commit();
         }
-        if( prefs.getInt("HighScore9", 0) < SCORE ) {                       // HighScore 9
+        if( prefs.getInt("TimeHighScore9", 0) < SCORE ) {                       // HighScore 9
             editor = prefs.edit();
-            ScorePass = prefs.getInt("HighScore9", 0);
-            NamePass = prefs.getString("HighName9", "Player");
-            editor.putInt("HighScore9", Score);
-            editor.putString("HighName9", NAME);
+            ScorePass = prefs.getInt("TimeHighScore9", 0);
+            NamePass = prefs.getString("TimeHighName9", "Player");
+            editor.putInt("TimeHighScore9", SCORE);
+            editor.putString("TimeHighName9", NAME);
             SCORE = ScorePass;
             NAME = NamePass;
             editor.commit();
         }
-        if( prefs.getInt("HighScore10", 0) < SCORE ) {                       // HighScore 10
+        if( prefs.getInt("TimeHighScore10", 0) < SCORE ) {                       // HighScore 10
             editor = prefs.edit();
-            ScorePass = prefs.getInt("HighScore10", 0);
-            NamePass = prefs.getString("HighName10", "Player");
-            editor.putInt("HighScore10", SCORE);
-            editor.putString("HighName10", NAME);
+            ScorePass = prefs.getInt("TimeHighScore10", 0);
+            NamePass = prefs.getString("TimeHighName10", "Player");
+            editor.putInt("TimeHighScore10", SCORE);
+            editor.putString("TimeHighName10", NAME);
             SCORE = ScorePass;
             NAME = NamePass;
             editor.commit();
         }
     }
 
+    public void TotalTapped() {
+        SharedPreferences prefsTotals = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editorTotals;
+        NAME = prefsTotals.getString("PlayerName", "Player");
+
+        //+++++++++GOOD SWIRL+++++++++++++++++++++++++++++
+        if (prefsTotals.getInt("GoodSwirlTotal", 0) == 0) { //First game (or first green swirl tapped)
+            editorTotals = prefsTotals.edit();
+            editorTotals.putInt("GoodSwirlTotal", Good_Pressed);
+            //editorTotals.putString("GoodSwirlTotalName", NAME);
+            editorTotals.commit();
+        } else if (prefsTotals.getInt("GoodSwirlTotal", 0) > 0) { //Add GoodSwirls clicked in this game to Total
+            editorTotals = prefsTotals.edit();
+            GoodSwirlTotalPass = prefsTotals.getInt("GoodSwirlTotal", 0);
+            //NamePass = prefsTotals.getString("GoodSwirlTotal", "Player");
+            GoodSwirlTotalPass = GoodSwirlTotalPass + Good_Pressed;
+            editorTotals.putInt("GoodSwirlTotal", GoodSwirlTotalPass);
+            //editorTotals.putString("GoodSwirlTotalName", NAME);
+            editorTotals.commit();
+        }
+        //+++++++++TWICE SWIRL++++++++++++++++++++++++
+        if (prefsTotals.getInt("TwiceSwirlTotal", 0) == 0) { //First game (or first yellow swirl tapped)
+            editorTotals = prefsTotals.edit();
+            editorTotals.putInt("TwiceSwirlTotal", Good2_Pressed);
+            editorTotals.commit();
+        } else if (prefsTotals.getInt("TwiceSwirlTotal", 0) > 0) { //Add TwiceSwirls clicked in this game to Total
+            editorTotals = prefsTotals.edit();
+            TwiceSwirlTotalPass = prefsTotals.getInt("TwiceSwirlTotal", 0);
+            TwiceSwirlTotalPass = TwiceSwirlTotalPass + Good2_Pressed;
+            editorTotals.putInt("TwiceSwirlTotal", TwiceSwirlTotalPass);
+            editorTotals.commit();
+        }
+        //+++++++++BAD SWIRL++++++++++++++++++++++++
+        if (prefsTotals.getInt("BadSwirlTotal", 0) == 0) { //First game (or first red swirl tapped)
+            editorTotals = prefsTotals.edit();
+            editorTotals.putInt("BadSwirlTotal", Bad_Pressed);
+            editorTotals.commit();
+        } else if (prefsTotals.getInt("BadSwirlTotal", 0) > 0) { //Add BadSwirls clicked in this game to Total
+            editorTotals = prefsTotals.edit();
+            BadSwirlTotalPass = prefsTotals.getInt("BadSwirlTotal", 0);
+            BadSwirlTotalPass = BadSwirlTotalPass + Bad_Pressed;
+            editorTotals.putInt("BadSwirlTotal", BadSwirlTotalPass);
+            editorTotals.commit();
+        }
+        //+++++++++TIME ADD++++++++++++++++++++++++
+        if (prefsTotals.getInt("TimeAddTotal", 0) == 0) { //First game (or first +5_Time tapped)
+            editorTotals = prefsTotals.edit();
+            editorTotals.putInt("TimeAddTotal", Time_Pressed);
+            editorTotals.commit();
+        } else if (prefsTotals.getInt("TimeAddTotal", 0) > 0) { //Add +5_Time clicked in this game to Total
+            editorTotals = prefsTotals.edit();
+            TimeAddTotalPass = prefsTotals.getInt("TimeAddTotal", 0);
+            TimeAddTotalPass = TimeAddTotalPass + Time_Pressed;
+            editorTotals.putInt("TimeAddTotal", TimeAddTotalPass);
+            editorTotals.commit();
+        }
+    }//end TotalTapped()
+
+    public void spGamesPlayed() {
+        SharedPreferences prefsTotals = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editorTotals;
+        NAME = prefsTotals.getString("PlayerName", "Player");
+        if (prefsTotals.getInt("spGamesPlayedTotal", 0) == 0) { //First game played
+            editorTotals = prefsTotals.edit();
+            editorTotals.putInt("spGamesPlayedTotal", spFirstGamePlayed);
+            editorTotals.commit();
+        } else if (prefsTotals.getInt("spGamesPlayedTotal", 0) > 0) { //More than one game played, increment count +1
+            editorTotals = prefsTotals.edit();
+            SP_GamesPlayedTotalPass = prefsTotals.getInt("spGamesPlayedTotal", 0);
+            SP_GamesPlayedTotalPass = SP_GamesPlayedTotalPass + 1;  //+1 SP game played
+            editorTotals.putInt("spGamesPlayedTotal", SP_GamesPlayedTotalPass);
+            editorTotals.commit();
+        }//end 'else if'
+    }//end spGamesPlayed()
+
     // Game Start and Game Over(end) ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+    public void ScreenShot(Activity activity)
+    {
+        String screenshotPath = Environment.getExternalStorageDirectory().toString() + "/" + "screenshot.png";
+        View view = getWindow().getDecorView().getRootView();
+        view.setDrawingCacheEnabled(true);
+        bitmap = Bitmap.createBitmap(view.getDrawingCache());
+        view.setDrawingCacheEnabled(false);
+        OutputStream fout = null;
+        File imageFile = new File(screenshotPath);
+        try { //save bitmp as PNG file
+            fout = new FileOutputStream(imageFile);
+            bitmap.compress(Bitmap.CompressFormat.PNG, 90, fout);
+            fout.flush();
+            fout.close();
+        } catch (FileNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
 
     protected void onResume() {
         super.onResume();
@@ -1106,19 +1375,29 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
         gameBG.setLooping(true);    //make background song loop
 
         if (Countdown_active) { GameStart(); } // restart countdown timer
-
     }
 
     protected void onPause() {
         super.onPause();
 
-        if (Countdown_active == false) { PauseActivate(); }                // Pause the game
+        if (Countdown_active == false || !paused) { PauseActivate(); }                // Pause the game
         else { CountdownTimer.cancel(); popupWindow.dismiss(); }
         GoodSound.release();
         GoodSound2.release();
         BadSound.release();
         SpecialSound.release();
+        gameBG.release();
+    }
 
+    @Override
+    protected void onDestroy() {
+        //moPubView.destroy();
+        super.onDestroy();
+        GoodSound.release();
+        GoodSound2.release();
+        BadSound.release();
+        SpecialSound.release();
+        gameBG.release();
     }
 
     public void onBackPressed() {

@@ -23,7 +23,7 @@
                 android:scaleType="fitXY"
                 android:background="#00ffffff"
                 android:id="@+id/lifeone"
-                android:layout_alignBottom="@+id/imageButton"
+                android:layout_alignBottom="@+id/pause_button"
                 android:layout_alignParentTop="true" />
             <ImageButton
                 android:layout_width="40sp"
@@ -59,7 +59,7 @@
                 android:textIsSelectable="false" />
             <ImageButton
                 android:src="@drawable/pause"
-                android:id="@+id/imageButton"
+                android:id="@+id/pause_button"
                 android:layout_width="88sp"
                 android:layout_height="63sp"
                 android:scaleType="fitXY"

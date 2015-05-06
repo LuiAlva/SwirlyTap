@@ -1,5 +1,12 @@
 <resources>
 
     <color name="black_overlay">#66000000</color>
+    <color name="egg_blue">#8FBCDB</color>
+    <color name="teal">#7ed6cb</color>
+    <color name="light_grey">#e3f2ef</color>
+    <color name="grey_teal">#e3f2ef</color>
+    <color name="warm_grey">#c1d3d9</color>
+    <color name="dull_blue">#aac7e2</color>
+    <color name="midnight_blue">#0e2f44</color>
 
 </resources>

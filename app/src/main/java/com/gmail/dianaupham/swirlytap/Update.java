@@ -30,30 +30,15 @@ public class Update extends Activity
             @Override
             public void onClick(View v)
             {
-                int score = 0;
-
-               if(myTable.updateScore(NEW_USER.getText().toString(), NEW_PASS.getText().toString(),score))
-               {
-
-                   Toast.makeText(getApplicationContext(), "Updated", Toast.LENGTH_SHORT).show();
-                   //Intent i = new Intent(getApplicationContext(),.class);
-                   //startActivity(i);
-
-                }
-                else
-               {
-                   Toast.makeText(getApplicationContext(), "Unsuccessful", Toast.LENGTH_SHORT).show();
-               }
-
-
+           int score = 0;
+           if(myTable.updateScore(NEW_USER.getText().toString(), NEW_PASS.getText().toString(),score)){
+               Toast.makeText(getApplicationContext(), "Updated", Toast.LENGTH_SHORT).show();
+               //Intent i = new Intent(getApplicationContext(),.class);
+               //startActivity(i);
+           } else {
+               Toast.makeText(getApplicationContext(), "Unsuccessful", Toast.LENGTH_SHORT).show();
+           }
            }
        });
-
-
-
-
-
     }
-
-
 }

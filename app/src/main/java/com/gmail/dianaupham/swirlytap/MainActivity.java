@@ -15,12 +15,14 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.ImageButton;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.crashlytics.android.Crashlytics;
 import com.gmail.dianaupham.swirlytap.swirlytap.R;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.mopub.common.MoPub;
 import com.twitter.sdk.android.Twitter;
 import com.twitter.sdk.android.core.TwitterAuthConfig;
 import com.twitter.sdk.android.tweetcomposer.TweetComposer;
@@ -35,10 +37,12 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     // Note: Your consumer key and secret should be obfuscated in your source code before shipping.
 
     Button buttonSinglePlayer; //create type button
-    Button buttonPlayAgainTest; //create type button for PlayAgainTest
+    Button HIGHSCORES; //create type button for PlayAgainTest
     Button buttonLevel;
     Button buttonLogIn;
+    Button buttonProfile;
     Button LOG_IN, REG, NoThanks;      // For Login screen
+    ImageButton buttonSoundPlay, buttonSoundMute;  // For Sound options
     CheckBox StopLogin;
     MediaPlayer mediaPlayer; //for music
     boolean NotLogged;
@@ -73,7 +77,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
                     .build();
         Fabric.with(fabric);
         }
-        Fabric.with(this, new TweetComposer(), new Crashlytics());
+        Fabric.with(this, new TweetComposer(), new Crashlytics(), new MoPub());
 /*
         // Create the Google Api Client with access to the Play Game services
         mGoogleApiClient = new GoogleApiClient.Builder(this)
@@ -89,50 +93,96 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         mediaPlayer = MediaPlayer.create(this, R.raw.title_song); //get song
         buttonSinglePlayer = (Button)findViewById(R.id.singlePlayer);
         buttonSinglePlayer.setOnClickListener(this); //sets an onClickListener on buttonSinglePlayer
-        buttonPlayAgainTest = (Button)findViewById(R.id.PlayAgainMain);
-        buttonPlayAgainTest.setOnClickListener(this); //sets an onClickListener on buttonPlayAgainTest
+        HIGHSCORES = (Button)findViewById(R.id.highscores);
+        HIGHSCORES.setOnClickListener(this); //sets an onClickListener on HIGHSCORES
         buttonLevel = (Button) findViewById(R.id.levelMode);
         buttonLevel.setOnClickListener(this);
-        buttonLogIn = (Button)findViewById(R.id.LogIn);
-        buttonLogIn.setOnClickListener(this); //sets an onClickListener on buttonHighScore
         mediaPlayer.setLooping(true);
         SharedPreferences prefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
         boolean firstTime = prefs.getBoolean("FirstTimeSetup", true);
         if (firstTime) {
             SharedPreferences.Editor editor = prefs.edit();
-            editor.putBoolean("FirstTimeSetup", false);
-            editor.putInt("HighScore1", 0);         // For Overall Local HighScores
-            editor.putInt("HighScore2", 0);
-            editor.putInt("HighScore3", 0);
-            editor.putInt("HighScore4", 0);
-            editor.putInt("HighScore5", 0);
-            editor.putInt("HighScore6", 0);
-            editor.putInt("HighScore7", 0);
-            editor.putInt("HighScore8", 0);
-            editor.putInt("HighScore9", 0);
-            editor.putInt("HighScore10", 0);
-            editor.putString("HighName1", "");
-            editor.putString("HighName2", "");
-            editor.putString("HighName3", "");
-            editor.putString("HighName4", "");
-            editor.putString("HighName5", "");
-            editor.putString("HighName6", "");
-            editor.putString("HighName7", "");
-            editor.putString("HighName8", "");
-            editor.putString("HighName9", "");
-            editor.putString("HighName10", "");
-            editor.putString("PlayerName", "Player");
+            editor.putInt("TimeHighScore1", 0);         // For Time Mode Local HighScores
+            editor.putInt("TimeHighScore2", 0);
+            editor.putInt("TimeHighScore3", 0);
+            editor.putInt("TimeHighScore4", 0);
+            editor.putInt("TimeHighScore5", 0);
+            editor.putInt("TimeHighScore6", 0);
+            editor.putInt("TimeHighScore7", 0);
+            editor.putInt("TimeHighScore8", 0);
+            editor.putInt("TimeHighScore9", 0);
+            editor.putInt("TimeHighScore10", 0);
+            editor.putString("TimeHighName1", "");
+            editor.putString("TimeHighName2", "");
+            editor.putString("TimeHighName3", "");
+            editor.putString("TimeHighName4", "");
+            editor.putString("TimeHighName5", "");
+            editor.putString("TimeHighName6", "");
+            editor.putString("TimeHighName7", "");
+            editor.putString("TimeHighName8", "");
+            editor.putString("TimeHighName9", "");
+            editor.putString("TimeHighName10", "");
+            editor.putInt("LevelHighScore1", 0);         // For Level Mode Local HighScores
+            editor.putInt("LevelHighScore2", 0);
+            editor.putInt("LevelHighScore3", 0);
+            editor.putInt("LevelHighScore4", 0);
+            editor.putInt("LevelHighScore5", 0);
+            editor.putInt("LevelHighScore6", 0);
+            editor.putInt("LevelHighScore7", 0);
+            editor.putInt("LevelHighScore8", 0);
+            editor.putInt("LevelHighScore9", 0);
+            editor.putInt("LevelHighScore10", 0);
+            editor.putString("LevelHighName1", "");
+            editor.putString("LevelHighName2", "");
+            editor.putString("LevelHighName3", "");
+            editor.putString("LevelHighName4", "");
+            editor.putString("LevelHighName5", "");
+            editor.putString("LevelHighName6", "");
+            editor.putString("LevelHighName7", "");
+            editor.putString("LevelHighName8", "");
+            editor.putString("LevelHighName9", "");
+            editor.putString("LevelHighName10", "");
+            editor.putString("PlayerName", "Player");// For player name
             editor.putInt("HighScore", 0);           // For player High Score
+            editor.putBoolean("FirstTimeSetup", false);
             editor.commit();
 
         }
+        boolean SoundMute = prefs.getBoolean("SoundMuted", false);  //Not muted
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putBoolean("SoundMuted",SoundMute);
+        buttonSoundMute = (ImageButton)findViewById(R.id.SoundMute);
+        buttonSoundMute.setOnClickListener(this); //sets an onClickListener on buttonSoundMute
+        buttonSoundPlay = (ImageButton)findViewById(R.id.SoundPlay);
+        buttonSoundPlay.setOnClickListener(this); //sets an onClickListener on buttonSoundPlay
+        if (SoundMute) {     //Mute sounds //buttonSoundMute enabled
+            if (mediaPlayer.isPlaying())
+                mediaPlayer.pause();                    //Stop sounds
+            buttonSoundPlay.setVisibility(View.GONE);   //removes this button fro(mediaPlayer.isPlaying())m view, and makes space for others
+            buttonSoundMute.setVisibility(View.VISIBLE);//show Mute button
+        }else if (!SoundMute){//DEFAULT state, Sound PLAYS //buttonSoundPlay enabled
+            if (!mediaPlayer.isPlaying())
+                mediaPlayer.start();                    //Play BG music
+            buttonSoundMute.setVisibility(View.GONE);   //removes this button from view, and makes space for others
+            buttonSoundPlay.setVisibility(View.VISIBLE);//show Play button
+        }
+        editor.commit();
 
         // If not logged in send out login popup action
         boolean NotLoggedIn = prefs.getBoolean("NotLoggedIn", true);
         boolean AskLogin = prefs.getBoolean("AskLogin", true);
-        SharedPreferences.Editor editor = prefs.edit();
+        //SharedPreferences.Editor editor = prefs.edit();
         editor.putBoolean("NotLoggedIn",NotLoggedIn);
         editor.putBoolean("AskLogin", AskLogin);
+
+        buttonLogIn = (Button)findViewById(R.id.LogIn);
+        buttonLogIn.setOnClickListener(this); //sets an onClickListener on buttonLogIn
+        buttonProfile = (Button)findViewById(R.id.Profile);
+        buttonProfile.setOnClickListener(this); //sets an onClickListener on buttonProfile
+        if (prefs.getBoolean("NotLoggedIn", true))
+            buttonProfile.setVisibility(View.GONE); //removes this button from view, and makes space for others
+        else
+            buttonLogIn.setVisibility(View.GONE); //removes this button from view, and makes space for others
         editor.commit();
         new CountDownTimer(800,800) {
 
@@ -158,7 +208,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         NotLogged = prefs.getBoolean("NotLoggedIn", true);
         if(NotLogged){ login_message.setText("Not logged in");}
         else { login_message.setText("Welcome " + prefs.getString("PlayerName", "Player")); }
-    }
+    }//end onCreate
 
     private void singlePlayerClick()
     {
@@ -166,11 +216,12 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         startActivity(new Intent(MainActivity.this, SinglePlayer.class));
         finish();
     }
-    private void PlayAgainTestClick()
+    private void HighScores()
     {
         //test button for PlayAgain activity (for quicker access)
-        startActivity(new Intent(MainActivity.this, PlayAgain.class));
-        finish();
+        Intent intentAgain2 = new Intent(MainActivity.this, HighScoreActivity.class);
+        intentAgain2.putExtra("LoadTimedScores", true);
+        startActivity(intentAgain2);//goes to HighScore activity
     }
     private void playLevelClick()
     {
@@ -181,7 +232,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         SharedPreferences prefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
         NotLogged = prefs.getBoolean("NotLoggedIn", true);
         if( NotLogged ) {
-            Intent login = new Intent(MainActivity.this, LoginScreen.class);
+            Intent login = new Intent(MainActivity.this, WelcomeScreen.class);
             startActivity(login);
             finish();
         } else {
@@ -190,6 +241,26 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
             finish();
         }
     }
+
+    private void SoundPlayClick() {   //MUTE all sounds ----- DEFAULT OPTION
+        mediaPlayer.pause(); //stop song
+        SharedPreferences prefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();//Allow user to disable sound
+        editor.putBoolean("SoundMuted", true);       //User wants to MUTE sounds
+        editor.commit();                             //Save sound option change (MUTE)
+        buttonSoundPlay.setVisibility(View.GONE);    //remove Play button
+        buttonSoundMute.setVisibility(View.VISIBLE); //show Mute button
+    }
+    private void SoundMuteClick() {   //PLAY all sounds
+        mediaPlayer.start(); //start song
+        SharedPreferences prefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();//Allow user to re-enable sound
+        editor.putBoolean("SoundMuted", false);      //User wants to PLAY sounds
+        editor.commit();                             //Save sound option change (PLAY)
+        buttonSoundMute.setVisibility(View.GONE);    //remove Mute button,
+        buttonSoundPlay.setVisibility(View.VISIBLE); //show Play button
+    }
+
     public void onClick(View v)
     {
         switch(v.getId())
@@ -198,9 +269,10 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
                 mediaPlayer.pause(); //stop song
                 singlePlayerClick();
                 break;
-            case R.id.PlayAgainMain:
+            case R.id.highscores:
                 mediaPlayer.pause(); //stop song
-                PlayAgainTestClick();
+                mediaPlayer.release();
+                HighScores();
                 break;
             case R.id.levelMode:
                 mediaPlayer.pause(); //stop song
@@ -209,6 +281,16 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
             case R.id.LogIn:
                 mediaPlayer.pause(); //stop song
                 LogInClick();
+                break;
+            case R.id.Profile:
+                mediaPlayer.pause(); //stop song
+                LogInClick();
+                break;
+            case R.id.SoundPlay:     //STOP sounds (mute)
+                SoundPlayClick();
+                break;
+            case R.id.SoundMute:     //Player wants sounds
+                SoundMuteClick();
                 break;
         }
     }
@@ -308,7 +390,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     public void LoginScreen() {
         try {
             LayoutInflater inflater = (LayoutInflater) MainActivity.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            View layout = inflater.inflate(R.layout.login_screen_layout, (ViewGroup)findViewById(R.id.login_Layout));
+            View layout = inflater.inflate(R.layout.welcome_screen, (ViewGroup)findViewById(R.id.login_Layout));
             popupWindow = new PopupWindow(layout, getWindow().getAttributes().width, getWindow().getAttributes().height, true);
             popupWindow.setAnimationStyle(-1);
             popupWindow.showAtLocation(layout, Gravity.CENTER, 0, 0);

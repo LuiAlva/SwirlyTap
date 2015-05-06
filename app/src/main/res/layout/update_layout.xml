@@ -1,8 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:weightSum="1">
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:weightSum="1"
+    android:background="@color/teal">
+
+    <ImageView
+        android:src="@drawable/swirlytap_title"
+        android:id="@+id/imageView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10sp"
+        android:contentDescription="@string/TitleImage" />
+
+    <TableRow
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/TitleRowLayout"
+        android:layout_alignParentStart="true">
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:text="@string/updateTitle"
+            android:gravity="center|top"
+            android:layout_centerHorizontal="true"
+            android:id="@+id/TitleRegister"
+            android:textColor="#ff000000"
+            android:textSize="30sp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"/>
+    </TableRow>
 
     <EditText
         android:layout_width="match_parent"
@@ -28,6 +64,10 @@
         android:layout_width="195sp"
         android:layout_height="75sp"
         android:hint="@string/submit1"
-        android:id="@+id/button3" />
+        android:id="@+id/button3"
+
+        android:textSize="25sp"
+        android:gravity="center"
+        android:layout_marginTop="16dp"/>
 
 </LinearLayout>

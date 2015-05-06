@@ -8,14 +8,13 @@
     <string name="single_player">Single Player</string>
     <string name="title_activity_play_again">Play Again</string>
     <string name="play_again">Play Again</string>
-    <string name="play_again_test">End Test</string>
     <string name="score">Score</string>
     <string name="initial_Score">00</string>
     <string name="Pause_Button">Pause</string>
     <string name="num_sixty">60</string>
     <string name="time">TIME</string>
     <string name="time_sixty">Time: 60</string>
-    <string name="temp_you_scored">000 points!</string>
+    <string name="temp_you_scored">0000 points!</string>
     <string name="action_home">Home</string>
     <string name="restart">Restart Game</string>
     <string name="share">Share</string>
@@ -32,14 +31,14 @@
     <string name="Uname">Username</string>
     <string name="TimeUp">Time\'s up!</string>
     <string name="Countdown">3</string>
-    <string name="LogIn">LogIn</string>
+    <string name="LogIn">Log In</string>
     <string name="Register">New Button</string>
     <string name="Registration">New Button</string>
     <string name="Confirm">Register</string>
     <string name="UpdateUserInfo">Update</string>
     <string name="DeleteUserInfo">Delete User</string>
     <string name="lives">Lives:</string>
-    <string name="Login">Profile</string>
+    <string name="Profile">Profile</string>
     <string name="TimeMode">Time Mode</string>
     <string name="LevelMode">Level Mode</string>
     <string name="TitleImage">Title: SwirlyTap</string>
@@ -77,14 +76,32 @@
     <string name="startgame1">Start Game</string>
     <string name="playGame">PLAY</string>
     <string name="play">PLAY</string>
-    <string name="LoginMessage">Login to compare your scores with other players online!</string>
+    <string name="LoginMessage">Log in to compare your scores with other players online!</string>
     <string name="confimpassword">Confirm New Password</string>
     <string name="Updatesubmit">New Button</string>
     <string name="submit1">SUBMIT</string>
     <string name="newus">Enter Username</string>
     <string name="newpa">Enter Password</string>
-
     <string name="title_activity_profile">Profile</string>
     <string name="title_activity_play_again__level">PlayAgain_Level</string>
+    <string name="highscoresTitle">High Scores</string>
+    <string name="back">Back</string>
+    <string name="NameHolder">Name Holder</string>
+    <string name="space3">   </string>
+    <string name="loginPrompt">Please enter your username and password to sign into SwirlyTap.</string>
+    <string name="registerPrompt">Register by choosing a username and password.</string>
+    <string name="updateTitle">Update your information.</string>
+    <string name="usersTitle">Users:</string>
+    <string name="spScreenshot">Screenshot</string>
+    <string name="ProfileTitle">SwirlyTap Profile</string>
+    <string name="UserName">UserName</string>
+    <string name="UsernameDescription">User:  </string>
+    <string name="z000">000</string>
+    <string name="z0000">0000</string>
+    <string name="z00000">00000</string>
+    <string name="sz00000"> 00000</string>
+    <string name="SignOut">Sign Out</string>
+    <string name="Back">Back</string>
+    <string name="MyProfile">My Profile</string>
 
 </resources>

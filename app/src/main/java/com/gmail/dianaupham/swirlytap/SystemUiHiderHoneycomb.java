@@ -130,7 +130,6 @@ public class SystemUiHiderHoneycomb extends SystemUiHiderBase {
                             0,
                             WindowManager.LayoutParams.FLAG_FULLSCREEN);
                 }
-
                 // Trigger the registered listener and cache the visibility
                 // state.
                 mOnVisibilityChangeListener.onVisibilityChange(true);

@@ -1,144 +1,447 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" android:background="#0099cc"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="16dp"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:background="@drawable/profile_bg"
     tools:context="com.gmail.dianaupham.swirlytap.Profile">
 
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/scrollView2">
 
-    <RelativeLayout
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_margin="5sp">
-
-        <TableRow
+        <RelativeLayout
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:id="@+id/tableRow2">
+            android:layout_height="fill_parent">
 
-            <RelativeLayout
+            <TableRow
                 android:layout_width="fill_parent"
-                android:layout_height="fill_parent">
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:id="@+id/tableRowTitle">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Profile"
-                    android:id="@+id/ProfileTitle"
-                    android:textStyle="bold"
-                    android:textSize="40sp" />
+                <RelativeLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent" >
 
-            </RelativeLayout>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/ProfileTitle"
+                        android:id="@+id/ProfileTitle"
+                        android:textStyle="bold"
+                        android:textSize="30sp"
+                        android:textColor="@color/midnight_blue"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginBottom="10dp"/>
 
-        </TableRow>
+                </RelativeLayout>
+            </TableRow>
 
-        <TableRow
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/tableRow2"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:id="@+id/tableRow3">
-
-            <RelativeLayout
+            <TableRow
                 android:layout_width="fill_parent"
-                android:layout_height="fill_parent" >
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tableRowTitle"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:id="@+id/tableRow3"
+                android:paddingLeft="20dp"
+                android:paddingRight="10dp"
+                android:layout_marginLeft="10sp"
+                android:layout_marginRight="10sp"
+                android:background="#2c000000">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Username:"
-                    android:id="@+id/textView23"
+                    android:text="Hello, "
+                    android:id="@+id/UserNameProfile"
                     android:textStyle="bold"
-                    android:textSize="26sp" />
+                    android:textSize="26sp"
+                    android:layout_below="@+id/ProfileTitle"
+                    android:layout_column="0"/>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="UserName"
+                    android:text="@string/UserName"
                     android:id="@+id/UserNameBox"
                     android:textStyle="bold"
                     android:textSize="30sp"
-                    android:layout_below="@+id/textView23"
+                    android:layout_below="@+id/UserNameProfile"
                     android:layout_alignParentLeft="true"
-                    android:layout_alignParentStart="true" />
-            </RelativeLayout>
-        </TableRow>
+                    android:layout_alignParentStart="true"
+                    android:layout_column="1"/>
+            </TableRow>
 
-        <TableRow
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/tableRow3"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:id="@+id/tableRow4">
-
-            <RelativeLayout
+            <TableRow
                 android:layout_width="fill_parent"
-                android:layout_height="fill_parent" >
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tableRow3"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:id="@+id/tableRow4"
+                android:paddingLeft="20dp"
+                android:paddingRight="10dp"
+                android:layout_marginLeft="10sp"
+                android:layout_marginRight="10sp"
+                android:background="#2c000000">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="High Score:"
+                    android:text="High Score:  "
                     android:id="@+id/textView21"
                     android:textStyle="bold"
-                    android:textSize="26sp" />
+                    android:textSize="26sp"
+                    android:layout_column="0"/>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="000"
+                    android:text="@string/z000"
                     android:id="@+id/HighScoreBox"
                     android:textStyle="bold"
                     android:textSize="30sp"
                     android:layout_below="@+id/textView21"
                     android:layout_alignParentLeft="true"
-                    android:layout_alignParentStart="true" />
-            </RelativeLayout>
-        </TableRow>
+                    android:layout_alignParentStart="true"
+                    android:layout_column="1"/>
+            </TableRow>
 
-        <TableRow
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/tableRow4"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:gravity="center"
-            android:id="@+id/tableRow5">
+            <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tableRow4"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:id="@+id/tableRowStatTitle"
+                android:paddingLeft="20dp"
+                android:paddingRight="0dp"
+                android:layout_marginLeft="10sp"
+                android:layout_marginRight="20sp">
 
-            <Button
-                android:layout_width="250sp"
-                android:layout_height="80sp"
-                android:text="Sign Out"
-                android:id="@+id/sign_out"
-                android:textStyle="bold"
-                android:textColor="#ffffffff"
-                android:textSize="28sp"
-                android:background="@drawable/button_bg"
-                android:layout_margin="10sp" />
-        </TableRow>
+                <RelativeLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent" >
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Game Play Statistics"
+                        android:id="@+id/GamePlayStatistics"
+                        android:textStyle="bold"
+                        android:textSize="26sp"
+                        android:textColor="@color/midnight_blue"
+                        android:layout_alignParentTop="true"
+                        android:layout_centerHorizontal="true" />
+                    <TextView
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Total taps"
+                        android:id="@+id/TotalTappedDescription"
+                        android:textStyle="bold"
+                        android:textSize="20sp"
+                        android:textColor="#ffffffff"
+                        android:layout_below="@+id/GamePlayStatistics"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:background="@color/midnight_blue"
+                        android:gravity="center" />
+                </RelativeLayout>
+            </TableRow>
+            <!--GOOD and BAD SWIRL Table-->
+            <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:id="@+id/GoodSwirlTotalTable"
+                android:layout_below="@+id/tableRowStatTitle"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:layout_marginLeft="10sp"
+                android:layout_marginRight="10sp"
+                android:background="#2c000000"
+                android:gravity="center">
 
-        <TableRow
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/tableRow5"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:gravity="center">
+                <RelativeLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent">
 
-            <Button
-                android:layout_width="250sp"
-                android:layout_height="80sp"
-                android:text="Back"
-                android:id="@+id/Back"
-                android:textStyle="bold"
-                android:textSize="28sp"
-                android:textColor="#ffffffff"
-                android:background="@drawable/button_bg"
-                android:layout_margin="10sp" />
-        </TableRow>
-    </RelativeLayout>
+                    <ImageView
+                        android:layout_width="35sp"
+                        android:layout_height="35sp"
+                        android:id="@+id/GoodSwirlImage"
+                        android:layout_column="0"
+                        android:src="@drawable/goodswirl"
+                        android:layout_gravity="center" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/z00000"
+                        android:id="@+id/GoodSwirlTotalBox"
+                        android:layout_column="1"
+                        android:textStyle="bold"
+                        android:textSize="24sp"
+                        android:layout_centerVertical="true"
+                        android:layout_toRightOf="@+id/GoodSwirlImage"
+                        android:layout_toEndOf="@+id/GoodSwirlImage" />
+
+                    <ImageView
+                        android:layout_width="35sp"
+                        android:layout_height="35sp"
+                        android:id="@+id/BadSwirlImage"
+                        android:layout_column="0"
+                        android:src="@drawable/badswirl"
+                        android:layout_gravity="center"
+                        android:layout_alignParentTop="true"
+                        android:layout_toLeftOf="@+id/BadSwirlTotalBox"
+                        android:layout_toStartOf="@+id/BadSwirlTotalBox" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/z00000"
+                        android:id="@+id/BadSwirlTotalBox"
+                        android:layout_column="1"
+                        android:textStyle="bold"
+                        android:textSize="24sp"
+                        android:layout_centerVertical="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentEnd="true" />
+
+                </RelativeLayout>
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:id="@+id/TwiceSwirlTotalTable"
+                android:layout_below="@+id/GoodSwirlTotalTable"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:layout_marginLeft="10sp"
+                android:layout_marginRight="10sp"
+                android:background="#2c000000"
+                android:gravity="center">
+
+                <RelativeLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent">
+
+                    <ImageView
+                        android:layout_width="35sp"
+                        android:layout_height="35sp"
+                        android:id="@+id/TwiceSwirlImage"
+                        android:layout_column="0"
+                        android:src="@drawable/twiceswirl"
+                        android:layout_gravity="center" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/z00000"
+                        android:id="@+id/TwiceSwirlTotalBox"
+                        android:layout_column="1"
+                        android:textStyle="bold"
+                        android:textSize="24sp"
+                        android:layout_centerVertical="true"
+                        android:layout_toRightOf="@+id/TwiceSwirlImage"
+                        android:layout_toEndOf="@+id/TwiceSwirlImage" />
+
+                    <ImageView
+                        android:layout_width="35sp"
+                        android:layout_height="35sp"
+                        android:id="@+id/TimeAddImage"
+                        android:layout_column="0"
+                        android:src="@drawable/fivetime"
+                        android:layout_gravity="center"
+                        android:layout_alignTop="@+id/TimeAddTotalBox"
+                        android:layout_toLeftOf="@+id/TimeAddTotalBox"
+                        android:layout_toStartOf="@+id/TimeAddTotalBox" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/sz00000"
+                        android:id="@+id/TimeAddTotalBox"
+                        android:layout_column="1"
+                        android:textStyle="bold"
+                        android:textSize="24sp"
+                        android:layout_centerVertical="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentEnd="true" />
+
+                </RelativeLayout>
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:id="@+id/tableRowGamePlayStats"
+                android:paddingLeft="20dp"
+                android:paddingRight="0dp"
+                android:layout_below="@+id/TwiceSwirlTotalTable">
+
+                <RelativeLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent" >
+
+                    <TextView
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Total games played"
+                        android:id="@+id/TotalGamesPlayed"
+                        android:textStyle="bold"
+                        android:textSize="20sp"
+                        android:textColor="#ffffffff"
+                        android:layout_centerHorizontal="true"
+                        android:layout_column="1"
+                        android:background="@color/midnight_blue"
+                        android:layout_marginRight="20sp"
+                        android:layout_marginTop="5sp"
+                        android:gravity="center"
+                        android:layout_marginLeft="10sp" />
+                </RelativeLayout>
+            </TableRow>
+
+            <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tableRowGamePlayStats"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:id="@+id/spGamesPlayedTotalTitle"
+                android:paddingLeft="20dp"
+                android:paddingRight="0dp"
+                android:layout_marginLeft="10sp"
+                android:layout_marginRight="10sp"
+                android:background="#2c000000">
+
+                <RelativeLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Time Mode:  "
+                        android:id="@+id/spGamesPlayedTotalDescription"
+                        android:textStyle="bold"
+                        android:textSize="26sp"
+                        android:layout_column="0"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/z0000"
+                        android:id="@+id/spGamesPlayedTotalBox"
+                        android:textStyle="bold"
+                        android:textSize="30sp"
+                        android:layout_column="1"
+                        android:layout_alignParentTop="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentEnd="true" />
+                </RelativeLayout>
+            </TableRow>
+            <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/spGamesPlayedTotalTitle"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:id="@+id/lpGamesPlayedTotalTitle"
+                android:paddingLeft="20dp"
+                android:paddingRight="0dp"
+                android:layout_marginLeft="10sp"
+                android:layout_marginRight="10sp"
+                android:background="#2c000000">
+
+                <RelativeLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Level Mode:  "
+                        android:id="@+id/lpGamesPlayedTotalDescription"
+                        android:textStyle="bold"
+                        android:textSize="26sp"
+                        android:layout_column="0"
+                        android:layout_alignParentTop="true"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/z0000"
+                        android:id="@+id/lpGamesPlayedTotalBox"
+                        android:textStyle="bold"
+                        android:textSize="30sp"
+                        android:layout_column="1"
+                        android:layout_alignParentTop="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentEnd="true" />
+                </RelativeLayout>
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/lpGamesPlayedTotalTitle"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:gravity="center"
+                android:id="@+id/tableRow5">
+
+                <RelativeLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:gravity="center">
+
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="50dp"
+                        android:text="@string/SignOut"
+                        android:id="@+id/sign_out"
+                        android:textStyle="bold"
+                        android:textColor="#ffffffff"
+                        android:textSize="20sp"
+                        android:background="@drawable/button_bg"
+                        android:layout_below="@+id/Back"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true" />
+
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="50dp"
+                        android:text="@string/back"
+                        android:id="@+id/Back"
+                        android:textStyle="bold"
+                        android:textSize="20sp"
+                        android:textColor="#ffffffff"
+                        android:background="@drawable/button_bg"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10sp"/>
+                </RelativeLayout>
+            </TableRow>
+        </RelativeLayout>
+    </ScrollView>
 
 </RelativeLayout>
