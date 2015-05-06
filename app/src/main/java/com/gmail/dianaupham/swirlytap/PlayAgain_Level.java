@@ -54,12 +54,16 @@ public class PlayAgain_Level extends ActionBarActivity implements View.OnClickLi
         int twice_buttons = game.getIntExtra("twice_swirl", 0);
         int double_buttons = game.getIntExtra("double_points", 0);
         int lightning_buttons = game.getIntExtra("lightning_bolt", 0);
+        int heart_buttons = game.getIntExtra("add_life", 0);
+        int nuke = game.getIntExtra("nuke", 0);
         TextView Score= (TextView) findViewById(R.id.ScoreViewLevel);
         TextView goodButtons = (TextView)findViewById(R.id.good_swirl_count);
         TextView badButtons = (TextView)findViewById(R.id.bad_swirl_count);
         TextView twiceButtons = (TextView)findViewById(R.id.twice_swirl_count);
         TextView doubleButtons = (TextView)findViewById(R.id.double_point_count);
         TextView lightningButtons = (TextView)findViewById(R.id.lightning_bolt_count);
+        TextView lifeButtons = (TextView)findViewById(R.id.life_count);
+        TextView nukeButtons = (TextView)findViewById(R.id.nukeCount);
 
         Score.setText("" + score + " points!");   //Set text to show recent score
         goodButtons.setText(""+good_buttons);
@@ -67,6 +71,8 @@ public class PlayAgain_Level extends ActionBarActivity implements View.OnClickLi
         twiceButtons.setText(""+twice_buttons);
         doubleButtons.setText(""+double_buttons);
         lightningButtons.setText(""+lightning_buttons);
+        lifeButtons.setText(""+heart_buttons);
+        nukeButtons.setText(""+nuke);
 
         TextView BEST_SCORE= (TextView) findViewById(R.id.BestScoreLevel);
         BEST_SCORE.setText("Best: " + HighScore);   //Set text to show best score
