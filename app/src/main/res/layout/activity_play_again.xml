@@ -29,9 +29,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:background="@drawable/results_window"
-                android:layout_marginTop="10sp"
-                android:layout_marginLeft="10sp"
-                android:layout_marginRight="10sp">
+                android:layout_margin="10dp">
 
                 <ImageView
                     android:src="@drawable/congratulations"
@@ -41,9 +39,9 @@
                     android:contentDescription="@string/congratulations"
                     android:layout_alignParentTop="true"
                     android:layout_centerHorizontal="true"
-                    android:layout_marginLeft="25sp"
-                    android:layout_marginRight="25sp"
-                    android:layout_marginTop="5sp" />
+                    android:layout_marginLeft="25dp"
+                    android:layout_marginRight="25dp"
+                    android:layout_marginTop="5dp" />
                 <LinearLayout
                     android:orientation="vertical"
                     android:layout_width="wrap_content"
@@ -66,7 +64,7 @@
                         android:layout_below="@+id/imageView"
                         android:layout_centerHorizontal="true"
                         android:textStyle="bold"
-                        android:layout_marginBottom="4sp"
+                        android:layout_marginBottom="4dp"
                         android:gravity="center" />
 
                     <TextView
@@ -78,7 +76,7 @@
                         android:layout_below="@+id/imageView"
                         android:layout_centerHorizontal="true"
                         android:textStyle="bold"
-                        android:layout_marginBottom="4sp"
+                        android:layout_marginBottom="4dp"
                         android:gravity="center"
                         android:textColor="#ff4dc7cd" />
                 </LinearLayout>
@@ -97,8 +95,8 @@
                         android:gravity="center">
 
                         <ImageView
-                            android:layout_width="35sp"
-                            android:layout_height="35sp"
+                            android:layout_width="35dp"
+                            android:layout_height="35dp"
                             android:id="@+id/GoodSwirl"
                             android:layout_column="0"
                             android:src="@drawable/goodswirl"
@@ -122,7 +120,7 @@
 
                         <ImageView
                             android:layout_width="35sp"
-                            android:layout_height="35sp"
+                            android:layout_height="35dp"
                             android:id="@+id/BadSwirl"
                             android:layout_column="4"
                             android:src="@drawable/badswirl" />
@@ -145,8 +143,8 @@
                         android:gravity="center">
 
                         <ImageView
-                            android:layout_width="35sp"
-                            android:layout_height="35sp"
+                            android:layout_width="35dp"
+                            android:layout_height="35dp"
                             android:id="@+id/Good2Swirl"
                             android:layout_column="0"
                             android:src="@drawable/twiceswirl" />
@@ -162,8 +160,8 @@
                             android:textSize="20sp" />
 
                         <ImageView
-                            android:layout_width="35sp"
-                            android:layout_height="35sp"
+                            android:layout_width="35dp"
+                            android:layout_height="35dp"
                             android:id="@+id/TimeSwirl"
                             android:layout_column="4"
                             android:src="@drawable/fivetime" />
@@ -210,9 +208,9 @@
                         android:text="@string/play_again"
                         android:id="@+id/PlayAgain"
                         android:layout_width="match_parent"
-                        android:layout_height="50sp"
-                        android:layout_marginLeft="10sp"
-                        android:layout_marginRight="10sp"
+                        android:layout_height="50dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
                         android:paddingRight="15dp"
                         android:paddingLeft="15dp"
                         android:textSize="18sp"
@@ -224,15 +222,15 @@
                         android:text="@string/share"
                         android:id="@+id/Share"
                         android:layout_width="match_parent"
-                        android:layout_height="50sp"
+                        android:layout_height="50dp"
                         android:paddingRight="15dp"
                         android:paddingLeft="15dp"
-                        android:layout_marginLeft="10sp"
-                        android:layout_marginRight="10sp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
                         android:textSize="20sp"
                         android:textColor="#ffffffff"
                         android:background="@drawable/button_bg"
-                        android:layout_marginBottom="5sp" />
+                        android:layout_marginBottom="5dp" />
 
                     <Button
                         android:text="@string/High_Score"
@@ -241,27 +239,27 @@
                         android:layout_height="50sp"
                         android:paddingRight="15dp"
                         android:paddingLeft="15dp"
-                        android:layout_marginLeft="10sp"
-                        android:layout_marginRight="10sp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
                         android:textSize="17sp"
                         android:textColor="#ffffffff"
                         android:background="@drawable/button_bg"
                         android:enabled="true"
                         android:focusableInTouchMode="true"
                         android:clickable="true"
-                        android:layout_marginBottom="5sp" />
+                        android:layout_marginBottom="5dp" />
 
                     <Button
                         android:text="@string/action_home"
                         android:id="@+id/returnHome"
                         android:layout_width="match_parent"
-                        android:layout_height="50sp"
-                        android:layout_marginLeft="10sp"
-                        android:layout_marginRight="10sp"
+                        android:layout_height="50dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
                         android:textSize="20sp"
                         android:textColor="#ffffffff"
                         android:background="@drawable/button_bg"
-                        android:layout_marginBottom="5sp" />
+                        android:layout_marginBottom="5dp" />
 
                 </GridLayout>
 

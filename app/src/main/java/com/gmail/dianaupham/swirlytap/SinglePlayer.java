@@ -29,7 +29,6 @@ import android.widget.TableRow;
 import android.widget.TextView;
 
 import com.gmail.dianaupham.swirlytap.swirlytap.R;
-import com.mopub.mobileads.MoPubView;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -67,6 +66,8 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
     private static final int NUM_COLS = 4;
     private static final int ARRAY_ROWS = NUM_ROWS * 5;
     private static final int ARRAY_COLS = NUM_COLS * 5;
+    int randRow;
+    int randCol;
     private static int FINAL_COL; //set col and row location to pass to gridButton
     private static int FINAL_ROW; //this sends location of button
     Button buttons[][] = new Button[NUM_ROWS][NUM_COLS];   //created total number of grid buttons
@@ -214,7 +215,7 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
         }
         /////////////////////////////////////////////////////////////////////////////////////////
         // Null Disappear timers array
-        for(int i = 0; i < 10; i++){
+        for(int i = 0; i < 15; i++){
             GoodArray[i] = null;
             BadArray[i] = null;
             SpecialArray[i] = null;
@@ -345,9 +346,12 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
     class buttonDisappear{
         public Button ButtonId;
         CountDownTimer TimerId;
-        public buttonDisappear(Button button, CountDownTimer timer){
+        int[] Position = { -1, -1};
+        public buttonDisappear(Button button, CountDownTimer timer , int Row, int Col){
             ButtonId = button;
             TimerId = timer;
+            Position[0] = Row;
+            Position[1] = Col;
         }
     }
 
@@ -355,11 +359,18 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
     {
         final Runnable buttonRunnable;
         final Handler buttonHandler = new Handler();
-        Random r = new Random(); //randomly select location in luck array
-        r.setSeed(System.currentTimeMillis());
-        int randRow = r.nextInt(NUM_ROWS);
-        int randCol = r.nextInt(NUM_COLS);
         int i; //For array location for disappear
+        do {
+            Random r = new Random(); //randomly select location in luck array
+            r.setSeed(System.currentTimeMillis());
+            randRow = r.nextInt(NUM_ROWS);
+            randCol = r.nextInt(NUM_COLS);
+            for(i = 0; i < 15; i++){
+                if (GoodArray[i] != null && GoodArray[i].Position[0] == randRow && GoodArray[i].Position[1] == randCol) { break; }
+                if (BadArray[i] != null && BadArray[i].Position[0] == randRow && BadArray[i].Position[1] == randCol) { break; }
+                if (SpecialArray[i] != null && SpecialArray[i].Position[0] == randRow && SpecialArray[i].Position[1] == randCol) { break; }
+            }
+        } while(i != 15);
 
         if(luckArray[randRow][randCol]=="good") //GOOD BUTTON +1 POINT IF CLICKED
         {
@@ -391,8 +402,8 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
                 goodButton.setVisibility(View.INVISIBLE);
                 goodButton.setEnabled(false);
             }
-        }.start();
-            GoodArray[i] =  new buttonDisappear(goodButton, temp);
+            }.start();
+            GoodArray[i] =  new buttonDisappear(goodButton, temp, randRow, randCol);
             goodButton.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v)
                 {
@@ -449,7 +460,7 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
                 badButton.setEnabled(false);
             }
         }.start();
-        BadArray[i] =  new buttonDisappear(badButton, temp);
+        BadArray[i] =  new buttonDisappear(badButton, temp, randRow, randCol);
         badButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v)
             {
@@ -503,7 +514,7 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
                 twiceButton.setEnabled(false);
             }
         }.start();
-        SpecialArray[i] =  new buttonDisappear(twiceButton, temp);
+        SpecialArray[i] =  new buttonDisappear(twiceButton, temp, randRow, randCol);
         twiceButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v)
             {
@@ -566,7 +577,7 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
                             timeButton.setEnabled(false);
                         }
                     }.start();
-                    SpecialArray[i] = new buttonDisappear(timeButton, temp);
+                    SpecialArray[i] = new buttonDisappear(timeButton, temp, randRow, randCol);
                     timeButton.setOnClickListener(new View.OnClickListener() {
                         public void onClick(View v) {
                         Animation FadeAnim = new AlphaAnimation(1.0f, 0.0f);//fade out the text
@@ -618,7 +629,7 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
                         goodButton.setEnabled(false);
                     }
                 }.start();
-                GoodArray[i] =  new buttonDisappear(goodButton, temp);
+                GoodArray[i] =  new buttonDisappear(goodButton, temp, randRow, randCol);
                 goodButton.setOnClickListener(new View.OnClickListener() {
                     public void onClick(View v) {
 
