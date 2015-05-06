@@ -1315,8 +1315,8 @@ public class levelPlay extends Activity implements View.OnClickListener
                 on_screen_allCount--;
                 GoodArray[finalI].ButtonId = null;       // Remove Button ID
                 GoodArray[finalI] = null;
-                //missedSwirls++;
-                //setMissed(missedSwirls);        //count off if swirl disappeared
+                missedSwirls++;
+                setMissed(missedSwirls);        //count off if swirl disappeared
                 good.setVisibility(View.INVISIBLE);
                 good.setEnabled(false);
 
