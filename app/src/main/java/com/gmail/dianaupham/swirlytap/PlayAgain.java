@@ -6,7 +6,6 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.content.res.Resources;
-import android.graphics.Bitmap;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
@@ -25,9 +24,6 @@ import com.gmail.dianaupham.swirlytap.swirlytap.R;
 import com.twitter.sdk.android.tweetcomposer.TweetComposer;
 
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -145,7 +141,6 @@ public class PlayAgain extends ActionBarActivity implements View.OnClickListener
 
         chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, targetedShareIntents.toArray(new Parcelable[]{}));
         startActivity(chooserIntent);
-        finish();
     }
 
     private void HighScoreClick()
