@@ -141,7 +141,6 @@ public class PlayAgain_Level extends ActionBarActivity implements View.OnClickLi
 
         chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, targetedShareIntents.toArray(new Parcelable[]{}));
         startActivity(chooserIntent);
-        finish();
     }
 
     private void HighScoreClick()

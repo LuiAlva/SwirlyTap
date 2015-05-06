@@ -7,7 +7,6 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.media.MediaPlayer;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Environment;
@@ -17,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.view.WindowManager;
 import android.view.animation.AlphaAnimation;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -128,14 +128,21 @@ public class levelPlay extends Activity implements View.OnClickListener
     buttonDisappear[] BadArray = new buttonDisappear[20];
     buttonDisappear[] SpecialArray = new buttonDisappear[20];
 
+    private static final boolean AUTO_HIDE = true;          // Auto hide UI (ActionBar)
+    private static final int AUTO_HIDE_DELAY_MILLIS = 1000; // Hide system UI after 1000 milliseconds
+    private static final boolean TOGGLE_ON_CLICK = true;    // If UI is clicked show it
+    private static final int HIDER_FLAGS = 0;   // The flags to pass to {@link com.gmail.dianaupham.swirlytap.SystemUiHider#getInstance}.
+    private com.gmail.dianaupham.swirlytap.SystemUiHider mSystemUiHider;
+
     /*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
-
-
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE); // Removes Title Bar
+        getWindow().requestFeature(Window.FEATURE_ACTION_BAR);   //Hides the action and title bars!
+        getActionBar().hide();
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        //requestWindowFeature(Window.FEATURE_NO_TITLE); // Removes Title Bar
         setContentView(R.layout.level_play); //show res/layout/activity_single_player.xml
         /*Swirls displayed at the bottom of the screen that depict how many missed swirls user has*/
         llayout = (LinearLayout)findViewById(R.id.layout);
@@ -2029,6 +2036,30 @@ public class levelPlay extends Activity implements View.OnClickListener
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
+    }
+
+    protected void onResume() {
+        super.onResume();
+
+        GoodSound = new MediaPlayer();     // Setup MediaPlayer for good sound
+        GoodSound2 = new MediaPlayer();    // Setup MediaPlayer for good sound
+        BadSound = new MediaPlayer();      // Setup MediaPlayer for bad sound
+        SpecialSound = new MediaPlayer();  // Setup MediaPlayer for Special button sounds
+    }
+
+    protected void onPause() {
+        super.onPause();
+
+        if (!paused) { PauseActivate(); }                // Pause the game
+        else { SwirlEngine.cancel(); Updater.cancel();  popupWindow.dismiss(); }
+        GoodSound.release();
+        GoodSound2.release();
+        BadSound.release();
+        SpecialSound.release();
+    }
+
+    public void onBackPressed() {
+        PauseActivate();                // Pause the game
     }
 
 }

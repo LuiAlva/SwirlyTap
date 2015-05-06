@@ -131,7 +131,7 @@
                     android:textSize="45sp"
                     android:textColor="#ffffffff"
                     android:layout_marginBottom="10sp"
-                    android:layout_marginTop="30sp" />
+                    android:layout_marginTop="25sp" />
             </TableRow>
 
             <TableRow

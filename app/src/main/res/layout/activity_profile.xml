@@ -28,7 +28,9 @@
 
                 <RelativeLayout
                     android:layout_width="fill_parent"
-                    android:layout_height="fill_parent" >
+                    android:layout_height="fill_parent"
+                    android:background="#67ffffff"
+                    android:gravity="center">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -38,8 +40,8 @@
                         android:textStyle="bold"
                         android:textSize="30sp"
                         android:textColor="@color/midnight_blue"
-                        android:layout_centerHorizontal="true"
-                        android:layout_marginBottom="10dp"/>
+                        android:layout_alignParentBottom="true"
+                        android:layout_centerHorizontal="true" />
 
                 </RelativeLayout>
             </TableRow>
@@ -180,7 +182,10 @@
                         android:id="@+id/GoodSwirlImage"
                         android:layout_column="0"
                         android:src="@drawable/goodswirl"
-                        android:layout_gravity="center" />
+                        android:layout_gravity="center"
+                        android:layout_alignParentTop="true"
+                        android:layout_toLeftOf="@+id/GoodSwirlTotalBox"
+                        android:layout_toStartOf="@+id/GoodSwirlTotalBox" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -191,8 +196,8 @@
                         android:textStyle="bold"
                         android:textSize="24sp"
                         android:layout_centerVertical="true"
-                        android:layout_toRightOf="@+id/GoodSwirlImage"
-                        android:layout_toEndOf="@+id/GoodSwirlImage" />
+                        android:layout_toLeftOf="@+id/space1"
+                        android:layout_toStartOf="@+id/space1" />
 
                     <ImageView
                         android:layout_width="35sp"
@@ -202,8 +207,8 @@
                         android:src="@drawable/badswirl"
                         android:layout_gravity="center"
                         android:layout_alignParentTop="true"
-                        android:layout_toLeftOf="@+id/BadSwirlTotalBox"
-                        android:layout_toStartOf="@+id/BadSwirlTotalBox" />
+                        android:layout_toRightOf="@+id/space1"
+                        android:layout_toEndOf="@+id/space1" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -213,9 +218,16 @@
                         android:layout_column="1"
                         android:textStyle="bold"
                         android:textSize="24sp"
-                        android:layout_centerVertical="true"
-                        android:layout_alignParentRight="true"
-                        android:layout_alignParentEnd="true" />
+                        android:layout_alignTop="@+id/space1"
+                        android:layout_toRightOf="@+id/BadSwirlImage"
+                        android:layout_toEndOf="@+id/BadSwirlImage" />
+
+                    <Space
+                        android:layout_width="60dp"
+                        android:layout_height="35dp"
+                        android:layout_alignTop="@+id/GoodSwirlTotalBox"
+                        android:layout_centerHorizontal="true"
+                        android:id="@+id/space1" />
 
                 </RelativeLayout>
 
@@ -245,7 +257,10 @@
                         android:id="@+id/TwiceSwirlImage"
                         android:layout_column="0"
                         android:src="@drawable/twiceswirl"
-                        android:layout_gravity="center" />
+                        android:layout_gravity="center"
+                        android:layout_alignParentTop="true"
+                        android:layout_toLeftOf="@+id/TwiceSwirlTotalBox"
+                        android:layout_toStartOf="@+id/TwiceSwirlTotalBox" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -256,8 +271,8 @@
                         android:textStyle="bold"
                         android:textSize="24sp"
                         android:layout_centerVertical="true"
-                        android:layout_toRightOf="@+id/TwiceSwirlImage"
-                        android:layout_toEndOf="@+id/TwiceSwirlImage" />
+                        android:layout_toLeftOf="@+id/space2"
+                        android:layout_toStartOf="@+id/space2" />
 
                     <ImageView
                         android:layout_width="35sp"
@@ -266,9 +281,9 @@
                         android:layout_column="0"
                         android:src="@drawable/fivetime"
                         android:layout_gravity="center"
-                        android:layout_alignTop="@+id/TimeAddTotalBox"
-                        android:layout_toLeftOf="@+id/TimeAddTotalBox"
-                        android:layout_toStartOf="@+id/TimeAddTotalBox" />
+                        android:layout_alignParentBottom="true"
+                        android:layout_toRightOf="@+id/space2"
+                        android:layout_toEndOf="@+id/space2" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -278,9 +293,16 @@
                         android:layout_column="1"
                         android:textStyle="bold"
                         android:textSize="24sp"
-                        android:layout_centerVertical="true"
-                        android:layout_alignParentRight="true"
-                        android:layout_alignParentEnd="true" />
+                        android:layout_alignTop="@+id/TwiceSwirlTotalBox"
+                        android:layout_toRightOf="@+id/TimeAddImage"
+                        android:layout_toEndOf="@+id/TimeAddImage" />
+
+                    <Space
+                        android:layout_width="60dp"
+                        android:layout_height="35dp"
+                        android:id="@+id/space2"
+                        android:layout_alignParentBottom="true"
+                        android:layout_centerHorizontal="true" />
 
                 </RelativeLayout>
 
