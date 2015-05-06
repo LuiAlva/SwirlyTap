@@ -1267,7 +1267,8 @@ public class levelPlay extends Activity implements View.OnClickListener
     }
     public void displayLevel(int levelnum) //function used to display the level animation based on current level
     {
-        leveldisplay.setText("Level " + levelnum);
+        if(levelnum == 21) leveldisplay.setText("Level Infinite...");
+        else leveldisplay.setText("Level " + levelnum);
         //leveldisplay.setVisibility(View.VISIBLE);
         AlphaAnimation anim = new AlphaAnimation(1.0f, 0.0f);//fade out the text
         anim.setDuration(2000);
@@ -1713,7 +1714,6 @@ public class levelPlay extends Activity implements View.OnClickListener
                         }
                         else score+=on_screen_allCount;
 
-                        lightningCount++; //add to number of good swirls on screen
                         SpecialArray[finalI].TimerId.cancel();      // Cancel it's disappear Timer
                         SpecialArray[finalI].ButtonId = null;       // Remove Button ID
                         v.setEnabled(false);                     // Disable button
@@ -1750,12 +1750,18 @@ public class levelPlay extends Activity implements View.OnClickListener
                 if (GoodArray[i] != null) {
                     GoodArray[i].TimerId.cancel();
                     GoodArray[i].ButtonId.setBackgroundResource(R.drawable.goodswirl_break); //change to +1 and make dis
+                    AlphaAnimation anim = new AlphaAnimation(1.0f, 0.0f);//fade out the text
+                    anim.setDuration(200);
+                    GoodArray[i].ButtonId.startAnimation(anim);
                     GoodArray[i].ButtonId.setVisibility(View.INVISIBLE);
                     GoodArray[i].ButtonId.setEnabled(false);
                 }
                 if (BadArray[i] != null) {
                     BadArray[i].TimerId.cancel();
-                    GoodArray[i].ButtonId.setBackgroundResource(R.drawable.badswirl_break); //change to +1 and make dis
+                    BadArray[i].ButtonId.setBackgroundResource(R.drawable.badswirl_break); //change to +1 and make dis
+                    AlphaAnimation anim = new AlphaAnimation(1.0f, 0.0f);//fade out the text
+                    anim.setDuration(200);
+                    BadArray[i].ButtonId.startAnimation(anim);
                     BadArray[i].ButtonId.setVisibility(View.INVISIBLE);
                     BadArray[i].ButtonId.setEnabled(false);
                 }
