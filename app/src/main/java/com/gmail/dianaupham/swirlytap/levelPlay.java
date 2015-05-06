@@ -248,17 +248,17 @@ public class levelPlay extends Activity implements View.OnClickListener
                     mHandler.postDelayed(new Runnable() {
                         public void run() {
                             // when level loaded = true then set boolean to true
-                            levelLoaded = true;
+                            speed_engine(Game_Speed);
                         }
                     }, 2000);
-
+                    displayLevel(level);
                     llayout.setBackgroundResource(R.drawable.levelone);
                     //call function that displays level
 
                     Game_Speed = 1200; //gameTimer(60000);
 
                     //if (levelLoaded == true)
-                        speed_engine(Game_Speed);
+
                 }
                 break;
            /*++++++++++++++++++++++++++++++++++++LEVEL 2++++++++++++++++++++++++++++++++++++++++++++*/
