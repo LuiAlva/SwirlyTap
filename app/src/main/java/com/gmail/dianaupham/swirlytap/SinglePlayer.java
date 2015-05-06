@@ -73,15 +73,15 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
     Button buttons[][] = new Button[NUM_ROWS][NUM_COLS];   //created total number of grid buttons
     String[][] luckArray = new String[ARRAY_ROWS][ARRAY_COLS]; //array containing good and bad buttons
     //Time & Speed ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++//
-    int StartTime = 61000;       //Set start time, 60000
-    int Current_Time = 61000;    //Current in-game time
+    int StartTime = 91000;       //Set start time, 60000
+    int Current_Time = 91000;    //Current in-game time
     int Current_Speed = 290;     //Current in-game speed
     int Start_Speed = 290;       //Speed at the start of the game
     int Speed_Limit = 90;        //Highest Speed
     int Game_Speed_Add = 10;     //Add speed every increment
-    int Speed_Increment = 6;     //Points needed to increment speed
+    int Speed_Increment = 10;     //Points needed to increment speed
     int Speed_Increment_Add = 0; //Add to Speed_Increment to make it harder to speed up
-    int Speed_Increment_Set = 6; //Equal to Speed_Increment
+    int Speed_Increment_Set = 10; //Equal to Speed_Increment
     //Music & Sounds ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++//
     Uri tapGood;              // Sound when Good swirl is tapped
     Uri tapBad;               // Sound for Bad swirl
@@ -661,7 +661,7 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
 
     void Speed_Engine(int Score) {
         TextView SpeedPercent = (TextView)findViewById(R.id.SpeedLabel);
-        if (((Good_Pressed + Good2_Pressed) % Speed_Increment) == 0 && Score != 0 && Current_Speed > Speed_Limit) //every (Speed_Increment) points, and the speed isn't going past the speed limit
+        if (( Good_Pressed + Good2_Pressed >= Speed_Increment) && Score != 0 && Current_Speed > Speed_Limit) //every (Speed_Increment) points, and the speed isn't going past the speed limit
         {
             Current_Speed -= Game_Speed_Add;           //Speed up the game by 50 frames/second
             Speed_Increment_Set += Speed_Increment_Add; // Set points to increment
