@@ -85,7 +85,8 @@
             android:name="com.gmail.dianaupham.swirlytap.Profile"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_profile"
-            android:theme="@style/FullscreenTheme" >
+            android:theme="@style/FullscreenTheme"
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name="com.gmail.dianaupham.swirlytap.Update"

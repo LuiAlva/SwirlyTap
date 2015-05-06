@@ -352,6 +352,8 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         super.onPause();
         mediaPlayer.release();
     }
+
+    public void onBackPressed() {}
 /*
     @Override
     protected void onStart() {
