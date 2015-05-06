@@ -12,12 +12,16 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Environment;
 import android.os.Handler;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.animation.AlphaAnimation;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -66,9 +70,11 @@ public class levelPlay extends Activity implements View.OnClickListener
     int on_screen_allCount = 0;  //count score of both good and bad swirls currently on screen
     boolean doublePoints = false;
     boolean levelLoaded = false;
+    boolean paused = false;
     int lifeCount = 0;
     boolean heartGiven = false;     //used to limit the number of times the player recieves perks
     boolean destroyGoodSwirls = false;
+    PopupWindow popupWindow; // Popup Window for Countdown, Pause menu, and Time over
     int swirlPointsLeft = 0;        //to determine if all swirls have been destroyed on screen
     //int HighScore;                  //For HighScore
     int Good_Pressed = 0;       // GoodSwirls pressed
@@ -80,7 +86,7 @@ public class levelPlay extends Activity implements View.OnClickListener
     int TimeAddTotalPass = 0;   //For passing old TimeAdd total
     int LP_GamesPlayedTotalPass = 0;//passing old SP_GamesPlayed total
     int lpFirstGamePlayed = 1;  // Set #game played to 1 after game finish, if first game played
-    int Current_Time = 61000;       //Current in-game time
+    int Current_Time = 610000;       //Current in-game time
     int Game_Speed = 400;           //Speed of the game
     int randCell;
     int goodCount = 0; //initialize score of lightning count. This will increase as good buttons appear on screen and decrease as good
@@ -94,7 +100,7 @@ public class levelPlay extends Activity implements View.OnClickListener
     MediaPlayer GoodSound2;   // MediaPlayer for playing good sound - for faster sound
     MediaPlayer BadSound;     // MediaPlayer for playing Bad sound
     MediaPlayer SpecialSound; // MediaPlayer for playing Special button sounds
-    MediaPlayer gameBG;       // For Background music
+    //MediaPlayer gameBG;       // For Background music
     /*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
     /*++++++++++++++++++++++++++++++++Initializing buttons, images, timers, button arrays+++++++++++++++++++++++++++++++*/
     LinearLayout llayout; //set it up after declaration
@@ -109,6 +115,7 @@ public class levelPlay extends Activity implements View.OnClickListener
     ImageButton missedFour;
     ImageButton missedFive;
     ImageButton showscoreanim;
+    ImageButton PauseButton; // create image button for pause
     TextView leveldisplay;
     TextView showLevel;
     TextView scoredisplay;
@@ -118,6 +125,7 @@ public class levelPlay extends Activity implements View.OnClickListener
     buttonDisappear[] GoodArray = new buttonDisappear[20];
     buttonDisappear[] BadArray = new buttonDisappear[20];
     buttonDisappear[] SpecialArray = new buttonDisappear[20];
+
     /*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -141,6 +149,8 @@ public class levelPlay extends Activity implements View.OnClickListener
         lifeThree = (ImageButton)findViewById(R.id.lifethree);
         leveldisplay = (TextView)findViewById(R.id.leveldisplay);
         showLevel = (TextView)findViewById(R.id.level);
+        PauseButton = (ImageButton)findViewById(R.id.pause_button);
+        PauseButton.setOnClickListener(this); //sets an onClickListener on PauseButton
         leveldisplay.setVisibility(View.INVISIBLE);//start invisible and make visible for 2 seconds at beginning of each level
         setLives(lives);//start game with 3 lives displayed as hearts on screen
         setMissed(missedSwirls);
@@ -213,8 +223,7 @@ public class levelPlay extends Activity implements View.OnClickListener
             }
         }//end 'for'
     }//end private void populateButtons
-    @Override
-    public void onClick(View v) { }
+
     public void goToLevel(int lvl)
     {
         showLevel.setText("Level: " + level);
@@ -224,40 +233,24 @@ public class levelPlay extends Activity implements View.OnClickListener
             /*++++++++++++++++++++++++++++++++++++LEVEL 1++++++++++++++++++++++++++++++++++++++++++++*/
             /*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
             case 1:
-                if(tempLevel < level)//if this is the first time the level has been called then do the below functions.
-                {
+                if(tempLevel < level) {
+                    luckCount = 0; //set luck count to 0 at start of every level
+                    tempLevel = level;
                     mHandler.postDelayed(new Runnable() {
                         public void run() {
                             // when level loaded = true then set boolean to true
                             levelLoaded = true;
                         }
                     }, 2000);
-                    luckCount = 0;
-                    tempLevel = level;
-                    if(doublePoints == true)llayout.setBackgroundResource(R.drawable.doublepointbackground);
-                    else llayout.setBackgroundResource(R.drawable.levelone);
+
+                    llayout.setBackgroundResource(R.drawable.levelone);
                     //call function that displays level
-                    displayLevel(level);
-                    Game_Speed = 1500; //gameTimer(60000);
-                    SwirlEngine = new CountDownTimer(Current_Time, Game_Speed)
-                    { // start new timer with changed speed
-                        @Override
-                        public void onTick(long millisUntilFinished) {
-                            if (millisUntilFinished / 30 == 0) {
-                                onFinish();
-                            } else {
-                                levelUpdate();
-                            }
-                        }
-                        @Override
-                        public void onFinish() {
-                            levelUpdate();
-                            SwirlEngine.start();
-                        }
-                    }.start();
+
+                    Game_Speed = 1200; //gameTimer(60000);
+
+                    //if (levelLoaded == true)
+                        speed_engine(Game_Speed);
                 }
-                else if(levelLoaded == true)
-                    displayButton(1);  //display button from luckarray 1
                 break;
            /*++++++++++++++++++++++++++++++++++++LEVEL 2++++++++++++++++++++++++++++++++++++++++++++*/
             /*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
@@ -265,39 +258,16 @@ public class levelPlay extends Activity implements View.OnClickListener
                 level = 2;
                 if(tempLevel < level)
                 {
-                    luckCount = 0; //set luck count to 0 at start of every level
                     tempLevel = level;
+                    luckCount = 0; //set luck count to 0 at start of every level
                     llayout.setBackgroundResource(R.drawable.leveltwo);
-                    displayLevel(level);//display level animation
-                    Game_Speed = 1200; //ramp up game speed
-                   // gameTimer(60000);
-                    SwirlEngine.cancel();                   // cancel the old timer with the old speed
-                    SwirlEngine = new CountDownTimer(Current_Time, Game_Speed)
-                    { // start new timer with changed speed
-                        @Override
-                        public void onTick(long millisUntilFinished) {
-                            if (millisUntilFinished / 30 == 0) {
-                                onFinish();
-                            } else {
-                                levelUpdate();
-                            }
-                        }
-                        @Override
-                        public void onFinish() {
-                            levelUpdate();
-                            SwirlEngine.start();
-                        }
-                    }.start();
+                    displayLevel(level);//display the level animation
+                    //call function that displays level
+                    Game_Speed = 1000; //gameTimer(60000);
+                    //if (levelLoaded == true)
+                    speed_engine(Game_Speed);
                 }
                 //after 20 buttons displayed, re declare luck array
-                if(luckCount == 20)
-                {
-                    populateLuckArrays();
-                    luckCount = 0;
-                }
-                else
-                    luckCount++;
-                displayButton(2); //using the second luck array
                 break;
              /*++++++++++++++++++++++++++++++++++++LEVEL 3++++++++++++++++++++++++++++++++++++++++++++*/
             /*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
@@ -305,42 +275,15 @@ public class levelPlay extends Activity implements View.OnClickListener
                 level = 3;
                 if(tempLevel < level)
                 {
-                   luckCount = 0;
-                   tempLevel = level;
-                   llayout.setBackgroundResource(R.drawable.levelthree);
-                   displayLevel(level); //display the level animation
-                   Game_Speed = 1150;
-                  // gameTimer(60000);
-                   SwirlEngine.cancel();                   // cancel the old timer with the old speed
-                   SwirlEngine = new CountDownTimer(Current_Time, Game_Speed) { // start new timer with changed speed
-                        @Override
-                        public void onTick(long millisUntilFinished)
-                        {
-                            if (millisUntilFinished / 30 == 0)
-                            {
-                                onFinish();
-                            }
-                            else
-                            {
-                                levelUpdate();
-                            }
-                        }
-                        @Override
-                        public void onFinish() {
-                            levelUpdate();
-                            SwirlEngine.start();
-                        }
-                    }.start();
+                    tempLevel = level;
+                    luckCount = 0; //set luck count to 0 at start of every level
+                    llayout.setBackgroundResource(R.drawable.levelthree);
+                    displayLevel(level);//display the level animation
+                    //call function that displays level
+                    Game_Speed = 925; //gameTimer(60000); 925
+                    //if (levelLoaded == true)
+                    speed_engine(Game_Speed);
                 }
-                //after 20 buttons displayed, re declare luck array
-                if(luckCount == 20)
-                {
-                    populateLuckArrays();
-                    luckCount = 0;
-                }
-                else
-                    luckCount++;
-                displayButton(3);
                 break;
             /*+++++++++++++++++++++++++++++++++++++LEVEL 4++++++++++++++++++++++++++++++++++++++++++++*/
             /*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
@@ -348,38 +291,15 @@ public class levelPlay extends Activity implements View.OnClickListener
                 level = 4;
                 if(tempLevel < level)
                 {
-                    luckCount =0;
                     tempLevel = level;
+                    luckCount = 0; //set luck count to 0 at start of every level
                     llayout.setBackgroundResource(R.drawable.levelfour);
                     displayLevel(level);//display the level animation
-                    Game_Speed = 1050; //ramp up the speed of the game
-                    //gameTimer(60000);
-                    SwirlEngine.cancel();                   // cancel the old timer with the old speed
-                    SwirlEngine = new CountDownTimer(Current_Time, Game_Speed) { // start new timer with changed speed
-                        @Override
-                        public void onTick(long millisUntilFinished) {
-                            if (millisUntilFinished / 30 == 0) {
-                                onFinish();
-                            } else {
-                                levelUpdate();
-                            }
-                        }
-                        @Override
-                        public void onFinish() {
-                            levelUpdate();
-                            SwirlEngine.start();
-                        }
-                    }.start();
+                    //call function that displays level
+                    Game_Speed = 875; //gameTimer(60000); //875
+                    //if (levelLoaded == true)
+                    speed_engine(Game_Speed);
                 }
-                //after 20 buttons displayed, re declare luck array
-                if(luckCount == 20)
-                {
-                    populateLuckArrays();
-                    luckCount = 0;
-                }
-                else
-                    luckCount++;
-                displayButton(3);
                 break;
            /*++++++++++++++++++++++++++++++++++++LEVEL 5++++++++++++++++++++++++++++++++++++++++++++*/
            /*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
@@ -387,39 +307,15 @@ public class levelPlay extends Activity implements View.OnClickListener
                 level = 5;
                 if(tempLevel < level)
                 {
-                    luckCount = 0;
-                    if(doublePoints == true)llayout.setBackgroundResource(R.drawable.doublepointbackground);
-                    else llayout.setBackgroundResource(R.drawable.levelfive);
-                    displayLevel(level);//display the level animation
                     tempLevel = level;
-                    Game_Speed = 900;
-                   // gameTimer(60000);
-                    SwirlEngine.cancel();                   // cancel the old timer with the old speed
-                    SwirlEngine = new CountDownTimer(Current_Time, Game_Speed) { // start new timer with changed speed
-                        @Override
-                        public void onTick(long millisUntilFinished) {
-                            if (millisUntilFinished / 30 == 0) {
-                                onFinish();
-                            } else {
-                                levelUpdate();
-                            }
-                        }
-                        @Override
-                        public void onFinish() {
-                            levelUpdate();
-                            SwirlEngine.start();
-                        }
-                    }.start();
+                    luckCount = 0; //set luck count to 0 at start of every level
+                    llayout.setBackgroundResource(R.drawable.levelfive);
+                    displayLevel(level);//display the level animation
+                    //call function that displays level
+                    Game_Speed = 800; //gameTimer(60000);
+                    //if (levelLoaded == true)
+                    speed_engine(Game_Speed);
                 }
-                //after 20 buttons displayed, re declare luck array
-                if(luckCount == 20)
-                {
-                    populateLuckArrays();
-                    luckCount = 0;
-                }
-                else
-                    luckCount++;
-                displayButton(3);
                 break;
             /*+++++++++++++++++++++++++++++++++++++LEVEL 6++++++++++++++++++++++++++++++++++++++++++++*/
             /*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
@@ -427,40 +323,15 @@ public class levelPlay extends Activity implements View.OnClickListener
                 level = 6;
                 if(tempLevel < level)
                 {
-                    luckCount = 0;
-                    if(doublePoints == true)llayout.setBackgroundResource(R.drawable.doublepointbackground);
-                    else llayout.setBackgroundResource(R.drawable.levelsix);
-                    displayLevel(level);//display the level animation
                     tempLevel = level;
-                    Game_Speed = 850;
-                    //gameTimer(60000);
-                    SwirlEngine.cancel();                   // cancel the old timer with the old speed
-                    SwirlEngine = new CountDownTimer(Current_Time, Game_Speed) { // start new timer with changed speed
-                        @Override
-                        public void onTick(long millisUntilFinished) {
-                            if (millisUntilFinished / 30 == 0) {
-                                onFinish();
-                            } else {
-                                levelUpdate();
-                            }
-                        }
-                        @Override
-                        public void onFinish() {
-                            levelUpdate();
-                            SwirlEngine.start();
-                        }
-                    }.start();
-
+                    luckCount = 0; //set luck count to 0 at start of every level
+                    llayout.setBackgroundResource(R.drawable.levelsix);
+                    displayLevel(level);//display the level animation
+                    //call function that displays level
+                    Game_Speed = 725; //gameTimer(60000);
+                    //if (levelLoaded == true)
+                    speed_engine(Game_Speed);
                 }
-                //after 20 buttons displayed, re declare luck array
-                if(luckCount == 20)
-                {
-                    populateLuckArrays();
-                    luckCount = 0;
-                }
-                else
-                    luckCount++;
-                displayButton(4);
                 break;
             /*++++++++++++++++++++++++++++++++++++LEVEL 7++++++++++++++++++++++++++++++++++++++++++++*/
             /*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
@@ -468,41 +339,15 @@ public class levelPlay extends Activity implements View.OnClickListener
                 level = 7;
                 if(tempLevel < level)
                 {
-                    luckCount = 0;
-                    if(doublePoints == true)llayout.setBackgroundResource(R.drawable.doublepointbackground);
-                    else llayout.setBackgroundResource(R.drawable.levelseven);
-                    displayLevel(level);//display the level animation
                     tempLevel = level;
-                    Game_Speed = 800;
-                    //gameTimer(60000);
-                    SwirlEngine.cancel();                   // cancel the old timer with the old speed
-                    SwirlEngine = new CountDownTimer(Current_Time, Game_Speed) { // start new timer with changed speed
-                        @Override
-                        public void onTick(long millisUntilFinished) {
-                            if (millisUntilFinished / 30 == 0) {
-                                onFinish();
-                            } else {
-                                levelUpdate();
-                            }
-                        }
-                        @Override
-                        public void onFinish() {
-                            levelUpdate();
-                            SwirlEngine.start();
-                        }
-                    }.start();
+                    luckCount = 0; //set luck count to 0 at start of every level
+                    llayout.setBackgroundResource(R.drawable.levelseven);
+                    displayLevel(level);//display the level animation
+                    //call function that displays level
+                    Game_Speed = 650; //gameTimer(60000);
+                    //if (levelLoaded == true)
+                    speed_engine(Game_Speed);
                 }
-                if(doublePoints == true)llayout.setBackgroundResource(R.drawable.doublepointbackground);
-                else llayout.setBackgroundResource(R.drawable.levelseven);
-                //after 20 buttons displayed, re declare luck array
-                if(luckCount == 20)
-                {
-                    populateLuckArrays();
-                    luckCount = 0;
-                }
-                else
-                    luckCount++;
-                displayButton(4);
                 break;
             /*+++++++++++++++++++++++++++++++++++++LEVEL 8++++++++++++++++++++++++++++++++++++++++++++*/
             /*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
@@ -510,40 +355,15 @@ public class levelPlay extends Activity implements View.OnClickListener
                 level = 8;
                 if(tempLevel < level)
                 {
-                    luckCount = 0;
+                    tempLevel = level;
+                    luckCount = 0; //set luck count to 0 at start of every level
                     llayout.setBackgroundResource(R.drawable.leveleight);
                     displayLevel(level);//display the level animation
-                    tempLevel = level;
-                    Game_Speed = 750;
-                    //gameTimer(60000);
-                    SwirlEngine.cancel();                   // cancel the old timer with the old speed
-                    SwirlEngine = new CountDownTimer(Current_Time, Game_Speed) { // start new timer with changed speed
-                        @Override
-                        public void onTick(long millisUntilFinished) {
-                            if (millisUntilFinished / 30 == 0) {
-                                onFinish();
-                            } else {
-                                levelUpdate();
-                            }
-                        }
-                        @Override
-                        public void onFinish() {
-                            levelUpdate();
-                            SwirlEngine.start();
-                        }
-                    }.start();
+                    //call function that displays level
+                    Game_Speed = 600; //gameTimer(60000);
+                    //if (levelLoaded == true)
+                    speed_engine(Game_Speed);
                 }
-                if(doublePoints == true)llayout.setBackgroundResource(R.drawable.doublepointbackground);
-                else llayout.setBackgroundResource(R.drawable.leveleight);
-                //after 20 buttons displayed, re declare luck array
-                if(luckCount == 20)
-                {
-                    populateLuckArrays();
-                    luckCount = 0;
-                }
-                else
-                    luckCount++;
-                displayButton(5);
                 break;
             /*+++++++++++++++++++++++++++++++++++++LEVEL 9++++++++++++++++++++++++++++++++++++++++++++*/
             /*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
@@ -551,40 +371,15 @@ public class levelPlay extends Activity implements View.OnClickListener
                 level = 9;
                 if(tempLevel < level)
                 {
-                    luckCount = 0;
+                    tempLevel = level;
+                    luckCount = 0; //set luck count to 0 at start of every level
                     llayout.setBackgroundResource(R.drawable.levelnine);
                     displayLevel(level);//display the level animation
-                    tempLevel = level;
-                    Game_Speed = 700;
-                    //gameTimer(60000);
-                    SwirlEngine.cancel();                   // cancel the old timer with the old speed
-                    SwirlEngine = new CountDownTimer(Current_Time, Game_Speed) { // start new timer with changed speed
-                        @Override
-                        public void onTick(long millisUntilFinished) {
-                            if (millisUntilFinished / 30 == 0) {
-                                onFinish();
-                            } else {
-                                levelUpdate();
-                            }
-                        }
-                        @Override
-                        public void onFinish() {
-                            levelUpdate();
-                            SwirlEngine.start();
-                        }
-                    }.start();
+                    //call function that displays level
+                    Game_Speed = 550; //gameTimer(60000);
+                    //if (levelLoaded == true)
+                    speed_engine(Game_Speed);
                 }
-                if(doublePoints == true)llayout.setBackgroundResource(R.drawable.doublepointbackground);
-                else llayout.setBackgroundResource(R.drawable.levelnine);
-                //after 20 buttons displayed, re declare luck array
-                if(luckCount == 20)
-                {
-                    populateLuckArrays();
-                    luckCount = 0;
-                }
-                else
-                    luckCount++;
-                displayButton(5);
                 break;
             /*+++++++++++++++++++++++++++++++++++++LEVEL 10++++++++++++++++++++++++++++++++++++++++++++*/
             /*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
@@ -592,40 +387,15 @@ public class levelPlay extends Activity implements View.OnClickListener
                 level = 10;
                 if(tempLevel < level)
                 {
-                    luckCount = 0;
+                    tempLevel = level;
+                    luckCount = 0; //set luck count to 0 at start of every level
                     llayout.setBackgroundResource(R.drawable.levelten);
                     displayLevel(level);//display the level animation
-                    tempLevel = level;
-                    Game_Speed = 650;
-                    //gameTimer(60000);
-                    SwirlEngine.cancel();                   // cancel the old timer with the old speed
-                    SwirlEngine = new CountDownTimer(Current_Time, Game_Speed) { // start new timer with changed speed
-                        @Override
-                        public void onTick(long millisUntilFinished) {
-                            if (millisUntilFinished / 30 == 0) {
-                                onFinish();
-                            } else {
-                                levelUpdate();
-                            }
-                        }
-                        @Override
-                        public void onFinish() {
-                            levelUpdate();
-                            SwirlEngine.start();
-                        }
-                    }.start();
+                    //call function that displays level
+                    Game_Speed = 500; //gameTimer(60000);
+                    //if (levelLoaded == true)
+                    speed_engine(Game_Speed);
                 }
-                if(doublePoints == true)llayout.setBackgroundResource(R.drawable.doublepointbackground);
-                else llayout.setBackgroundResource(R.drawable.levelten);
-                //after 20 buttons displayed, re declare luck array
-                if(luckCount == 20)
-                {
-                    populateLuckArrays();
-                    luckCount = 0;
-                }
-                else
-                    luckCount++;
-                displayButton(5);
                 break;
             /*+++++++++++++++++++++++++++++++++++++LEVEL 11++++++++++++++++++++++++++++++++++++++++++++*/
             /*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
@@ -633,40 +403,15 @@ public class levelPlay extends Activity implements View.OnClickListener
                 level = 11;
                 if(tempLevel < level)
                 {
-                    luckCount = 0;
+                    tempLevel = level;
+                    luckCount = 0; //set luck count to 0 at start of every level
                     llayout.setBackgroundResource(R.drawable.leveleleven);
                     displayLevel(level);//display the level animation
-                    tempLevel = level;
-                    Game_Speed = 625;
-                    //gameTimer(60000);
-                    SwirlEngine.cancel();                   // cancel the old timer with the old speed
-                    SwirlEngine = new CountDownTimer(Current_Time, Game_Speed) { // start new timer with changed speed
-                        @Override
-                        public void onTick(long millisUntilFinished) {
-                            if (millisUntilFinished / 30 == 0) {
-                                onFinish();
-                            } else {
-                                levelUpdate();
-                            }
-                        }
-                        @Override
-                        public void onFinish() {
-                            levelUpdate();
-                            SwirlEngine.start();
-                        }
-                    }.start();
+                    //call function that displays level
+                    Game_Speed = 450; //gameTimer(60000);
+                    //if (levelLoaded == true)
+                    speed_engine(Game_Speed);
                 }
-                if(doublePoints == true)llayout.setBackgroundResource(R.drawable.doublepointbackground);
-                else llayout.setBackgroundResource(R.drawable.leveleleven);
-                //after 20 buttons displayed, re declare luck array
-                if(luckCount == 20)
-                {
-                    populateLuckArrays();
-                    luckCount = 0;
-                }
-                else
-                    luckCount++;
-                displayButton(5);
                 break;
             /*++++++++++++++++++++++++++++++++++++LEVEL 12++++++++++++++++++++++++++++++++++++++++++++*/
             /*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
@@ -674,40 +419,15 @@ public class levelPlay extends Activity implements View.OnClickListener
                 level = 12;
                 if(tempLevel < level)
                 {
-                    luckCount = 0;
+                    tempLevel = level;
+                    luckCount = 0; //set luck count to 0 at start of every level
                     llayout.setBackgroundResource(R.drawable.leveltwelve);
                     displayLevel(level);//display the level animation
-                    tempLevel = level;
-                    Game_Speed = 600;
-                    //gameTimer(60000);
-                    SwirlEngine.cancel();                   // cancel the old timer with the old speed
-                    SwirlEngine = new CountDownTimer(Current_Time, Game_Speed) { // start new timer with changed speed
-                        @Override
-                        public void onTick(long millisUntilFinished) {
-                            if (millisUntilFinished / 30 == 0) {
-                                onFinish();
-                            } else {
-                                levelUpdate();
-                            }
-                        }
-                        @Override
-                        public void onFinish() {
-                            levelUpdate();
-                            SwirlEngine.start();
-                        }
-                    }.start();
+                    //call function that displays level
+                    Game_Speed = 400; //gameTimer(60000);
+                    //if (levelLoaded == true)
+                    speed_engine(Game_Speed);
                 }
-                if(doublePoints == true)llayout.setBackgroundResource(R.drawable.doublepointbackground);
-                else llayout.setBackgroundResource(R.drawable.leveltwelve);
-                //after 20 buttons displayed, re declare luck array
-                if(luckCount == 20)
-                {
-                    populateLuckArrays();
-                    luckCount = 0;
-                }
-                else
-                    luckCount++;
-                displayButton(5);
                 break;
             /*++++++++++++++++++++++++++++++++++++LEVEL 13++++++++++++++++++++++++++++++++++++++++++++*/
             /*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
@@ -715,40 +435,15 @@ public class levelPlay extends Activity implements View.OnClickListener
                 level = 13;
                 if(tempLevel < level)
                 {
-                    luckCount = 0;
+                    tempLevel = level;
+                    luckCount = 0; //set luck count to 0 at start of every level
                     llayout.setBackgroundResource(R.drawable.levelthirteen);
                     displayLevel(level);//display the level animation
-                    tempLevel = level;
-                    Game_Speed = 575;
-                   // gameTimer(60000);
-                    SwirlEngine.cancel();                   // cancel the old timer with the old speed
-                    SwirlEngine = new CountDownTimer(Current_Time, Game_Speed) { // start new timer with changed speed
-                        @Override
-                        public void onTick(long millisUntilFinished) {
-                            if (millisUntilFinished / 30 == 0) {
-                                onFinish();
-                            } else {
-                                levelUpdate();
-                            }
-                        }
-                        @Override
-                        public void onFinish() {
-                            levelUpdate();
-                            SwirlEngine.start();
-                        }
-                    }.start();
+                    //call function that displays level
+                    Game_Speed = 375; //gameTimer(60000);
+                    //if (levelLoaded == true)
+                    speed_engine(Game_Speed);
                 }
-                if(doublePoints == true)llayout.setBackgroundResource(R.drawable.doublepointbackground);
-                else llayout.setBackgroundResource(R.drawable.levelthirteen);
-                //after 20 buttons displayed, re declare luck array
-                if(luckCount == 20)
-                {
-                    populateLuckArrays();
-                    luckCount = 0;
-                }
-                else
-                    luckCount++;
-                displayButton(5);
                 break;
            /*++++++++++++++++++++++++++++++++++++LEVEL 14++++++++++++++++++++++++++++++++++++++++++++*/
            /*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
@@ -756,40 +451,15 @@ public class levelPlay extends Activity implements View.OnClickListener
                 level = 14;
                 if(tempLevel < level)
                 {
-                    luckCount = 0;
+                    tempLevel = level;
+                    luckCount = 0; //set luck count to 0 at start of every level
                     llayout.setBackgroundResource(R.drawable.levelfourteen);
                     displayLevel(level);//display the level animation
-                    tempLevel = level;
-                    Game_Speed = 550;
-                  //  gameTimer(60000);
-                    SwirlEngine.cancel();                   // cancel the old timer with the old speed
-                    SwirlEngine = new CountDownTimer(Current_Time, Game_Speed) { // start new timer with changed speed
-                        @Override
-                        public void onTick(long millisUntilFinished) {
-                            if (millisUntilFinished / 30 == 0) {
-                                onFinish();
-                            } else {
-                                levelUpdate();
-                            }
-                        }
-                        @Override
-                        public void onFinish() {
-                            levelUpdate();
-                            SwirlEngine.start();
-                        }
-                    }.start();
+                    //call function that displays level
+                    Game_Speed = 350; //gameTimer(60000);
+                    //if (levelLoaded == true)
+                    speed_engine(Game_Speed);
                 }
-                //after 20 buttons displayed, re declare luck array
-                if(doublePoints == true)llayout.setBackgroundResource(R.drawable.doublepointbackground);
-                else llayout.setBackgroundResource(R.drawable.levelfourteen);
-                if(luckCount == 20)
-                {
-                    populateLuckArrays();
-                    luckCount = 0;
-                }
-                else
-                    luckCount++;
-                displayButton(6);
                 break;
             /*+++++++++++++++++++++++++++++++++++++LEVEL 15++++++++++++++++++++++++++++++++++++++++++++*/
             /*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
@@ -797,40 +467,15 @@ public class levelPlay extends Activity implements View.OnClickListener
                 level = 15;
                 if(tempLevel < level)
                 {
-                    luckCount = 0;
+                    tempLevel = level;
+                    luckCount = 0; //set luck count to 0 at start of every level
                     llayout.setBackgroundResource(R.drawable.levelfifteen);
                     displayLevel(level);//display the level animation
-                    tempLevel = level;
-                    Game_Speed = 525;
-                   // gameTimer(60000);
-                    SwirlEngine.cancel();                   // cancel the old timer with the old speed
-                    SwirlEngine = new CountDownTimer(Current_Time, Game_Speed) { // start new timer with changed speed
-                        @Override
-                        public void onTick(long millisUntilFinished) {
-                            if (millisUntilFinished / 30 == 0) {
-                                onFinish();
-                            } else {
-                                levelUpdate();
-                            }
-                        }
-                        @Override
-                        public void onFinish() {
-                            levelUpdate();
-                            SwirlEngine.start();
-                        }
-                    }.start();
+                    //call function that displays level
+                    Game_Speed = 325; //gameTimer(60000);
+                    //if (levelLoaded == true)
+                    speed_engine(Game_Speed);
                 }
-                if(doublePoints == true)llayout.setBackgroundResource(R.drawable.doublepointbackground);
-                else llayout.setBackgroundResource(R.drawable.levelfifteen);
-                //after 20 buttons displayed, re declare luck array
-                if(luckCount == 20)
-                {
-                    populateLuckArrays();
-                    luckCount = 0;
-                }
-                else
-                    luckCount++;
-                displayButton(6);
                 break;
             /*++++++++++++++++++++++++++++++++++++LEVEL 16++++++++++++++++++++++++++++++++++++++++++++*/
             /*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
@@ -838,40 +483,15 @@ public class levelPlay extends Activity implements View.OnClickListener
                 level = 16;
                 if(tempLevel < level)
                 {
-                    luckCount = 0;
+                    tempLevel = level;
+                    luckCount = 0; //set luck count to 0 at start of every level
                     llayout.setBackgroundResource(R.drawable.levelsixteen);
                     displayLevel(level);//display the level animation
-                    tempLevel = level;
-                    Game_Speed = 500;
-                   // gameTimer(60000);
-                    SwirlEngine.cancel();                   // cancel the old timer with the old speed
-                    SwirlEngine = new CountDownTimer(Current_Time, Game_Speed) { // start new timer with changed speed
-                        @Override
-                        public void onTick(long millisUntilFinished) {
-                            if (millisUntilFinished / 30 == 0) {
-                                onFinish();
-                            } else {
-                                levelUpdate();
-                            }
-                        }
-                        @Override
-                        public void onFinish() {
-                            levelUpdate();
-                            SwirlEngine.start();
-                        }
-                    }.start();
+                    //call function that displays level
+                    Game_Speed = 300; //gameTimer(60000);
+                    //if (levelLoaded == true)
+                    speed_engine(Game_Speed);
                 }
-                if(doublePoints == true)llayout.setBackgroundResource(R.drawable.doublepointbackground);
-                else llayout.setBackgroundResource(R.drawable.levelsixteen);
-                //after 20 buttons displayed, re declare luck array
-                if(luckCount == 20)
-                {
-                    populateLuckArrays();
-                    luckCount = 0;
-                }
-                else
-                    luckCount++;
-                displayButton(6);
                 break;
             /*++++++++++++++++++++++++++++++++++++LEVEL 17++++++++++++++++++++++++++++++++++++++++++++*/
             /*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
@@ -879,40 +499,15 @@ public class levelPlay extends Activity implements View.OnClickListener
                 level = 17;
                 if(tempLevel < level)
                 {
-                    luckCount = 0;
+                    tempLevel = level;
+                    luckCount = 0; //set luck count to 0 at start of every level
                     llayout.setBackgroundResource(R.drawable.levelseventeen);
                     displayLevel(level);//display the level animation
-                    tempLevel = level;
-                    Game_Speed = 475;
-                   // gameTimer(60000);
-                    SwirlEngine.cancel();                   // cancel the old timer with the old speed
-                    SwirlEngine = new CountDownTimer(Current_Time, Game_Speed) { // start new timer with changed speed
-                        @Override
-                        public void onTick(long millisUntilFinished) {
-                            if (millisUntilFinished / 30 == 0) {
-                                onFinish();
-                            } else {
-                                levelUpdate();
-                            }
-                        }
-                        @Override
-                        public void onFinish() {
-                            levelUpdate();
-                            SwirlEngine.start();
-                        }
-                    }.start();
+                    //call function that displays level
+                    Game_Speed = 300; //gameTimer(60000);
+                    //if (levelLoaded == true)
+                    speed_engine(Game_Speed);
                 }
-                if(doublePoints == true)llayout.setBackgroundResource(R.drawable.doublepointbackground);
-                else llayout.setBackgroundResource(R.drawable.levelseventeen);
-                //after 20 buttons displayed, re declare luck array
-                if(luckCount == 20)
-                {
-                    populateLuckArrays();
-                    luckCount = 0;
-                }
-                else
-                    luckCount++;
-                displayButton(6);
                 break;
             /*++++++++++++++++++++++++++++++++++++LEVEL 18++++++++++++++++++++++++++++++++++++++++++++*/
             /*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
@@ -920,40 +515,15 @@ public class levelPlay extends Activity implements View.OnClickListener
                 level = 18;
                 if(tempLevel < level)
                 {
-                    luckCount = 0;
+                    tempLevel = level;
+                    luckCount = 0; //set luck count to 0 at start of every level
                     llayout.setBackgroundResource(R.drawable.leveleighteen);
                     displayLevel(level);//display the level animation
-                    tempLevel = level;
-                    Game_Speed = 450;
-                  //  gameTimer(60000);
-                    SwirlEngine.cancel();                   // cancel the old timer with the old speed
-                    SwirlEngine = new CountDownTimer(Current_Time, Game_Speed) { // start new timer with changed speed
-                        @Override
-                        public void onTick(long millisUntilFinished) {
-                            if (millisUntilFinished / 30 == 0) {
-                                onFinish();
-                            } else {
-                                levelUpdate();
-                            }
-                        }
-                        @Override
-                        public void onFinish() {
-                            levelUpdate();
-                            SwirlEngine.start();
-                        }
-                    }.start();
+                    //call function that displays level
+                    Game_Speed = 275; //gameTimer(60000);
+                    //if (levelLoaded == true)
+                    speed_engine(Game_Speed);
                 }
-                if(doublePoints == true)llayout.setBackgroundResource(R.drawable.doublepointbackground);
-                else llayout.setBackgroundResource(R.drawable.leveleighteen);
-                //after 20 buttons displayed, re declare luck array
-                if(luckCount == 20)
-                {
-                    populateLuckArrays();
-                    luckCount = 0;
-                }
-                else
-                    luckCount++;
-                displayButton(6);
                 break;
             /*++++++++++++++++++++++++++++++++++++LEVEL 19++++++++++++++++++++++++++++++++++++++++++++*/
             /*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
@@ -961,40 +531,15 @@ public class levelPlay extends Activity implements View.OnClickListener
                 level = 19;
                 if(tempLevel < level)
                 {
-                    luckCount = 0;
+                    tempLevel = level;
+                    luckCount = 0; //set luck count to 0 at start of every level
                     llayout.setBackgroundResource(R.drawable.levelnineteen);
                     displayLevel(level);//display the level animation
-                    tempLevel = level;
-                    Game_Speed = 425;
-                   // gameTimer(60000);
-                    SwirlEngine.cancel();                   // cancel the old timer with the old speed
-                    SwirlEngine = new CountDownTimer(Current_Time, Game_Speed) { // start new timer with changed speed
-                        @Override
-                        public void onTick(long millisUntilFinished) {
-                            if (millisUntilFinished / 30 == 0) {
-                                onFinish();
-                            } else {
-                                levelUpdate();
-                            }
-                        }
-                        @Override
-                        public void onFinish() {
-                            levelUpdate();
-                            SwirlEngine.start();
-                        }
-                    }.start();
+                    //call function that displays level
+                    Game_Speed = 275; //gameTimer(60000);
+                    //if (levelLoaded == true)
+                    speed_engine(Game_Speed);
                 }
-                if(doublePoints == true)llayout.setBackgroundResource(R.drawable.doublepointbackground);
-                else llayout.setBackgroundResource(R.drawable.levelnineteen);
-                //after 20 buttons displayed, re declare luck array
-                if(luckCount == 20)
-                {
-                    populateLuckArrays();
-                    luckCount = 0;
-                }
-                else
-                    luckCount++;
-                displayButton(6);
                 break;
             /*++++++++++++++++++++++++++++++++++++LEVEL 20++++++++++++++++++++++++++++++++++++++++++++*/
             /*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
@@ -1002,40 +547,15 @@ public class levelPlay extends Activity implements View.OnClickListener
                 level = 20;
                 if(tempLevel < level)
                 {
-                    luckCount = 0;
+                    tempLevel = level;
+                    luckCount = 0; //set luck count to 0 at start of every level
                     llayout.setBackgroundResource(R.drawable.leveltwenty);
                     displayLevel(level);//display the level animation
-                    tempLevel = level;
-                    Game_Speed = 400;
-                    //gameTimer(60000);
-                    SwirlEngine.cancel();                   // cancel the old timer with the old speed
-                    SwirlEngine = new CountDownTimer(Current_Time, Game_Speed) { // start new timer with changed speed
-                        @Override
-                        public void onTick(long millisUntilFinished) {
-                            if (millisUntilFinished / 30 == 0) {
-                                onFinish();
-                            } else {
-                                levelUpdate();
-                            }
-                        }
-                        @Override
-                        public void onFinish() {
-                            levelUpdate();
-                            SwirlEngine.start();
-                        }
-                    }.start();
+                    //call function that displays level
+                    Game_Speed = 275; //gameTimer(60000);
+                    //if (levelLoaded == true)
+                    speed_engine(Game_Speed);
                 }
-                if(doublePoints == true)llayout.setBackgroundResource(R.drawable.doublepointbackground);
-                else llayout.setBackgroundResource(R.drawable.leveltwenty);
-                //after 20 buttons displayed, re declare luck array
-                if(luckCount == 20)
-                {
-                    populateLuckArrays();
-                    luckCount = 0;
-                }
-                else
-                    luckCount++;
-                displayButton(6);
                 break;
             /*++++++++++++++++++++++++++++++++++++LEVEL INFINITE++++++++++++++++++++++++++++++++++++++++++++*/
             /*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
@@ -1043,40 +563,15 @@ public class levelPlay extends Activity implements View.OnClickListener
                 level = 21;
                 if(tempLevel < level)
                 {
-                    luckCount = 0;
+                    tempLevel = level;
+                    luckCount = 0; //set luck count to 0 at start of every level
                     llayout.setBackgroundResource(R.drawable.levelinfinite);
                     displayLevel(level);//display the level animation
-                    tempLevel = level;
-                    Game_Speed = 375;
-                   // gameTimer(60000);
-                    SwirlEngine.cancel();                   // cancel the old timer with the old speed
-                    SwirlEngine = new CountDownTimer(Current_Time, Game_Speed) { // start new timer with changed speed
-                        @Override
-                        public void onTick(long millisUntilFinished) {
-                            if (millisUntilFinished / 30 == 0) {
-                                onFinish();
-                            } else {
-                                levelUpdate();
-                            }
-                        }
-                        @Override
-                        public void onFinish() {
-                            levelUpdate();
-                            SwirlEngine.start();
-                        }
-                    }.start();
+                    //call function that displays level
+                    Game_Speed = 250; //gameTimer(60000);
+                    //if (levelLoaded == true)
+                    speed_engine(Game_Speed);
                 }
-                if(doublePoints == true)llayout.setBackgroundResource(R.drawable.doublepointbackground);
-                else llayout.setBackgroundResource(R.drawable.levelinfinite);
-                //after 20 buttons displayed, re declare luck array
-                if(luckCount == 20)
-                {
-                    populateLuckArrays();
-                    luckCount = 0;
-                }
-                else
-                    luckCount++;
-                displayButton(6);
                 break;
             //go to infinite level in which will only end if user loses all 3 lives
             //introduce death swirl..loses all 3 lives if clicked
@@ -1399,10 +894,35 @@ public class levelPlay extends Activity implements View.OnClickListener
                 else
                 {
                     totalScore.setText("" + score); //Update Score Counter
+                    levelUpdate();
+//                    if(score==0)levelUpdate();
+//                    else if(score >= 5 )levelUpdate();
+//                    else if(score == 15)levelUpdate();
+//                    else if(score == 30)levelUpdate();
+//                    else if(score == 50)levelUpdate();
+//                    else if(score == 75)levelUpdate();
+//                    else if(score == 100)levelUpdate();
+//                    else if(score == 140)levelUpdate();
+//                    else if(score == 180)levelUpdate();
+//                    else if(score == 225)levelUpdate();
+//                    else if(score == 275)levelUpdate();
+//                    else if(score == 330)levelUpdate();
+//                    else if(score == 390)levelUpdate();
+//                    else if(score == 485)levelUpdate();
+//                    else if(score == 585)levelUpdate();
+//                    else if(score == 690)levelUpdate();
+//                    else if(score == 800)levelUpdate();
+//                    else if(score == 915)levelUpdate();
+//                    else if(score == 1035)levelUpdate();
+//                    else if(score == 1160)levelUpdate();
+//                    else if(score == 1290)levelUpdate();
+
+
                 }
             }
             public void onFinish()
             {
+                //levelUpdate();
                 totalScore.setText("" + score); //Update Score Counter
                 UpdateTimer(60000);
             }
@@ -1806,8 +1326,8 @@ public class levelPlay extends Activity implements View.OnClickListener
                 on_screen_allCount--;
                 GoodArray[finalI].ButtonId = null;       // Remove Button ID
                 GoodArray[finalI] = null;
-                //missedSwirls++;
-                //setMissed(missedSwirls);        //count off if swirl disappeared
+                missedSwirls++;
+                setMissed(missedSwirls);        //count off if swirl disappeared
                 good.setVisibility(View.INVISIBLE);
                 good.setEnabled(false);
 
@@ -2269,7 +1789,8 @@ public class levelPlay extends Activity implements View.OnClickListener
         }
     /*+++++++++++++++++++++++++++++USED FOR LIGHTNING BUTTON++++++++++++++++++++++++++++++++++++*/
     /*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
-    public void DestroyGoodSwirls() {
+    public void DestroyGoodSwirls()
+    {
             for (int i = 0; i < 20; i++) {
                 if (GoodArray[i] != null) {
                     GoodArray[i].TimerId.cancel();
@@ -2291,8 +1812,169 @@ public class levelPlay extends Activity implements View.OnClickListener
                 GoodArray[i] = null;
                 SpecialArray[i] = null;
             }
+    }
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.pause_button:
+                PauseActivate();                // Pause the game
+                break;
         }
+    }
+    public void PauseActivate() {
+        if(!paused) {
+            paused = true;
+            PauseButton.setEnabled(false);
+            PauseButton.setClickable(false);
+            //gameBG.pause();                      // Pause the game music
+            for (int i = 0; i < 10; i++) {        // cancel all the timers in disappear array
+                if (GoodArray[i] != null) {
+                    GoodArray[i].TimerId.cancel();
+                }
+                if (BadArray[i] != null) {
+                    BadArray[i].TimerId.cancel();
+                }
+                if (SpecialArray[i] != null) {
+                    SpecialArray[i].TimerId.cancel();
+                }
+            }
+            SwirlEngine.cancel();               // cancel the rest of the timers
+            Updater.cancel();
+           // TimeCountdown.cancel();
+            PopupPauseMenu();                   //Popup the Pause menu
+        }
+    }
 
+    //Continues game from Pause Menu
+    public void Continue(View v) {
+        new CountDownTimer(30,30) {
+            int i;
+            @Override
+            public void onTick(long millisUntilFinished) {
+                if (millisUntilFinished / 30 == 0)
+                {
+                    onFinish();
+                }
+                else
+                {
+                    for (i = 0; i < 10; i++) {        // starts all the timers in disappear array
+                        if (GoodArray[i] != null) {
+                            GoodArray[i].TimerId.start();
+                        }
+                        if (BadArray[i] != null) {
+                            BadArray[i].TimerId.start();
+                        }
+                        if (SpecialArray[i] != null) {
+                            SpecialArray[i].TimerId.start();
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onFinish() {
+                paused = false;
+                popupWindow.dismiss();
+                //gameBG.start();
+                speed_engine(Game_Speed);
+                Updater.start();
+                PauseButton.setEnabled(true);
+                PauseButton.setClickable(true);
+            }
+        }.start();
+    }
+    //Restarts game from Pause Menu
+    public void Restart(View v) {
+        popupWindow.dismiss();
+        startActivity(new Intent(levelPlay.this, levelPlay.class));
+        finish();
+    }
+    public void Quit(View v) {
+        popupWindow.dismiss();
+        startActivity(new Intent(levelPlay.this, MainActivity.class));
+        finish();
+    }
+    public void PopupPauseMenu() {
+        try {
+            LayoutInflater inflater = (LayoutInflater) levelPlay.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            View layout = inflater.inflate(R.layout.activity_pause_menu, (ViewGroup)findViewById(R.id.pause_layout));
+            popupWindow = new PopupWindow(layout, getWindow().getAttributes().width, getWindow().getAttributes().height, true);
+            popupWindow.showAtLocation(layout, Gravity.CENTER, 0, 0);
+            ImageButton Continue = (ImageButton)findViewById(R.id.Paused);
+            Continue.setOnClickListener( new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    popupWindow.dismiss();
+                }});
+            Button Continue2 = (Button)findViewById(R.id.Continue);
+            Continue2.setOnClickListener( new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    popupWindow.dismiss();
+                }});
+            Button Restart = (Button) findViewById(R.id.Restart);
+            Restart.setOnClickListener( new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    popupWindow.dismiss();
+                }});
+            Button Quit = (Button)findViewById(R.id.Quit);
+            Quit.setOnClickListener( new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    popupWindow.dismiss();
+                }});
+        }catch(Exception e) {
+            e.printStackTrace();
+        }
+    }
+    /*+++++++++++++++++++++++++++++++++++CONTROL SPEED OF BUTTONS+++++++++++++++++++++++++++++++++++*/
+    void speed_engine(int speed)
+    {
+        if(level != 1)
+            SwirlEngine.cancel();                   // cancel the old timer with the old speed
+        SwirlEngine = new CountDownTimer(Current_Time, speed) { // start new timer with changed speed
+            @Override
+            public void onTick(long millisUntilFinished) {
+                if (millisUntilFinished == 0) {
+                    onFinish();
+                } else {
+                    if(level ==1) displayButton(1);
+                    else if(level ==2)displayButton(2);
+                    else if(level ==3)displayButton(6);
+                    else if(level ==4)displayButton(6);
+                    else if(level ==5)displayButton(6);
+                    else if(level ==6)displayButton(3);
+                    else if(level ==7)displayButton(4);
+                    else if(level ==8)displayButton(4);
+                    else if(level ==9)displayButton(4);
+                    else if(level ==10)displayButton(5);
+                    else if(level ==11)displayButton(5);
+                    else if(level ==12)displayButton(5);
+                    else if(level ==13)displayButton(5);
+                    else if(level ==14)displayButton(5);
+                    else if(level ==15)displayButton(6);
+                    else if(level ==16)displayButton(6);
+                    else if(level ==17)displayButton(6);
+                    else if(level ==18)displayButton(6);
+                    else if(level ==19)displayButton(6);
+                    else if(level ==20)displayButton(6);
+                    else if(level ==21)displayButton(6);
+
+                    if(luckCount == 20)
+                    {
+                        populateLuckArrays();
+                        luckCount = 0;
+                    }
+                    else
+                        luckCount++;
+                }
+            }
+            @Override
+            public void onFinish() {
+
+            }
+        }.start();
+    }
     private void playGood(Uri uri) {
         try{
             GoodSound.reset();

@@ -708,7 +708,7 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
                 DoubleBombActivated = true;
             }
         } else {}
-    } //End Speed_Engine
+    } //End e
 
     public void DestroySwirls() {
 
