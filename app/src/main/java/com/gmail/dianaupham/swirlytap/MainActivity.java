@@ -17,6 +17,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.crashlytics.android.Crashlytics;
@@ -42,11 +43,13 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     Button buttonLogIn;
     Button buttonProfile;
     Button LOG_IN, REG, NoThanks;      // For Login screen
-    ImageButton buttonSoundPlay, buttonSoundMute;  // For Sound options
+    RelativeLayout llayout;
+    ImageButton buttonSoundPlay, buttonSoundMute, SECRET;  // For Sound options
     CheckBox StopLogin;
     MediaPlayer mediaPlayer; //for music
     boolean NotLogged;
     PopupWindow popupWindow;
+    int secret = 0;
     public static final String PREFS_NAME = "PREFS_FILE";
 
     private static final boolean AUTO_HIDE = true;          // Auto hide UI (ActionBar)
@@ -95,6 +98,9 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         buttonSinglePlayer.setOnClickListener(this); //sets an onClickListener on buttonSinglePlayer
         HIGHSCORES = (Button)findViewById(R.id.highscores);
         HIGHSCORES.setOnClickListener(this); //sets an onClickListener on HIGHSCORES
+        SECRET = (ImageButton)findViewById(R.id.Title_SwirlyTap);
+        SECRET.setOnClickListener(this); //sets an onClickListener on HIGHSCORES
+        llayout = (RelativeLayout)findViewById(R.id.BG);
         buttonLevel = (Button) findViewById(R.id.levelMode);
         buttonLevel.setOnClickListener(this);
         mediaPlayer.setLooping(true);
@@ -241,7 +247,12 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
             finish();
         }
     }
-
+    private void Secret()
+    {
+        secret++;
+        if (secret == 10) { llayout.setBackgroundResource(R.drawable.alternate_bg); }
+        if (secret == 20) { llayout.setBackgroundResource(R.drawable.main_bg); secret = 0; }
+    }
     private void SoundPlayClick() {   //MUTE all sounds ----- DEFAULT OPTION
         if (mediaPlayer.isPlaying()) {
             mediaPlayer.pause(); //stop song
@@ -275,6 +286,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         buttonSoundPlay.setVisibility(View.VISIBLE); //show Play button
     }
 
+
     public void onClick(View v)
     {
         switch(v.getId())
@@ -307,6 +319,9 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
                 break;
             case R.id.SoundMute:     //Player wants sounds
                 SoundMuteClick();
+                break;
+            case R.id.Title_SwirlyTap:     //Player wants sounds
+                Secret();
                 break;
         }
     }

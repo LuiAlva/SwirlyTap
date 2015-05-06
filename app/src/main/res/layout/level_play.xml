@@ -111,7 +111,7 @@
                     android:text="Level 1"
                     android:id="@+id/leveldisplay"
                     android:layout_column="16"
-                    android:background="#5c66f3ff"
+                    android:background="#a12c54cb"
                     android:textAlignment="center"
                     android:textIsSelectable="false"
                     android:gravity="center"
