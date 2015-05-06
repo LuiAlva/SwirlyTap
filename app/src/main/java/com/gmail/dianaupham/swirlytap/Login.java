@@ -1,4 +1,5 @@
 package com.gmail.dianaupham.swirlytap;
+//package com.parse.starter;
 
 import android.app.Activity;
 import android.content.Context;
@@ -9,6 +10,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+import com.parse.Parse;
+import com.parse.ParseACL;
+import com.parse.ParseAnonymousUtils;
+import com.parse.ParseCrashReporting;
+import com.parse.ParseUser;
 
 import com.gmail.dianaupham.swirlytap.swirlytap.R;
 
