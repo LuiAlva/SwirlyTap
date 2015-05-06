@@ -94,7 +94,8 @@
         </activity>
         <activity
             android:name="com.gmail.dianaupham.swirlytap.PlayAgain_Level"
-            android:label="@string/title_activity_play_again__level" >
+            android:label="@string/title_activity_play_again__level"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name="com.mopub.mobileads.MoPubActivity"

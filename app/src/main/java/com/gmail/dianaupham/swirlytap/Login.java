@@ -78,4 +78,10 @@ public class Login extends Activity
             }
         });
     }
+
+    public void onBackPressed() {
+        Intent i = new Intent(getApplicationContext(), WelcomeScreen.class);
+        startActivity(i);
+        finish();
+    }
 }
