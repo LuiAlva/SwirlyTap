@@ -148,7 +148,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
             editor.commit();
 
         }
-        boolean SoundMute = prefs.getBoolean("SoundMuted", false);  //Not muted
+        /*boolean SoundMute = prefs.getBoolean("SoundMuted", false);  //Not muted
         SharedPreferences.Editor editor = prefs.edit();
         editor.putBoolean("SoundMuted",SoundMute);
         buttonSoundMute = (ImageButton)findViewById(R.id.SoundMute);
@@ -166,8 +166,8 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
             buttonSoundMute.setVisibility(View.GONE);   //removes this button from view, and makes space for others
             buttonSoundPlay.setVisibility(View.VISIBLE);//show Play button
         }
-        editor.commit();
-
+        editor.commit();*/
+        SharedPreferences.Editor editor = prefs.edit();
         // If not logged in send out login popup action
         boolean NotLoggedIn = prefs.getBoolean("NotLoggedIn", true);
         boolean AskLogin = prefs.getBoolean("AskLogin", true);
@@ -243,19 +243,33 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     }
 
     private void SoundPlayClick() {   //MUTE all sounds ----- DEFAULT OPTION
-        mediaPlayer.pause(); //stop song
+        if (mediaPlayer.isPlaying()) {
+            mediaPlayer.pause(); //stop song
+            //mediaPlayer.release();
+        }
         SharedPreferences prefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();//Allow user to disable sound
-        editor.putBoolean("SoundMuted", true);       //User wants to MUTE sounds
+        editor.putBoolean("SoundPlay", false);       //User wants to MUTE sounds
+        editor.commit();                             //Save sound option change (MUTE)
+        buttonSoundPlay.setVisibility(View.GONE);    //remove Play button
+        buttonSoundMute.setVisibility(View.VISIBLE); //show Mute button
+    }
+    private void SoundPlayClick2() {   //MUTE all sounds ----- DEFAULT OPTION
+        SharedPreferences prefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();//Allow user to disable sound
+        editor.putBoolean("SoundPlay", false);       //User wants to MUTE sounds
         editor.commit();                             //Save sound option change (MUTE)
         buttonSoundPlay.setVisibility(View.GONE);    //remove Play button
         buttonSoundMute.setVisibility(View.VISIBLE); //show Mute button
     }
     private void SoundMuteClick() {   //PLAY all sounds
-        mediaPlayer.start(); //start song
+        //mediaPlayer = MediaPlayer.create(this, R.raw.title_song); //get song
+        //mediaPlayer.setLooping(true);    //make background song loop
+        if (!mediaPlayer.isPlaying())
+            mediaPlayer.start(); //start song
         SharedPreferences prefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();//Allow user to re-enable sound
-        editor.putBoolean("SoundMuted", false);      //User wants to PLAY sounds
+        editor.putBoolean("SoundMuted", true);      //User wants to PLAY sounds
         editor.commit();                             //Save sound option change (PLAY)
         buttonSoundMute.setVisibility(View.GONE);    //remove Mute button,
         buttonSoundPlay.setVisibility(View.VISIBLE); //show Play button
@@ -287,7 +301,9 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
                 LogInClick();
                 break;
             case R.id.SoundPlay:     //STOP sounds (mute)
-                SoundPlayClick();
+                //SoundPlayClick();
+                onResume();
+                SoundPlayClick2();
                 break;
             case R.id.SoundMute:     //Player wants sounds
                 SoundMuteClick();
@@ -299,7 +315,37 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         super.onResume();
         mediaPlayer = MediaPlayer.create(this, R.raw.title_song); //get song
         mediaPlayer.setLooping(true);    //make background song loop
-        if (!mediaPlayer.isPlaying()) { mediaPlayer.start(); }
+        SharedPreferences prefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+        boolean SoundPlay = prefs.getBoolean("SoundPlay", true);  //Not muted//DEFAULT
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putBoolean("SoundPlay",SoundPlay);
+        buttonSoundMute = (ImageButton)findViewById(R.id.SoundMute);
+        buttonSoundMute.setOnClickListener(this); //sets an onClickListener on buttonSoundMute
+        buttonSoundPlay = (ImageButton)findViewById(R.id.SoundPlay);
+        buttonSoundPlay.setOnClickListener(this); //sets an onClickListener on buttonSoundPlay
+        if (SoundPlay) {     //Mute sounds //buttonSoundMute enabled
+            //if (mediaPlayer.isPlaying())
+            //    mediaPlayer.pause();                    //Stop sounds
+            buttonSoundPlay.setVisibility(View.VISIBLE);   //removes this button fro(mediaPlayer.isPlaying())m view, and makes space for others
+            buttonSoundMute.setVisibility(View.GONE);//show Mute button
+        }else if (!SoundPlay){//DEFAULT state, Sound PLAYS //buttonSoundPlay enabled
+            //if (!mediaPlayer.isPlaying())
+            //    mediaPlayer.start();                    //Play BG music
+            buttonSoundMute.setVisibility(View.VISIBLE);   //removes this button from view, and makes space for others
+            buttonSoundPlay.setVisibility(View.GONE);//show Play button
+        }
+        editor.commit();
+        if (SoundPlay){
+            mediaPlayer.start();
+        }else{
+            mediaPlayer.pause();
+        }
+/*        if (!mediaPlayer.isPlaying() && prefs.getBoolean("SoundMuted", false)) {
+            mediaPlayer.start();
+        }else if (!mediaPlayer.isPlaying() && prefs.getBoolean("SoundMuted", true)){
+            mediaPlayer.pause();
+        }*/
+
     }
 
     protected void onPause() {
