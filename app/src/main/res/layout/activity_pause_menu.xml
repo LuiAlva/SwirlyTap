@@ -1,4 +1,4 @@
-<RelativeLayout
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
@@ -12,7 +12,8 @@
 
     <RelativeLayout
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent">
+        android:layout_height="wrap_content"
+        android:layout_gravity="center">
 
         <ImageButton
             android:layout_width="wrap_content"
@@ -25,73 +26,79 @@
             android:onClick="Continue"
             android:background="#00ffffff"
             android:backgroundTint="#8e000000"
-            android:layout_marginTop="168dp"
             android:layout_row="0"
             android:layout_column="0"
             android:layout_gravity="center_horizontal"
             android:paddingBottom="5dp"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true" />
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentStart="false" />
 
-        <Button
-            style="?android:attr/buttonStyleSmall"
-            android:layout_width="200sp"
-            android:layout_height="60sp"
-            android:text="@string/CONTINUE"
-            android:id="@+id/Continue"
-            android:background="@drawable/button_bg"
-            android:enabled="true"
-            android:onClick="Continue"
-            android:textSize="20sp"
-            android:typeface="normal"
-            android:textStyle="bold"
-            android:layout_gravity="center_horizontal"
-            android:layout_row="1"
-            android:layout_column="0"
-            android:layout_below="@+id/Restart"
-            android:layout_alignLeft="@+id/Restart"
-            android:layout_alignStart="@+id/Restart" />
-
-        <Button
-            style="?android:attr/buttonStyleSmall"
-            android:layout_width="200sp"
-            android:layout_height="60sp"
-            android:text="@string/RESTART"
-            android:id="@+id/Restart"
-            android:background="@drawable/button_bg"
-            android:enabled="true"
-            android:onClick="Restart"
-            android:textSize="20sp"
-            android:typeface="normal"
-            android:nestedScrollingEnabled="false"
-            android:textStyle="bold"
-            android:layout_gravity="center_horizontal"
-            android:layout_row="2"
-            android:layout_column="0"
-            android:layout_below="@+id/Quit"
-            android:layout_centerHorizontal="true" />
-
-        <Button
-            style="?android:attr/buttonStyleSmall"
-            android:layout_width="200sp"
-            android:layout_height="60sp"
-            android:text="@string/QUIT"
-            android:id="@+id/Quit"
-            android:background="@drawable/button_bg"
-            android:enabled="true"
-            android:onClick="Quit"
-            android:textSize="20sp"
-            android:typeface="normal"
-            android:nestedScrollingEnabled="false"
-            android:textStyle="bold"
-            android:longClickable="true"
-            android:layout_row="3"
-            android:layout_column="0"
-            android:layout_gravity="center_horizontal"
+        <GridLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_below="@+id/Paused"
-            android:layout_alignLeft="@+id/Restart"
-            android:layout_alignStart="@+id/Restart" />
+            android:layout_centerHorizontal="true">
+
+            <Button
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="200sp"
+                android:layout_height="60sp"
+                android:text="@string/CONTINUE"
+                android:id="@+id/Continue"
+                android:background="@drawable/button_bg"
+                android:enabled="true"
+                android:onClick="Continue"
+                android:textSize="20sp"
+                android:typeface="normal"
+                android:textStyle="bold"
+                android:layout_gravity="center_horizontal"
+                android:layout_row="1"
+                android:layout_column="0"
+                android:layout_below="@+id/Restart"
+                android:layout_alignLeft="@+id/Restart"
+                android:layout_alignStart="@+id/Restart" />
+
+            <Button
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="200sp"
+                android:layout_height="60sp"
+                android:text="@string/RESTART"
+                android:id="@+id/Restart"
+                android:background="@drawable/button_bg"
+                android:enabled="true"
+                android:onClick="Restart"
+                android:textSize="20sp"
+                android:typeface="normal"
+                android:nestedScrollingEnabled="false"
+                android:textStyle="bold"
+                android:layout_gravity="center_horizontal"
+                android:layout_row="2"
+                android:layout_column="0"
+                android:layout_below="@+id/Quit"
+                android:layout_centerHorizontal="true" />
+
+            <Button
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="200sp"
+                android:layout_height="60sp"
+                android:text="@string/QUIT"
+                android:id="@+id/Quit"
+                android:background="@drawable/button_bg"
+                android:enabled="true"
+                android:onClick="Quit"
+                android:textSize="20sp"
+                android:typeface="normal"
+                android:nestedScrollingEnabled="false"
+                android:textStyle="bold"
+                android:longClickable="true"
+                android:layout_row="3"
+                android:layout_column="0"
+                android:layout_gravity="center_horizontal"
+                android:layout_below="@+id/Paused"
+                android:layout_alignLeft="@+id/Restart"
+                android:layout_alignStart="@+id/Restart" />
+        </GridLayout>
 
     </RelativeLayout>
 
-</RelativeLayout>
+</FrameLayout>
