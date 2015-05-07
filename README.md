@@ -13,4 +13,5 @@ __SwirlyTap Members__:
 __Description__:
 	-Android game application with a Time Mode and Level Mode.  Swirls pop up on the screen that the user must tap.  The goal of the game is to hit as many swirls as possible to gain the highest score, avoiding obstacles and before the swirl disappears.
 	
-Now published to the Google Play App Store!
+Now published to the Google Play App Store!<br />
+Download the app at: https://goo.gl/KawK4j
