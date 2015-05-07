@@ -1,4 +1,4 @@
-package com.gmail.dianaupham.swirlytap;
+package com.gmail.dianaupham.swirlytapapp;
 
 /**
  * Created by ebe550 on 4/20/2015.

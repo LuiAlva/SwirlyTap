@@ -4,7 +4,7 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.gmail.dianaupham.swirlytap.SinglePlayer"
+    tools:context="com.gmail.dianaupham.swirlytapapp.SinglePlayer"
     android:orientation="vertical"
     android:background="@drawable/tw__transparent"
     android:clickable="true"

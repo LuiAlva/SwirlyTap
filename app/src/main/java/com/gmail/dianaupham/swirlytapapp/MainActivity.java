@@ -1,4 +1,4 @@
-package com.gmail.dianaupham.swirlytap;
+package com.gmail.dianaupham.swirlytapapp;
 
 import android.content.Context;
 import android.content.Intent;
@@ -21,7 +21,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.crashlytics.android.Crashlytics;
-import com.gmail.dianaupham.swirlytap.swirlytap.R;
+import com.gmail.dianaupham.swirlytapapp.swirlytap.R;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.mopub.common.MoPub;
 import com.twitter.sdk.android.Twitter;

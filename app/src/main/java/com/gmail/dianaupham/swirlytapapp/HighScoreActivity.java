@@ -1,4 +1,4 @@
-package com.gmail.dianaupham.swirlytap;
+package com.gmail.dianaupham.swirlytapapp;
 
 import android.app.Activity;
 import android.content.Context;
@@ -14,11 +14,11 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.gmail.dianaupham.swirlytap.swirlytap.R;
+import com.gmail.dianaupham.swirlytapapp.swirlytap.R;
 
-import static com.gmail.dianaupham.swirlytap.swirlytap.R.drawable;
-import static com.gmail.dianaupham.swirlytap.swirlytap.R.id;
-import static com.gmail.dianaupham.swirlytap.swirlytap.R.layout;
+import static com.gmail.dianaupham.swirlytapapp.swirlytap.R.drawable;
+import static com.gmail.dianaupham.swirlytapapp.swirlytap.R.id;
+import static com.gmail.dianaupham.swirlytapapp.swirlytap.R.layout;
 
 
 public class HighScoreActivity extends Activity {
@@ -35,7 +35,7 @@ public class HighScoreActivity extends Activity {
     private static final int AUTO_HIDE_DELAY_MILLIS = 1000; // Hide system UI after 1000 milliseconds
     private static final boolean TOGGLE_ON_CLICK = true;    // If UI is clicked show it
     private static final int HIDER_FLAGS = 0;   // The flags to pass to {@link com.gmail.dianaupham.swirlytap.SystemUiHider#getInstance}.
-    private com.gmail.dianaupham.swirlytap.SystemUiHider mSystemUiHider;
+    private com.gmail.dianaupham.swirlytapapp.SystemUiHider mSystemUiHider;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

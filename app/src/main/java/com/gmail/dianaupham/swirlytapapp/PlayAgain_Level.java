@@ -1,4 +1,4 @@
-package com.gmail.dianaupham.swirlytap;
+package com.gmail.dianaupham.swirlytapapp;
 
 import android.content.Context;
 import android.content.Intent;
@@ -20,29 +20,20 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.gmail.dianaupham.swirlytap.swirlytap.R;
-import com.twitter.sdk.android.tweetcomposer.TweetComposer;
+import com.gmail.dianaupham.swirlytapapp.swirlytap.R;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.fabric.sdk.android.Fabric;
-
-public class PlayAgain extends ActionBarActivity implements View.OnClickListener  {
-    Button buttonAgain;     //create type button for 'Play Again'
-    Button buttonHome;      //create type button for 'Home'
-    Button buttonShare;     //create type button for 'Share'
-    Button buttonHighScore; //create type button for 'High Score'
+public class PlayAgain_Level extends ActionBarActivity implements View.OnClickListener  {
+    Button buttonAgainLevel;     //create type button for 'Play Again'
+    Button buttonHomeLevel;      //create type button for 'Home'
+    Button buttonShareLevel;     //create type button for 'Share'
+    Button buttonHighScoreLevel; //create type button for 'High Score'
     MediaPlayer mediaPlayer;// For sounds
     int HighScore;          // For HighScore
     public static final String PREFS_NAME = "PREFS_FILE";  // Name of Preference file
-
-    private static final boolean AUTO_HIDE = true;          // Auto hide UI (ActionBar)
-    private static final int AUTO_HIDE_DELAY_MILLIS = 1000; // Hide system UI after 1000 milliseconds
-    private static final boolean TOGGLE_ON_CLICK = true;    // If UI is clicked show it
-    private static final int HIDER_FLAGS = 0;   // The flags to pass to {@link com.gmail.dianaupham.swirlytap.SystemUiHider#getInstance}.
-    private SystemUiHider mSystemUiHider;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -50,58 +41,67 @@ public class PlayAgain extends ActionBarActivity implements View.OnClickListener
         getWindow().requestFeature(Window.FEATURE_ACTION_BAR);   //Hides the action and title bars!
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_play_again);
+        setContentView(R.layout.activity_play_again__level);
         getSupportActionBar().hide();
         mediaPlayer = MediaPlayer.create(this, R.raw.game_success); //get success sound
-        // Get HighScore
         SharedPreferences prefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
-        HighScore = prefs.getInt("TimeHighScore1", 0);
+        HighScore = prefs.getInt("LevelHighScore1", 0);
 
         Intent game = getIntent(); // Grab the the intent of game that ended
         int score = game.getIntExtra("score", 0); //Grab score from game
-        int GoodSwirls = game.getIntExtra("GoodSwirls", 0);
-        int BadSwirls = game.getIntExtra("BadSwirls", 0);
-        int Good2Swirls = game.getIntExtra("Good2Swirls", 0);
-        int TimeSwirls = game.getIntExtra("TimeSwirls", 0);
+        int good_buttons = game.getIntExtra("good_swirl", 0); //grab number of good buttons clicked
+        int bad_buttons = game.getIntExtra("bad_swirl", 0);
+        int twice_buttons = game.getIntExtra("twice_swirl", 0);
+        int double_buttons = game.getIntExtra("double_points", 0);
+        int lightning_buttons = game.getIntExtra("lightning_bolt", 0);
+        int heart_buttons = game.getIntExtra("add_life", 0);
+        int nuke = game.getIntExtra("nuke", 0);
+        TextView Score= (TextView) findViewById(R.id.ScoreViewLevel);
+        TextView goodButtons = (TextView)findViewById(R.id.good_swirl_count);
+        TextView badButtons = (TextView)findViewById(R.id.bad_swirl_count);
+        TextView twiceButtons = (TextView)findViewById(R.id.twice_swirl_count);
+        TextView doubleButtons = (TextView)findViewById(R.id.double_point_count);
+        TextView lightningButtons = (TextView)findViewById(R.id.lightning_bolt_count);
+        TextView lifeButtons = (TextView)findViewById(R.id.life_count);
+        TextView nukeButtons = (TextView)findViewById(R.id.nukeCount);
 
-        TextView Score= (TextView) findViewById(R.id.ScoreView);
-        Score.setText("" + score + " points!");   //Set text to show score
-        TextView BEST_SCORE= (TextView) findViewById(R.id.BestScore);
-        BEST_SCORE.setText("Best: " + HighScore);   //Set text to show score
-        TextView GoodCount= (TextView) findViewById(R.id.Good_Swirl_Counter);
-        GoodCount.setText(""+ GoodSwirls);   //Set text to show count
-        TextView BadCount= (TextView) findViewById(R.id.Bad_Swirl_Counter);
-        BadCount.setText(""+ BadSwirls);   //Set text to show count
-        TextView Good2Counter= (TextView) findViewById(R.id.Good2_Swirl_Counter);
-        Good2Counter.setText(""+ Good2Swirls);   //Set text to show count
-        TextView TimeCounter= (TextView) findViewById(R.id.Time_Swirl_Counter);
-        TimeCounter.setText(""+ TimeSwirls);   //Set text to show count
+        Score.setText("" + score + " points!");   //Set text to show recent score
+        goodButtons.setText(""+good_buttons);
+        badButtons.setText(""+bad_buttons);
+        twiceButtons.setText(""+twice_buttons);
+        doubleButtons.setText(""+double_buttons);
+        lightningButtons.setText(""+lightning_buttons);
+        lifeButtons.setText(""+heart_buttons);
+        nukeButtons.setText(""+nuke);
 
-        buttonAgain = (Button)findViewById(R.id.PlayAgain);
-        buttonAgain.setOnClickListener(this);     //sets an onClickListener on buttonAgain
-        buttonHome = (Button)findViewById(R.id.returnHome);
-        buttonHome.setOnClickListener(this);      //sets an onClickListener on buttonHome
-        buttonShare = (Button)findViewById(R.id.Share);
-        buttonShare.setOnClickListener(this);     //sets an onClickListener on buttonShare
-        buttonHighScore = (Button)findViewById(R.id.HighScore);
-        buttonHighScore.setOnClickListener(this);     //sets an onClickListener on buttonHighScore
+        TextView BEST_SCORE= (TextView) findViewById(R.id.BestScoreLevel);
+        BEST_SCORE.setText("Best: " + HighScore);   //Set text to show best score
 
-        Fabric.with(this, new TweetComposer());
+        buttonAgainLevel = (Button)findViewById(R.id.PlayAgainLevel);
+        buttonAgainLevel.setOnClickListener(this);     //sets an onClickListener on buttonAgain
+        buttonHomeLevel = (Button)findViewById(R.id.returnHomeLevel);
+        buttonHomeLevel.setOnClickListener(this);      //sets an onClickListener on buttonHome
+        buttonShareLevel = (Button)findViewById(R.id.ShareLevel);
+        buttonShareLevel.setOnClickListener(this);     //sets an onClickListener on buttonShare
+        buttonHighScoreLevel = (Button)findViewById(R.id.HighScoreLevel);
+        buttonHighScoreLevel.setOnClickListener(this);     //sets an onClickListener on buttonHighScore
+
         mediaPlayer.start(); //start success sound
     }//end 'onCreate'
 
-    private void PlayAgainClick()
-    {   //start single player activity once "Play Again" button clicked
-        Intent intentAgain2 = new Intent(PlayAgain.this, SinglePlayer.class);
-        startActivity(intentAgain2);//goes to singlePlayer activity
+    private void PlayAgainLevelClick()
+    {   //start Level Play activity once "Play Again" button clicked
+        Intent intentAgain2 = new Intent(PlayAgain_Level.this, levelPlay.class);
+        startActivity(intentAgain2);//goes to Level Play activity
         finish();
     }
     private void HomeClick()
     {   //go back to MainActivity (Home) once "Home" button clicked
-        Intent intentReturnHome = new Intent(PlayAgain.this, MainActivity.class);
+        Intent intentReturnHome = new Intent(PlayAgain_Level.this, MainActivity.class);
         startActivity(intentReturnHome);//returns to Home screen
         finish();
     }
+
     public void ShareClick(View view){
         //sharing implementation
         Resources resources = getResources();
@@ -111,9 +111,9 @@ public class PlayAgain extends ActionBarActivity implements View.OnClickListener
                 + "/drawable/" + "goodswirl.png");                  //temp. use goodswirl
         Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND); //allows delivery of image and text
         sharingIntent.setType("*/*");                               //send any generic data
-        String shareBodyTwitter = "Check out my score on @SwirlyTap! https://twitter.com/SwirlyTap";//text+URL
-        String shareBodyText = "Check out my score on SwirlyTap! https://twitter.com/SwirlyTap"; //TODO: replace twitter link with GooplePlay URL
-        String shareBody = "Check out my score on SwirlyTap! https://twitter.com/SwirlyTap";//text+URL
+        String shareBodyTwitter = "Check out my score on Level Mode for @SwirlyTap! https://twitter.com/SwirlyTap";//text+URL
+        String shareBodyText = "Check out my score on SwirlyTap's Level Mode! https://twitter.com/SwirlyTap"; //TODO: replace twitter link with GooplePlay URL
+        String shareBody = "Check out my score on SwirlyTap's Level Mode! https://twitter.com/SwirlyTap";//text+URL
 
         PackageManager pm = view.getContext().getPackageManager();
         List<ResolveInfo> activityList = pm.queryIntentActivities(sharingIntent, 0);
@@ -123,7 +123,7 @@ public class PlayAgain extends ActionBarActivity implements View.OnClickListener
             targetedShareIntent.setType("*/*");                                         //send any generic data
             targetedShareIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Check out SwirlyTap!"); //subject line on emails
             String fileTemp = "file://" + Environment.getExternalStorageDirectory()     //image location
-                    + File.separator + "screenshot.png";
+                    + File.separator + "screenshotLevel.png";
             targetedShareIntent.putExtra(Intent.EXTRA_STREAM, Uri.parse(fileTemp));     //share image
             if(TextUtils.equals(packageName, "com.facebook.katana")){                   //share message specific to Facebook
                 targetedShareIntent.putExtra(android.content.Intent.EXTRA_TEXT, "https://twitter.com/SwirlyTap"); //will only accept URL
@@ -144,9 +144,9 @@ public class PlayAgain extends ActionBarActivity implements View.OnClickListener
     }
 
     private void HighScoreClick()
-    {   //start single player activity once "Play Again" button clicked
-        Intent intentAgain2 = new Intent(PlayAgain.this, HighScoreActivity.class);
-        intentAgain2.putExtra("LoadTimedScores", true);
+    {   //start HighScore activity once "Play Again" button clicked
+        Intent intentAgain2 = new Intent(PlayAgain_Level.this, HighScoreActivity.class);
+        intentAgain2.putExtra("LoadLevelScores", true);
         startActivity(intentAgain2);//goes to HighScore activity
     }
 
@@ -154,16 +154,16 @@ public class PlayAgain extends ActionBarActivity implements View.OnClickListener
     {//when "Play Again" button is clicked on the Play Again activity menu
         switch(v.getId())
         {
-            case R.id.PlayAgain:  //if "Play Again" is clicked
-                PlayAgainClick(); //re-start Single Player
+            case R.id.PlayAgainLevel:  //if "Play Again" is clicked
+                PlayAgainLevelClick(); //re-start Level Play
                 break;
-            case R.id.returnHome: //if "Home" is clicked
+            case R.id.returnHomeLevel: //if "Home" is clicked
                 HomeClick();      //return to Home screen (MainActivity)
                 break;
-            case R.id.HighScore:  //if "HighScore" is clicked
-                HighScoreClick(); // Go to high score activity (HighScoreActivity)
+            case R.id.HighScoreLevel: //if "HighScore" is clicked
+                HighScoreClick();      // Go to high score activity (HighScoreActivity)
                 break;
-            case R.id.Share:      //if "Share" is clicked
+            case R.id.ShareLevel:      //if "Share" is clicked
                 final ViewGroup viewGroup = (ViewGroup) ((ViewGroup) this
                         .findViewById(android.R.id.content)).getChildAt(0);     //set view
                 ShareClick(viewGroup);//share text+URL and image
@@ -174,13 +174,10 @@ public class PlayAgain extends ActionBarActivity implements View.OnClickListener
     protected void onResume() {
         super.onResume();
     }
-
     protected void onPause() {
         super.onPause();
-
         mediaPlayer.release();
     }
-
     public void onBackPressed() {
         HomeClick();      //return to Home screen (MainActivity)
     }
