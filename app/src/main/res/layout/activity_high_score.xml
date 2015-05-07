@@ -52,7 +52,8 @@
                         android:src="@drawable/highscores_left_tab"
                         android:scaleType="fitEnd"
                         android:background="#00ffffff"
-                        android:adjustViewBounds="true" />
+                        android:adjustViewBounds="true"
+                        android:visibility="invisible"/>
 
                     <ImageButton
                         android:layout_width="70sp"
@@ -64,7 +65,8 @@
                         android:adjustViewBounds="true"
                         android:layout_alignParentTop="true"
                         android:layout_toRightOf="@+id/LocalTab"
-                        android:layout_toEndOf="@+id/LocalTab" />
+                        android:layout_toEndOf="@+id/LocalTab"
+                        android:visibility="invisible"/>
 
                     <ImageButton
                         android:layout_width="70sp"
@@ -102,7 +104,8 @@
                         android:gravity="center"
                         android:textColor="#ffffffff"
                         android:textSize="18sp"
-                        android:layout_marginTop="10sp" />
+                        android:layout_marginTop="10sp"
+                        android:visibility="invisible"/>
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -116,7 +119,8 @@
                         android:gravity="center"
                         android:textColor="#ffffffff"
                         android:textSize="18sp"
-                        android:layout_marginTop="10sp" />
+                        android:layout_marginTop="10sp"
+                        android:visibility="invisible"/>
 
                     <TextView
                         android:layout_width="wrap_content"
