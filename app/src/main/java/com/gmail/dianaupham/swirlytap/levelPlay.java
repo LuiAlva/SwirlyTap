@@ -98,6 +98,7 @@ public class levelPlay extends Activity implements View.OnClickListener
     Uri tapGood;              // Sound when Good swirl is tapped
     Uri tapBad;               // Sound for Bad swirl
     Uri tapAddLife;           // Sound for Another Life
+    Uri NukeBoom, ThunderBoom; // For Nuke Explosion
     MediaPlayer GoodSound;    // MediaPlayer for playing good sound
     MediaPlayer GoodSound2;   // MediaPlayer for playing good sound - for faster sound
     MediaPlayer BadSound;     // MediaPlayer for playing Bad sound
@@ -175,6 +176,8 @@ public class levelPlay extends Activity implements View.OnClickListener
         tapGood = Uri.parse("android.resource://"+getPackageName()+"/"+R.raw.tap_good);    //Setup sound for Good swirl
         tapBad = Uri.parse("android.resource://"+getPackageName()+"/"+R.raw.tap_bad);      //Setup sound for Bad swirl
         tapAddLife = Uri.parse("android.resource://"+getPackageName()+"/"+R.raw.tap_time); //Setup sound for add Life
+        NukeBoom = Uri.parse("android.resource://"+getPackageName()+"/"+R.raw.nuke_explosion);    //Setup sound for Nuke Boom
+        ThunderBoom = Uri.parse("android.resource://"+getPackageName()+"/"+R.raw.bomb_freeze);    //Setup sound for Nuke Boom
         //set all button arrays to null when game started
         for(int i = 0; i < 20; i++){
             GoodArray[i] = null;
@@ -245,10 +248,12 @@ public class levelPlay extends Activity implements View.OnClickListener
                 if(tempLevel < level) {
                     luckCount = 0; //set luck count to 0 at start of every level
                     tempLevel = level;
+                    PauseButton.setEnabled(false);
                     mHandler.postDelayed(new Runnable() {
                         public void run() {
                             // when level loaded = true then set boolean to true
                             speed_engine(Game_Speed);
+                            PauseButton.setEnabled(true);
                         }
                     }, 2000);
                     displayLevel(level);
@@ -1653,6 +1658,7 @@ public class levelPlay extends Activity implements View.OnClickListener
                     public void onClick(View v) {
 
                         {
+                            playSpecial(ThunderBoom);
                             if(doublePoints == true)
                             {
                                 score+=on_screen_goodCount*2;
@@ -1713,8 +1719,10 @@ public class levelPlay extends Activity implements View.OnClickListener
             SpecialArray[i] = new buttonDisappear(nukeButton, temp);
             nukeButton.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
-                nuke_button_count++;
+
                     {
+                        nuke_button_count++;
+                        playSpecial(NukeBoom);
                         if(doublePoints == true)
                         {
                             score+=on_screen_allCount*2;
