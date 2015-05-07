@@ -280,18 +280,18 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         if ((SoundPlay && button) || (!SoundPlay && !button)) {  //Mute button
             mediaPlayer.pause();
             SoundPlay = false;
-            SharedPreferences.Editor editor = prefs.edit();//Allow user to re-enable sound
-            editor.putBoolean("SoundPlay", false);      //User wants to PLAY sounds
-            editor.commit();                             //Save sound option change (PLAY)
-            MuteButton.setImageResource(R.drawable.sound_play);
+            SharedPreferences.Editor editor = prefs.edit();//Allow user to disable sound
+            editor.putBoolean("SoundPlay", false);      //User wants to MUTE sounds
+            editor.commit();                             //Save sound option change (MUTE)
+            MuteButton.setImageResource(R.drawable.sound_mute);
         }
-        else if((!SoundPlay && button) || (SoundPlay && !button)) {                    //Un-Mute
+        else if((!SoundPlay && button) || (SoundPlay && !button)) {   //Un-Mute
             mediaPlayer.start();
             SoundPlay = true;
             SharedPreferences.Editor editor = prefs.edit();//Allow user to re-enable sound
             editor.putBoolean("SoundPlay", true);      //User wants to PLAY sounds
             editor.commit();                             //Save sound option change (PLAY)
-            MuteButton.setImageResource(R.drawable.sound_mute);
+            MuteButton.setImageResource(R.drawable.sound_play);
         }
     }
 
@@ -315,26 +315,22 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         super.onStart();
         mGoogleApiClient.connect();
     }
-
     @Override
     protected void onStop() {
         super.onStop();
         mGoogleApiClient.disconnect();
     }
-
     @Override
     public void onConnected(Bundle connectionHint) {
         // The player is signed in. Hide the sign-in button and allow the
         // player to proceed.
     }
-
     @Override
     public void onConnectionFailed(ConnectionResult connectionResult) {
         if (mResolvingConnectionFailure) {
             // already resolving
             return;
         }
-
         // if the sign-in button was clicked or if auto sign-in is enabled,
         // launch the sign-in flow
         if (mSignInClicked || mAutoStartSignInFlow) {
@@ -353,13 +349,11 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
 
         // Put code here to display the sign-in button
     }
-
     @Override
     public void onConnectionSuspended(int i) {
         // Attempt to reconnect
         mGoogleApiClient.connect();
     }
-
     protected void onActivityResult(int requestCode, int resultCode,
                                     Intent intent) {
         if (requestCode == RC_SIGN_IN) {
@@ -375,13 +369,11 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
             }
         }
     }
-
     // Call when the sign-in button is clicked
     private void signInClicked() {
         mSignInClicked = true;
         mGoogleApiClient.connect();
     }
-
     // Call when the sign-out button is clicked
     private void signOutclicked() {
         mSignInClicked = false;

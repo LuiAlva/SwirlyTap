@@ -167,8 +167,7 @@
             android:background="#00ffffff"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="20dp"
-            android:layout_above="@+id/Button_Layout" />
+            android:layout_marginTop="20dp"/>
     </RelativeLayout>
 
 

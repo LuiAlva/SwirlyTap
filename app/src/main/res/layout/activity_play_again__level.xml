@@ -22,29 +22,64 @@
             android:layout_width="fill_parent"
             android:layout_height="250dp"
             android:layout_gravity="center"
-            android:gravity="center"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/results_window">
+            android:gravity="center">
 
             <RelativeLayout
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content">
+                android:layout_width="wrap_content"
+                android:layout_height="274dp"
+                android:layout_gravity="center"
+                android:background="@drawable/results_window"
+                android:layout_margin="10dp">
 
-                <ScrollView
-                    android:layout_width="fill_parent"
+                <ImageView
+                    android:src="@drawable/congratulations"
+                    android:id="@+id/imageView"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/scrollView5"
-                    android:layout_below="@+id/linearLayout"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentStart="true"
-                    android:layout_marginBottom="10dp">
+                    android:contentDescription="@string/congratulations"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginLeft="25dp"
+                    android:layout_marginRight="25dp"
+                    android:layout_marginTop="5dp" />
 
-                    <RelativeLayout
-                        android:layout_width="match_parent"
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/imageView"
+                    android:layout_alignRight="@+id/imageView"
+                    android:layout_alignLeft="@+id/imageView"
+                    android:layout_centerInParent="true"
+                    android:gravity="center"
+                    android:id="@+id/linearLayout"
+                    android:background="#2c000000">
+
+                    <TextView
+                        android:text="@string/temp_you_scored"
+                        android:id="@+id/ScoreViewLevel"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_margin="10dp"
-                        android:gravity="center">
+                        android:textSize="25sp"
+                        android:textColor="#ff90fdff"
+                        android:layout_below="@+id/imageView"
+                        android:layout_centerHorizontal="true"
+                        android:textStyle="bold"
+                        android:layout_marginBottom="4dp"
+                        android:gravity="center" />
+                    <TextView
+                        android:text="Best: 0000"
+                        android:id="@+id/BestScoreLevel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="25sp"
+                        android:layout_below="@+id/imageView"
+                        android:layout_centerHorizontal="true"
+                        android:textStyle="bold"
+                        android:gravity="center"
+                        android:textColor="#ff4dc7cd" />
+
+                </LinearLayout>
 
                         <TableLayout
                             android:layout_width="fill_parent"
@@ -52,8 +87,9 @@
                             android:gravity="center"
                             android:layout_alignParentLeft="true"
                             android:layout_alignParentStart="true"
-                            android:layout_marginBottom="10dp"
-                            android:layout_marginTop="10dp">
+                            android:layout_marginBottom="20dp"
+                            android:layout_marginTop="10dp"
+                            android:layout_below="@+id/linearLayout">
 
                             <TableRow
                                 android:layout_width="fill_parent"
@@ -65,7 +101,8 @@
                                     android:background="@drawable/goodswirl"
                                     android:layout_width="30dp"
                                     android:layout_height="30dp"
-                                    android:layout_column="0" />
+                                    android:layout_column="0"
+                                    android:layout_gravity="center"/>
 
                                 <TextView
                                     android:text="00"
@@ -74,7 +111,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_column="1"
                                     android:layout_gravity="center"
-                                    android:textColor="#ffffffff" />
+                                    android:textColor="#ffffffff"/>
 
                                 <ImageView
                                     android:id="@+id/space1"
@@ -85,8 +122,8 @@
                                 <ImageButton
                                     android:id="@+id/imageButton2"
                                     android:background="@drawable/badswirl"
-                                    android:layout_width="30dp"
-                                    android:layout_height="30dp"
+                                    android:layout_width="35dp"
+                                    android:layout_height="35dp"
                                     android:layout_column="3" />
 
                                 <TextView
@@ -128,7 +165,7 @@
 
                                 <ImageButton
                                     android:layout_width="30dp"
-                                    android:layout_height="35dp"
+                                    android:layout_height="30dp"
                                     android:id="@+id/doublePoints"
                                     android:layout_column="0"
                                     android:background="@drawable/double_button_active" />
@@ -149,8 +186,8 @@
                                     android:layout_column="2" />
 
                                 <ImageButton
-                                    android:layout_width="30dp"
-                                    android:layout_height="30dp"
+                                    android:layout_width="25dp"
+                                    android:layout_height="25dp"
                                     android:id="@+id/lightning_bolt"
                                     android:layout_column="3"
                                     android:background="@drawable/lightning_button_active" />
@@ -172,8 +209,8 @@
                                 android:gravity="center" >
 
                                 <ImageButton
-                                    android:layout_width="30dp"
-                                    android:layout_height="30dp"
+                                    android:layout_width="25dp"
+                                    android:layout_height="25dp"
                                     android:id="@+id/nukeButton"
                                     android:layout_column="0"
                                     android:background="@drawable/nuke_button_active" />
@@ -194,8 +231,8 @@
                                     android:layout_column="2" />
 
                                 <ImageButton
-                                    android:layout_width="30dp"
-                                    android:layout_height="30dp"
+                                    android:layout_width="25dp"
+                                    android:layout_height="25dp"
                                     android:id="@+id/life_button"
                                     android:layout_column="3"
                                     android:background="@drawable/heart" />
@@ -211,59 +248,6 @@
 
                             </TableRow>
                         </TableLayout>
-
-                    </RelativeLayout>
-                </ScrollView>
-
-                    <ImageView
-                        android:src="@drawable/congratulations"
-                        android:id="@+id/imageView"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:contentDescription="@string/congratulations"
-                        android:gravity="center_horizontal"
-                        android:scaleType="fitStart"
-                        android:layout_alignParentTop="true"
-                        android:layout_marginLeft="25dp"
-                        android:layout_marginTop="5dp"
-                        android:layout_alignParentStart="true" />
-
-                <LinearLayout
-                    android:orientation="vertical"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:id="@+id/linearLayout"
-                    android:background="#2c000000"
-                    android:layout_below="@+id/imageView"
-                    android:layout_centerHorizontal="true">
-
-                    <TextView
-                        android:text="@string/temp_you_scored"
-                        android:id="@+id/ScoreViewLevel"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="25sp"
-                        android:textColor="#ff90fdff"
-                        android:layout_below="@+id/imageView"
-                        android:layout_centerHorizontal="true"
-                        android:textStyle="bold"
-                        android:layout_marginBottom="4sp"
-                        android:gravity="center" />
-                    <TextView
-                        android:text="Best: 0000"
-                        android:id="@+id/BestScoreLevel"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="25sp"
-                        android:layout_below="@+id/imageView"
-                        android:layout_centerHorizontal="true"
-                        android:textStyle="bold"
-                        android:layout_marginBottom="4sp"
-                        android:gravity="center"
-                        android:textColor="#ff4dc7cd" />
-
-                </LinearLayout>
 
             </RelativeLayout>
 
