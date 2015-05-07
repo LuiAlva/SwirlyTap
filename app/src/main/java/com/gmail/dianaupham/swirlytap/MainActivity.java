@@ -44,10 +44,10 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     Button buttonProfile;
     Button LOG_IN, REG, NoThanks;      // For Login screen
     RelativeLayout llayout;
-    ImageButton buttonSoundPlay, buttonSoundMute, SECRET;  // For Sound options
+    ImageButton MuteButton, SECRET;  // For Sound options
     CheckBox StopLogin;
     MediaPlayer mediaPlayer; //for music
-    boolean NotLogged;
+    boolean NotLogged, SoundPlay, create = true;
     PopupWindow popupWindow;
     int secret = 0;
     public static final String PREFS_NAME = "PREFS_FILE";
@@ -94,6 +94,11 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
 */
         setContentView(R.layout.activity_main);
         mediaPlayer = MediaPlayer.create(this, R.raw.title_song); //get song
+        SharedPreferences prefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+        SoundPlay = prefs.getBoolean("SoundPlay", true);  //Not muted//DEFAULT
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putBoolean("SoundPlay", SoundPlay);
+        editor.commit();
         buttonSinglePlayer = (Button)findViewById(R.id.singlePlayer);
         buttonSinglePlayer.setOnClickListener(this); //sets an onClickListener on buttonSinglePlayer
         HIGHSCORES = (Button)findViewById(R.id.highscores);
@@ -102,12 +107,12 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         SECRET.setOnClickListener(this); //sets an onClickListener on HIGHSCORES
         llayout = (RelativeLayout)findViewById(R.id.BG);
         buttonLevel = (Button) findViewById(R.id.levelMode);
+        MuteButton = (ImageButton)findViewById(R.id.mute_button);
+        MuteButton.setOnClickListener(this); //sets an onClickListener on MuteButton
         buttonLevel.setOnClickListener(this);
         mediaPlayer.setLooping(true);
-        SharedPreferences prefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
         boolean firstTime = prefs.getBoolean("FirstTimeSetup", true);
         if (firstTime) {
-            SharedPreferences.Editor editor = prefs.edit();
             editor.putInt("TimeHighScore1", 0);         // For Time Mode Local HighScores
             editor.putInt("TimeHighScore2", 0);
             editor.putInt("TimeHighScore3", 0);
@@ -154,30 +159,9 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
             editor.commit();
 
         }
-        /*boolean SoundMute = prefs.getBoolean("SoundMuted", false);  //Not muted
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.putBoolean("SoundMuted",SoundMute);
-        buttonSoundMute = (ImageButton)findViewById(R.id.SoundMute);
-        buttonSoundMute.setOnClickListener(this); //sets an onClickListener on buttonSoundMute
-        buttonSoundPlay = (ImageButton)findViewById(R.id.SoundPlay);
-        buttonSoundPlay.setOnClickListener(this); //sets an onClickListener on buttonSoundPlay
-        if (SoundMute) {     //Mute sounds //buttonSoundMute enabled
-            if (mediaPlayer.isPlaying())
-                mediaPlayer.pause();                    //Stop sounds
-            buttonSoundPlay.setVisibility(View.GONE);   //removes this button fro(mediaPlayer.isPlaying())m view, and makes space for others
-            buttonSoundMute.setVisibility(View.VISIBLE);//show Mute button
-        }else if (!SoundMute){//DEFAULT state, Sound PLAYS //buttonSoundPlay enabled
-            if (!mediaPlayer.isPlaying())
-                mediaPlayer.start();                    //Play BG music
-            buttonSoundMute.setVisibility(View.GONE);   //removes this button from view, and makes space for others
-            buttonSoundPlay.setVisibility(View.VISIBLE);//show Play button
-        }
-        editor.commit();*/
-        SharedPreferences.Editor editor = prefs.edit();
         // If not logged in send out login popup action
         boolean NotLoggedIn = prefs.getBoolean("NotLoggedIn", true);
         boolean AskLogin = prefs.getBoolean("AskLogin", true);
-        //SharedPreferences.Editor editor = prefs.edit();
         editor.putBoolean("NotLoggedIn",NotLoggedIn);
         editor.putBoolean("AskLogin", AskLogin);
 
@@ -253,39 +237,6 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         if (secret == 10) { llayout.setBackgroundResource(R.drawable.alternate_bg); }
         if (secret == 20) { llayout.setBackgroundResource(R.drawable.main_bg); secret = 0; }
     }
-    private void SoundPlayClick() {   //MUTE all sounds ----- DEFAULT OPTION
-        if (mediaPlayer.isPlaying()) {
-            mediaPlayer.pause(); //stop song
-            //mediaPlayer.release();
-        }
-        SharedPreferences prefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = prefs.edit();//Allow user to disable sound
-        editor.putBoolean("SoundPlay", false);       //User wants to MUTE sounds
-        editor.commit();                             //Save sound option change (MUTE)
-        buttonSoundPlay.setVisibility(View.GONE);    //remove Play button
-        buttonSoundMute.setVisibility(View.VISIBLE); //show Mute button
-    }
-    private void SoundPlayClick2() {   //MUTE all sounds ----- DEFAULT OPTION
-        SharedPreferences prefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = prefs.edit();//Allow user to disable sound
-        editor.putBoolean("SoundPlay", false);       //User wants to MUTE sounds
-        editor.commit();                             //Save sound option change (MUTE)
-        buttonSoundPlay.setVisibility(View.GONE);    //remove Play button
-        buttonSoundMute.setVisibility(View.VISIBLE); //show Mute button
-    }
-    private void SoundMuteClick() {   //PLAY all sounds
-        //mediaPlayer = MediaPlayer.create(this, R.raw.title_song); //get song
-        //mediaPlayer.setLooping(true);    //make background song loop
-        if (!mediaPlayer.isPlaying())
-            mediaPlayer.start(); //start song
-        SharedPreferences prefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = prefs.edit();//Allow user to re-enable sound
-        editor.putBoolean("SoundMuted", true);      //User wants to PLAY sounds
-        editor.commit();                             //Save sound option change (PLAY)
-        buttonSoundMute.setVisibility(View.GONE);    //remove Mute button,
-        buttonSoundPlay.setVisibility(View.VISIBLE); //show Play button
-    }
-
 
     public void onClick(View v)
     {
@@ -312,13 +263,8 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
                 mediaPlayer.pause(); //stop song
                 LogInClick();
                 break;
-            case R.id.SoundPlay:     //STOP sounds (mute)
-                //SoundPlayClick();
-                onResume();
-                SoundPlayClick2();
-                break;
-            case R.id.SoundMute:     //Player wants sounds
-                SoundMuteClick();
+            case R.id.mute_button:     //Player wants sounds
+                MuteSettings(true);
                 break;
             case R.id.Title_SwirlyTap:     //Player wants sounds
                 Secret();
@@ -326,41 +272,35 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         }
     }
 
+    public void MuteSettings(boolean button) {
+        SharedPreferences prefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+        if(!button) {
+            SoundPlay = prefs.getBoolean("SoundPlay", true);  //Not muted//DEFAULT
+        }
+        if ((SoundPlay && button) || (!SoundPlay && !button)) {  //Mute button
+            mediaPlayer.pause();
+            SoundPlay = false;
+            SharedPreferences.Editor editor = prefs.edit();//Allow user to re-enable sound
+            editor.putBoolean("SoundPlay", false);      //User wants to PLAY sounds
+            editor.commit();                             //Save sound option change (PLAY)
+            MuteButton.setImageResource(R.drawable.sound_play);
+        }
+        else if((!SoundPlay && button) || (SoundPlay && !button)) {                    //Un-Mute
+            mediaPlayer.start();
+            SoundPlay = true;
+            SharedPreferences.Editor editor = prefs.edit();//Allow user to re-enable sound
+            editor.putBoolean("SoundPlay", true);      //User wants to PLAY sounds
+            editor.commit();                             //Save sound option change (PLAY)
+            MuteButton.setImageResource(R.drawable.sound_mute);
+        }
+    }
+
     protected void onResume() {
         super.onResume();
         mediaPlayer = MediaPlayer.create(this, R.raw.title_song); //get song
         mediaPlayer.setLooping(true);    //make background song loop
-        SharedPreferences prefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
-        boolean SoundPlay = prefs.getBoolean("SoundPlay", true);  //Not muted//DEFAULT
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.putBoolean("SoundPlay",SoundPlay);
-        buttonSoundMute = (ImageButton)findViewById(R.id.SoundMute);
-        buttonSoundMute.setOnClickListener(this); //sets an onClickListener on buttonSoundMute
-        buttonSoundPlay = (ImageButton)findViewById(R.id.SoundPlay);
-        buttonSoundPlay.setOnClickListener(this); //sets an onClickListener on buttonSoundPlay
-        if (SoundPlay) {     //Mute sounds //buttonSoundMute enabled
-            //if (mediaPlayer.isPlaying())
-            //    mediaPlayer.pause();                    //Stop sounds
-            buttonSoundPlay.setVisibility(View.VISIBLE);   //removes this button fro(mediaPlayer.isPlaying())m view, and makes space for others
-            buttonSoundMute.setVisibility(View.GONE);//show Mute button
-        }else if (!SoundPlay){//DEFAULT state, Sound PLAYS //buttonSoundPlay enabled
-            //if (!mediaPlayer.isPlaying())
-            //    mediaPlayer.start();                    //Play BG music
-            buttonSoundMute.setVisibility(View.VISIBLE);   //removes this button from view, and makes space for others
-            buttonSoundPlay.setVisibility(View.GONE);//show Play button
-        }
-        editor.commit();
-        if (SoundPlay){
-            mediaPlayer.start();
-        }else{
-            mediaPlayer.pause();
-        }
-/*        if (!mediaPlayer.isPlaying() && prefs.getBoolean("SoundMuted", false)) {
-            mediaPlayer.start();
-        }else if (!mediaPlayer.isPlaying() && prefs.getBoolean("SoundMuted", true)){
-            mediaPlayer.pause();
-        }*/
-
+        mediaPlayer.start();
+        MuteSettings(false);
     }
 
     protected void onPause() {

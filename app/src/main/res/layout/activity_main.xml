@@ -15,11 +15,14 @@
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="fill_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:weightSum="1"
         android:layout_gravity="center"
         android:paddingTop="10sp"
-        android:id="@+id/Layout1">
+        android:id="@+id/Layout1"
+        android:layout_below="@+id/TitleLayout"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true">
 
         <RelativeLayout
             android:layout_width="fill_parent"
@@ -34,13 +37,14 @@
                 android:id="@+id/LoginMessage"
                 android:layout_alignParentBottom="true"
                 android:layout_centerHorizontal="true"
-                android:textSize="14sp"
+                android:textSize="18sp"
                 android:textStyle="bold"
                 android:textColor="#ff000000"
-                android:background="#4fffffff" />
+                android:background="#4fffffff"
+                android:layout_marginBottom="6dp" />
 
             <ImageButton
-                android:id="@+id/SoundMute"
+                android:id="@+id/mute_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/sound_mute"
@@ -49,16 +53,6 @@
                 android:layout_alignParentRight="true"
                 android:background="@null"
                 android:scaleType="fitXY"/>
-
-            <ImageButton
-                android:id="@+id/SoundPlay"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/sound_play"
-                android:layout_gravity="center"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentRight="true"
-                android:background="@null"/>
 
             <LinearLayout
                 android:orientation="vertical"
@@ -69,7 +63,9 @@
                 android:id="@+id/Button_Layout"
                 android:layout_centerVertical="true"
                 android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true">
+                android:layout_alignParentStart="true"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp">
 
                 <GridLayout
                     android:layout_width="match_parent"
@@ -149,22 +145,31 @@
 
             </LinearLayout>
 
-            <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:id="@+id/Title_SwirlyTap"
-                android:src="@drawable/swirlytap_title"
-                android:contentDescription="@string/TitleImage"
-                android:scaleType="fitCenter"
-                android:background="#00ffffff"
-                android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="20dp"
-                android:layout_above="@+id/Button_Layout" />
-
         </RelativeLayout>
 
     </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/TitleLayout">
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/Title_SwirlyTap"
+            android:src="@drawable/swirlytap_title"
+            android:contentDescription="@string/TitleImage"
+            android:scaleType="fitCenter"
+            android:background="#00ffffff"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:layout_above="@+id/Button_Layout" />
+    </RelativeLayout>
 
 
 </RelativeLayout>
