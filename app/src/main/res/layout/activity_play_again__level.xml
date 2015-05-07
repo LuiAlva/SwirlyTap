@@ -30,19 +30,6 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content">
 
-                <ImageView
-                    android:src="@drawable/congratulations"
-                    android:id="@+id/imageView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:contentDescription="@string/congratulations"
-                    android:layout_alignParentTop="true"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginLeft="25sp"
-                    android:layout_marginRight="25sp"
-                    android:layout_marginTop="5sp"
-                    android:layout_alignParentStart="true" />
-
                 <ScrollView
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
@@ -50,7 +37,7 @@
                     android:layout_below="@+id/linearLayout"
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true"
-                    android:layout_marginBottom="10sp">
+                    android:layout_marginBottom="10dp">
 
                     <RelativeLayout
                         android:layout_width="match_parent"
@@ -63,7 +50,6 @@
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
                             android:gravity="center"
-                            android:layout_below="@+id/linearLayout"
                             android:layout_alignParentLeft="true"
                             android:layout_alignParentStart="true"
                             android:layout_marginBottom="10dp"
@@ -75,62 +61,62 @@
                                 android:gravity="center">
 
                                 <ImageButton
+                                    android:id="@+id/goodSwirl"
+                                    android:background="@drawable/goodswirl"
                                     android:layout_width="30dp"
                                     android:layout_height="30dp"
-                                    android:id="@+id/goodSwirl"
-                                    android:layout_column="0"
-                                    android:background="@drawable/goodswirl" />
+                                    android:layout_column="0" />
 
                                 <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
                                     android:text="00"
                                     android:id="@+id/good_swirl_count"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
                                     android:layout_column="1"
                                     android:layout_gravity="center"
                                     android:textColor="#ffffffff" />
 
                                 <ImageView
-                                    android:layout_width="50sp"
-                                    android:layout_height="35sp"
                                     android:id="@+id/space1"
+                                    android:layout_width="50dp"
+                                    android:layout_height="35dp"
                                     android:layout_column="2" />
 
                                 <ImageButton
+                                    android:id="@+id/imageButton2"
+                                    android:background="@drawable/badswirl"
                                     android:layout_width="30dp"
                                     android:layout_height="30dp"
-                                    android:id="@+id/imageButton2"
-                                    android:layout_column="4"
-                                    android:background="@drawable/badswirl" />
+                                    android:layout_column="3" />
 
                                 <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
                                     android:text="00"
                                     android:id="@+id/bad_swirl_count"
-                                    android:layout_column="5"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_column="4"
                                     android:layout_gravity="center"
                                     android:textColor="#ffffffff" />
 
                                 <ImageView
-                                    android:layout_width="50sp"
-                                    android:layout_height="35sp"
                                     android:id="@+id/imageView4"
-                                    android:layout_column="6" />
+                                    android:layout_width="50dp"
+                                    android:layout_height="35dp"
+                                    android:layout_column="5" />
 
                                 <ImageButton
+                                    android:id="@+id/twiceSwirl"
+                                    android:background="@drawable/twiceswirl"
                                     android:layout_width="30dp"
                                     android:layout_height="30dp"
-                                    android:id="@+id/twiceSwirl"
-                                    android:layout_column="7"
-                                    android:background="@drawable/twiceswirl" />
+                                    android:layout_column="6"/>
 
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="00"
                                     android:id="@+id/twice_swirl_count"
-                                    android:layout_column="8"
+                                    android:layout_column="7"
                                     android:layout_gravity="center"
                                     android:textColor="#ffffffff" />
                             </TableRow>
@@ -142,7 +128,7 @@
 
                                 <ImageButton
                                     android:layout_width="30dp"
-                                    android:layout_height="30dp"
+                                    android:layout_height="35dp"
                                     android:id="@+id/doublePoints"
                                     android:layout_column="0"
                                     android:background="@drawable/double_button_active" />
@@ -157,8 +143,8 @@
                                     android:textColor="#ffffffff" />
 
                                 <ImageView
-                                    android:layout_width="50sp"
-                                    android:layout_height="35sp"
+                                    android:layout_width="50dp"
+                                    android:layout_height="35dp"
                                     android:id="@+id/space3"
                                     android:layout_column="2" />
 
@@ -166,7 +152,7 @@
                                     android:layout_width="30dp"
                                     android:layout_height="30dp"
                                     android:id="@+id/lightning_bolt"
-                                    android:layout_column="4"
+                                    android:layout_column="3"
                                     android:background="@drawable/lightning_button_active" />
 
                                 <TextView
@@ -174,31 +160,10 @@
                                     android:layout_height="wrap_content"
                                     android:text="00"
                                     android:id="@+id/lightning_bolt_count"
-                                    android:layout_column="5"
+                                    android:layout_column="4"
                                     android:layout_gravity="center"
                                     android:textColor="#ffffffff" />
 
-                                <ImageView
-                                    android:layout_width="50sp"
-                                    android:layout_height="35sp"
-                                    android:id="@+id/space4"
-                                    android:layout_column="2" />
-
-                                <ImageButton
-                                    android:layout_width="30dp"
-                                    android:layout_height="30dp"
-                                    android:id="@+id/life_button"
-                                    android:layout_column="7"
-                                    android:background="@drawable/heart" />
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="00"
-                                    android:id="@+id/life_count"
-                                    android:layout_column="8"
-                                    android:layout_gravity="center"
-                                    android:textColor="#ffffffff" />
                             </TableRow>
 
                             <TableRow
@@ -222,11 +187,46 @@
                                     android:layout_gravity="center"
                                     android:textColor="#ffffffff" />
 
+                                <ImageView
+                                    android:layout_width="50dp"
+                                    android:layout_height="35dp"
+                                    android:id="@+id/space7"
+                                    android:layout_column="2" />
+
+                                <ImageButton
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
+                                    android:id="@+id/life_button"
+                                    android:layout_column="3"
+                                    android:background="@drawable/heart" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="00"
+                                    android:id="@+id/life_count"
+                                    android:layout_column="4"
+                                    android:layout_gravity="center"
+                                    android:textColor="#ffffffff" />
+
                             </TableRow>
                         </TableLayout>
 
                     </RelativeLayout>
                 </ScrollView>
+
+                    <ImageView
+                        android:src="@drawable/congratulations"
+                        android:id="@+id/imageView"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:contentDescription="@string/congratulations"
+                        android:gravity="center_horizontal"
+                        android:scaleType="fitStart"
+                        android:layout_alignParentTop="true"
+                        android:layout_marginLeft="25dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_alignParentStart="true" />
 
                 <LinearLayout
                     android:orientation="vertical"
@@ -283,7 +283,6 @@
                 <GridLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-
                     android:paddingRight="10dp"
                     android:paddingLeft="10dp"
                     android:orientation="vertical"
@@ -295,11 +294,11 @@
                         android:text="@string/play_again"
                         android:id="@+id/PlayAgainLevel"
                         android:layout_width="match_parent"
-                        android:layout_height="50sp"
+                        android:layout_height="50dp"
                         android:paddingRight="15dp"
                         android:paddingLeft="15dp"
-                        android:layout_marginLeft="10sp"
-                        android:layout_marginRight="10sp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
                         android:textSize="18sp"
                         android:textColor="#ffffffff"
                         android:background="@drawable/button_bg"
@@ -309,44 +308,44 @@
                         android:text="@string/share"
                         android:id="@+id/ShareLevel"
                         android:layout_width="match_parent"
-                        android:layout_height="50sp"
+                        android:layout_height="50dp"
                         android:paddingRight="15dp"
                         android:paddingLeft="15dp"
-                        android:layout_marginLeft="10sp"
-                        android:layout_marginRight="10sp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
                         android:textSize="20sp"
                         android:textColor="#ffffffff"
                         android:background="@drawable/button_bg"
-                        android:layout_marginBottom="5sp" />
+                        android:layout_marginBottom="5dp" />
 
                     <Button
                         android:text="@string/High_Score"
                         android:id="@+id/HighScoreLevel"
                         android:layout_width="match_parent"
-                        android:layout_height="50sp"
+                        android:layout_height="50dp"
                         android:paddingRight="15dp"
                         android:paddingLeft="15dp"
-                        android:layout_marginLeft="10sp"
-                        android:layout_marginRight="10sp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
                         android:textSize="17sp"
                         android:textColor="#ffffffff"
                         android:background="@drawable/button_bg"
                         android:enabled="true"
                         android:focusableInTouchMode="true"
                         android:clickable="true"
-                        android:layout_marginBottom="5sp" />
+                        android:layout_marginBottom="5dp" />
 
                     <Button
                         android:text="@string/action_home"
                         android:id="@+id/returnHomeLevel"
                         android:layout_width="match_parent"
-                        android:layout_height="50sp"
-                        android:layout_marginLeft="10sp"
-                        android:layout_marginRight="10sp"
+                        android:layout_height="50dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
                         android:textSize="20sp"
                         android:textColor="#ffffffff"
                         android:background="@drawable/button_bg"
-                        android:layout_marginBottom="5sp" />
+                        android:layout_marginBottom="5dp" />
 
                 </GridLayout>
 
