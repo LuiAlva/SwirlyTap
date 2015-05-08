@@ -1,4 +1,4 @@
-package com.gmail.dianaupham.swirlytap;
+package com.gmail.dianaupham.swirlytapapp;
 
 
 import android.os.Bundle;
@@ -10,7 +10,7 @@ import android.content.Intent;
 import android.view.View;
 import android.widget.Button;
 
-import com.gmail.dianaupham.swirlytap.swirlytap.R;
+import com.gmail.dianaupham.swirlytapapp.swirlytap.R;
 
 public class DatabaseMainActivity extends Activity
 {

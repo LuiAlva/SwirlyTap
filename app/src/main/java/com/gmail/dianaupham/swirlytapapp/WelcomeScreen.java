@@ -1,4 +1,4 @@
-package com.gmail.dianaupham.swirlytap;
+package com.gmail.dianaupham.swirlytapapp;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -9,7 +9,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 
-import com.gmail.dianaupham.swirlytap.swirlytap.R;
+import com.gmail.dianaupham.swirlytapapp.swirlytap.R;
 
 public class WelcomeScreen extends Activity
 {

@@ -1,4 +1,4 @@
-package com.gmail.dianaupham.swirlytap;
+package com.gmail.dianaupham.swirlytapapp;
 
 import android.content.Context;
 import android.content.Intent;
@@ -20,7 +20,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.gmail.dianaupham.swirlytap.swirlytap.R;
+import com.gmail.dianaupham.swirlytapapp.swirlytap.R;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -111,9 +111,9 @@ public class PlayAgain_Level extends ActionBarActivity implements View.OnClickLi
                 + "/drawable/" + "goodswirl.png");                  //temp. use goodswirl
         Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND); //allows delivery of image and text
         sharingIntent.setType("*/*");                               //send any generic data
-        String shareBodyTwitter = "Check out my score on Level Mode for @SwirlyTap! https://twitter.com/SwirlyTap";//text+URL
-        String shareBodyText = "Check out my score on SwirlyTap's Level Mode! https://twitter.com/SwirlyTap"; //TODO: replace twitter link with GooplePlay URL
-        String shareBody = "Check out my score on SwirlyTap's Level Mode! https://twitter.com/SwirlyTap";//text+URL
+        String shareBodyTwitter = "Check out my score on Level Mode for @SwirlyTap! Download the free app at https://goo.gl/KawK4j";//text+URL
+        String shareBodyText = "Check out my score on SwirlyTap's Level Mode! Download the free app at https://goo.gl/KawK4j"; //TODO: replace twitter link with GooplePlay URL
+        String shareBody = "Check out my score on SwirlyTap's Level Mode! Download the free app at https://goo.gl/KawK4j";//text+URL
 
         PackageManager pm = view.getContext().getPackageManager();
         List<ResolveInfo> activityList = pm.queryIntentActivities(sharingIntent, 0);
@@ -126,7 +126,7 @@ public class PlayAgain_Level extends ActionBarActivity implements View.OnClickLi
                     + File.separator + "screenshotLevel.png";
             targetedShareIntent.putExtra(Intent.EXTRA_STREAM, Uri.parse(fileTemp));     //share image
             if(TextUtils.equals(packageName, "com.facebook.katana")){                   //share message specific to Facebook
-                targetedShareIntent.putExtra(android.content.Intent.EXTRA_TEXT, "https://twitter.com/SwirlyTap"); //will only accept URL
+                targetedShareIntent.putExtra(android.content.Intent.EXTRA_TEXT, "Download the free app at https://goo.gl/KawK4j"); //will only accept URL
             }else if(packageName.contains("mms")) {                                     //if sharing via Text Message
                 targetedShareIntent.putExtra(Intent.EXTRA_TEXT, shareBodyText);
             }else if(packageName.contains("twitter")){                                  //if sharing via Twitter

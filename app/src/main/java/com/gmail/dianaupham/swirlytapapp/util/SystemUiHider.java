@@ -1,4 +1,4 @@
-package com.gmail.dianaupham.swirlytap;
+package com.gmail.dianaupham.swirlytapapp.util;
 
 import android.app.Activity;
 import android.os.Build;

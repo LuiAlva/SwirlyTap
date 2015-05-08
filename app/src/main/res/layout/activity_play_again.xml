@@ -7,7 +7,7 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
-    tools:context="com.gmail.dianaupham.swirlytap.PlayAgain"
+    tools:context="com.gmail.dianaupham.swirlytapapp.PlayAgain"
     android:background="@drawable/game_end_bg"
     android:orientation="horizontal">
 

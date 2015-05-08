@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.gmail.dianaupham.swirlytap.swirlytap" >
+    package="com.gmail.dianaupham.swirlytapapp.swirlytap"
+    android:versionCode="2"
+    android:versionName="1.0">
 
     <uses-sdk
         android:minSdkVersion="4"
@@ -13,6 +15,7 @@
     <uses-permission
         android:name="android.permission.READ_EXTERNAL_STORAGE"
         android:maxSdkVersion="18" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:allowBackup="true"
@@ -22,7 +25,7 @@
         android:screenOrientation="portrait"
         android:theme="@style/AppTheme" >
         <activity
-            android:name="com.gmail.dianaupham.swirlytap.MainActivity"
+            android:name="com.gmail.dianaupham.swirlytapapp.MainActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" >
             <intent-filter>
@@ -32,35 +35,35 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.gmail.dianaupham.swirlytap.SinglePlayer"
+            android:name="com.gmail.dianaupham.swirlytapapp.SinglePlayer"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_single_player"
             android:screenOrientation="portrait"
             android:theme="@style/FullscreenTheme" >
         </activity>
         <activity
-            android:name="com.gmail.dianaupham.swirlytap.levelPlay"
+            android:name="com.gmail.dianaupham.swirlytapapp.levelPlay"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_single_player"
             android:screenOrientation="portrait"
             android:theme="@style/FullscreenTheme" >
         </activity>
         <activity
-            android:name="com.gmail.dianaupham.swirlytap.DatabaseMainActivity"
+            android:name="com.gmail.dianaupham.swirlytapapp.DatabaseMainActivity"
             android:label="DatabaseActiviy"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.gmail.dianaupham.swirlytap.PlayAgain"
+            android:name="com.gmail.dianaupham.swirlytapapp.PlayAgain"
             android:label="@string/title_activity_single_player"
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name="com.gmail.dianaupham.swirlytap.Register"
+            android:name="com.gmail.dianaupham.swirlytapapp.Register"
             android:label="Register"
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name="com.gmail.dianaupham.swirlytap.Login"
+            android:name="com.gmail.dianaupham.swirlytapapp.Login"
             android:label="Login"
             android:screenOrientation="portrait" >
         </activity>
@@ -70,31 +73,31 @@
             android:value="3c3dfc16c40dbf849a9915c2ece897ac19b071d6" />
 
         <activity
-            android:name="com.gmail.dianaupham.swirlytap.HighScoreActivity"
+            android:name="com.gmail.dianaupham.swirlytapapp.HighScoreActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_high_score"
             android:screenOrientation="portrait"
             android:theme="@style/FullscreenTheme" >
         </activity>
         <activity
-            android:name="com.gmail.dianaupham.swirlytap.WelcomeScreen"
+            android:name="com.gmail.dianaupham.swirlytapapp.WelcomeScreen"
             android:label="StartScreen"
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name="com.gmail.dianaupham.swirlytap.Profile"
+            android:name="com.gmail.dianaupham.swirlytapapp.Profile"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_profile"
             android:theme="@style/FullscreenTheme"
             android:screenOrientation="portrait">
         </activity>
         <activity
-            android:name="com.gmail.dianaupham.swirlytap.Update"
+            android:name="com.gmail.dianaupham.swirlytapapp.Update"
             android:label="Update"
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name="com.gmail.dianaupham.swirlytap.PlayAgain_Level"
+            android:name="com.gmail.dianaupham.swirlytapapp.PlayAgain_Level"
             android:label="@string/title_activity_play_again__level"
             android:screenOrientation="portrait" >
         </activity>
@@ -112,5 +115,4 @@
             android:configChanges="keyboardHidden|orientation|screenSize" />
     </application>
 
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 </manifest>

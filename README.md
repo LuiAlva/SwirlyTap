@@ -1,16 +1,17 @@
 # SwirlyTap - Alvarez, Akoma, Newell, Pham
 
-Teamname:  SwirlyTap
+__Teamname__:  SwirlyTap
 
-Code and Repository:  https://github.com/LuiAlva/SwirlyTap
+__Code and Repository__:  https://github.com/LuiAlva/SwirlyTap
 
-SwirlyTap Members:
--Luis Alvarez (LuiAlva)
--Eberechi Akoma (EbereAko)
--Spencer Newell (spencernewell93)
--Diana Pham (Diana-Pham)
+__SwirlyTap Members__:
+  * Luis Alvarez (_LuiAlva_)<br />
+  * Eberechi Akoma (_EbereAko_)<br />
+  * Spencer Newell (_spencernewell93_)<br />
+  * Diana Pham (_Diana-Pham_)<br />
 
-Description:
--Android game application for single and multiple players.  Swirls pop up on the screen that the user must tap.  The goal of the game is to hit as many swirls as possible to gain the highest score, avoiding obstacles and before the swirl disappears.
-
-*game is in development and not all features are currently available
+__Description__:
+	-Android game application with a Time Mode and Level Mode.  Swirls pop up on the screen that the user must tap.  The goal of the game is to hit as many swirls as possible to gain the highest score, avoiding obstacles and before the swirl disappears.
+	
+Now published to the Google Play App Store!<br />
+Download the app at: https://goo.gl/KawK4j

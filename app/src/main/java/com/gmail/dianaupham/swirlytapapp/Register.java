@@ -1,4 +1,4 @@
-package com.gmail.dianaupham.swirlytap;
+package com.gmail.dianaupham.swirlytapapp;
 
 import android.app.Activity;
 import android.content.Context;
@@ -12,7 +12,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.gmail.dianaupham.swirlytap.swirlytap.R;
+import com.gmail.dianaupham.swirlytapapp.swirlytap.R;
 
 public class Register extends Activity
 {
@@ -25,7 +25,7 @@ public class Register extends Activity
     private static final int AUTO_HIDE_DELAY_MILLIS = 1000; // Hide system UI after 1000 milliseconds
     private static final boolean TOGGLE_ON_CLICK = true;    // If UI is clicked show it
     private static final int HIDER_FLAGS = 0;   // The flags to pass to {@link com.gmail.dianaupham.swirlytap.SystemUiHider#getInstance}.
-    private com.gmail.dianaupham.swirlytap.SystemUiHider mSystemUiHider;
+    private com.gmail.dianaupham.swirlytapapp.SystemUiHider mSystemUiHider;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
