@@ -42,7 +42,8 @@
                     android:layout_alignParentTop="true"
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true"
-                    android:gravity="center|top" />
+                    android:gravity="center|top"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:text="@string/num_sixty"
@@ -58,40 +59,43 @@
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true"
                     android:layout_alignRight="@+id/ScoreView"
-                    android:layout_alignEnd="@+id/ScoreView" />
+                    android:layout_alignEnd="@+id/ScoreView"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:text="@string/initial_Score"
                     android:id="@+id/totalScore"
                     android:layout_width="130sp"
-                    android:layout_height="78dp"
+                    android:layout_height="76dp"
                     android:scaleType="center"
                     android:textSize="50sp"
-                    android:textColor="#30BCED"
+                    android:textColor="#ff2db2e0"
                     android:layout_alignParentTop="true"
                     android:layout_centerHorizontal="true"
                     android:gravity="center"
                     android:layout_alignBottom="@+id/countdown"
-                    android:background="@drawable/score_frame" />
+                    android:background="@drawable/score_frame"
+                    android:textStyle="bold" />
 
                 <ImageButton
                     android:src="@drawable/pause"
                     android:id="@+id/pause_button"
-                    android:layout_width="88sp"
-                    android:layout_height="63sp"
+                    android:layout_width="90dp"
+                    android:layout_height="wrap_content"
                     android:scaleType="fitXY"
                     android:background="#00ffffff"
                     android:clickable="true"
                     android:cropToPadding="false"
                     android:layout_alignParentTop="false"
                     android:layout_alignParentRight="true"
-                    android:layout_alignParentEnd="true" />
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignBottom="@+id/totalScore" />
             </RelativeLayout>
 
             <TableLayout
                 android:id="@+id/tableForButtons"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="20dp"
                 android:orientation="horizontal"
                 android:layout_below="@+id/TopMenu"
                 android:background="@drawable/swirl_table_border"
@@ -111,11 +115,11 @@
                 <ProgressBar
                     style="?android:attr/progressBarStyleHorizontal"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="20dp"
                     android:id="@+id/SpeedBar"
                     android:background="@drawable/velo_bar"
                     android:layout_gravity="center_vertical"
-                    android:progressTint="#FC5130"
+                    android:progressTint="#ffd82ad5"
                     android:layout_alignParentLeft="true"
                     android:layout_toLeftOf="@+id/ButtonLayout"
                     android:layout_toStartOf="@+id/ButtonLayout"
@@ -164,21 +168,36 @@
 
                 <TextView
                     android:layout_width="wrap_content"
-                    android:layout_height="40sp"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:layout_height="wrap_content"
                     android:text="Velocity: 1%"
                     android:id="@+id/SpeedLabel"
                     android:layout_alignParentLeft="false"
                     android:layout_alignRight="@+id/SpeedBar"
                     android:layout_alignLeft="@+id/SpeedBar"
-                    android:textSize="14sp"
-                    android:textColor="#ff000000"
-                    android:textStyle="bold|italic"
+                    android:textSize="15sp"
+                    android:textColor="#ffafe2e0"
+                    android:textStyle="bold"
                     android:editable="false"
                     android:gravity="center"
                     android:layout_alignParentBottom="false"
-                    android:layout_below="@+id/SpeedBar"
-                    android:background="#94fffaff" />
+                    android:background="#aa4b4b4b"
+                    android:layout_below="@+id/SpeedBar" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="20dp"
+                    android:text="Combo: 0"
+                    android:id="@+id/ComboText"
+                    android:layout_below="@+id/SpeedLabel"
+                    android:layout_alignLeft="@+id/SpeedLabel"
+                    android:layout_alignRight="@+id/SpeedLabel"
+                    android:layout_alignParentBottom="false"
+                    android:layout_alignParentEnd="false"
+                    android:background="#aa4b4b4b"
+                    android:gravity="center"
+                    android:textColor="#ffe2a5a8"
+                    android:textSize="@dimen/abc_text_size_medium_material"
+                    android:textStyle="bold" />
             </RelativeLayout>
 
         </RelativeLayout>

@@ -38,16 +38,13 @@ import java.io.OutputStream;
 import java.util.Random;
 
 public class SinglePlayer extends Activity implements View.OnClickListener {
-    int Score = 0;          //this is total score
-    int ScorePass = 0;      //for passing the old HighScores
-    String NamePass = "";   //For passing the name in HighScores
+    int Score = 0, Combo = 0, ComboMax = 0;          //this is total score
     int GoodSwirlTotalPass = 0; //For passing old GoodSwirl total
     int TwiceSwirlTotalPass = 0;//For passing old TwiceSwirl total
     int BadSwirlTotalPass = 0;  //For passing old BadSwirl total
     int TimeAddTotalPass = 0;   //For passing old TimeAdd total
     int SP_GamesPlayedTotalPass = 0;//passing old SP_GamesPlayed total
     String NAME = "";       // For Player Name for CompareScores()
-    int SCORE = 0;          // For Score for CompareScores()
     public static final String PREFS_NAME = "PREFS_FILE"; // Name of preference file
     boolean addTime = false;    //Allows Time button to appear
     boolean paused = false;
@@ -60,6 +57,7 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
     TableLayout GameWindow;  // For SwirlTable background
     ImageButton PauseButton; // create image button for pause
     ImageButton Nuke, LightningBomb, DoublingBomb;        // Create Image button for Nuke
+    TextView ComboText;      // For Combo Text
     ProgressBar Speed_Bar;   // Speed bar
     //Grid & Storage ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++//
     private static final int NUM_ROWS = 6; //instantiated size of grid
@@ -138,9 +136,10 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
         //Hide Actionbar ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++//
         getWindow().requestFeature(Window.FEATURE_ACTION_BAR);   //Hides the action and title bars!
         getActionBar().hide();
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_single_player); //show res/layout/activity_single_player.xml
         vibration = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE); //set up device vibration control
+        ComboText = (TextView)findViewById(R.id.ComboText);
         //Buttons +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++//
         PauseButton = (ImageButton)findViewById(R.id.pause_button);
         PauseButton.setOnClickListener(this); //sets an onClickListener on PauseButton
@@ -314,6 +313,7 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
                 else
                 {
                     totalScore.setText("" + Score); //Update Score Counter
+                    ComboText.setText("Combo: " + Combo); //Update Score Counter
                     if (Current_Speed != Speed_Limit)
                        Speed_Engine(Good_Pressed + Good2_Pressed);           //Update the Speed
                 }
@@ -421,11 +421,9 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
                         v.setEnabled(false);                     // Disable button
                         if(DOUBLEPOINTS) {
                             Score+= 2;                                 // Add two to score
-                            Good_Pressed+= 2;                          // Count as 2 swirls
-                        } else {
-                            Score++;                                 // Add one to score
-                            Good_Pressed++;
-                        }
+                        } else { Score++; }                            // Add one to score
+                        Good_Pressed++;                                // Pressed One
+                        Combo++;                                       // Add 1 to combo
                     }
                 }
             });
@@ -478,6 +476,8 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
                 BadArray[finalI] = null;                // Remove from array
                 v.setVisibility(View.INVISIBLE);        // Make Swirl disappear when clicked
                 v.setEnabled(false);                    // Disable button
+                if(Combo > ComboMax) { ComboMax = Combo; }
+                Combo = 0;                              // Reset Combo
                 Score -= 5;                             // Subtract 5 from score
             }
             }
@@ -531,12 +531,10 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
                 v.setVisibility(View.INVISIBLE);         // Make Swirl disappear when clicked
                 v.setEnabled(false);                     // Disable button
                 if(DOUBLEPOINTS) {
-                    Score+= 4;                                 // Add 4 to score
-                    Good2_Pressed+= 2;                          // Count as 2 swirls
-                } else {
-                    Score+= 2;                                 // Add two to score
-                    Good2_Pressed++;
-                }
+                    Score+= 4;                                 // Add two to score
+                } else { Score+= 2; }                            // Add one to score
+                Good2_Pressed++;                                // Pressed One
+                Combo++;                                       // Add 1 to combo
             }
             }
         });
@@ -647,11 +645,9 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
                             v.setEnabled(false);                     // Disable button
                             if(DOUBLEPOINTS) {
                                 Score+= 2;                                 // Add two to score
-                                Good_Pressed+= 2;                          // Count as 2 swirls
-                            } else {
-                                Score++;                                 // Add one to score
-                                Good_Pressed++;
-                            }
+                            } else { Score++; }                            // Add one to score
+                            Good_Pressed++;                                // Pressed One
+                            Combo++;                                       // Add 1 to combo
                         }
                     }
                 });
@@ -1134,7 +1130,7 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
 
             @Override
             public void onFinish() {
-                CompareScore();    //Update HighScores if there is new HighScore
+                if(Combo > ComboMax) { ComboMax = Combo; }   // Get Max Combo
                 TotalTapped();     //Add #swirls/#timeAdd to Total user counts
                 spGamesPlayed();   //+1 game completed
                 //* End the Game*\\
@@ -1142,6 +1138,7 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
                 gameBG.stop();                                                        //stop song
                 Intent intentAgain = new Intent(SinglePlayer.this, PlayAgain.class);  //create intent (to go to PlayAgain menu)
                 intentAgain.putExtra("score", Score);                                 //Send variable Score (score) to new intent (PlayAgain)
+                intentAgain.putExtra("combo", ComboMax);                              //Send Max Combo
                 intentAgain.putExtra("GoodSwirls", Good_Pressed);                     //Send number of GoodSwirls clicked
                 intentAgain.putExtra("BadSwirls", Bad_Pressed);
                 intentAgain.putExtra("Good2Swirls", Good2_Pressed);
@@ -1150,118 +1147,6 @@ public class SinglePlayer extends Activity implements View.OnClickListener {
                 finish();
             }
         }.start();
-    }
-
-    public void CompareScore() {
-        SharedPreferences prefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor;
-        NAME = prefs.getString("PlayerName", "Player");
-        SCORE = Score;
-        if( prefs.getInt("HighScore", 0) < SCORE ) {                       // Player High Score
-            editor = prefs.edit();
-            editor.putInt("HighScore", SCORE);
-            editor.commit();
-        }
-        if( prefs.getInt("TimeHighScore1", 0) < SCORE ) {                       // HighScore 1
-            editor = prefs.edit();
-            ScorePass = prefs.getInt("TimeHighScore1", 0);
-            NamePass = prefs.getString("TimeHighName1", "Player");
-            editor.putInt("TimeHighScore1", SCORE);
-            editor.putString("TimeHighName1", NAME);
-            SCORE = ScorePass;
-            NAME = NamePass;
-            editor.commit();
-        }
-        if( prefs.getInt("TimeHighScore2", 0) < SCORE ) {                       // HighScore 2
-            editor = prefs.edit();
-            ScorePass = prefs.getInt("TimeHighScore2", 0);
-            NamePass = prefs.getString("TimeHighName2", "Player");
-            editor.putInt("TimeHighScore2", SCORE);
-            editor.putString("TimeHighName2", NAME);
-            SCORE = ScorePass;
-            NAME = NamePass;
-            editor.commit();
-        }
-        if( prefs.getInt("TimeHighScore3", 0) < SCORE ) {                       // HighScore 3
-            editor = prefs.edit();
-            ScorePass = prefs.getInt("TimeHighScore3", 0);
-            NamePass = prefs.getString("TimeHighName3", "Player");
-            editor.putInt("TimeHighScore3", SCORE);
-            editor.putString("TimeHighName3", NAME);
-            SCORE = ScorePass;
-            NAME = NamePass;
-            editor.commit();
-        }
-        if( prefs.getInt("TimeHighScore4", 0) < SCORE ) {                       // HighScore 4
-            editor = prefs.edit();
-            ScorePass = prefs.getInt("TimeHighScore4", 0);
-            NamePass = prefs.getString("TimeHighName4", "Player");
-            editor.putInt("TimeHighScore4", SCORE);
-            editor.putString("TimeHighName4", NAME);
-            SCORE = ScorePass;
-            NAME = NamePass;
-            editor.commit();
-        }
-        if( prefs.getInt("TimeHighScore5", 0) < SCORE ) {                       // HighScore 5
-            editor = prefs.edit();
-            ScorePass = prefs.getInt("TimeHighScore5", 0);
-            NamePass = prefs.getString("TimeHighName5", "Player");
-            editor.putInt("TimeHighScore5", SCORE);
-            editor.putString("TimeHighName5", NAME);
-            SCORE = ScorePass;
-            NAME = NamePass;
-            editor.commit();
-        }
-        if( prefs.getInt("TimeHighScore6", 0) < SCORE ) {                       // HighScore 6
-            editor = prefs.edit();
-            ScorePass = prefs.getInt("TimeHighScore6", 0);
-            NamePass = prefs.getString("TimeHighName6", "Player");
-            editor.putInt("TimeHighScore6", SCORE);
-            editor.putString("TimeHighName6", NAME);
-            SCORE = ScorePass;
-            NAME = NamePass;
-            editor.commit();
-        }
-        if( prefs.getInt("TimeHighScore7", 0) < SCORE ) {                       // HighScore 7
-            editor = prefs.edit();
-            ScorePass = prefs.getInt("TimeHighScore7", 0);
-            NamePass = prefs.getString("TimeHighName7", "Player");
-            editor.putInt("TimeHighScore7", SCORE);
-            editor.putString("TimeHighName7", NAME);
-            SCORE = ScorePass;
-            NAME = NamePass;
-            editor.commit();
-        }
-        if( prefs.getInt("TimeHighScore8", 0) < SCORE ) {                       // HighScore 8
-            editor = prefs.edit();
-            ScorePass = prefs.getInt("TimeHighScore8", 0);
-            NamePass = prefs.getString("TimeHighName8", "Player");
-            editor.putInt("TimeHighScore8", SCORE);
-            editor.putString("TimeHighName8", NAME);
-            SCORE = ScorePass;
-            NAME = NamePass;
-            editor.commit();
-        }
-        if( prefs.getInt("TimeHighScore9", 0) < SCORE ) {                       // HighScore 9
-            editor = prefs.edit();
-            ScorePass = prefs.getInt("TimeHighScore9", 0);
-            NamePass = prefs.getString("TimeHighName9", "Player");
-            editor.putInt("TimeHighScore9", SCORE);
-            editor.putString("TimeHighName9", NAME);
-            SCORE = ScorePass;
-            NAME = NamePass;
-            editor.commit();
-        }
-        if( prefs.getInt("TimeHighScore10", 0) < SCORE ) {                       // HighScore 10
-            editor = prefs.edit();
-            ScorePass = prefs.getInt("TimeHighScore10", 0);
-            NamePass = prefs.getString("TimeHighName10", "Player");
-            editor.putInt("TimeHighScore10", SCORE);
-            editor.putString("TimeHighName10", NAME);
-            SCORE = ScorePass;
-            NAME = NamePass;
-            editor.commit();
-        }
     }
 
     public void TotalTapped() {

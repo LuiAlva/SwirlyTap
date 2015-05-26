@@ -9,12 +9,13 @@
     <string name="title_activity_play_again">Play Again</string>
     <string name="play_again">Play Again</string>
     <string name="score">Score</string>
-    <string name="initial_Score">00</string>
+    <string name="initial_Score">0</string>
     <string name="Pause_Button">Pause</string>
     <string name="num_sixty">60</string>
     <string name="time">TIME</string>
     <string name="time_sixty">Time: 60</string>
-    <string name="temp_you_scored">0000 points!</string>
+    <string name="temp_you_scored">0000 + 0000 = 0000</string>
+    <string name="Score_Labels">Score + Combo = Final</string>
     <string name="action_home">Home</string>
     <string name="restart">Restart Game</string>
     <string name="share">Share</string>
