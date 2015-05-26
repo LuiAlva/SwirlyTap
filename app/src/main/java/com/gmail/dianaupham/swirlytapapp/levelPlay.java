@@ -260,7 +260,7 @@ public class levelPlay extends Activity implements View.OnClickListener
                     llayout.setBackgroundResource(R.drawable.levelone);
                     //call function that displays level
 
-                    Game_Speed = 1200; //gameTimer(60000);
+                    Game_Speed = 900; //gameTimer(60000);
 
                     //if (levelLoaded == true)
 
@@ -277,7 +277,7 @@ public class levelPlay extends Activity implements View.OnClickListener
                     llayout.setBackgroundResource(R.drawable.leveltwo);
                     displayLevel(level);//display the level animation
                     //call function that displays level
-                    Game_Speed = 1000; //gameTimer(60000);
+                    Game_Speed = 600; //gameTimer(60000);
                     //if (levelLoaded == true)
                     speed_engine(Game_Speed);
                 }
@@ -294,7 +294,7 @@ public class levelPlay extends Activity implements View.OnClickListener
                     llayout.setBackgroundResource(R.drawable.levelthree);
                     displayLevel(level);//display the level animation
                     //call function that displays level
-                    Game_Speed = 925; //gameTimer(60000); 925
+                    Game_Speed = 500; //gameTimer(60000); 925
                     //if (levelLoaded == true)
                     speed_engine(Game_Speed);
                 }
@@ -310,7 +310,7 @@ public class levelPlay extends Activity implements View.OnClickListener
                     llayout.setBackgroundResource(R.drawable.levelfour);
                     displayLevel(level);//display the level animation
                     //call function that displays level
-                    Game_Speed = 875; //gameTimer(60000); //875
+                    Game_Speed = 450; //gameTimer(60000); //875
                     //if (levelLoaded == true)
                     speed_engine(Game_Speed);
                 }
@@ -326,7 +326,7 @@ public class levelPlay extends Activity implements View.OnClickListener
                     llayout.setBackgroundResource(R.drawable.levelfive);
                     displayLevel(level);//display the level animation
                     //call function that displays level
-                    Game_Speed = 800; //gameTimer(60000);
+                    Game_Speed = 400; //gameTimer(60000);
                     //if (levelLoaded == true)
                     speed_engine(Game_Speed);
                 }
@@ -342,7 +342,7 @@ public class levelPlay extends Activity implements View.OnClickListener
                     llayout.setBackgroundResource(R.drawable.levelsix);
                     displayLevel(level);//display the level animation
                     //call function that displays level
-                    Game_Speed = 725; //gameTimer(60000);
+                    Game_Speed = 375; //gameTimer(60000);
                     //if (levelLoaded == true)
                     speed_engine(Game_Speed);
                 }
@@ -358,7 +358,7 @@ public class levelPlay extends Activity implements View.OnClickListener
                     llayout.setBackgroundResource(R.drawable.levelseven);
                     displayLevel(level);//display the level animation
                     //call function that displays level
-                    Game_Speed = 650; //gameTimer(60000);
+                    Game_Speed = 350; //gameTimer(60000);
                     //if (levelLoaded == true)
                     speed_engine(Game_Speed);
                 }
@@ -374,7 +374,7 @@ public class levelPlay extends Activity implements View.OnClickListener
                     llayout.setBackgroundResource(R.drawable.leveleight);
                     displayLevel(level);//display the level animation
                     //call function that displays level
-                    Game_Speed = 600; //gameTimer(60000);
+                    Game_Speed = 325; //gameTimer(60000);
                     //if (levelLoaded == true)
                     speed_engine(Game_Speed);
                 }
@@ -390,7 +390,7 @@ public class levelPlay extends Activity implements View.OnClickListener
                     llayout.setBackgroundResource(R.drawable.levelnine);
                     displayLevel(level);//display the level animation
                     //call function that displays level
-                    Game_Speed = 550; //gameTimer(60000);
+                    Game_Speed = 300; //gameTimer(60000);
                     //if (levelLoaded == true)
                     speed_engine(Game_Speed);
                 }
@@ -406,7 +406,7 @@ public class levelPlay extends Activity implements View.OnClickListener
                     llayout.setBackgroundResource(R.drawable.levelten);
                     displayLevel(level);//display the level animation
                     //call function that displays level
-                    Game_Speed = 500; //gameTimer(60000);
+                    Game_Speed = 275; //gameTimer(60000);
                     //if (levelLoaded == true)
                     speed_engine(Game_Speed);
                 }
@@ -422,7 +422,7 @@ public class levelPlay extends Activity implements View.OnClickListener
                     llayout.setBackgroundResource(R.drawable.leveleleven);
                     displayLevel(level);//display the level animation
                     //call function that displays level
-                    Game_Speed = 450; //gameTimer(60000);
+                    Game_Speed = 260; //gameTimer(60000);
                     //if (levelLoaded == true)
                     speed_engine(Game_Speed);
                 }
@@ -438,7 +438,7 @@ public class levelPlay extends Activity implements View.OnClickListener
                     llayout.setBackgroundResource(R.drawable.leveltwelve);
                     displayLevel(level);//display the level animation
                     //call function that displays level
-                    Game_Speed = 400; //gameTimer(60000);
+                    Game_Speed = 245; //gameTimer(60000);
                     //if (levelLoaded == true)
                     speed_engine(Game_Speed);
                 }
@@ -454,7 +454,7 @@ public class levelPlay extends Activity implements View.OnClickListener
                     llayout.setBackgroundResource(R.drawable.levelthirteen);
                     displayLevel(level);//display the level animation
                     //call function that displays level
-                    Game_Speed = 375; //gameTimer(60000);
+                    Game_Speed = 230; //gameTimer(60000);
                     //if (levelLoaded == true)
                     speed_engine(Game_Speed);
                 }
@@ -470,7 +470,7 @@ public class levelPlay extends Activity implements View.OnClickListener
                     llayout.setBackgroundResource(R.drawable.levelfourteen);
                     displayLevel(level);//display the level animation
                     //call function that displays level
-                    Game_Speed = 350; //gameTimer(60000);
+                    Game_Speed = 220; //gameTimer(60000);
                     //if (levelLoaded == true)
                     speed_engine(Game_Speed);
                 }
@@ -486,7 +486,7 @@ public class levelPlay extends Activity implements View.OnClickListener
                     llayout.setBackgroundResource(R.drawable.levelfifteen);
                     displayLevel(level);//display the level animation
                     //call function that displays level
-                    Game_Speed = 325; //gameTimer(60000);
+                    Game_Speed = 210; //gameTimer(60000);
                     //if (levelLoaded == true)
                     speed_engine(Game_Speed);
                 }
@@ -502,7 +502,7 @@ public class levelPlay extends Activity implements View.OnClickListener
                     llayout.setBackgroundResource(R.drawable.levelsixteen);
                     displayLevel(level);//display the level animation
                     //call function that displays level
-                    Game_Speed = 300; //gameTimer(60000);
+                    Game_Speed = 200; //gameTimer(60000);
                     //if (levelLoaded == true)
                     speed_engine(Game_Speed);
                 }
@@ -518,7 +518,7 @@ public class levelPlay extends Activity implements View.OnClickListener
                     llayout.setBackgroundResource(R.drawable.levelseventeen);
                     displayLevel(level);//display the level animation
                     //call function that displays level
-                    Game_Speed = 300; //gameTimer(60000);
+                    Game_Speed = 190; //gameTimer(60000);
                     //if (levelLoaded == true)
                     speed_engine(Game_Speed);
                 }
@@ -534,7 +534,7 @@ public class levelPlay extends Activity implements View.OnClickListener
                     llayout.setBackgroundResource(R.drawable.leveleighteen);
                     displayLevel(level);//display the level animation
                     //call function that displays level
-                    Game_Speed = 275; //gameTimer(60000);
+                    Game_Speed = 185; //gameTimer(60000);
                     //if (levelLoaded == true)
                     speed_engine(Game_Speed);
                 }
@@ -550,7 +550,7 @@ public class levelPlay extends Activity implements View.OnClickListener
                     llayout.setBackgroundResource(R.drawable.levelnineteen);
                     displayLevel(level);//display the level animation
                     //call function that displays level
-                    Game_Speed = 275; //gameTimer(60000);
+                    Game_Speed = 180; //gameTimer(60000);
                     //if (levelLoaded == true)
                     speed_engine(Game_Speed);
                 }
@@ -566,7 +566,7 @@ public class levelPlay extends Activity implements View.OnClickListener
                     llayout.setBackgroundResource(R.drawable.leveltwenty);
                     displayLevel(level);//display the level animation
                     //call function that displays level
-                    Game_Speed = 275; //gameTimer(60000);
+                    Game_Speed = 175; //gameTimer(60000);
                     //if (levelLoaded == true)
                     speed_engine(Game_Speed);
                 }
@@ -582,7 +582,7 @@ public class levelPlay extends Activity implements View.OnClickListener
                     llayout.setBackgroundResource(R.drawable.levelinfinite);
                     displayLevel(level);//display the level animation
                     //call function that displays level
-                    Game_Speed = 250; //gameTimer(60000);
+                    Game_Speed = 170; //gameTimer(60000);
                     //if (levelLoaded == true)
                     speed_engine(Game_Speed);
                 }
@@ -611,7 +611,10 @@ public class levelPlay extends Activity implements View.OnClickListener
                     if(i == 19) {i = 0;}
                 }
                 final Button goodButton = buttons[randRow][randCol];     //Button in this location
-                displayGoodSwirl(goodButton, i);
+                if(buttons[randRow][randCol].isEnabled())
+                {} //if button is enabled in location already then do nothing, else display new button
+                else
+                    displayGoodSwirl(goodButton, i);
             }
         }
         /*+++++++++++++++++++++++++++++++++++++++LUCK ARRAY 2++++++++++++++++++++++++++++++++++++++*/
@@ -625,7 +628,10 @@ public class levelPlay extends Activity implements View.OnClickListener
                     if(i == 19) {i = 0;}
                 }
                 final Button goodButton = buttons[randRow][randCol];     //Button in this location
-                displayGoodSwirl(goodButton, i);
+                if(buttons[randRow][randCol].isEnabled())
+                {} //if button is enabled in location already then do nothing, else display new button
+                else
+                    displayGoodSwirl(goodButton, i);
                 //set 1 second timer... if timer reached then make button disappear
             }
             else if(luckArray2[randRow][randCol] == "bad")
@@ -635,7 +641,10 @@ public class levelPlay extends Activity implements View.OnClickListener
                     if(i == 19) {i = 0;}
                 }
                 Button badButton = buttons[randRow][randCol];     //Button in this location
-                displayBadSwirl(badButton, i);
+                if(buttons[randRow][randCol].isEnabled())
+                {} //if button is enabled in location already then do nothing, else display new button
+                else
+                    displayBadSwirl(badButton, i);
             }
         }
         /*++++++++++++++++++++++++++++++++LUCK ARRAY 3++++++++++++++++++++++++++++++++++++++++++++++++*/
@@ -649,7 +658,10 @@ public class levelPlay extends Activity implements View.OnClickListener
                     if(i == 19) {i = 0;}
                 }
                Button goodButton = buttons[randRow][randCol];     //Button in this location
-               displayGoodSwirl(goodButton, i);
+                if(buttons[randRow][randCol].isEnabled())
+                {} //if button is enabled in location already then do nothing, else display new button
+                else
+                    displayGoodSwirl(goodButton, i);
 
                 //set 1 second timer... if timer reached then make button disappear
             }
@@ -660,7 +672,10 @@ public class levelPlay extends Activity implements View.OnClickListener
                     if(i == 19) {i = 0;}
                 }
                 Button badButton = buttons[randRow][randCol];     //Button in this location
-                displayBadSwirl(badButton, i);
+                if(buttons[randRow][randCol].isEnabled())
+                {} //if button is enabled in location already then do nothing, else display new button
+                else
+                    displayBadSwirl(badButton, i);
             }
             else if(luckArray3[randRow][randCol] == "twicePoints")
             {
@@ -670,7 +685,10 @@ public class levelPlay extends Activity implements View.OnClickListener
                     if(i == 19) {i = 0;}
                 }
                Button twiceButton = buttons[randRow][randCol];     //Button in this location
-               displayTwiceSwirl(twiceButton, i);
+                if(buttons[randRow][randCol].isEnabled())
+                {} //if button is enabled in location already then do nothing, else display new button
+                else
+                    displayTwiceSwirl(twiceButton, i);
             }
         }
         /*+++++++++++++++++++++++++++++++++++++LUCK ARRAY 4++++++++++++++++++++++++++++++++++++++++*/
@@ -684,7 +702,10 @@ public class levelPlay extends Activity implements View.OnClickListener
                     if(i == 19) {i = 0;}
                 }
                 Button badButton = buttons[randRow][randCol];     //Button in this location
-                displayBadSwirl(badButton, i);
+                if(buttons[randRow][randCol].isEnabled())
+                {} //if button is enabled in location already then do nothing, else display new button
+                else
+                    displayBadSwirl(badButton, i);
             }
             else if(luckArray4[randRow][randCol] == "twicePoints")
             {
@@ -694,7 +715,10 @@ public class levelPlay extends Activity implements View.OnClickListener
                     if(i == 19) {i = 0;}
                 }
                Button twiceButton = buttons[randRow][randCol];     //Button in this location
-               displayTwiceSwirl(twiceButton, i);
+                if(buttons[randRow][randCol].isEnabled())
+                {} //if button is enabled in location already then do nothing, else display new button
+                else
+                    displayTwiceSwirl(twiceButton, i);
             }
             else if(luckArray4[randRow][randCol] == "doublePoints")
             {
@@ -715,7 +739,10 @@ public class levelPlay extends Activity implements View.OnClickListener
                     if(i == 19) {i = 0;}
                 }
                 Button goodButton = buttons[randRow][randCol];     //Button in this location
-                displayGoodSwirl(goodButton, i);
+                if(buttons[randRow][randCol].isEnabled())
+                {} //if button is enabled in location already then do nothing, else display new button
+                else
+                    displayGoodSwirl(goodButton, i);
 
                 //set 1 second timer... if timer reached then make button disappear
             }
@@ -730,7 +757,10 @@ public class levelPlay extends Activity implements View.OnClickListener
                     if(i == 19) {i = 0;}
                 }
                 Button badButton = buttons[randRow][randCol];     //Button in this location
-                displayBadSwirl(badButton, i);
+                if(buttons[randRow][randCol].isEnabled())
+                {} //if button is enabled in location already then do nothing, else display new button
+                else
+                    displayBadSwirl(badButton, i);
             }
             else if(luckArray5[randRow][randCol] == "twicePoints")
             {
@@ -740,7 +770,10 @@ public class levelPlay extends Activity implements View.OnClickListener
                     if(i == 19) {i = 0;}
                 }
                 Button twiceButton = buttons[randRow][randCol];     //Button in this location
-                displayTwiceSwirl(twiceButton, i);
+                if(buttons[randRow][randCol].isEnabled())
+                {} //if button is enabled in location already then do nothing, else display new button
+                else
+                    displayTwiceSwirl(twiceButton, i);
             }
             else if(luckArray5[randRow][randCol] == "doublePoints")
             {
@@ -786,7 +819,10 @@ public class levelPlay extends Activity implements View.OnClickListener
                     if(i == 19) {i = 0;}
                 }
                 Button goodButton = buttons[randRow][randCol];     //Button in this location
-                displayGoodSwirl(goodButton, i);
+                if(buttons[randRow][randCol].isEnabled())
+                {} //if button is enabled in location already then do nothing, else display new button
+                else
+                    displayGoodSwirl(goodButton, i);
 
                 //set 1 second timer... if timer reached then make button disappear
             }
@@ -801,7 +837,10 @@ public class levelPlay extends Activity implements View.OnClickListener
                     if(i == 19) {i = 0;}
                 }
                 Button badButton = buttons[randRow][randCol];     //Button in this location
-                displayBadSwirl(badButton, i);
+                if(buttons[randRow][randCol].isEnabled())
+                {} //if button is enabled in location already then do nothing, else display new button
+                else
+                    displayBadSwirl(badButton, i);
             }
             else if(luckArray6[randRow][randCol] == "twicePoints")
             {
@@ -811,7 +850,10 @@ public class levelPlay extends Activity implements View.OnClickListener
                     if(i == 19) {i = 0;}
                 }
                 Button twiceButton = buttons[randRow][randCol];     //Button in this location
-                displayTwiceSwirl(twiceButton, i);
+                if(buttons[randRow][randCol].isEnabled())
+                {} //if button is enabled in location already then do nothing, else display new button
+                else
+                    displayTwiceSwirl(twiceButton, i);
             }
             else if(luckArray6[randRow][randCol] == "doublePoints")
             {
@@ -866,7 +908,10 @@ public class levelPlay extends Activity implements View.OnClickListener
                     if(i == 19) {i = 0;}
                 }
                 Button goodButton = buttons[randRow][randCol];     //Button in this location
-                displayGoodSwirl(goodButton, i);
+                if(buttons[randRow][randCol].isEnabled())
+                {} //if button is enabled in location already then do nothing, else display new button
+                else
+                    displayGoodSwirl(goodButton, i);
 
                 //set 1 second timer... if timer reached then make button disappear
             }
@@ -1320,8 +1365,8 @@ public class levelPlay extends Activity implements View.OnClickListener
                 on_screen_allCount--;
                 GoodArray[finalI].ButtonId = null;       // Remove Button ID
                 GoodArray[finalI] = null;
-                //missedSwirls++;
-                //setMissed(missedSwirls);        //count off if swirl disappeared
+                missedSwirls++;
+                setMissed(missedSwirls);        //count off if swirl disappeared
                 good.setVisibility(View.INVISIBLE);
                 good.setEnabled(false);
 
@@ -1555,6 +1600,12 @@ public class levelPlay extends Activity implements View.OnClickListener
                         lives++;
                         setLives(lives);
                     }
+                    else
+                    {
+                        missedSwirls = 0;
+                        setMissed(missedSwirls); //update missed swirl display
+                    }
+
                     v.setEnabled(false);                     // Disable button
                     //v.setBackgroundResource(R.drawable.badswirl_break); //change to +1 and make dis
                     SpecialArray[finalI].TimerId.cancel();        // Cancel it's disappear Timer
